@@ -22,7 +22,6 @@ public class DBConnection {
 		@Test
 		public void test() {
 			System.out.println(sqlSession);
-	
 		}
 
 }
