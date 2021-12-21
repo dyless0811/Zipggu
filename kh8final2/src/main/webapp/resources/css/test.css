@@ -1,0 +1,13 @@
+div,
+main,
+head,
+nav,
+section,
+footer,
+article,
+aside,
+p,
+span,
+label {
+  border: 1px solid gray;
+}
