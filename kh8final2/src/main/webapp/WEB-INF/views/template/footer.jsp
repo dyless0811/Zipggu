@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="login" value="${loginNo != null}"></c:set>
+<c:set var="root" value="${pageContext.request.contextPath}"></c:set>  
 </section>
     <div class="company-info">
       <div class="container">
@@ -35,6 +38,11 @@
             >개인정보관리책임자: 이찬희(info@osquarecorp.com)
           </p>
           <p>copyright © 집꾸미기 all rights reserved.</p>
+          <p>로그인 = ${login }</p>
+          <p>번호 = ${loginNo }</p>
+          <p>아이디 = ${loginEmail }</p>
+          <p>닉네임 = ${loginNick }</p>
+          <p>등급 = ${loginGrade }</p>
           <p style="margin: 20px 0; overflow: hidden">
             <span style="float: left"
               >안전거래를 위해 현금 등으로 결제 시 저희 쇼핑몰에서 가입한<br />KG
