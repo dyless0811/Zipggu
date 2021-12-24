@@ -66,7 +66,7 @@
                   </a>
                   </c:otherwise>
                   </c:choose>
-                  <a href="/furniture">
+                  <a href="${root}/store">
                     <div class="item">스토어</div>
                   </a>
                   <a href="/star">
@@ -120,7 +120,7 @@
                           src="//cdn.ggumim.co.kr/cache/member/profile/180/20211214183232nBczBjRmtf.jpg"
                         />
                       </div>
-                      <div class="nickname">${loginId}</div>
+                      <div class="nickname">${loginNick}</div>
                       <div
                         class="subnavigation subnavigation-menu"
                         style="right: 10px; top: 80px; z-index: 999"
@@ -134,7 +134,7 @@
                           </div>
                           <div class="profile-contents">
                             <div class="profile-nickname">
-                              <a href="/member/setting/3194863"> ${loginId} </a>
+                              <a href="/member/setting/3194863"> ${loginNick} </a>
                             </div>
                             <div class="profile-grade">
                               <div>등급</div>
