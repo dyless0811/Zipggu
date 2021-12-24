@@ -1,0 +1,369 @@
+.mainFormL {
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    margin: 0 auto;
+    max-width: 300px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.logo {
+	display:flex;
+	align-items:center;
+	justify-content:center;
+    padding: 0;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 150px;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.snsWrapper {
+    margin: 30px 0px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgb(237, 237, 237);
+}
+
+.snsLoginTitle {
+    font-size: 12px;
+    text-align: center;
+    margin: 15px 0px;
+    color: rgb(117, 117, 117);
+}
+
+.snsList {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.snsItem {
+    margin: 0px 10px;
+}
+
+a:link { 
+ color: #424242;
+ text-decoration: none;
+}
+
+a:visited {
+ color: #424242;
+ text-decoration: none;
+}
+
+.aImage{
+width: 150px;
+height: 80px;
+}
+
+.inputItemL {
+    display: inline-block;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    box-sizing: border-box;
+    font-family: "Noto Sans KR", "Noto Sans CJK KR", "맑은 고딕", "Malgun Gothic", sans-serif;
+    font-size: 15px;
+    line-height: 21px;
+    resize: none;
+    appearance: none;
+    margin: 0px;
+    padding: 13px 15px 14px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(219, 219, 219);
+    border-image: initial;
+    border-radius: 4px;
+    transition: border-color 0.1s ease 0s, background-color 0.1s ease 0s;
+}
+
+.inputSave {
+    display: inline-block;
+    width: 100%;
+   	padding-top: 10px;
+   	padding-bottom: 10px;
+}
+
+.formContent {
+    width: 300px;
+}
+
+.formItem{
+	width: 300px;
+}
+
+.buttonWrapperL{
+    background-color: #35c5f0;
+    border-color: #35c5f0;
+    color: #fff;
+    width: 100%;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 11px 10px;
+    font-size: 17px;
+    line-height: 26px;
+    margin-bottom: 20px;
+}
+
+.action {
+    width: 100%;
+    text-align: center;
+}
+
+.non {
+    width: 100%;
+}
+
+.openButton {
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #424242;
+    margin-bottom: 20px;
+}
+
+.nonAction{
+	display: none;
+}
+
+.mainFormJ {
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    margin: 0 auto;
+    max-width: 400px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.title-h1{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    }
+
+.title-text{
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #757575;
+    line-height: 1.4;
+}
+
+.title-type{
+    display: block;
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #292929;
+    line-height: 21px;
+    word-break: keep-all;
+}   
+
+.inputItemJ {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding: 8px 15px 9px;
+    border: 1px solid #dbdbdb;
+    background-color: #fff;
+    color: #000;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Noto Sans KR,Noto Sans CJK KR,ë§‘ì€ ê³ ë”•,Malgun Gothic,sans-serif;
+    font-size: 15px;
+    line-height: 21px;
+    transition: border-color .1s,background-color .1s;
+    resize: none;
+    -webkit-appearance: none;
+}
+
+.check-all{
+    font-size: 14px;
+    color: #424242;
+    line-height: 18px;
+    font-weight: bold;
+    padding-left: 7px;
+}
+
+.check-select{
+    font-size: 14px;
+    color: #424242;
+    line-height: 18px;
+}
+
+.check-text{
+    font-size: 14px;
+    color: #424242;
+    line-height: 18px;
+    padding-left: 7px;
+}
+
+.check-text-ob{
+    color: #35c5f0;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+.check-text-ob2{
+    color: #bdbdbd;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+.check-form{
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.check-size{ 
+ 	width: 22px;
+ 	height: 22px; 
+}
+
+.check-box{
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    cursor: inherit;
+    opacity: 0;
+    box-sizing: border-box;
+}
+
+.check-button{
+    position: relative;
+    display: inline-block;
+    font-size: 0;
+    padding: 9px;
+}
+
+.div-check{
+	border: solid 1px #dbdbdb;
+    padding: 0 23px 6px 16px;
+    height: 235px;
+}
+
+.div-check-one{
+    border-bottom: 1px solid #ededed;
+    height: 70px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.div-check-two{
+    height: 40px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.div-ob{
+	display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.buttonWrapperJ{
+    background-color: #35c5f0;
+    border-color: #35c5f0;
+    color: #fff;
+    width: 100%;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    font-weight: 700;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 11px 10px;
+    font-size: 17px;
+    line-height: 26px;
+}
+
+.email-button {
+    margin-top: 10px;
+    width: 100%;
+    height: 45px;
+    padding: 0px;
+    line-height: 20px;
+    font-size: 17px;
+    min-height: 50px;
+    background-color: #fff;
+    border-color: #35c5f0;
+    color: #35c5f0;
+    border: 1px solid; 
+}
+
+.bodyForm{
+    margin-bottom: 30px;
+}
+
+.checkForm{
+    margin-bottom: 12px;
+}
+
+.div-button {
+    margin-bottom: 30px;
+    padding-top: 2px;
+}
+
+

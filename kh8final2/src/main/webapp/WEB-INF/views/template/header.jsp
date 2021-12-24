@@ -6,11 +6,38 @@
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>    
 
 <!DOCTYPE html>
+    <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zipggu</title>
     <link rel="stylesheet" type="text/css" href="${root}/resources/css/zipggu.css">
+    <link rel="stylesheet" type="text/css" href="${root}/resources/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="${root}/resources/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="${root}/resources/css/layout.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha1.min.js"></script>
+    <script>
+    	//form이 전송되면 input[type=password]가 자동 암호화되도록 설정
+    	$(function(){
+    		$("form").submit(function(e){
+    			//this == form
+    			e.preventDefault();//form 기본 전송 이벤트 방지
+    			
+    			//모든 비밀번호 입력창에 SHA-1 방식 암호화 지시(32byte 단방향 암호화)
+    			$(this).find("input[type=password]").each(function(){
+    				//this == 입력창
+    				var origin = $(this).val();
+    				var hash = CryptoJS.SHA1(origin);//암호화(SHA-1)
+    				var encrypt = CryptoJS.enc.Hex.stringify(hash);//암호화 값 문자열 변환
+    				$(this).val(encrypt);
+    			});
+    			
+    			this.submit();//form 전송 지시
+    		});
+    	});
+    </script>
 </head>
 <body>
     <header>
@@ -167,7 +194,7 @@
                    </c:when>
                    <c:otherwise>
                    <!-- 비회원일 때 -->
-                   <a href="/login">
+                   <a href="${root}/member/login">
                     <div class="item sm-bar">
                       <div class="login-btn">로그인/가입</div>
                     </div>
