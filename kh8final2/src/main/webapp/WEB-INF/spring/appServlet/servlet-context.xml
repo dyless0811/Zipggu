@@ -85,6 +85,11 @@
 	 	</mvc:interceptor>
 	 </mvc:interceptors>
 	 -->
+	
+	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
+	<bean id="naverLoginBO" class="com.kh.zipggu.naver.NaverLoginBO" />	
+	
+	 
 </beans>
 
 

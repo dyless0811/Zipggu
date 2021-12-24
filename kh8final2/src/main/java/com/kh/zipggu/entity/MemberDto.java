@@ -2,13 +2,20 @@ package com.kh.zipggu.entity;
 
 import java.sql.Date;
 
+import lombok.Data;
+
+@Data
 public class MemberDto {
+//	private String memberId;
 	private int memberNo;
 	private String memberEmail;
 	private String memberPw;
+	private String memberNickname;
 	private Date memberJoin;
-	private String memberGrade;
 	private int memberPoint;
-	private String memberIntroduce;
-	private String memberType;
+	private String memberGrade;
+	private String birthday;
+	private String birthyear;
+
+
 }
