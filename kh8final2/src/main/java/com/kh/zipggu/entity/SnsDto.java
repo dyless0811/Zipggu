@@ -14,4 +14,7 @@ public class SnsDto {
 	private int snsCount;
 	private int snsReplyCount;
 	
+	public String snsDetailSub() {
+		return this.snsDetail.substring(0,10);
+	}
 }

@@ -367,3 +367,192 @@ position: absolute;
 }
 
 
+
+
+.layout-container {
+    position: relative;
+    padding: 0px 0px 40px;
+}
+
+.menu-container {
+    position: relative;
+   	width: 100%;
+    margin: 0 auto;
+}
+
+.menu-nav {
+    border-bottom: 1px solid #ededed;
+    width: 100%;
+    overflow: hidden;
+    overflow: visible;
+    font-size: 18px;
+}
+
+.menu-nav>ul {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.page-item {
+    display: inline-block;
+}
+
+ 
+.page-item>a.active, .page-item>a:not(.active):hover {
+    color: #35c5f0;
+}
+.page-item>a {
+    display: block;
+    padding: 0 10px;
+    font-weight: 700;
+    position: relative;
+    height: 60px;
+    line-height: 60px;
+    transition: color .15s ease;
+    text-decoration: none;
+}
+
+
+
+.nickname {
+    margin: 0px 0px 3px;
+    font-weight: bold;
+    margin: 0px 0px 10px;
+    font-size: 26px;
+    line-height: 1.2;
+    color: rgb(41, 41, 41);
+    overflow-wrap: break-word;
+    word-break: break-all;
+    text-align: center;
+}
+
+
+.layoutProfile {
+    width: 25%;
+    float: left;
+    margin: 30px 10px 30px 10px;
+
+}
+
+.profileBox {
+    position: relative;
+    padding: 30px 25px 18px;
+    border-radius: 4px;
+    border: 1px solid rgb(218, 220, 224);
+    box-shadow: rgb(63 71 77 / 6%) 0px 2px 4px 0px;
+}
+    
+.profileHeader {
+    position: relative;
+    min-height: 84px;
+    box-sizing: border-box;
+    padding-left: 104px;
+    margin: 0 0 20px;
+    padding: 0px;
+}
+
+.profileImageContainer {
+    top: 0px;
+    left: 0px;
+    width: 120px;
+    height: 120px;
+    margin: 0px auto 24px;	
+    border-radius: 100%;
+    background-color: rgb(237, 237, 237);
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto 24px;
+}
+
+.profileImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.profileContent {
+    text-align: center;
+}
+
+.statsContainer {
+    text-align: center;
+}
+
+.statsAttributeList {
+    margin: 0px 0px 7px;
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 19px;
+    color: rgb(130, 140, 148);
+    margin: 0px 0px 13px;
+}
+
+.statsAttributeLabel {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.statsAttributeValue {
+    display: inline-block;
+    margin-right: 5px;
+    font-weight: bold;
+    color: rgb(82, 91, 97);
+}
+
+.statsAttributeValue:not(:last-child)::after {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 9px;
+    margin-left: 10px;
+    background-color: rgb(218, 220, 224);
+}
+
+.a-border {
+	line-height: 19px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-right: 6px;
+    font-size: 12px;
+    display: inline-block;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    background: none;
+    font-weight: 700;
+    text-align: center;
+    transition: color .1s,background-color .1s,border-color .1s;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    border-color: #dbdbdb;
+}
+
+.main-right{
+	margin: 30px 10px 30px 10px;
+	float: right;
+    width: 66.6667%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.div-right {
+    max-width: 700px;
+    margin: 0px auto;
+    color: rgb(41, 41, 41);
+}
+
+.itemBox {
+	width: 700px;
+	height: 200px;
+    position: relative;
+    border-radius: 4px;
+    border: 1px solid rgb(218, 220, 224);
+    box-shadow: rgb(63 71 77 / 6%) 0px 2px 4px 0px;
+    margin-bottom: 60px;
+}
+

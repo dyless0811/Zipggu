@@ -12,7 +12,28 @@
 
 <!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="snsFile">
-	<insert id="" parameterType="">
-		
+
+	<!-- 첨부파일 등록을 위해서 시퀀값 먼저 받기 -->
+	<select id="sequence" resultType="int">
+		select sns_file_seq.nextval from dual
+	</select>
+	
+	<!-- 첨부파일 등록 -->
+	<insert id="insert" parameterType="snsFileDto">
+		insert into sns_file values(
+			#{snsFileNo}, #{snsNo}, #{thumnail}, #{snsFileUploadname},
+			#{snsFileSavename}, #{snsFileSize}, #{snsFileType}
+		)
 	</insert>
+	
+	<!-- 게시글 상세페이지에서 사진목록 불러오기 -->
+	<select id="list" parameterType="int" resultType="snsFileDto">
+		select * from sns_file where sns_no = #{snsNo}
+	</select>
+	
+	
+	<select id="getThumnail" parameterType="int" resultType="snsFileDto">
+		select * from sns_file where sns_no = #{snsNo} and sns_thumnail = 1
+	</select>
+	
 </mapper> 

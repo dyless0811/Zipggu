@@ -4,6 +4,8 @@
 <c:set var="login" value="${loginNo != null}"></c:set>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>  
 </section>
+
+<footer>
     <div class="company-info">
       <div class="container-zipggu">
         <div class="row company-menu">
@@ -92,5 +94,8 @@
         </div>
       </div>
     </div>
+    
+    </footer>
+    
   </body>
 </html>
