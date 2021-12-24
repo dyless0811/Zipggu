@@ -1,4 +1,4 @@
-package com.kh.entity;
+package com.kh.zipggu.entity;
 
 import lombok.Data;
 
