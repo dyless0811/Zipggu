@@ -44,7 +44,7 @@
                     <div class="item">컨텐츠</div>
                   </a>
                   <a href="/story">
-                    <div class="item">커뮤니티</div>
+                    <div class="item"><a href="sns/list">커뮤니티</a></div>
                   </a>
                   <div class="right">
                     <!-- <a href="/search"> -->
