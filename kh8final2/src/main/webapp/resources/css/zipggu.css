@@ -4914,7 +4914,7 @@ hr {
 [role="button"] {
   cursor: pointer;
 }
-.container {
+.container-zipggu {
   margin-right: auto;
   margin-left: auto;
   margin-top: 58px;
@@ -4922,17 +4922,17 @@ hr {
   padding-right: 15px;
 }
 @media (min-width: 768px) {
-  .container {
+  .container-zipggu {
     width: 750px;
   }
 }
 @media (min-width: 992px) {
-  .container {
+  .container-zipggu {
     width: 970px;
   }
 }
 @media (min-width: 1200px) {
-  .container {
+  .container-zipggu {
     width: 1020px;
   }
 }
@@ -8241,32 +8241,32 @@ a.pswp__share--download:hover {
   width: 100%;
   background-color: #f0f0f0;
 }
-.company-info .container {
+.company-info .container-zipggu {
   text-align: center;
   vertical-align: middle;
   display: flex;
 }
-.company-info .container .company-menu {
+.company-info .container-zipggu .company-menu {
   display: inline-block;
   margin-top: 30px;
   margin-right: 70px;
 }
-.company-info .container .company-menu li {
+.company-info .container-zipggu .company-menu li {
   list-style: none;
   font-weight: bold;
   text-align: left;
   margin-bottom: 10px;
 }
-.company-info .container .company-menu li a {
+.company-info .container-zipggu .company-menu li a {
   font-size: 14px;
   color: #555;
 }
-.company-info .container .company-menu li .division-line {
+.company-info .container-zipggu .company-menu li .division-line {
   margin-left: 10px;
   margin-right: 10px;
   color: #aaa;
 }
-.company-info .container .company-menu p {
+.company-info .container-zipggu .company-menu p {
   font-size: 12px;
   color: #888;
   letter-spacing: -0.5px;
@@ -8292,7 +8292,7 @@ a.pswp__share--download:hover {
   text-align: center;
   vertical-align: middle;
 }
-.commerce-payment .container {
+.commerce-payment .container-zipggu {
   margin-top: 30px;
 }
 .commerce-payment .row {
@@ -9130,7 +9130,6 @@ a.pswp__share--download:hover {
   font-weight: 900;
   padding-bottom: 10px;
 }
-@charset "UTF-8";
 .store {
   width: 1000px;
   padding: 0;
@@ -10428,7 +10427,7 @@ a.pswp__share--download:hover {
   width: 100%;
   background-color: white;
 }
-.kc_table_area .container {
+.kc_table_area .container-zipggu {
   width: 100%;
   margin-top: 0;
 }
@@ -12406,17 +12405,19 @@ a.pswp__share--download:hover {
 }
 .navigation .nav-new .logo {
   padding: 0;
+  width: 170px;
+  height: 50px;
   margin-top: 15px;
   margin-bottom: 15px;
   display: inline-block;
   vertical-align: top;
 }
 .navigation .nav-new .logo .logo-img {
-  background-image: url("https://dummyimage.com/500x150/000/fff&text=logo");
+  background-image: url("../image/logo.png");
   background-repeat: no-repeat;
-  background-size: cover;
-  width: 170px;
-  height: 50px;
+  background-size: contain;
+  width: 100%;
+  height: 100%;
 }
 .navigation .nav-new .menu {
   vertical-align: top;
@@ -13852,7 +13853,7 @@ a.pswp__share--download:hover {
   text-align: left;
   margin: 19px;
 }
-.home-new .item-category .container {
+.home-new .item-category .container-zipggu {
   margin-left: auto;
   margin-right: auto;
 }

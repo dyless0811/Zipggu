@@ -7,7 +7,7 @@
 
 <footer>
     <div class="company-info">
-      <div class="container">
+      <div class="container-zipggu">
         <div class="row company-menu">
           <li>
             <a href="/agreement/term">이용약관</a>

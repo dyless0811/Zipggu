@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../../resources/css/zipggu.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script></script>
+  </head>
+  <body>
+    <div class="container-zipggu">
+      <h1>상품 등록</h1>
+      <hr />
+      <form method="post" enctype="multipart/form-data">
+        <label
+          >카테고리
+          <select name="category">
+            <option value="">카테고리</option>
+          </select> </label
+        ><br /><br />
+
+        <label>
+          상품명
+          <input type="text" name="itemName" /> </label
+        ><br /><br />
+
+        <label>
+          가격
+          <input type="text" name="itemPrice" /> </label
+        ><br /><br />
+
+        <button class="item-group-btn" type="button">옵션 분류 추가</button>
+        <br /><br />
+
+        <div class="option-list">
+          <label>
+            옵션 분류
+            <input type="text" name="optionList[0].itemOptionGroup" />
+          </label>
+
+          <label>
+            필수 옵션 여부
+            <input type="checkbox" name="optionList[0].itemOptionRequired" />
+          </label>
+
+          <button type="button">옵션 내용 추가</button>
+          <button class="remove-btn">삭제</button>
+          <br /><br />
+          <div class="option-detail-list">
+            <div class="option-detail">
+              <input type="hidden" name="optionList[0].itemOptionGroup" />
+              <label>
+                옵션 내용
+                <input type="text" name="optionList[0].itemOptionDetail" />
+              </label>
+
+              <label>
+                옵션 가격
+                <input
+                  type="text"
+                  name="optionList[0].itemOptionPrice"
+                /> </label
+              ><button class="remove-btn">삭제</button><br /><br />
+            </div>
+            <div class="option-detail">
+              <label>
+                옵션 내용
+                <input type="text" name="optionList[0].itemOptionDetail" />
+              </label>
+
+              <label>
+                옵션 가격
+                <input
+                  type="text"
+                  name="optionList[0].itemOptionPrice"
+                /> </label
+              ><button class="remove-btn">삭제</button> <br /><br />
+            </div>
+          </div>
+        </div>
+
+        <label>
+          배송 타입
+          <select name="itemShippingType">
+            <option value="0">택배</option>
+            <option value="1">착불</option>
+          </select> </label
+        ><br /><br />
+
+        <label>
+          <input type="file" name="attach" />
+        </label>
+      </form>
+    </div>
+  </body>
+</html>
