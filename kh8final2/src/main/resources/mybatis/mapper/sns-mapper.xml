@@ -12,5 +12,27 @@
 
 <!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sns">
-
+	
+	<!-- 첨부파일 등록 및 상세페이지 이동을 위해 시퀀값 먼저 받기 -->
+	<select id="sequence" resultType="int">
+		select sns_seq.nextval from dual
+	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="write" parameterType="snsDto">
+		insert into sns values(
+			#{snsNo}, #{memberNo}, #{snsDetail}, sysdate, 0, 0
+		)
+	</insert>
+	
+	<!-- 게시글 상세페이지 조회  -->
+	<select id="get" parameterType="int" resultType="snsDto">
+		select * from sns where sns_no = #{snsNo}
+	</select>
+	
+	<!-- 게시글 목록 -->
+	<select id="list" resultType="snsDto">
+		select * from sns
+	</select>
+	
 </mapper> 
