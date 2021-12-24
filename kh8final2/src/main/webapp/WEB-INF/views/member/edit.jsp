@@ -7,33 +7,56 @@
 
 <form method="post">
 
-<div class="container-400 container-center">
-	<div class="row center">
-		<h2>회원정보수정</h2>
-	</div>
-	<div class="row">
-		<label>이메일</label>
-		<input type="text" name="memberEmail" value="${memberDto.memberEmail}" readonly class="form-input">
-	</div>
-	<div class="row">
-		<label>별명</label>
-		<input type="text" name="memberNickname" value="${memberDto.memberNickname}" class="form-input">
-	</div>
-<!-- 	<div class="row"> -->
-<!-- 		<label>성별</label> -->
-<%-- 		<input type="date" name="memberGender" value="${memberDto.memberGender}" class="form-input"> --%>
-<!-- 	</div> -->
-<!-- 	<div class="row"> -->
-<!-- 		<label>생년월일</label> -->
-<%-- 		<input type="email" name="memberBirth" value="${memberDto.memberBirth}" class="form-input"> --%>
-<!-- 	</div>		 -->
-<!-- 		<div class="row"> -->
-<!-- 		<label>한줄 소개</label> -->
-<%-- 		<input type="tel" name="memberInt" value="${memberDto.memberPhone}" class="form-input"> --%>
-<!-- 	</div>	 -->
-	<div class="row">
-		<input type="submit" value="회원 정보 수정" class="form-btn">
-	</div>
+<h3>회원정보수정</h3>
+
+
+    <div class="form-group">
+        <fieldset>
+          <label class="form-label mt-4" for="readOnlyInput">이메일</label>
+          <input class="form-control" id="readOnlyInput" type="text" value="${memberDto.memberEmail}" readonly="">
+        </fieldset>
+      </div>  
+
+      <div class="form-group">
+        <label class="col-form-label mt-4" for="inputDefault">별명</label>
+        <input type="text" class="form-control" value="${memberDto.memberNickname}" id="inputDefault">
+      </div>
+
+      <fieldset class="form-group">
+        <label class="mt-4">성별</label>
+      </fieldset>
+      <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="">
+        <label class="btn btn-outline-primary" for="btnradio1">남자</label>
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" checked="">
+        <label class="btn btn-outline-primary" for="btnradio2">여자</label>
+      </div>
+
+      <div class="form-group">
+        <label for="date" class="form-label mt-4">생년월일</label>
+        <input type="date">
+    </div>
+
+      <div class="row">
+        <label for="date" class="form-label mt-4">프로필 이미지
+        </label>
+        <c:choose>
+            <c:when test="${memberProfileDto == null}">
+            <img src="https://via.placeholder.com/300x300?text=User" width="100%" class="image image-round image-border">
+            </c:when>
+            <c:otherwise>
+            <img src="profile?memberProfileNo=${memberProfileDto.memberProfileNo}" width="100%" class="image image-round image-border">
+            </c:otherwise>
+        </c:choose>
+    
+      <div class="form-group">
+        <label for="exampleTextarea" class="form-label mt-4">한줄소개</label>
+        <textarea class="form-control" id="exampleTextarea" rows="1"></textarea>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button class="btn btn-lg btn-primary" type="submit">회원 정보 수정</button>
+      </div>
 
 	<c:if test="${param.error != null}">
 	<div class="row center">
