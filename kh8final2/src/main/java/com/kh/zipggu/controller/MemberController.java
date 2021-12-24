@@ -86,10 +86,11 @@ public class MemberController {
 		MemberDto findDto = memberDao.login(memberDto);
 		log.debug("{}",memberDto);
 		if(findDto != null) {
-			//세션에 ses, grade를 설정하고 root로 리다이렉트
-			session.setAttribute("ses", findDto.getMemberEmail());
-			session.setAttribute("grade", findDto.getMemberGrade());
-			System.out.println("니가왜거기서나와 " +findDto.getMemberEmail());
+			//세션에 설정하고 root로 리다이렉트
+			session.setAttribute("loginNo", findDto.getMemberNo());
+			session.setAttribute("loginEmail", findDto.getMemberEmail());
+			session.setAttribute("loginNick", findDto.getMemberNickname());
+			session.setAttribute("loginGrade", findDto.getMemberGrade());
 			
 			//쿠키와 관련된 아이디 저장하기 처리
 			if(saveId != null) {//체크 했다면(saveId값이 전송되었다면)
