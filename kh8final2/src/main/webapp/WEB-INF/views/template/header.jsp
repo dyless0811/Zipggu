@@ -52,8 +52,8 @@
             <div class="navigation">
               <div class="nav-new">
                 <div class="logo">
-                  <a href="/">
-                    <div class="logo-img"></div>
+                  <a href="${root }">
+                    <img src="${root}/resources/image/logo.png ">
                   </a>
                 </div>
                 <div class="menu">
