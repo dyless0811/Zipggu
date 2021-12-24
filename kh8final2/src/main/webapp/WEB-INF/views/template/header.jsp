@@ -27,7 +27,7 @@
                 <div class="menu">
                   <c:choose>
                   <c:when test="${login}">
-                  <a href="/${root}sessionout">
+                  <a href="${root}/sessionout">
                     <div class="item">세션삭제</div>
                   </a>
                   </c:when>
