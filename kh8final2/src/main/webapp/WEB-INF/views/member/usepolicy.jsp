@@ -12,7 +12,7 @@
 </style>
 
 <div class="container-800 container-center">
-<h1>집꾸미기 서비스 이용 약관</h1>
+<h1>집꾸 서비스 이용 약관</h1>
 </div>
 
 <div class="container-800 container-center">
