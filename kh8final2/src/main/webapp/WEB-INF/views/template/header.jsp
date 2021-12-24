@@ -2,12 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<% request.getSession().removeAttribute("loginId"); %>
-<% request.getSession().setAttribute("loginId", "master"); %>
-<% request.getSession().setAttribute("loginGrade", "관리자"); %>
-
-<c:set var="login" value="${loginId != null}"></c:set>
-<c:set var="admin" value="${loginGrade == '관리자'}"></c:set>
+<c:set var="login" value="${loginNo != null}"></c:set>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>    
 
 <!DOCTYPE html>
@@ -30,13 +25,18 @@
                   </a>
                 </div>
                 <div class="menu">
-                  <div class="category-menu">
-                    <div class="title">
-                      <div class="icon"></div>
-                      <div class="text">카테고리</div>
-                    </div>
-                    <div class="menu-deps"></div>
-                  </div>
+                  <c:choose>
+                  <c:when test="${login}">
+                  <a href="/${root}sessionout">
+                    <div class="item">세션삭제</div>
+                  </a>
+                  </c:when>
+                  <c:otherwise>
+                  <a href="${root}/sessionin">
+                    <div class="item">세션추가</div>
+                  </a>
+                  </c:otherwise>
+                  </c:choose>
                   <a href="/furniture">
                     <div class="item">스토어</div>
                   </a>
