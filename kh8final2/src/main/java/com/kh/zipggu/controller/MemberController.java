@@ -206,9 +206,11 @@ public class MemberController {
 	
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
-		session.removeAttribute("ses");
-		session.removeAttribute("grade");
-		//session.invalidate();
+		session.removeAttribute("loginNo");
+		session.removeAttribute("loginEmail");		
+		session.removeAttribute("loginNick");
+		session.removeAttribute("loginGrade");
+
 		return "redirect:/";
 	}
 	
@@ -244,7 +246,7 @@ public class MemberController {
 	//내정보
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
-		String memberEmail = (String)session.getAttribute("ses");
+		String memberEmail = (String)session.getAttribute("loginEmail");
 		MemberDto memberDto = memberDao.get(memberEmail);
 		MemberProfileDto memberProfileDto = memberProfileDao.get(memberEmail);
 
@@ -265,7 +267,7 @@ public class MemberController {
 			@RequestParam String memberPw, 
 			@RequestParam String changePw, 
 			HttpSession session) {
-		String memberEmail = (String) session.getAttribute("ses");
+		String memberEmail = (String) session.getAttribute("loginEmail");
 		
 		boolean result = memberDao.changePassword(memberEmail, memberPw, changePw);
 		if(result) {
@@ -283,7 +285,7 @@ public class MemberController {
 	
 	@GetMapping("/edit")
 	public String edit(HttpSession session, Model model) {
-		String memberEmail = (String) session.getAttribute("ses");
+		String memberEmail = (String) session.getAttribute("loginEmail");
 		MemberDto memberDto = memberDao.get(memberEmail);
 		
 		model.addAttribute("memberDto", memberDto);
@@ -293,7 +295,7 @@ public class MemberController {
 	
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute MemberDto memberDto, HttpSession session) {
-		String memberEmail = (String)session.getAttribute("ses");
+		String memberEmail = (String)session.getAttribute("loginEmail");
 		memberDto.setMemberEmail(memberEmail);
 		
 		boolean result = memberDao.changeInformation(memberDto);
@@ -317,7 +319,7 @@ public class MemberController {
 	
 	@PostMapping("/quit")
 	public String quit(HttpSession session, @RequestParam String memberPw) {
-		String memberEmail = (String)session.getAttribute("ses");
+		String memberEmail = (String)session.getAttribute("loginEmail");
 		
 		boolean result = memberDao.quit(memberEmail, memberPw);
 		if(result) {
