@@ -11,4 +11,9 @@ public class SnsController {
 	public String sns() {
 		return "sns/list";
 	}
+	
+	@RequestMapping("/write")
+	public String write() {
+		return "sns/write";
+	}
 }

@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
     
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<h1>sns 목록 페이지</h1>
+<h1>sns 등록 페이지</h1>
 
-<a href="write">등록</a>
+<a href="write">등록 페이지입니다</a>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
