@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.kh.zipggu.entity.ItemDto;
 import com.kh.zipggu.entity.ItemOptionDto;
-import com.kh.zipggu.vo.ItemOptionGroupVO;
 
 import lombok.extern.slf4j.Slf4j;
 
