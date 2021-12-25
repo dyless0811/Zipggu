@@ -1,5 +1,9 @@
 package com.kh.zipggu.vo;
 
+import java.util.List;
+
+import com.kh.zipggu.entity.ItemOptionDto;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,5 +16,5 @@ public class ItemInsertVO {
 	private int itemPrice;
 	private int itemShippingType;
 	
-	private ItemOptionListVO optionList;
+	List<ItemOptionDto> optionList;
 }
