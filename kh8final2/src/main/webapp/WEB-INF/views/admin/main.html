@@ -7,13 +7,109 @@
     <title>Document</title>
     <link rel="stylesheet" href="../../../resources/css/zipggu.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script></script>
+    <script>
+      $(function () {
+        // 옵션 분류 추가 버튼
+        $(".option-group-btn").click(function () {
+          var template = $("#option-template").html();
+
+          $(".option-list").append(template);
+        });
+        // 옵션 내용 추가 버튼
+        $(document).on("click", ".option-detail-btn", function () {
+          var tempalte = $("#option-detail-template").html();
+          $(this).siblings(".option-detail-list").append(tempalte);
+        });
+        // 삭제 버튼
+        $(document).on("click", ".remove-btn", function () {
+          $(this).parent().remove();
+        });
+        // 등록 버튼
+        $("#item-submit").click(function () {
+          var option_index = 1;
+
+          // 분류만 추가하고 내용을 추가하지 않은 상태를 검사
+          var is_empty_option = false;
+          $(".option").each(function () {
+            is_empty_option = !$(this).find(".option-detail-list").text();
+            if (is_empty_option) return false;
+          });
+
+          // 내용이 비어있는 상태를 검사
+          var is_empty_value = false;
+          $(".option-detail").each(function () {
+            var itemOptionGroup = $(this)
+              .parent()
+              .parent()
+              .find("input[name=itemOptionGroup]")
+              .val();
+            var itemOptionDetail = $(this)
+              .find("input[name=itemOptionDetail]")
+              .val();
+            var itemOptionPrice = $(this)
+              .find("input[name=itemOptionPrice]")
+              .val();
+            var itemOptionRequired = $(this)
+              .parent()
+              .parent()
+              .find("input[name=itemOptionRequired]")
+              .prop("checked")
+              ? 1
+              : 0;
+
+            is_empty_value =
+              !itemOptionGroup || !itemOptionDetail || !itemOptionPrice;
+            if (is_empty_value) return false;
+
+            $(
+              "<input type='hidden' name='optionList[" +
+                option_index +
+                "].itemOptionGroup'>"
+            )
+              .val(itemOptionGroup)
+              .appendTo(".result-form");
+
+            $(
+              "<input type='hidden' name='optionList[" +
+                option_index +
+                "].itemOptionDetail'>"
+            )
+              .val(itemOptionDetail)
+              .appendTo(".result-form");
+            $(
+              "<input type='hidden' name='optionList[" +
+                option_index +
+                "].itemOptionPrice'>"
+            )
+              .val(itemOptionPrice)
+              .appendTo(".result-form");
+            $(
+              "<input type='hidden' name='optionList[" +
+                option_index +
+                "].itemOptionRequired'>"
+            )
+              .val(itemOptionRequired)
+              .appendTo(".result-form");
+
+            console.log(option_index++, "번 옵션 추가");
+          });
+          if (is_empty_value) {
+            alert("옵션을 채워주세요");
+            return;
+          } else if (is_empty_option) {
+            alert("사용하지 않는 옵션을 지워주세요");
+            return;
+          }
+          console.log("submit!!");
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container-zipggu">
       <h1>상품 등록</h1>
       <hr />
-      <form method="post" enctype="multipart/form-data">
+      <form class="result-form" method="post" enctype="multipart/form-data">
         <label
           >카테고리
           <select name="category">
@@ -31,56 +127,6 @@
           <input type="text" name="itemPrice" /> </label
         ><br /><br />
 
-        <button class="item-group-btn" type="button">옵션 분류 추가</button>
-        <br /><br />
-
-        <div class="option-list">
-          <label>
-            옵션 분류
-            <input type="text" name="optionList[0].itemOptionGroup" />
-          </label>
-
-          <label>
-            필수 옵션 여부
-            <input type="checkbox" name="optionList[0].itemOptionRequired" />
-          </label>
-
-          <button type="button">옵션 내용 추가</button>
-          <button class="remove-btn">삭제</button>
-          <br /><br />
-          <div class="option-detail-list">
-            <div class="option-detail">
-              <input type="hidden" name="optionList[0].itemOptionGroup" />
-              <label>
-                옵션 내용
-                <input type="text" name="optionList[0].itemOptionDetail" />
-              </label>
-
-              <label>
-                옵션 가격
-                <input
-                  type="text"
-                  name="optionList[0].itemOptionPrice"
-                /> </label
-              ><button class="remove-btn">삭제</button><br /><br />
-            </div>
-            <div class="option-detail">
-              <label>
-                옵션 내용
-                <input type="text" name="optionList[0].itemOptionDetail" />
-              </label>
-
-              <label>
-                옵션 가격
-                <input
-                  type="text"
-                  name="optionList[0].itemOptionPrice"
-                /> </label
-              ><button class="remove-btn">삭제</button> <br /><br />
-            </div>
-          </div>
-        </div>
-
         <label>
           배송 타입
           <select name="itemShippingType">
@@ -90,9 +136,48 @@
         ><br /><br />
 
         <label>
+          이미지
           <input type="file" name="attach" />
         </label>
+        <br /><br />
       </form>
+      <button class="option-group-btn" type="button">옵션 분류 추가</button>
+      <hr />
+      <div class="option-list"></div>
+      <button id="item-submit" type="button">등록</button>
     </div>
   </body>
 </html>
+<!--옵션-->
+<template id="option-template">
+  <div class="option">
+    <label>
+      옵션 분류
+      <input name="itemOptionGroup" type="text" />
+    </label>
+    <label>
+      필수 옵션 여부
+      <input name="itemOptionRequired" type="checkbox" />
+    </label>
+
+    <button type="button" class="option-detail-btn">옵션 내용 추가</button>
+    <button type="button" class="remove-btn">삭제</button>
+    <br /><br />
+    <div class="option-detail-list"></div>
+    <hr />
+  </div>
+</template>
+<!--세부옵션-->
+<template id="option-detail-template">
+  <div class="option-detail">
+    <label>
+      옵션 내용
+      <input name="itemOptionDetail" type="text" />
+    </label>
+
+    <label>
+      옵션 가격
+      <input name="itemOptionPrice" type="text" /> </label
+    ><button type="button" class="remove-btn">삭제</button><br /><br />
+  </div>
+</template>

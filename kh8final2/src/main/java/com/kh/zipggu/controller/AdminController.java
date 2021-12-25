@@ -1,14 +1,25 @@
 package com.kh.zipggu.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kh.zipggu.repository.ItemDao;
+import com.kh.zipggu.service.ItemService;
+import com.kh.zipggu.vo.ItemInsertVO;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+	
+	@Autowired
+	private ItemService itemService;
+	
+	@Autowired
+	private ItemDao itemDao;
 	
 	@RequestMapping("")
 	public String main() {
@@ -26,8 +37,11 @@ public class AdminController {
 		return "admin/item/insert";
 	}
 	
-//	@PostMapping("/item/insert")
-//	public String itemInsert(@ModelAttribute ItemInsertVo vo) {
-//		
-//	}
+	@PostMapping("/item/insert")
+	public String itemInsert(@ModelAttribute ItemInsertVO vo) {
+		int itemNo = itemDao.sequance();
+		vo.setItemNo(itemNo);
+		itemService.insert(vo);
+		return "redirect:/store/detail/"+itemNo;
+	}
 }
