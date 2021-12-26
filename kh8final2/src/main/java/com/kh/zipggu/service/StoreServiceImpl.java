@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.zipggu.entity.ItemDto;
 import com.kh.zipggu.entity.ItemOptionDto;
+import com.kh.zipggu.repository.ItemDao;
+import com.kh.zipggu.repository.ItemOptionDao;
+import com.kh.zipggu.vo.StoreListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,16 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 public class StoreServiceImpl implements StoreService {
 
 	@Autowired
-	private SqlSession sqlSession;
+	private ItemDao itemDao;
+	@Autowired
+	private ItemOptionDao itemOptionDao;
 	
 	@Override
 	public ItemDto getItemDto(int itemNo) {
-		return sqlSession.selectOne("item.get", itemNo);
+		return itemDao.get(itemNo);
 	}
 	
 	@Override
 	public List<ItemOptionDto> getItemOptionList(int itemNo) {
-		return sqlSession.selectList("itemOption.listByItemNo", itemNo);
+		return itemOptionDao.listByItemNo(itemNo);
 	}
 
 	@Override
@@ -43,5 +48,12 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return groupMap;
 	}
+
+	@Override
+	public List<StoreListVO> getStoreList(int startRow, int endRow) {
+		return itemDao.listByPage(startRow, endRow);
+	}
+	
+	
 	
 }
