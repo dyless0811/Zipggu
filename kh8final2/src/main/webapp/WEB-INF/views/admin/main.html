@@ -7,177 +7,89 @@
     <title>Document</title>
     <link rel="stylesheet" href="../../../resources/css/zipggu.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(function () {
-        // 옵션 분류 추가 버튼
-        $(".option-group-btn").click(function () {
-          var template = $("#option-template").html();
-
-          $(".option-list").append(template);
-        });
-        // 옵션 내용 추가 버튼
-        $(document).on("click", ".option-detail-btn", function () {
-          var tempalte = $("#option-detail-template").html();
-          $(this).siblings(".option-detail-list").append(tempalte);
-        });
-        // 삭제 버튼
-        $(document).on("click", ".remove-btn", function () {
-          $(this).parent().remove();
-        });
-        // 등록 버튼
-        $("#item-submit").click(function () {
-          var option_index = 1;
-
-          // 분류만 추가하고 내용을 추가하지 않은 상태를 검사
-          var is_empty_option = false;
-          $(".option").each(function () {
-            is_empty_option = !$(this).find(".option-detail-list").text();
-            if (is_empty_option) return false;
-          });
-
-          // 내용이 비어있는 상태를 검사
-          var is_empty_value = false;
-          $(".option-detail").each(function () {
-            var itemOptionGroup = $(this)
-              .parent()
-              .parent()
-              .find("input[name=itemOptionGroup]")
-              .val();
-            var itemOptionDetail = $(this)
-              .find("input[name=itemOptionDetail]")
-              .val();
-            var itemOptionPrice = $(this)
-              .find("input[name=itemOptionPrice]")
-              .val();
-            var itemOptionRequired = $(this)
-              .parent()
-              .parent()
-              .find("input[name=itemOptionRequired]")
-              .prop("checked")
-              ? 1
-              : 0;
-
-            is_empty_value =
-              !itemOptionGroup || !itemOptionDetail || !itemOptionPrice;
-            if (is_empty_value) return false;
-
-            $(
-              "<input type='hidden' name='optionList[" +
-                option_index +
-                "].itemOptionGroup'>"
-            )
-              .val(itemOptionGroup)
-              .appendTo(".result-form");
-
-            $(
-              "<input type='hidden' name='optionList[" +
-                option_index +
-                "].itemOptionDetail'>"
-            )
-              .val(itemOptionDetail)
-              .appendTo(".result-form");
-            $(
-              "<input type='hidden' name='optionList[" +
-                option_index +
-                "].itemOptionPrice'>"
-            )
-              .val(itemOptionPrice)
-              .appendTo(".result-form");
-            $(
-              "<input type='hidden' name='optionList[" +
-                option_index +
-                "].itemOptionRequired'>"
-            )
-              .val(itemOptionRequired)
-              .appendTo(".result-form");
-
-            console.log(option_index++, "번 옵션 추가");
-          });
-          if (is_empty_value) {
-            alert("옵션을 채워주세요");
-            return;
-          } else if (is_empty_option) {
-            alert("사용하지 않는 옵션을 지워주세요");
-            return;
-          }
-          console.log("submit!!");
-        });
-      });
-    </script>
   </head>
   <body>
     <div class="container-zipggu">
-      <h1>상품 등록</h1>
-      <hr />
-      <form class="result-form" method="post" enctype="multipart/form-data">
-        <label
-          >카테고리
-          <select name="category">
-            <option value="">카테고리</option>
-          </select> </label
-        ><br /><br />
-
-        <label>
-          상품명
-          <input type="text" name="itemName" /> </label
-        ><br /><br />
-
-        <label>
-          가격
-          <input type="text" name="itemPrice" /> </label
-        ><br /><br />
-
-        <label>
-          배송 타입
-          <select name="itemShippingType">
-            <option value="0">택배</option>
-            <option value="1">착불</option>
-          </select> </label
-        ><br /><br />
-
-        <label>
-          이미지
-          <input type="file" name="attach" />
-        </label>
-        <br /><br />
-      </form>
-      <button class="option-group-btn" type="button">옵션 분류 추가</button>
-      <hr />
-      <div class="option-list"></div>
-      <button id="item-submit" type="button">등록</button>
+      <div class="furniture-item-group-3 preact-furniture-list">
+        <div class="col-xs-6 col-md-3 item">
+          <a href="/furniture/view/200597">
+            <div
+              class="item-image"
+              style="
+                background-image: url('//cdn.ggumim.co.kr/cache/furniture/600/20211126120123OEMSM3mwWK.jpg');
+              "
+            ></div>
+            <div class="item-desc">
+              <div class="brand">쉬즈홈</div>
+              <div class="name">
+                집순이 슬리브 옥스포드 삼각 등쿠션 (솜포함, 2size / 8colors)
+              </div>
+              <div class="price-info">
+                <span class="discount">51%</span>
+                <span class="price"
+                  >20,700<span class="price-unit">원</span></span
+                >
+              </div>
+              <div class="price-original">
+                <span> </span>
+                <span>41,900</span>
+              </div>
+              <div class="review">
+                <img
+                  src="//cdn.ggumim.co.kr/storage/20201124131919ibuV8ryVUZ.png"
+                  alt=""
+                /><span class="rate">4.9</span>
+                <span class="count">(72)</span>
+              </div>
+              <div class="tag-list">
+                <div class="tag2">
+                  <p>무료배송</p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
   </body>
 </html>
-<!--옵션-->
-<template id="option-template">
-  <div class="option">
-    <label>
-      옵션 분류
-      <input name="itemOptionGroup" type="text" />
-    </label>
-    <label>
-      필수 옵션 여부
-      <input name="itemOptionRequired" type="checkbox" />
-    </label>
 
-    <button type="button" class="option-detail-btn">옵션 내용 추가</button>
-    <button type="button" class="remove-btn">삭제</button>
-    <br /><br />
-    <div class="option-detail-list"></div>
-    <hr />
+<div class="container-zipggu">
+  <div class="furniture-item-group-3 preact-furniture-list">
+    <div class="col-xs-6 col-md-3 item">
+      <a href="#">
+        <div
+          class="item-image"
+          style="
+            background-image: url('data:image/png;base64,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');
+          "
+        ></div>
+        <!--이미지가 있을 때
+        ??
+        -->
+        <div class="item-desc">
+          <div class="name">제품명</div>
+          <div class="price-info">
+            <span class="discount">할인률%</span>
+            <span class="price">가격<span class="price-unit">원</span></span>
+          </div>
+          <!--할인이 있을 때
+          <div class="price-original">
+            <span> </span>
+            <span>41,900</span>
+          </div>
+          -->
+          <!--리뷰가 있을 때
+          <div class="review">
+            <img
+              src="//cdn.ggumim.co.kr/storage/20201124131919ibuV8ryVUZ.png"
+              alt=""
+            /><span class="rate">4.9</span>
+            <span class="count">(72)</span>
+          </div>
+          -->
+        </div>
+      </a>
+    </div>
   </div>
-</template>
-<!--세부옵션-->
-<template id="option-detail-template">
-  <div class="option-detail">
-    <label>
-      옵션 내용
-      <input name="itemOptionDetail" type="text" />
-    </label>
-
-    <label>
-      옵션 가격
-      <input name="itemOptionPrice" type="text" /> </label
-    ><button type="button" class="remove-btn">삭제</button><br /><br />
-  </div>
-</template>
+</div>

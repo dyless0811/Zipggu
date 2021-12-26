@@ -23,6 +23,15 @@
 		select * from item where item_no = #{itemNo}
 	</select>
 	
+	<!-- 페이징 -->
+	<select id="listByPage" parameterType="map" resultType="itemDto">
+		select * from (
+		    select rownum rn, TMP.* from (
+		        select i.item_no, i.item_name, i.item_price, d.discount_rate, avg(r.review_point) review_rate, count(r.review_no) review_count from item i left outer join review r on r.item_no = i.item_no left outer join discount d on d.item_no = i.item_no where i.category_no = 3 group by i.item_no, i.item_name, i.item_price, d.discount_rate order by review_count asc
+		    )TMP
+		) where rn between ${startRow} and ${endRow}
+	</select>
+	
 	<!-- 등록 -->
 	<insert id="insert" parameterType="ItemDto">
 		insert into item values(#{itemNo}, #{categoryNo}, #{itemName}, #{itemPrice} ,#{itemShippingType})
