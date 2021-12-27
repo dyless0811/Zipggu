@@ -26,14 +26,27 @@
 		)
 	</insert>
 	
+	<!-- 첨부파일 수정 -->
+	
+	
 	<!-- 게시글 상세페이지에서 사진목록 불러오기 -->
 	<select id="list" parameterType="int" resultType="snsFileDto">
 		select * from sns_file where sns_no = #{snsNo}
 	</select>
 	
-	
+	<!-- 게시글 목록페이지 썸네일 기능 -->
 	<select id="getThumnail" parameterType="int" resultType="snsFileDto">
 		select * from sns_file where sns_no = #{snsNo} and sns_thumnail = 1
 	</select>
+	
+	<!-- 게시글 상세페이지 기능 -->
+	<select id="get" parameterType="int" resultType="snsFileDto">
+		select * from sns_file where sns_file_no = ${snsFileNo}
+	</select>
+	
+	<!-- 첨부파일 삭제 기능 -->
+	<delete id="delete" parameterType="int">
+		delete sns_file where sns_file_no = #{snsFileNo}
+	</delete>
 	
 </mapper> 

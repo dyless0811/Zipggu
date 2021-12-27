@@ -21,6 +21,14 @@ public interface SnsFileDao {
 	//썸네일 파일 다운로드 기능
 	byte[] load(int snsNo) throws IOException;
 
+	//상세페이지 파일 전체목록 조회 기능
 	List<SnsFileDto> list(int snsNo);
+	
+	//상세페이지에서 파일 전체목록 조회 기능에서 나온 번호 다운로드
+	SnsFileDto get(int snsFileNo);
+
+	void delete(int snsFileNo);
+	
+	
 
 }

@@ -3,6 +3,7 @@ package com.kh.zipggu.repository;
 import java.util.List;
 
 import com.kh.zipggu.entity.SnsDto;
+import com.kh.zipggu.vo.SnsListVO;
 
 public interface SnsDao {
 
@@ -17,5 +18,14 @@ public interface SnsDao {
 
 	//목록 조회
 	List<SnsDto> list();
+
+	//게시글 수정
+	void edit(SnsDto snsDto);
+
+	//게시글 삭제
+	void delete(int snsNo);
+
+	//페이징 목록조회
+	List<SnsListVO> listByPage(int startRow, int endRow);
 	
 }
