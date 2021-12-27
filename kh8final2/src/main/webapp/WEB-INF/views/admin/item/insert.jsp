@@ -20,7 +20,8 @@
           $(this).parent().remove();
         });
         // 등록 버튼
-        $("#item-submit").click(function () {
+        $("#item-submit").click(function (e) {
+        	e.preventDefault();
           var option_index = 0;
           var form = $(".result-form");
           // 분류만 추가하고 내용을 추가하지 않은 상태를 검사
@@ -140,7 +141,8 @@
       <button class="option-group-btn" type="button">옵션 분류 추가</button>
       <hr />
       <div class="option-list"></div>
-      <button id="item-submit" type="button">등록</button>
+      <a href="" id="item-submit" class="btn btn-primary text-light">등록</a>
+      <a href="${pageContext.request.contextPath}/admin/item" class="btn btn-primary text-light">취소</a>
     </div>
     
     <!--옵션-->
