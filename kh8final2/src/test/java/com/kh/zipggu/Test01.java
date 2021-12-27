@@ -41,9 +41,16 @@ public class Test01 {
 		System.out.println(list);
 	}
 	
-	@Test
+	//@Test
 	public void test3() {
 		List<CategoryVO> list = sqlSession.selectList("category.listCustom");
+		System.out.println(list);
+	}
+
+	
+	@Test
+	public void test4() {
+		List<CategoryVO> list = sqlSession.selectList("category.listCustom2");
 		System.out.println(list);
 	}
 	
