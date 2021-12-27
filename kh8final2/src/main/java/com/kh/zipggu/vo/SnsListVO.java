@@ -15,4 +15,6 @@ public class SnsListVO {
 	private int snsReplyCount;
 	private String memberNickname;
 	
+	
+	
 }
