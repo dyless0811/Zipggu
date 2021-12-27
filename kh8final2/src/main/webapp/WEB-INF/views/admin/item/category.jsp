@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html lang="ko" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <title>HTML CSS Left Right Split</title>
-    <style>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+           <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      rel="stylesheet"
+    />
+        <style>
       .container-zipggu {
         width: 1000px;
         margin: auto;
@@ -70,14 +71,9 @@
         background: hotpink;
       }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="container-zipggu">
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
+	<div class="container-zipggu">
       <div class="float-div">
         <div class="float-div left">
           <div class="cate-box">
@@ -104,8 +100,11 @@
                       </li>
                       <li><a href="#">수납침대</a></li>
                       <li><a href="#">LED침대</a></li>
+                      <li><a href="#">깔판/저상형침대</a></li>
+                      <li><a href="#">2층/벙커침대</a></li>
                       <li><a href="#">모션베드</a></li>
                       <li><a href="#">패밀리침대</a></li>
+                      <li><a href="#">돌침대/흙침대</a></li>
                     </ul>
                   </li>
                   <li>
@@ -125,6 +124,78 @@
                   <li><a href="#">가죽소파</a></li>
                   <li><a href="#">패브릭소파</a></li>
                   <li><a href="#">신소재소파</a></li>
+                  <li><a href="#">좌식소파</a></li>
+                  <li><a href="#">소파베드</a></li>
+                  <li><a href="#">리클라이너소파</a></li>
+                  <li><a href="#">빈백</a></li>
+                  <li><a href="#">소파스툴</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="cate-parent"><a href="#">테이블</a></div>
+                <ul class="cate-child">
+                  <li><a href="#">HTML</a></li>
+                  <li><a href="#">Python</a></li>
+                  <li><a href="#">Java</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="cate-parent"><a href="#">화장대/거울</a></div>
+                <ul class="cate-child">
+                  <li><a href="#">HTML</a></li>
+                  <li><a href="#">Python</a></li>
+                  <li><a href="#">Java</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="cate-parent"><a href="#">드레스룸</a></div>
+                <ul class="cate-child">
+                  <li><a href="#">HTML</a></li>
+                  <li><a href="#">Python</a></li>
+                  <li><a href="#">Java</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="cate-parent">
+                  <a href="#">거실장/서랍장/선반</a>
+                  <div class="btn-box"><div class="btn3-box"></div></div>
+                </div>
+                <ul class="cate-child">
+                  <li><a href="#">HTML</a></li>
+                  <li><a href="#">Python</a></li>
+                  <li><a href="#">Java</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="cate-parent"><a href="#">식탁/주방수납</a></div>
+                <ul class="cate-child">
+                  <li><a href="#">HTML</a></li>
+                  <li><a href="#">Python</a></li>
+                  <li><a href="#">Java</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="cate-parent"><a href="#">책상/책장</a></div>
+                <ul class="cate-child">
+                  <li><a href="#">HTML</a></li>
+                  <li><a href="#">Python</a></li>
+                  <li><a href="#">Java</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="cate-parent"><a href="#">의자</a></div>
+                <ul class="cate-child">
+                  <li><a href="#">HTML</a></li>
+                  <li><a href="#">Python</a></li>
+                  <li><a href="#">Java</a></li>
+                </ul>
+              </li>
+              <li>
+                <div class="cate-parent"><a href="#">유아/아동가구</a></div>
+                <ul class="cate-child">
+                  <li><a href="#">HTML</a></li>
+                  <li><a href="#">Python</a></li>
+                  <li><a href="#">Java</a></li>
                 </ul>
               </li>
             </ul>
@@ -135,6 +206,8 @@
         </div>
       </div>
     </div>
+
+
     <script>
       $(document).ready(function () {
         var modifyBtn = $("<a>")
@@ -198,5 +271,4 @@
         $(".btn-box").append(cateBtn);
       });
     </script>
-  </body>
-</html>
+<jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

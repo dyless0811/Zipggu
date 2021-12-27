@@ -26,6 +26,7 @@
 	 -->
 	 <typeAliases>
 	 	<package name="com.kh.zipggu.entity"/>
+	 	<package name="com.kh.zipggu.vo"/>
 	 </typeAliases>
 	 
 </configuration>
