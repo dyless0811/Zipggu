@@ -31,8 +31,22 @@
 	</select>
 	
 	<!-- 게시글 목록 -->
-	<select id="list" resultType="snsDto">
-		select * from sns
+	<select id="listByPage" parameterType="int" resultType="snsListVO">
+		select * from (
+		    select rownum rn, TMP.* from (
+		        select * from sns S left outer join member M on S.member_no = M.member_no
+		    )TMP
+		) where rn between ${startRow} and ${endRow}
 	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="edit" parameterType="snsDto">
+		update sns set sns_detail = #{snsDetail} where sns_no = #{snsNo}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete sns where sns_no = #{snsNo}
+	</delete>
 	
 </mapper> 

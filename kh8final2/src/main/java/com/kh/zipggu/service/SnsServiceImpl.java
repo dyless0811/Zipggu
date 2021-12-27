@@ -1,7 +1,10 @@
 package com.kh.zipggu.service;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,8 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.SnsDto;
 import com.kh.zipggu.entity.SnsFileDto;
+import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.SnsDao;
 import com.kh.zipggu.repository.SnsFileDao;
+import com.kh.zipggu.vo.SnsListVO;
 
 
 
@@ -21,8 +26,13 @@ public class SnsServiceImpl implements SnsService{
 	private SnsDao snsDao;
 	
 	@Autowired
+	private MemberDao memberDao;
+	
+	@Autowired
 	private SnsFileDao snsFileDao;
 	
+	//저장 폴더
+	private File directory = new File("D:/upload/SNS");
 
 	//SNS 글 등록 Service(상세 페이지 구현 전)
 	@Override
@@ -64,5 +74,90 @@ public class SnsServiceImpl implements SnsService{
 		return sequence;
 	}
 	
+	
+	//게시글 수정 기능
+	@Override
+	public void edit(SnsDto snsDto, List<MultipartFile> attach) throws IllegalStateException, IOException {
+		//검사값 false를 변수에 담고
+		boolean check = false;
+		//파일이 있는지 없는 체크
+		for(MultipartFile file : attach) {
+			//만약 파일이 비어있지 않다면
+			if(!file.isEmpty()) {
+				check = true;
+				break;
+			}
+		}
+		
+		//파일이 있다면 기존 파일을 삭제하고 새로운 파일을 추가
+		if(check) {
+			//해당 번호에 파일 업로드 되어 있는지 확인한다
+			
+			List<SnsFileDto> list = snsFileDao.list(snsDto.getSnsNo());
+			
+			if(!list.isEmpty()) {
+				//파일이 있다면
+				for(SnsFileDto file : list) {
+					//하나씩 꺼내서 삭제
+					File target = new File(directory, String.valueOf(file.getSnsFileSavename()));
+					target.delete();
+					
+					//db에서도 파일 삭제
+					snsFileDao.delete(file.getSnsFileNo());
+				}
+			}
+			
+			
+			int count = 1;
+			//새로운 파일이 들어온 것으로 수정
+			for(MultipartFile file : attach) {
+				if(!file.isEmpty()) {
+
+					//등록페이지에서 넘어오는 정보만 snsFileDto 객체에 정보 담아Dao로 보내기
+					//(여기서는 정보만 담아 보낸다)
+					SnsFileDto snsFileDto = new SnsFileDto();
+					snsFileDto.setSnsNo(snsDto.getSnsNo()); //sns 시퀀스
+					snsFileDto.setSnsFileUploadname(file.getOriginalFilename());
+					snsFileDto.setThumnail(count++);
+					snsFileDto.setSnsFileType(file.getContentType());
+					snsFileDto.setSnsFileSize(file.getSize());
+					//snsFileDao로 보내주고 등록 시작
+					snsFileDao.insert(snsFileDto, file);
+				}
+			}
+		}
+		
+		//게시판 내용 수정
+		snsDao.edit(snsDto);
+	}
+	
+	
+	//게시글 삭제 기능
+	@Override
+	public void delete(int snsNo) {
+		
+		//첨부 파일 삭제를 위해 snsNo로 게시글 번호에 해당하는 첨부파일 확인
+		List<SnsFileDto>list = snsFileDao.list(snsNo);
+		
+		 if(!list.isEmpty()) {
+			 
+			 for(SnsFileDto file : list) {
+				 
+				File target = new File(directory, String.valueOf(file.getSnsFileSavename()));
+				target.delete();
+				
+				snsFileDao.delete(file.getSnsFileNo());
+			 }
+		 }
+		 
+		 snsDao.delete(snsNo);
+	}
+	
+	
+	@Override
+	public List<SnsListVO> listByPage(int startRow, int endRow) {
+	
+		return snsDao.listByPage(startRow, endRow);
+	}
 	
 }

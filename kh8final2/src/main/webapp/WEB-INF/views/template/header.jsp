@@ -75,7 +75,7 @@
                   <a href="/star">
                     <div class="item">컨텐츠</div>
                   </a>
-                  <a href="${root }/sns/list">
+                  <a href="${root }/sns">
                     <div class="item">커뮤니티</div>
                   </a>
                   <div class="right">

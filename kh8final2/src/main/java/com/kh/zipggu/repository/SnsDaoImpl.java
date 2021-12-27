@@ -1,12 +1,15 @@
 package com.kh.zipggu.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.zipggu.entity.SnsDto;
+import com.kh.zipggu.vo.SnsListVO;
 
 @Repository
 public class SnsDaoImpl implements SnsDao{
@@ -41,5 +44,31 @@ public class SnsDaoImpl implements SnsDao{
 	public List<SnsDto> list() {
 		
 		return sqlSession.selectList("sns.list");
+	}
+	
+	//게시글 수정 기능
+	@Override
+	public void edit(SnsDto snsDto) {
+		
+		sqlSession.update("sns.edit", snsDto);
+		
+	}
+	
+	//게시글 삭제 기능
+	@Override
+	public void delete(int snsNo) {
+		
+		sqlSession.delete("sns.delete", snsNo);
+		
+	}
+	
+	@Override
+	public List<SnsListVO> listByPage(int startRow, int endRow) {
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("startRow", startRow);
+		param.put("endRow", endRow);
+		
+		return sqlSession.selectList("sns.listByPage", param);
 	}
 }
