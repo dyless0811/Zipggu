@@ -53,7 +53,7 @@
               <div class="nav-new">
                 <div class="logo">
                   <a href="${root }">
-                    <img src="${root}/resources/image/logo.png ">
+                    <img src="${root}/resources/image/logo.png">
                   </a>
                 </div>
                 <div class="menu">

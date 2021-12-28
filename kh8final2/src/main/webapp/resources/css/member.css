@@ -224,6 +224,32 @@ height: 80px;
     -webkit-appearance: none;
 }
 
+.inputItemC {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding: 8px 15px 9px;
+    border: 1px solid #dbdbdb;
+    background-color: #fff;
+    color: #000;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Noto Sans KR,Noto Sans CJK KR,ë§‘ì€ ê³ ë”•,Malgun Gothic,sans-serif;
+    font-size: 15px;
+    line-height: 21px;
+    transition: border-color .1s,background-color .1s;
+    resize: none;
+    -webkit-appearance: none;
+}
+
+.disNone{
+    display: none;
+}
+
+
+
+
+
 .check-all{
     font-size: 14px;
     color: #424242;
