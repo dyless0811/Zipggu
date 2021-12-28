@@ -52,7 +52,9 @@
               <div class="nav-new">
                 <div class="logo">
                   <a href="${root }">
+
                   	<div class="logo-img"></div>
+
                   </a>
                 </div>
                 <div class="menu">
