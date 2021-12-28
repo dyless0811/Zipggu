@@ -395,9 +395,8 @@ public class MemberController {
 //	}
 
 
-
-
-	@RequestMapping(value = "/mailCheck", method = { RequestMethod.GET })
+//	@RequestMapping(value = "/mailCheck", method = { RequestMethod.GET })
+	@GetMapping("/mailCheck")
 	@ResponseBody
 	public String mailCheck(@RequestParam String memberEmail) throws Exception {
 
@@ -413,11 +412,11 @@ public class MemberController {
 	}
 	
 
-	@RequestMapping(value = "/serialCheck", method = { RequestMethod.GET })
+//	@RequestMapping(value = "/serialCheck", method = { RequestMethod.GET })
+	@GetMapping("/serialCheck")
 	@ResponseBody
 	public String serialCheck(
 			@RequestParam String memberEmail, @RequestParam String serial) throws Exception {
-
 		CertificationDto certificationDto = certificationDao.get(memberEmail, serial);
 
 		String num2 = "";
