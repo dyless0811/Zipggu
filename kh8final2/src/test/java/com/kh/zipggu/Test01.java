@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.kh.zipggu.entity.CategoryDto;
+import com.kh.zipggu.service.AdminService;
 import com.kh.zipggu.vo.CategoryVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,10 +49,17 @@ public class Test01 {
 	}
 
 	
-	@Test
+	//@Test
 	public void test4() {
 		List<CategoryVO> list = sqlSession.selectList("category.listCustom2");
 		System.out.println(list);
+	}
+	@Autowired
+	private AdminService adminService;
+	
+	//@Test
+	public void test5() {
+		adminService.add("행거", 22);
 	}
 	
 }
