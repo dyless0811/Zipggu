@@ -36,11 +36,35 @@
 		<result column="category_super" property="categorySuper"/>
 		
 		<!--  항목 이름이 list인 변수가 있고 이게 List<CategoryVO> 형태이다 listSub를 불러서 해당 데이터를 채워주세요(category_no)를 이용해서 -->
-		<collection property="list" javaType="java.util.List" ofType="CategoryVO" select="listSub" column="category_no"></collection>		
+		<collection property="list" javaType="java.util.List" ofType="CategoryVO" select="listSub" column="category_no">
+			<result column="category_no" property="categoryNo"/>
+			<collection property="list" javaType="java.util.List" ofType="CategoryVO" select="listSub" column="category_no"></collection>
+		</collection>		
+	</resultMap>
+
+	<resultMap type="CategoryVO" id="CategoryDepthList2" autoMapping="true">
+		<!-- categoryVO.setCategoryNo(rs.getInt("category_no")) -->
+		<result column="cate1no" property="categoryNo"/>
+		<result column="cate1name" property="categoryName"/>
+		<result column="cate1super" property="categorySuper"/>
+		<!--  항목 이름이 list인 변수가 있고 이게 List<CategoryVO> 형태이다 listSub를 불러서 해당 데이터를 채워주세요(category_no)를 이용해서 -->
+		<collection property="list" ofType="CategoryVO" autoMapping="true">
+			<result column="cate2no" property="categoryNo"/>
+			<result column="cate2name" property="categoryName"/>
+			<result column="cate2super" property="categorySuper"/>
+			<collection property="list" ofType="CategoryVO" autoMapping="true">
+				<result column="cate3no" property="categoryNo"/>
+				<result column="cate3name" property="categoryName"/>
+				<result column="cate3super" property="categorySuper"/>
+			</collection>
+		</collection>		
 	</resultMap>
 	
 	<select id="listCustom" resultMap="CategoryDepthList">
 		select * from category order by category_no asc
+	</select>
+	<select id="listCustom2" resultMap="CategoryDepthList2">
+		select c1.category_name as cate1Name,c1.category_no as cate1No,c1.category_super as cate1super , c2.category_name as cate2Name,c2.category_no as cate2No,c2.category_super as cate2super, c3.category_name as cate3Name,c3.category_no as cate3No,c3.category_super as cate3super from category c1 left join category c2 on c1.category_no = c2.category_super left join category c3 on c2.category_no = c3.category_super where c1.category_super is null order by c1.category_no, c2.category_no, c3.category_no
 	</select>
 </mapper> 
 
