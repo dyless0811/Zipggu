@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<c:set var="root" value="${pageContext.request.contextPath }"></c:set>
+<script src="${root }/resources/ckeditor5/build/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <script>
 	$(function(){
@@ -127,7 +128,19 @@
                  	
             				</div>
 						<div class="card-body">
-  							<p class="card-text">${snsDto.getSnsDetailSub() }...</p>
+  							<div class="card-text">
+  								<div id="content"></div>
+  								<script language="javascript">
+  									var tmpStr = ${snsDto.getSnsDetailSub() };
+  									tmpStr = tmpStr.replaceAll("&lt;", "<");
+  									tmpStr = tmpStr.replaceAll("&gt;", ">");
+  									tmpStr = tmpStr.replaceAll("&amp;lt;", "<");
+  									tmpStr = tmpStr.replaceAll("&amp;gt;", ">");
+  									tmpStr = tmpStr.replaceAll("&amp;nbsp;", " ");
+  									tmpStr = tmpStr.replaceAll("&amp;amp;", "&");
+  									document.getElementById('content').innerHTML=tmpStr;
+  								</script>
+  							</div>
 								
                  				<small class="text-muted" id="nickname">${loginNick }</small>
                  				<br>

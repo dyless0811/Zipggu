@@ -192,7 +192,17 @@
 						<a href="delete?snsNo=${snsDto.snsNo }">삭제</a>
 					</button>
             		<!-- 내용 -->
-					<pre class="card-text mt-3">${snsDto.snsDetail }</pre>
+					<pre class="card-text mt-3" id="content">${snsDto.snsDetail }</pre>
+						<script language="javascript">
+							var tmpStr = ${snsDto.snsDetail };
+							tmpStr = tmpStr.replaceAll("&lt;", "<");
+							tmpStr = tmpStr.replaceAll("&gt;", ">");
+							tmpStr = tmpStr.replaceAll("&amp;lt;", "<");
+							tmpStr = tmpStr.replaceAll("&amp;gt;", ">");
+							tmpStr = tmpStr.replaceAll("&amp;nbsp;", " ");
+							tmpStr = tmpStr.replaceAll("&amp;amp;", "&");
+							document.getElementById('content').innerHTML=tmpStr;
+						</script>
      					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
    				</div>
 			</div>
