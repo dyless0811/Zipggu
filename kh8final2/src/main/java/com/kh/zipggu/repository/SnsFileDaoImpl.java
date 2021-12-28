@@ -64,11 +64,25 @@ public class SnsFileDaoImpl implements SnsFileDao{
 		
 	}
 	
+	//파일 목록 조회
 	@Override
 	public List<SnsFileDto> list(int snsNo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return sqlSession.selectList("snsFile.list", snsNo);
 	}
 	
+	//파일 단일조회
+	@Override
+	public SnsFileDto get(int snsFileNo) {
+		
+		return sqlSession.selectOne("snsFile.get", snsFileNo);
+	}
 	
+	//파일 삭제
+	@Override
+	public void delete(int snsFileNo) {
+		
+		sqlSession.delete("snsFile.delete", snsFileNo);
+		
+	}
 }

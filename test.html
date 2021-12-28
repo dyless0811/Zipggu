@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>카테고리</title>
+    <style>
+        .slide-menu, .slide-menu ul {/*(1)*/
+            list-style: none;
+        }
+        .slide-menu, .slide-menu ul, .slide-menu li {/*(2)*/
+            padding:0;
+            margin:0;
+        }
+        .slide-menu {/*(3)*/
+            display: flex;
+        }
+        .slide-menu > li {/*(4)*/
+            width:120px;
+        }
+        .slide-menu li {/*(5)*/
+            /*absolute의 기준점 설정을 위하여 position 설정*/
+            position:relative;
+        }
+        .slide-menu ul {/*(5)*/
+            position: absolute;
+            top:45px;
+            left:0;
+        }
+        .slide-menu li > a {/*(6) */
+            display: block;
+            width:120px;
+            text-decoration: none;
+            color:black;
+            padding:0.75rem;
+        }
+        /*(7)*/
+        .slide-menu , .slide-menu ul{
+            background-color: #EEEEEE;
+        }
+        .slide-menu li:hover > a {
+            background-color:#CCCCCC;
+            color:black;
+        }
+
+        /*(8)*/
+        .slide-menu > li > ul ul {
+            top:0;
+            left:120px;
+        }
+
+        .slide-menu > li.flex-right {
+            margin-left: auto;
+            margin-right:0;
+        }
+
+        /* 모든 서브메뉴를 숨겼다가 마우스 올라가면 표시되도록 설정 */
+        .slide-menu ul {
+            display:none;
+        }
+        .slide-menu li:hover > ul {
+            display:block;
+        }
+    </style>
+  </head>
+  <body>
+    <ul class="slide-menu">
+        <li>
+            <a href="#">카테고리</a>
+            <ul>
+                <li>
+                    <a href="#">가구</a>
+                    <ul>
+                        <li>
+                            <a href="#">침대/매트릭스</a>
+                            <ul>
+                                <li>
+                                    <a href="#">침대</a>
+                                    <ul>
+                                        <li><a href="#">일반침대</a></li>
+                                        <li><a href="#">수납침대</a></li>
+                                        <li><a href="#">LED침대</a></li>
+                                        <li><a href="#">깔판/저상형침대</a></li>
+                                        <li><a href="#">2층/벙커침대</a></li>
+                                        <li><a href="#">모션베드</a></li>
+                                        <li><a href="#">패밀리침대</a></li>
+                                        <li><a href="#">돌침대/흙침대</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">매트릭스</a>
+                                    <ul>
+                                        <li><a href="#">스프링</a></li>
+                                        <li><a href="#">메모리폼</a></li>
+                                        <li><a href="#">라텍스</a></li>
+                                        <li><a href="#">토퍼</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">소파</a>
+                            <ul>
+                                <li>
+                                    <a href="#">가죽소파</a>
+                                    <ul>
+                                        <li><a href="#">1인용가죽</a></li>
+                                        <li><a href="#">2~3인용가죽</a></li>
+                                        <li><a href="#">4인용이상가죽</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">패브릭소파</a>
+                                    <ul>
+                                        <li><a href="#">1인용패브릭</a></li>
+                                        <li><a href="#">2~3인용패브릭</a></li>
+                                        <li><a href="#">4인용이상패브릭</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">신소재소파</a>
+                                    <ul>
+                                        <li><a href="#">1인용신소재</a></li>
+                                        <li><a href="#">2~3인용신소재</a></li>
+                                        <li><a href="#">4인용이상신소재</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">좌식소파</a></li>
+                                <li><a href="#">소파베드</a></li>
+                                <li><a href="#">리클라이너소파</a></li>
+                                <li><a href="#">빈백</a></li>
+                                <li><a href="#">소파스툴</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">테이블</a>
+                            <ul>
+                                <li><a href="#">거실테이블</a></li>
+                                <li><a href="#">리프트테이블</a></li>
+                                <li>
+                                    <a href="#">협탁/사이드테이블</a>
+                                    <ul>
+                                        <li><a href="#">협탁</a></li>
+                                        <li><a href="#">사이트테이블</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">접이식테이블</a></li>
+                                <li><a href="#">바테이블</a></li>
+                                <li><a href="#">침대테이블</a></li>
+                                <li><a href="#">야외테이블</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">화장대/거울</a>
+                            <ul>
+                                <li>
+                                    <a href="#">화장대</a>
+                                    <ul>
+                                        <li><a href="#">일반화장대</a></li>
+                                        <li><a href="#">좌식화장대</a></li>
+                                        <li><a href="#">콘솔</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">거울</a>
+                                    <ul>
+                                        <li><a href="#">전신거울</a></li>
+                                        <li><a href="#">벽걸이거울</a></li>
+                                        <li><a href="#">탁상거울</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">드레스룸</a>
+                            <ul>
+                                <li><a href="#">드레스룸</a></li>
+                                <li>
+                                    <a href="#">행거</a>
+                                    <ul>
+                                        <li><a href="#">고정형</a></li>
+                                        <li><a href="#">스탠드형</a></li>
+                                        <li><a href="#">이동형</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">붙박이장</a></li>
+                                <li><a href="#">옷장</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">거실장/서랍장/선반</a>
+                            <ul>
+                                <li><a href="#">TV거실장</a></li>
+                                <li><a href="#">높은거실장</a></li>
+                                <li><a href="#">진열장/장식장</a></li>
+                                <li><a href="#">서랍장</a></li>
+                                <li><a href="#">수납장</a></li>
+                                <li>
+                                    <a href="#">선반</a>
+                                    <ul>
+                                        <li><a href="#">스탠드선반</a></li>
+                                        <li><a href="#">세탁기선반</a></li>
+                                        <li><a href="#">벽선반</a></li>
+                                        <li><a href="#">이동형선반</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">신발장</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">식탁/주방수납</a>
+                            <ul>
+                                <li>
+                                    <a href="#">식탁</a>
+                                    <ul>
+                                        <li><a href="#">2인</a></li>
+                                        <li><a href="#">4인</a></li>
+                                        <li><a href="#">6인이상</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">홈바/아일랜드</a></li>
+                                <li><a href="#">렌지대</a></li>
+                                <li><a href="#">주방수납</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">책상/책장</a>
+                            <ul>
+                                <li>
+                                    <a href="#">책상</a>
+                                    <ul>
+                                        <li><a href="#">일반책상</a></li>
+                                        <li><a href="#">좌식형책상</a></li>
+                                        <li><a href="#">코너형책상</a></li>
+                                        <li><a href="#">컴퓨터책상</a></li>
+                                        <li><a href="#">스탠딩책상</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">책장</a></li>
+                                <li><a href="#">오피스수납</a></li>
+                                <li><a href="#">파티션</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">의자</a>
+                            <ul>
+                                <li><a href="#">일반의자</a></li>
+                                <li><a href="#">좌식의자</a></li>
+                                <li><a href="#">접이식의자</a></li>
+                                <li><a href="#">사무용/게이밍의자</a></li>
+                                <li><a href="#">안락/흔들의자</a></li>
+                                <li><a href="#">스툴</a></li>
+                                <li><a href="#">식탁의자</a></li>
+                                <li><a href="#">바체어</a></li>
+                                <li><a href="#">벤치</a></li>
+                                <li><a href="#">야외의자</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">유아/아동가구</a>
+                            <ul>
+                                <li><a href="#">유아동침대</a></li>
+                                <li><a href="#">유아동의자</a></li>
+                                <li><a href="#">유아동책상/책장</a></li>
+                                <li><a href="#">유아동수납장</a></li>
+                                <li><a href="#">유아동매트</a></li>
+                                <li><a href="#">유아동텐트</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        </a>
+    </ul>
+  </body>
+</html>

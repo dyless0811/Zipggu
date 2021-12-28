@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <c:set var="login" value="${loginNo != null}"></c:set>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>    
 
@@ -53,7 +52,9 @@
               <div class="nav-new">
                 <div class="logo">
                   <a href="${root }">
-                    <img src="${root}/resources/image/logo.png">
+
+                  	<div class="logo-img"></div>
+
                   </a>
                 </div>
                 <div class="menu">
@@ -69,13 +70,13 @@
                   </a>
                   </c:otherwise>
                   </c:choose>
-                  <a href="/furniture">
+                  <a href="${root}/store">
                     <div class="item">스토어</div>
                   </a>
                   <a href="/star">
                     <div class="item">컨텐츠</div>
                   </a>
-                  <a href="${root }/sns/list">
+                  <a href="${root }/sns">
                     <div class="item">커뮤니티</div>
                   </a>
                   <div class="right">

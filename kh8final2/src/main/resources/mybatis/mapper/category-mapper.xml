@@ -1,0 +1,83 @@
+<?xml version="1.0"  encoding="UTF-8"  ?>
+<!-- 
+	myBatis 매퍼 파일
+	= DBMS에서 실행할 SQL 구문을 저장하는 XML 파일
+	= namespace를 통해서 여러 개의 매퍼를 구분한다.
+	= 테이블 당 1개씩 만드는 것이 일반적이며, 따라서 namespace를 테이블명으로 작성하면 구분이 용이하다.
+	= <insert>, <select>, <update>, <delete>를 이용해서 CRUD 구문을 작성한다.
+	= 각 구문은 외부에서 호출이 가능하도록 반드시 ID를 겹치지 않게 부여해야 한다.
+	= parameterType은 구문을 실행하기 위해 필요한 데이터의 형태를 말한다.
+	= resultType은 구문을 실행한 결과를 어떤 형태로 변환해야 하는지를 말한다.
+ -->
+
+<!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="category">
+	
+	<select id="list" resultType="CategoryDto">
+		select * from category 
+		connect by prior category_no = category_super 
+		start with category_super is null 
+		order siblings by category_super desc, category_no asc
+	</select>
+	
+	<select id="listSuper" resultType="CategoryVO">
+		select * from category where category_super is null
+	</select>
+	
+	<select id="listSub" resultType="CategoryVO" parameterType="int">
+		select * from category where category_super = ${categorySuper}
+	</select>
+	
+	<!-- mybatis에서 계층형 데이터를 불러오기 위해서 알려줘야할 정보를 선언 -->
+	<resultMap type="CategoryVO" id="CategoryDepthList">
+		<!-- categoryVO.setCategoryNo(rs.getInt("category_no")) -->
+		<result column="category_no" property="categoryNo"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="category_super" property="categorySuper"/>
+		
+		<!--  항목 이름이 list인 변수가 있고 이게 List<CategoryVO> 형태이다 listSub를 불러서 해당 데이터를 채워주세요(category_no)를 이용해서 -->
+		<collection property="list" javaType="java.util.List" ofType="CategoryVO" select="listSub" column="category_no">
+			<result column="category_no" property="categoryNo"/>
+			<collection property="list" javaType="java.util.List" ofType="CategoryVO" select="listSub" column="category_no"></collection>
+		</collection>		
+	</resultMap>
+
+	<resultMap type="CategoryVO" id="CategoryDepthList2" autoMapping="true">
+		<!-- categoryVO.setCategoryNo(rs.getInt("category_no")) -->
+		<result column="cate1no" property="categoryNo"/>
+		<result column="cate1name" property="categoryName"/>
+		<result column="cate1super" property="categorySuper"/>
+		<!--  항목 이름이 list인 변수가 있고 이게 List<CategoryVO> 형태이다 listSub를 불러서 해당 데이터를 채워주세요(category_no)를 이용해서 -->
+		<collection property="list" ofType="CategoryVO" autoMapping="true">
+			<result column="cate2no" property="categoryNo"/>
+			<result column="cate2name" property="categoryName"/>
+			<result column="cate2super" property="categorySuper"/>
+			<collection property="list" ofType="CategoryVO" autoMapping="true">
+				<result column="cate3no" property="categoryNo"/>
+				<result column="cate3name" property="categoryName"/>
+				<result column="cate3super" property="categorySuper"/>
+			</collection>
+		</collection>		
+	</resultMap>
+	
+	<select id="listCustom" resultMap="CategoryDepthList">
+		select * from category order by category_no asc
+	</select>
+	<select id="listCustom2" resultMap="CategoryDepthList2">
+		select c1.category_name as cate1Name,c1.category_no as cate1No,c1.category_super as cate1super , c2.category_name as cate2Name,c2.category_no as cate2No,c2.category_super as cate2super, c3.category_name as cate3Name,c3.category_no as cate3No,c3.category_super as cate3super from category c1 left join category c2 on c1.category_no = c2.category_super left join category c3 on c2.category_no = c3.category_super where c1.category_super is null order by c1.category_no, c2.category_no, c3.category_no
+	</select>
+	<insert id="add" parameterType="CategoryDto">
+		insert into category values(CATEGORY_SEQ.nextval, #{categoryName},
+			 <choose>
+			 	<when test="categorySuper > 0">#{categorySuper}</when>
+			 	<otherwise>null</otherwise>
+			 </choose>)
+	</insert>
+</mapper> 
+
+
+
+
+
+
+
