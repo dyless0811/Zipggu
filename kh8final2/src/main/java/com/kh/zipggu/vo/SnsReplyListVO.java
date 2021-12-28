@@ -1,11 +1,11 @@
-package com.kh.zipggu.entity;
+package com.kh.zipggu.vo;
 
 import java.sql.Date;
 
 import lombok.Data;
 
 @Data
-public class SnsReplyDto {
+public class SnsReplyListVO {
 	
 	private int snsReplyNo;
 	private int memberNo;
@@ -15,4 +15,5 @@ public class SnsReplyDto {
 	private int snsReplySuperno;
 	private int snsReplyGroupno;
 	private int snsReplyDepth;
+	private String memberNickname;
 }
