@@ -29,6 +29,10 @@
 		$("form").submit(function(e) {
 			//this == form
 			e.preventDefault();//form 기본 전송 이벤트 방지
+			
+			if(!formCheck()){
+				return true;
+			}
 
 			//모든 비밀번호 입력창에 SHA-1 방식 암호화 지시(32byte 단방향 암호화)
 			$(this).find("input[type=password]").each(function() {
@@ -60,27 +64,6 @@
 		}
 	}
 
-	function emailButtonCheck() {
-		return emailCheck();
-	}
-
-	function seri1heck() {
-		var regex = /^[0-9]]{6,6}$/;
-		var input = document.querySelector("input[name=serial]");
-		var notice = input.nextElementSibling;
-
-		if (input.value.length == 0 || regex.test(input.value)) {
-			notice.textContent = "";
-			return true;
-		} else {
-			notice.textContent = "이메일 인증을 완료해주세요.";
-			return false;
-		}
-	}
-
-	function emailButtonCheck() {
-		return emailCheck();
-	}
 
 	function pwCheck() {
 		var regex = /^[A-Za-z0-9!@#$\s_-]{8,16}$/;
@@ -169,10 +152,10 @@
 										success : function(data) {
 											if (data == "error") {
 												// 						$("#email").attr("autofocus",true);
-												$(".successEmail").text(
-														"유효한 이메일 주소를 입력해주세요.");
-												$(".successEmail").css("color",
-														"red");
+// 												$(".successEmail").text(
+// 														"유효한 이메일 주소를 입력해주세요.");
+// 												$(".successEmail").css("color",
+// 														"red");
 											} else {
 												$("#emailChk2").attr(
 														"disabled", false);
@@ -216,31 +199,19 @@
 										success : function(data) {
 
 											if (data == serial) {
-												//  		 				$(".successEmailChk").text("인증번호가 일치합니다.");
-												//  		 				$(".successEmailChk").css("color","green");
-												$(".successEmail").attr(
-														"disabled", true);
-												$("#emailChk2").attr(
-														"disabled", true);
-												$("#email").attr("readonly",
-														true);
-												$("#emailChk").attr("disabled",
-														true);
-												$("#emailChk").attr("readonly",
-														true);
-												$("#serialChk").attr(
-														"readonly", true);
-												$(".inputTop").attr("disabled",
-														true)
-												$(".successEmailChk").css(
-														"display", "none");
-												$(".inputContainer").css(
-														"display", "none");
-												$("#emailChk")
-														.text("이메일 인증 완료");
-												$("#emailChk").unbind('hover');
+												$(".successEmail").attr("disabled", true);
+												$("#emailChk2").attr("disabled", true);
+												$("#email").attr("readonly",true);
+												$("#emailChk").attr("disabled",true);
+												$("#emailChk").attr("readonly",true);
+												$("#serialChk").attr("readonly", true);
+												$(".inputTop").attr("disabled",true)
+												$(".successEmailChk").css("display", "none");
+												$("#serialForm").css("display", "none");
+												$("#emailChk").text("이메일 인증 완료");
+												position : inherit;
+										
 
-												// 		 				$(".inputTop").css("display","none"); 
 
 											}
 
@@ -317,8 +288,6 @@
 	color: #000;
 	border-radius: 4px;
 	box-sizing: border-box;
-	font-family: Noto Sans KR, Noto Sans CJK KR, ë§‘ì€ ê³ ë”•,
-		Malgun Gothic, sans-serif;
 	font-size: 15px;
 	line-height: 21px;
 	transition: border-color .1s, background-color .1s;
@@ -332,12 +301,12 @@
 }
 
 .inputContainer {
+	display: block;
 	border: 1px solid rgb(219, 219, 219);
 	min-height: 45px;
 	padding: 0px 16px;
 	background: rgb(255, 255, 255);
 	margin-bottom: 10px;
-	width: 394px;
 	height: 72px;
 }
 
@@ -348,6 +317,7 @@
 	height: 45px;
 	-webkit-box-pack: justify;
 	justify-content: space-between;
+	max-width: 360px
 }
 
 .inputSerial {
@@ -355,7 +325,6 @@
 	font-size: 15px;
 	line-height: 15px;
 	flex: 1 0 0px;
-	width: 0px;
 }
 
 .timer {
@@ -432,10 +401,12 @@
 }
 
 .sWrapper {
+	width: 400px;
 	min-height: 143px;
 	box-sizing: border-box;
 	background: rgb(247, 248, 250);
 	padding: 20px 16px;
+	margin: 0 auto;
 }
 
 .resendWrapper {
@@ -445,16 +416,28 @@
 	-webkit-box-align: center;
 	align-items: center;
 }
+
+.sighForm {
+	display: flex;
+	width: 400px;
+    margin: 0 auto;
+    padding: 60px 0;
+}
+
+body {
+	overflow-y:scroll;
+	 }
 </style>
 
 </head>
-<body>
+
+<body >
 
 	<main>
 
 		<section>
 
-			<div class="mainFormJ">
+			<div class="sighForm">
 
 				<form method="post" onsubmit="return formCheck();">
 					
@@ -487,28 +470,22 @@
 
 					<div class="row">
 						<label class="title-type">이메일</label>
-						<input type="email"
-							name="memberEmail" placeholder="이메일" autocomplete="off"
-							class="inputItemJ" id="email" onkeyup="emailCheck();">
+						<input type="email" name="memberEmail" placeholder="이메일" autocomplete="off"  class="inputItemJ" id="email" onkeyup="emailCheck();">
 						<div class="notice"></div>
 					</div>
 					<div class="div-button">
-						<button type="button"
-							class="email-button doubleChk btn_recive_num" id="emailChk">이메일
-							인증하기</button>
+						<button type="button" class="email-button doubleChk btn_recive_num" id="emailChk">이메일 인증하기</button>
 						<span class="point successEmail"></span>
 					</div>
 
 
-					<div class="serialForm disNone">
+					<div class="serialForm disNone" id="serialForm">
 						<div class="sWrapper">
 							<div class="sMessage">이메일로 전송된 인증코드를 입력해주세요.</div>
 							<div class="inputContainer">
 								<div class="inputTop">
-									<input id="serialChk" type="text" name="serial" value=""
-										readonly placeholder="인증번호 6자리 입력" required
-										class="inputSerial" autocomplete="off" maxlength="6"
-										onkeyup="serialCheck();">
+									<input id="serialChk" type="text" name="serial" 
+										readonly placeholder="인증번호 6자리 입력" required class="inputSerial" autocomplete="off" maxlength="6" onkeyup="serialCheck();">
 										<span class="timer" id="timerC">00:00</span>
 									<button type="button" class="oKButton doubleChk btn_chk" id="emailChk2" disabled>확인</button>
 								</div>
@@ -526,9 +503,7 @@
 						<div class="row">
 							<label class="title-type">비밀번호</label>
 							<div class="title-text">영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</div>
-							<input type="password" name="memberPw" placeholder="비밀번호"
-								autocomplete="off" maxlength='16' class="inputItemJ"
-								onkeyup="pwCheck();">
+							<input type="password" name="memberPw" placeholder="비밀번호" autocomplete="off" maxlength='16' class="inputItemJ" onkeyup="pwCheck();">
 							<div class="notice"></div>
 						</div>
 					</div>
