@@ -194,14 +194,23 @@
             		<!-- 내용 -->
 					<pre class="card-text mt-3" id="content">${snsDto.snsDetail }</pre>
 						<script language="javascript">
+						$(function(){
 							var tmpStr = ${snsDto.snsDetail };
+							var tmp = ${loginNo };
+							console.log(1);
+							console.log(tmpStr);
 							tmpStr = tmpStr.replaceAll("&lt;", "<");
 							tmpStr = tmpStr.replaceAll("&gt;", ">");
 							tmpStr = tmpStr.replaceAll("&amp;lt;", "<");
 							tmpStr = tmpStr.replaceAll("&amp;gt;", ">");
 							tmpStr = tmpStr.replaceAll("&amp;nbsp;", " ");
 							tmpStr = tmpStr.replaceAll("&amp;amp;", "&");
+							console.log(2);
+							console.log(document.getElementById('content').innerHTML);
+							console.log(tmpStr);
 							document.getElementById('content').innerHTML=tmpStr;
+						});	
+							
 						</script>
      					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
    				</div>
