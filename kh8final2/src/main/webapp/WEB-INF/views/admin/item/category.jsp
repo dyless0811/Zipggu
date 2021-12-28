@@ -180,6 +180,7 @@ $(function(){
 		$.ajax({
 			url:"${pageContext.request.contextPath}/admin/data/category/add",
 			type:"get",
+			async: false,
 			data:{
 				categoryName : categoryName, 
 				categorySuper : categorySuper
@@ -192,6 +193,7 @@ $(function(){
 			}
 		});
 		loadData();
+		create_btn();
 	})
 	
 	$(document).on("click", "#cancel-btn", function(e){
