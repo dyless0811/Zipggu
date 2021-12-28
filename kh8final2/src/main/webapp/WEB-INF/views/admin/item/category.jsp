@@ -79,6 +79,7 @@ $(function(){
 	create_btn();
 	
 	function loadData(){
+		$(".category-ul").empty();
 		$.ajax({
 			url : "${pageContext.request.contextPath}/admin/data/category/list",
 			type : "get",
@@ -90,6 +91,19 @@ $(function(){
 				console.log("성공", resp);
 				
 					var ul = $(".category-ul");
+					var category = $("<li>")
+					.append($("<div>")
+						.addClass("cate")
+						.append($("<a>")
+							.attr("href","#")
+							.text("전체카테고리")
+						)
+						.append($("<div>")
+							.addClass("btn4-box")
+							.attr("data-category-no", 0)
+						)
+					);
+					ul.append(category);
 					draw_category(resp, ul);
 				
 
@@ -121,7 +135,9 @@ $(function(){
 			.append($("<div>")
 				.addClass("btn-box")
 				.append($("<div>")
-					.addClass("btn4-box"))
+					.addClass("btn4-box")
+					.attr("data-category-no", categoryVO.categoryNo)	
+				)		
 			)
 		)
 		.append($("<ul>")
@@ -146,11 +162,42 @@ $(function(){
 			)
 			.append($("<div>")
 				.addClass("btn4-box")
+				.attr("data-category-no", categoryVO.categoryNo)
 			)
 		);
 
 		ul.append(category);
 	}
+	
+	$(document).on("click", "#add-submit-btn", function(e){
+		e.preventDefault();
+		var categoryName = $("input[name=categoryName]").val();
+		var categorySuper = $("input[name=categorySuper]").val();
+		if(!categoryName){
+			alert("내용을 입력해주세요.");
+			return;
+		}
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/data/category/add",
+			type:"get",
+			data:{
+				categoryName : categoryName, 
+				categorySuper : categorySuper
+			},
+			successe:function(){
+				console.log("성공");
+			},
+			error:function(e){
+				console.log(e, "실패");
+			}
+		});
+		loadData();
+	})
+	
+	$(document).on("click", "#cancel-btn", function(e){
+		e.preventDefault();
+		$(this).parent().remove();
+	});
 	
     function create_btn() {
         //추가 버튼
@@ -168,12 +215,14 @@ $(function(){
 
             form.appendTo(rightContent);
 
+            var categoryNo = $(this).parent().attr("data-category-no");
             $("<h3>").text("추가").appendTo(".send-form");
-            $("<input type='text' name='category' size='15'>").appendTo(
+            $("<input type='text' name='categoryName' size='15' required>").appendTo(
               ".send-form"
             );
-            $("<input type='submit' value='확인'>").appendTo(".send-form");
-            $("<input type='reset' value='취소'>").appendTo(".send-form");
+            $("<input type='hidden' name='categorySuper' value='"+categoryNo+"'>").appendTo(".send-form");
+            $("<input id='add-submit-btn' type='submit' value='확인'>").appendTo(".send-form");
+            $("<input id='cancel-btn' type='reset' value='취소'>").appendTo(".send-form");
           });
         $(".btn4-box").append(addBtn);
 
@@ -233,6 +282,13 @@ $(function(){
         <div class="float-div left">
           <div class="cate-box">
  			<ul class="category-ul">
+ 			  <li>
+ 			    <div class="cate">
+                  <a href="#">전체카테고리</a>
+                  <div class="btn4-box" data-category-no="0"></div>
+                </div>
+ 			  </li>
+ 			  
  			
  			</ul>
           </div>
