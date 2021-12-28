@@ -32,16 +32,18 @@
 					}
 					
 					for(var i=0; i<resp.length; i++){
-// 						var html = $("<h2>").text(resp[i].snsNo+"/"+resp[i].snsDetail);
 						var result = $("#result")
 						var clonedTemplate = $("#sns-template").clone();
 						var templateContent = $(clonedTemplate.html());
 						templateContent.find("a").attr("href", "${pageContext.request.contextPath}/sns/detail?snsNo="+resp[i].snsNo);
-						templateContent.find("#thumnail").attr("src", "${pageContext.request.contextPath}/sns/thumnail?snsNo="+resp[i].snsNo);						
-						templateContent.find(".card-text").text(resp[i].snsDetail);
+						templateContent.find("#thumnail").attr("src", "${pageContext.request.contextPath}/sns/thumnail?snsNo="+resp[i].snsNo);
+						var str = resp[i].snsDetail;
+						templateContent.find(".card-text").text(str.substr(-10));
 						templateContent.find("#nickname").text("작성자 : " + resp[i].memberNickname);
-						
-						templateContent.find("#date").text(resp[i].snsDate);
+						var timestamp = resp[i].snsDate;
+						var date = new Date(resp[i].snsDate);
+
+						templateContent.find("#date").text(date.toLocaleString());
 // 						templateContent.find("#like").text(resp[i].snsLike);//좋아요개수
 						templateContent.find("#reply").text(resp[i].snsReplyCount);
 						templateContent.find()
@@ -128,7 +130,7 @@
   							<p class="card-text">${snsDto.getSnsDetailSub() }...</p>
 								
                  				<small class="text-muted" id="nickname">${loginNick }</small>
-                 				
+                 				<br>
                  				<small class="text-muted" id="date">dddd</small>
           				</div>
         			</div>
