@@ -1,14 +1,11 @@
 package com.kh.zipggu.controller;
 
+
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -21,10 +18,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,10 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.kh.zipggu.repository.CertificationDao;
 import com.kh.zipggu.service.EmailService;
@@ -65,13 +58,16 @@ public class MemberController {
 	@Autowired
 	private MemberProfileDao memberProfileDao;
 
-	@Autowired 
+	@Autowired
 	private EmailService emailService;
+
 	@Autowired
 	private CertificationDao certificationDao;
-	
+
 	@Autowired
 	JavaMailSenderImpl mailSender;
+	
+	
 
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -106,7 +102,11 @@ public class MemberController {
 			session.setAttribute("loginEmail", findDto.getMemberEmail());
 			session.setAttribute("loginNick", findDto.getMemberNickname());
 			session.setAttribute("loginGrade", findDto.getMemberGrade());
+			
+			MemberProfileDto memberProfileDto = memberProfileDao.noGet(findDto.getMemberNo());
 
+			session.setAttribute("loginImage", memberProfileDto.getMemberProfileNo());
+			
 			// 쿠키와 관련된 아이디 저장하기 처리
 			if (saveId != null) {// 체크 했다면(saveId값이 전송되었다면)
 				// 생성
@@ -231,6 +231,7 @@ public class MemberController {
 		session.removeAttribute("loginEmail");
 		session.removeAttribute("loginNick");
 		session.removeAttribute("loginGrade");
+		session.removeAttribute("loginImage");
 
 		return "redirect:/";
 	}
@@ -247,8 +248,8 @@ public class MemberController {
 	}
 
 	@PostMapping("/join")
-	public String join(@ModelAttribute MemberDto memberDto) throws IllegalStateException, IOException {
-		memberDao.join(memberDto);
+	public String join(@ModelAttribute MemberJoinVO memberJoinVO) throws IllegalStateException, IOException {
+		memberService.join(memberJoinVO);
 		return "redirect:join_success";
 	}
 
@@ -268,9 +269,11 @@ public class MemberController {
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
 		String memberEmail = (String) session.getAttribute("loginEmail");
+		int memberNo = (int) session.getAttribute("loginNo");
+		
 		MemberDto memberDto = memberDao.get(memberEmail);
-		MemberProfileDto memberProfileDto = memberProfileDao.get(memberEmail);
-
+		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+		
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberProfileDto", memberProfileDto);
 
@@ -354,7 +357,7 @@ public class MemberController {
 	}
 
 //	프로필 다운로드에 대한 요청 처리
-//	= (주의) 뷰 리졸버가 적용되면 안된다. @ResponseBody 를 사용하면 무시 처리된다memberEmail
+//	= (주의) 뷰 리졸버가 적용되면 안된다. @ResponseBody 를 사용하면 무시 처리된다
 //	= 문자열이 아니라 파일 정보를 반환해서 스프링으로 하여금 다운로드 처리할 수 있도록 부탁
 //	= ResponseEntity는 데이터와 정보(헤더)를 같이 설정할 수 있도록 만들어진 Spring 도구
 //	= ByteArrayResource는 바이트 배열 형태의 자원을 담을 수 있는 Spring 도구
@@ -372,16 +375,10 @@ public class MemberController {
 		String encodeName = URLEncoder.encode(memberProfileDto.getMemberProfileUploadname(), "UTF-8");
 		encodeName = encodeName.replace("+", "%20");
 
-		return ResponseEntity.ok()
-				// .header("Content-Type", "application/octet-stream")
-				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-				// .header("Content-Disposition", "attachment; filename=\""+이름+"\"")
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodeName + "\"")
-				// .header("Content-Encoding", "UTF-8")
-				.header(HttpHeaders.CONTENT_ENCODING, "UTF-8")
-				// .header("Content-Length",
-				// String.valueOf(memberProfileDto.getMemberProfileSize()))
-				.contentLength(memberProfileDto.getMemberProfileSize()).body(resource);
+				.header(HttpHeaders.CONTENT_ENCODING, "UTF-8").contentLength(memberProfileDto.getMemberProfileSize())
+				.body(resource);
 	}
 
 	/**
@@ -394,7 +391,6 @@ public class MemberController {
 //		return "error/500";
 //	}
 
-
 //	@RequestMapping(value = "/mailCheck", method = { RequestMethod.GET })
 	@GetMapping("/mailCheck")
 	@ResponseBody
@@ -403,20 +399,17 @@ public class MemberController {
 		String num = "";
 		try {
 			emailService.sendCertificationNumber(memberEmail);
-		}	
-		catch (Exception e) {
+		} catch (Exception e) {
 			num = "error";
 			return num;
 		}
-		return num;	
+		return num;
 	}
-	
 
 //	@RequestMapping(value = "/serialCheck", method = { RequestMethod.GET })
 	@GetMapping("/serialCheck")
 	@ResponseBody
-	public String serialCheck(
-			@RequestParam String memberEmail, @RequestParam String serial) throws Exception {
+	public String serialCheck(@RequestParam String memberEmail, @RequestParam String serial) throws Exception {
 		CertificationDto certificationDto = certificationDao.get(memberEmail, serial);
 
 		String num2 = "";
@@ -429,10 +422,10 @@ public class MemberController {
 				num2 = certificationDto.getSerial();
 				return num2;
 
-			} else { 
+			} else {
 				num2 = "error";
-				return num2;	
-			} 
+				return num2;
+			}
 		}
 
 		else {
@@ -441,5 +434,7 @@ public class MemberController {
 		}
 
 	}
+
+
 
 }

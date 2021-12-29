@@ -16,10 +16,20 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 
+	<!-- 등록용 시퀀스번호 -->
+	<select id="seq" resultType="int">
+		select member_seq.nextval from dual
+	</select>
+
 	<!-- 단일조회 -->
 	<select id="get" parameterType="String" resultType="MemberDto">
 		select * from member where member_email = #{memberEmail}
 	</select>
+	
+	<!-- 단일조회 -->
+	<select id="noGet" parameterType="int" resultType="MemberDto">
+		select * from member where member_no = #{memberNo}
+	</select>	
 	
 	<!-- 이메일 중복 조회 -->
 	<select id="emailGet" resultType="MemberDto">
@@ -33,7 +43,7 @@
 			member_no, member_email, member_pw, member_nickname
 		)
 		values(
-			member_seq.nextval, #{memberEmail}, #{memberPw}, #{memberNickname}
+			#{memberNo}, #{memberEmail}, #{memberPw}, #{memberNickname}
 		)
 	</insert>
 

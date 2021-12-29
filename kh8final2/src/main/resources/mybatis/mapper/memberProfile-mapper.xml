@@ -23,12 +23,8 @@
 
 	<!-- 등록을 할 때 시퀀스를 생성하면 안된다 -->
 	<insert id="save" parameterType="MemberProfileDto">
-		insert into member_profile(
-			member_profile_no, member_email, member_profile_uploadname, 
-			member_profile_savename, member_profile_size, member_profile_type
-		)
-		values(
-			#{memberProfileNo}, #{memberId}, #{memberProfileUploadname},
+		insert into member_profile values(
+			#{memberProfileNo}, #{memberNo}, #{memberProfileUploadname},
 			#{memberProfileSavename}, #{memberProfileSize}, #{memberProfileType}
 		)
 	</insert>
@@ -37,8 +33,8 @@
 		select * from member_profile where member_profile_no = #{memberProfileNo}
 	</select>
 
-	<select id="getByEmail" parameterType="String" resultType="MemberProfileDto">
-		select * from member_profile where member_email = #{memberEmail}
+	<select id="getByNo" parameterType="int" resultType="MemberProfileDto">
+		select * from member_profile where member_no = #{memberNO}
 	</select>
 
 </mapper>

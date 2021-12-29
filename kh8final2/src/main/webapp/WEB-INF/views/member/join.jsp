@@ -439,7 +439,7 @@ body {
 
 			<div class="sighForm">
 
-				<form method="post" onsubmit="return formCheck();">
+				<form method="post" enctype="multipart/form-data" onsubmit="return formCheck();">
 					
 					<div class="row center">
 						<h1 class="title-h1">회원가입</h1>
@@ -524,8 +524,15 @@ body {
 								onkeyup="nicknameCheck();">
 							<div class="notice"></div>
 						</div>
+						
 					</div>
-
+					<div class="bodyForm">
+						<div class="row">
+							<label class="title-type">프로필 이미지</label>
+						<input type="file" name="attach" accept="image/*" class="form-input">
+						</div>
+					</div>
+					
 					<div class="bodyForm">
 						<div class="checkForm">
 							<div class="row">

@@ -21,6 +21,8 @@ li {
 .container-1200 {
     width: 1200px;
 }
+
+
 </style>
 
 
@@ -47,7 +49,7 @@ li {
 
 					<div class="profileHeader">
 						<!-- 회원 프로필 이미지 -->
-						<div class="profileImageContainer">
+						<div class="profileImageContainer"> 
 							<c:choose>
 								<c:when test="${memberProfileDto == null}">
 									<img src="https://via.placeholder.com/120x120?text=User"
@@ -55,15 +57,16 @@ li {
 								</c:when>
 								<c:otherwise>
 									<img
-										src="profile?memberProfileNo=${memberProfileDto.memberProfileNo}"
-										width="100%" class="profileImage">
+										src="profile?memberProfileNo=${memberProfileDto.memberProfileNo}" width="100%" height="100%" class="profileImage">
 								</c:otherwise>
 							</c:choose>
 						</div>
 
 
+						
+
 						<div class="profileContent">
-							<div class="nickname">${memberDto.memberNickname}</div>
+							<div class="nickname"> ${memberDto.memberNickname}</div>
 
 							<div class="statsContainer">
 
@@ -74,6 +77,8 @@ li {
 									<dt class="statsAttributeValue">6</dt>
 								</dl>
 								<a href="edit" class="a-border">설정</a>
+								<a href="profileInsert" class="a-border">프로필등록</a>
+								<a href="#" class="a-border">프로필수정</a>
 							</div>
 						</div>
 

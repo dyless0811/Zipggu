@@ -1,4 +1,4 @@
-package com.kh.zipggu.repository;
+ package com.kh.zipggu.repository;
 
 import java.util.List;
 
@@ -9,7 +9,9 @@ public interface MemberDao {
 
 	void join(MemberDto memberDto);//가입
 
-	MemberDto get(String memberEmail);//그냥 단일조회
+	MemberDto get(String memberEmail);//이메일 단일조회
+	
+	MemberDto noGet(int memberNo);//회원번호 단일조회
 	
 	MemberDto emailGet(String email);//네이버 이메일 조회
 	

@@ -10,13 +10,9 @@ import lombok.Data;
  */
 @Data
 public class MemberJoinVO {
-//	private String memberId;
 	private int memberNo;
 	private String memberEmail;
 	private String memberPw;
 	private String memberNickname;
-//	private String memberBirth;
-
-//	private String memberPhone;
 	private MultipartFile attach;
 }
