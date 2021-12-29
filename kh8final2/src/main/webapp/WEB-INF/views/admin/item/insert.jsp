@@ -33,9 +33,6 @@
     	  var depth = $(this).data("depth");
     	  var categoryNo = $(this).val();
     	  var categoryName = $(this).find("option:selected").text();
-    	  console.log("categoryName ===== ", categoryName);
-    	  console.log("depth ===== ", depth);
-    	  console.log("categoryNo ===== ", categoryNo);
     	  $.ajax({
     		  url : "${pageContext.request.contextPath}/admin/data/category/child",
     		  type : "post",
