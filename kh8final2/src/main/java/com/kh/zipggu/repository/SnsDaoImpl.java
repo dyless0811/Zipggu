@@ -65,10 +65,15 @@ public class SnsDaoImpl implements SnsDao{
 	@Override
 	public List<SnsListVO> listByPage(int startRow, int endRow) {
 		
+		SnsListVO vo = new SnsListVO();
+		
+		
 		Map<String, Object> param = new HashMap<>();
 		param.put("startRow", startRow);
 		param.put("endRow", endRow);
 		
 		return sqlSession.selectList("sns.listByPage", param);
 	}
+	
+
 }

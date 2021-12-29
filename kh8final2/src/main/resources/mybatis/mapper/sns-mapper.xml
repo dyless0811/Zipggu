@@ -49,4 +49,6 @@
 		delete sns where sns_no = #{snsNo}
 	</delete>
 	
+	
+	
 </mapper> 

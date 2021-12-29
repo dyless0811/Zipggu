@@ -2,9 +2,7 @@ package com.kh.zipggu.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,7 @@ import com.kh.zipggu.entity.SnsFileDto;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.SnsDao;
 import com.kh.zipggu.repository.SnsFileDao;
+import com.kh.zipggu.repository.SnsReplyDao;
 import com.kh.zipggu.vo.SnsListVO;
 
 
@@ -30,6 +29,7 @@ public class SnsServiceImpl implements SnsService{
 	
 	@Autowired
 	private SnsFileDao snsFileDao;
+
 	
 	//저장 폴더
 	private File directory = new File("D:/upload/SNS");
@@ -156,7 +156,9 @@ public class SnsServiceImpl implements SnsService{
 	
 	@Override
 	public List<SnsListVO> listByPage(int startRow, int endRow) {
+		
 	
+		
 		return snsDao.listByPage(startRow, endRow);
 	}
 	
