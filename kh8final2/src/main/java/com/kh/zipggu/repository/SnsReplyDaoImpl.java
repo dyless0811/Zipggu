@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 import com.kh.zipggu.entity.SnsReplyDto;
 import com.kh.zipggu.vo.SnsReplyListVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class SnsReplyDaoImpl implements SnsReplyDao{
 	
@@ -63,6 +66,24 @@ public class SnsReplyDaoImpl implements SnsReplyDao{
 		param.put("snsNo", snsNo);
 		
 		return sqlSession.selectList("snsReply.listByPage", param);
+	}
+	
+	@Override
+	public boolean delete(int snsReplyNo) {
+		
+		int result = sqlSession.delete("snsReply.delete", snsReplyNo);
+		
+		return result > 0;
+		
+	}
+	
+	@Override
+	public void replyCount(int snsNo) {
+		
+		log.debug("snsNo = {}", snsNo);
+		int a = sqlSession.update("snsReply.replyCount", snsNo); 
+		
+		System.out.println(a);
 	}
 	
 }

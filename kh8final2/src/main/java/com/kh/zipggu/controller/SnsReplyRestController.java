@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,9 @@ import com.kh.zipggu.repository.SnsReplyDao;
 import com.kh.zipggu.service.SnsReplyService;
 import com.kh.zipggu.vo.SnsReplyListVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/snsReply")
 public class SnsReplyRestController {
@@ -31,10 +35,15 @@ public class SnsReplyRestController {
 	@PostMapping("/insert")
 	public void insert(@ModelAttribute SnsReplyDto snsReplyDto, HttpSession session, @RequestParam int snsNo) {
 		
+		System.out.println(snsReplyDto.getSnsNo());
+		System.out.println(snsNo);
 		snsReplyDto.setSnsNo(snsNo);
 		snsReplyDto.setMemberNo((int)session.getAttribute("loginNo"));
 		
+		
 		snsReplyDao.insert(snsReplyDto);
+		
+		snsReplyDao.replyCount(snsNo);
 	}
 	
 	//댓글 목록 기능
@@ -46,7 +55,16 @@ public class SnsReplyRestController {
 		int endRow = page * size;
 		int startRow = endRow - (size - 1);
 		System.out.println("snsNo = " + snsNo);
+
+		
 		return snsReplyService.listByPage(startRow, endRow, snsNo);
 	}
 	
+	//댓글 삭제 기능
+	@DeleteMapping("/delete")
+	public boolean delete(@RequestParam int snsReplyNo) {
+		
+		return snsReplyDao.delete(snsReplyNo);
+		
+	}
 }

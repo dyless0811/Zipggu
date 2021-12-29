@@ -50,4 +50,15 @@
 			)TMP
 		) where rn between #{startRow} and #{endRow}
 	</select>
+	
+	<!-- 댓글 삭제 기능 -->
+	<delete id="delete" parameterType="int">
+		delete sns_reply where sns_reply_no = #{snsReplyNo}
+	</delete>
+	
+	<!-- 댓글 갯수 갱신 기능 -->
+	<update id="replyCount" parameterType="int">
+		update sns set sns_reply_count = (select count(*) from sns_reply where sns_no = #{snsNo}) where sns_no = #{snsNo}
+	</update>
+	
 </mapper> 

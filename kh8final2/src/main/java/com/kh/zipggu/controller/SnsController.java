@@ -122,7 +122,7 @@ public class SnsController {
 		
 		snsService.delete(snsNo);
 		
-		return "redirect:main";
+		return "redirect:/sns";
 	}
 	
 	//목록 페이지 썸네일을 위한 다운로드 기능

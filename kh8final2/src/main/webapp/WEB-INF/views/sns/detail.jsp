@@ -2,9 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="snsNo" value="${snsDto.snsNo }"></c:set>
+<c:set var="writer" value="${loginNo == snsDto.memberNo }"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
+	//댓글 등록
 	$(function(){
 		//console.log(1);
 		
@@ -53,6 +55,7 @@
 		});
 	});
 	
+	//페이징
 	var page = 1;
 	var size = 10;
 	var snsNo = ${snsNo};
@@ -72,7 +75,7 @@
 		console.log(4);
 	});
 	
-	
+	//목록 불러오기
 	function loadList(pageValue, sizeValue, snsNoValue){
 		console.log(5);
 		$.ajax({
@@ -99,6 +102,7 @@
 					
 					template = template.replace("{{writer}}", resp[i].memberNickname);
 					template = template.replace("{{replyDetail}}", resp[i].snsReplyDetail);
+					template = template.replace("{{snsReplyNo}}", resp[i].snsReplyNo);
 				
 					$("#result").append(template);
 				}
@@ -108,7 +112,25 @@
 		});
 	}
 	
-	
+	//댓글 삭제
+	function deleteData(snsReplyNo){
+		console.log(10);
+		$.ajax({
+			url:"${pageContext.request.contextPath}/snsReply/delete?snsReplyNo="+snsReplyNo,
+			type:"delete",
+			dataType:"text",
+			success:function(resp){
+				console.log("성공", resp);
+				
+				$("#result").empty();
+				
+				page = 1;
+				loadList(page,size,snsNo);
+				page++;
+			},
+			error:function(e){}
+		});
+	}
 </script>
 
 
@@ -189,29 +211,16 @@
              		
             		<!-- 삭제 아이콘 -->
            			<button type="button" class="btn btn-sm btn-outline-secondary">
-						<a href="delete?snsNo=${snsDto.snsNo }">삭제</a>
+						<a href="delete?snsNo=${snsDto.snsNo }">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+							  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+							  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+							</svg>
+						</a>
 					</button>
             		<!-- 내용 -->
 					<pre class="card-text mt-3" id="content">${snsDto.snsDetail }</pre>
-						<script language="javascript">
-						$(function(){
-							var tmpStr = ${snsDto.snsDetail };
-							var tmp = ${loginNo };
-							console.log(1);
-							console.log(tmpStr);
-							tmpStr = tmpStr.replaceAll("&lt;", "<");
-							tmpStr = tmpStr.replaceAll("&gt;", ">");
-							tmpStr = tmpStr.replaceAll("&amp;lt;", "<");
-							tmpStr = tmpStr.replaceAll("&amp;gt;", ">");
-							tmpStr = tmpStr.replaceAll("&amp;nbsp;", " ");
-							tmpStr = tmpStr.replaceAll("&amp;amp;", "&");
-							console.log(2);
-							console.log(document.getElementById('content').innerHTML);
-							console.log(tmpStr);
-							document.getElementById('content').innerHTML=tmpStr;
-						});	
-							
-						</script>
+
      					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
    				</div>
 			</div>
@@ -239,7 +248,9 @@
 						</div>
 					</form>
 
-					<div id="result"></div>
+					<div id="result">
+							
+					</div>
 					
 					<div>
 						<button class="more-btn btn btn-sm btn-outline-secondary mt-2">더보기</button>
@@ -266,7 +277,18 @@
 			<div class="ms-3">
 				<div class="fw-bold" id="writer">{{writer}}</div>
 				<pre id="replyDetail">{{replyDetail}}</pre>
-				
+				<div>
+					<c:choose>
+						<c:when test="${writer }">
+							<button class="btn btn-sm btn-outline-secondary">수정</button>
+							<button onclick="deleteData({{snsReplyNo}});" class="btn btn-sm btn-outline-secondary">삭제</button>
+							<button class="btn btn-sm btn-outline-secondary">대댓글</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-sm btn-outline-secondary">대댓글</button>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>		
 		</div>
 	</div>

@@ -13,6 +13,13 @@ public interface SnsReplyDao {
 	//시퀀스 번호
 	int sequence();
 
+	//비동기 페이징을 위한 목록 기능
 	List<SnsReplyListVO> listByPage(int startRow, int endRow, int snsNo);
+
+	//댓글 삭제 기능
+	boolean delete(int snsReplyNo);
+
+	void replyCount(int snsNo);
+
 	
 }

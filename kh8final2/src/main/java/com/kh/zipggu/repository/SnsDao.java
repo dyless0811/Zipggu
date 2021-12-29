@@ -27,5 +27,7 @@ public interface SnsDao {
 
 	//페이징 목록조회
 	List<SnsListVO> listByPage(int startRow, int endRow);
+
+	
 	
 }
