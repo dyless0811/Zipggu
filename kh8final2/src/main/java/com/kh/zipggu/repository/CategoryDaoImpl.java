@@ -35,6 +35,11 @@ public class CategoryDaoImpl implements CategoryDao {
 	public void modify(CategoryDto categoryDto) {
 		sqlSession.update("category.modify", categoryDto);
 	}
+
+	@Override
+	public void delete(int categoryNo) {
+		sqlSession.delete("category.delete", categoryNo);
+	}
 	
 
 }

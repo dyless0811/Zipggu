@@ -76,7 +76,9 @@
 	<update id="modify" parameterType="CategoryDto">
 		update category set category_name = #{categoryName} where category_no = #{categoryNo}
 	</update>
-	
+	<delete id="delete" parameterType="int">
+		delete from category where category_no = #{categoryNo}
+	</delete>
 	
 	<select id="listBySuper" parameterType="int" resultType="CategoryDto">
 		select * from category where category_super = #{categorySuper} order by category_no

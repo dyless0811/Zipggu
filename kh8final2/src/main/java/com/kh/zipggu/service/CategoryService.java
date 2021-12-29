@@ -13,4 +13,6 @@ public interface CategoryService {
 	List<CategoryDto> listBySuper(int categorySuper);
 
 	void modify(int categoryNo, String categoryName);
+
+	void delete(int categoryNo);
 }

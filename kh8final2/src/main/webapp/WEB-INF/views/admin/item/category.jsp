@@ -194,6 +194,7 @@ $(function(){
 				console.log(e, "실패");
 			}
 		});
+		$(this).parent().remove();
 		loadData();
 		create_btn();
 	})
@@ -221,9 +222,34 @@ $(function(){
 				console.log(e, "실패");
 			}
 		});
+		$(this).parent().remove();
 		loadData();
 		create_btn();
 	})
+	
+	$(document).on("click", "#delete-submit-btn", function(e){
+		e.preventDefault();
+		var categoryNo = $("input[name=categoryNo]").val();
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/data/category/delete",
+			type:"post",
+			async: false,
+			data:{
+				categoryNo : categoryNo
+			},
+			successe:function(){
+				console.log("성공");
+			},
+			error:function(e){
+				console.log(e, "실패");
+			}
+		});
+		$(this).parent().remove();
+		loadData();
+		create_btn();
+	})
+	
 	
 	$(document).on("click", "#cancel-btn", function(e){
 		e.preventDefault();
@@ -290,7 +316,25 @@ $(function(){
           .append($("<i>").addClass("fas fa-trash-alt"))
           .attr("href", "javascript:void(0)")
           .click(function () {
-          });
+              var rightContent = $(".right-content");
+              rightContent.empty();
+              var form = $("<form>")
+                .attr("acton", "#")
+                .attr("method", "post")
+                .addClass("send-form");
+
+              form.appendTo(rightContent);
+
+              var categoryNo = $(this).parent().attr("data-category-no");
+              var categoryName = $(this).parent().attr("data-category-name");
+              $("<h3>").text("삭제").appendTo(".send-form");
+              $("<span>").text(categoryName+"을 삭제하시겠습니까?").appendTo(
+                ".send-form"
+              );
+              $("<input type='hidden' name='categoryNo' value='"+categoryNo+"'>").appendTo(".send-form");
+              $("<input id='delete-submit-btn' type='submit' value='확인'>").appendTo(".send-form");
+              $("<input id='cancel-btn' type='reset' value='취소'>").appendTo(".send-form");
+            });
         $(".btn4-box").append(deleteBtn);
 
         //화살표
@@ -320,8 +364,6 @@ $(function(){
                   <div class="btn4-box" data-category-no="0"></div>
                 </div>
  			  </li>
- 			  
- 			
  			</ul>
           </div>
         </div>

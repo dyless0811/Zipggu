@@ -38,6 +38,11 @@ public class AdminRestController {
 		categoryService.modify(categoryNo, categoryName);
 	}
 	
+	@PostMapping("/category/delete")
+	public void categoryDelete(@RequestParam int categoryNo) {
+		categoryService.delete(categoryNo);
+	}
+	
 	@PostMapping("/category/child")
 	public List<CategoryDto> listBySuper(@RequestParam int categorySuper) {
 		return categoryService.listBySuper(categorySuper);

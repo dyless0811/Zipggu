@@ -13,4 +13,6 @@ public interface CategoryDao {
 	List<CategoryDto> listBySuper(int categorySuper);
 
 	void modify(CategoryDto categoryDto);
+
+	void delete(int categoryNo);
 }
