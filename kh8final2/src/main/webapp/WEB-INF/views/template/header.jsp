@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="login" value="${loginNo != null}"></c:set>
-<c:set var="root" value="${pageContext.request.contextPath}"></c:set>    
+<c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 
 <!DOCTYPE html>
 	<html lang="ko">
@@ -120,26 +120,38 @@
                     <!-- 회원일 때 -->
                     <div class="item sm-bar member">
                       <div class="profile-image-wrapper">
-                        <img
-                          class="profile-image"
-                          src="//cdn.ggumim.co.kr/cache/member/profile/180/20211214183232nBczBjRmtf.jpg"
-                        />
+                     
+                          	<c:choose>
+								<c:when test="${loginImage == null}">
+									<img src="https://via.placeholder.com/120x120?text=User" class="profile-image">
+								</c:when>
+								<c:otherwise>
+									<img src="${root}/member/profile?memberProfileNo=${loginImage}" class="profile-image">
+								</c:otherwise>
+							</c:choose>
+							
                       </div>
-                      <div class="nickname">${loginNick}</div>
+                      <div class="nickname">${loginNick} </div>
                       <div
                         class="subnavigation subnavigation-menu"
                         style="right: 10px; top: 80px; z-index: 999"
                       >
                         <div class="member-profile-section">
                           <div class="profile-image">
-                            <img
-                              src="//cdn.ggumim.co.kr/cache/member/profile/180/20211214183232nBczBjRmtf.jpg"
-                              alt="멤버 프로필 이미지"
-                            />
+                          
+                           	<c:choose>
+								<c:when test="${loginImage == null}">
+									<img src="https://via.placeholder.com/120x120?text=User" class="profile-image">
+								</c:when>
+								<c:otherwise>
+									<img src="${root}/member/profile?memberProfileNo=${loginImage}" class="profile-image">
+								</c:otherwise>
+							</c:choose>
+							
                           </div>
                           <div class="profile-contents">
                             <div class="profile-nickname">
-                              <a href="/member/setting/3194863"> ${loginNick} </a>
+                              <a href="${root}/member/mypage">${loginNick}</a>
                             </div>
                             <div class="profile-grade">
                               <div>등급</div>
@@ -161,10 +173,7 @@
                               <div class="membership-vip">
                                 VIP 등급 : 포인트 3% 적립
                               </div>
-                              <div
-                                class="membership-detail"
-                                onclick="location.href='/member/membership'"
-                              >
+                              <div class="membership-detail" onclick="location.href='/member/membership'">
                                 자세히 보기
                               </div>
                             </div>

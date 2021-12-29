@@ -50,8 +50,8 @@ public class MemberProfileDaoImpl implements MemberProfileDao{
 	}
 
 	@Override
-	public MemberProfileDto get(String memberEmail) {
-		return sqlSession.selectOne("memberProfile.getByEmail", memberEmail);
+	public MemberProfileDto noGet(int memberNo) {
+		return sqlSession.selectOne("memberProfile.getByNo", memberNo);
 	}
 
 }
