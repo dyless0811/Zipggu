@@ -21,6 +21,10 @@
 	.ck-editor__editable{
 		min-height:300px;
 	}
+	.danger{
+		color:red;
+		font-size:8px;
+	}
 	
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -95,6 +99,7 @@ function deleteImageAction(index){
 				<label>작성자 : ${loginNick }</label>
 			</div>
 			<div class="mt-3">
+				<label class="danger">※에디터 기능은 굵게, 기울기, 링크만 사용 가능합니다. 그 외 기능 사용 금지</label>
 				<textarea name="snsDetail" id="editor">${snsDto.snsDetail }</textarea>
 				<script>
 					ClassicEditor
@@ -107,6 +112,7 @@ function deleteImageAction(index){
 				</script>
 			</div>
 			<div class="mt-4">
+				<label class="danger">※사진을 새로 추가하면 기존사진은 모두 삭제됩니다.(미리보기 사진을 클릭하면 모두 삭제됩니다.)</label>
 				<input type="file" name="attach" class="form-control" multiple>
 			</div>
 			
