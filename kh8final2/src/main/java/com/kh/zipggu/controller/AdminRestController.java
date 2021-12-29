@@ -13,6 +13,8 @@ import com.kh.zipggu.entity.CategoryDto;
 import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.vo.CategoryVO;
 
+import oracle.jdbc.proxy.annotation.Post;
+
 @RestController
 @RequestMapping("/admin/data")
 public class AdminRestController {
@@ -26,9 +28,14 @@ public class AdminRestController {
 		return categoryService.list();
 	}
 	
-	@GetMapping("/category/add")
+	@PostMapping("/category/add")
 	public void categoryAdd(@RequestParam String categoryName, @RequestParam int categorySuper) {
 		categoryService.add(categoryName, categorySuper);
+	}
+	
+	@PostMapping("/category/modify")
+	public void categoryModify(@RequestParam int categoryNo ,@RequestParam String categoryName) {
+		categoryService.modify(categoryNo, categoryName);
 	}
 	
 	@PostMapping("/category/child")

@@ -30,6 +30,11 @@ public class CategoryDaoImpl implements CategoryDao {
 	public List<CategoryDto> listBySuper(int categorySuper) {
 		return sqlSession.selectList("category.listBySuper", categorySuper);
 	}
+
+	@Override
+	public void modify(CategoryDto categoryDto) {
+		sqlSession.update("category.modify", categoryDto);
+	}
 	
 
 }

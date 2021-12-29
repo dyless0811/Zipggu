@@ -136,7 +136,8 @@ $(function(){
 				.addClass("btn-box")
 				.append($("<div>")
 					.addClass("btn4-box")
-					.attr("data-category-no", categoryVO.categoryNo)	
+					.attr("data-category-no", categoryVO.categoryNo)
+					.attr("data-category-name", categoryVO.categoryName)
 				)		
 			)
 		)
@@ -163,6 +164,7 @@ $(function(){
 			.append($("<div>")
 				.addClass("btn4-box")
 				.attr("data-category-no", categoryVO.categoryNo)
+				.attr("data-category-name", categoryVO.categoryName)
 			)
 		);
 
@@ -179,11 +181,38 @@ $(function(){
 		}
 		$.ajax({
 			url:"${pageContext.request.contextPath}/admin/data/category/add",
-			type:"get",
+			type:"post",
 			async: false,
 			data:{
 				categoryName : categoryName, 
 				categorySuper : categorySuper
+			},
+			successe:function(){
+				console.log("성공");
+			},
+			error:function(e){
+				console.log(e, "실패");
+			}
+		});
+		loadData();
+		create_btn();
+	})
+	
+	$(document).on("click", "#modify-submit-btn", function(e){
+		e.preventDefault();
+		var categoryName = $("input[name=categoryName]").val();
+		var categoryNo = $("input[name=categoryNo]").val();
+		if(!categoryName){
+			alert("내용을 입력해주세요.");
+			return;
+		}
+		$.ajax({
+			url:"${pageContext.request.contextPath}/admin/data/category/modify",
+			type:"post",
+			async: false,
+			data:{
+				categoryName : categoryName, 
+				categoryNo : categoryNo
 			},
 			successe:function(){
 				console.log("성공");
@@ -243,12 +272,15 @@ $(function(){
 
             form.appendTo(rightContent);
 
+            var categoryNo = $(this).parent().attr("data-category-no");
+            var categoryName = $(this).parent().attr("data-category-name");
             $("<h3>").text("수정").appendTo(".send-form");
-            $("<input type='text' name='category' size='15'>").appendTo(
+            $("<input type='text' name='categoryName' size='15' value="+categoryName+">").appendTo(
               ".send-form"
             );
-            $("<input type='submit' value='확인'>").appendTo(".send-form");
-            $("<input type='reset' value='취소'>").appendTo(".send-form");
+            $("<input type='hidden' name='categoryNo' value='"+categoryNo+"'>").appendTo(".send-form");
+            $("<input id='modify-submit-btn' type='submit' value='확인'>").appendTo(".send-form");
+            $("<input id='cancel-btn' type='reset' value='취소'>").appendTo(".send-form");
           });
         $(".btn4-box").append(modifyBtn);
 
@@ -258,8 +290,6 @@ $(function(){
           .append($("<i>").addClass("fas fa-trash-alt"))
           .attr("href", "javascript:void(0)")
           .click(function () {
-            $(this).parent().next().toggle();
-            $(this).children("i").toggleClass("fa-rotate-180");
           });
         $(".btn4-box").append(deleteBtn);
 

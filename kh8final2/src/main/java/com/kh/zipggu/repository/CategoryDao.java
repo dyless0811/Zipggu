@@ -11,4 +11,6 @@ public interface CategoryDao {
 	void add(CategoryDto categoryDto);
 
 	List<CategoryDto> listBySuper(int categorySuper);
+
+	void modify(CategoryDto categoryDto);
 }

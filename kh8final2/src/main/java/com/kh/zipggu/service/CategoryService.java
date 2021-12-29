@@ -11,4 +11,6 @@ public interface CategoryService {
 	void add(String categoryName, int categorySuper);
 
 	List<CategoryDto> listBySuper(int categorySuper);
+
+	void modify(int categoryNo, String categoryName);
 }

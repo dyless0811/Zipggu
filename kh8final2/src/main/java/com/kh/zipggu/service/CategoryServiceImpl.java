@@ -34,4 +34,13 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDao.listBySuper(categorySuper);
 	}
 
+	@Override
+	public void modify(int categoryNo, String categoryName) {
+		
+		CategoryDto categoryDto = new CategoryDto();
+		categoryDto.setCategoryNo(categoryNo);
+		categoryDto.setCategoryName(categoryName);
+		categoryDao.modify(categoryDto);
+	}
+
 }
