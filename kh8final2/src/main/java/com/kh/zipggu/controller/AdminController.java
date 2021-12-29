@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.zipggu.repository.ItemDao;
+import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.service.ItemService;
 import com.kh.zipggu.vo.ItemInsertVO;
 
@@ -20,7 +21,7 @@ public class AdminController {
 	private ItemService itemService;
 	
 	@Autowired
-	private ItemDao itemDao;
+	private CategoryService categoryService;
 	
 	@RequestMapping("")
 	public String main() {
@@ -33,17 +34,15 @@ public class AdminController {
 	}
 	
 	@GetMapping("/item/insert")
-	public String itemInsert() {
-		
+	public String itemInsert(Model model) {
+		model.addAttribute("categoryVOList", categoryService.list());
 		return "admin/item/insert";
 	}
 	
 	@PostMapping("/item/insert")
 	public String itemInsert(@ModelAttribute ItemInsertVO vo) {
-		int itemNo = itemDao.sequance();
-		vo.setItemNo(itemNo);
-		itemService.insert(vo);
-		return "redirect:/store/detail/"+itemNo;
+	
+		return "redirect:/store/detail/"+itemService.insert(vo);
 	}
 	
 	@RequestMapping("/item/category")

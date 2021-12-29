@@ -1,9 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+
+
+	.imgs_wrap {
+
+        border: 2px solid #A8A8A8;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+    }
+    .imgs_wrap img {
+        max-width: 150px;
+        margin-left: 10px;
+ 	    margin-right: 10px;
+    }
+	.ck-editor__editable{
+		min-height:300px;
+	}
+</style>
+
 
     <script>
       $(function () {
+    	// 카테고리 선택
+    	$(".category-select").change(function(){
+    		
+    	  var depth = $(this).data("depth");
+    	  var categoryNo = $(this).val();
+    	  var categoryName = $(this).find("option:selected").text();
+    	  $.ajax({
+    		  url : "${pageContext.request.contextPath}/admin/data/category/child",
+    		  type : "post",
+    		  data : {
+    			  categorySuper : categoryNo
+    		  },
+    		  success : function(resp) {
+    			console.log("성공", resp);
+    			if(resp.length == 0) {
+    				$("input[name=categoryNo]").val($(this).find("option:selected").text());
+    				$(".category-select[data-depth="+(depth+1)+"]").attr("disabled", true).empty();
+    				$(".category-select[data-depth="+(depth+2)+"]").attr("disabled", true).empty();
+    				if(categoryNo != 0) {
+    					$("input[name=categoryNo]").val(categoryNo);
+						$("input[name=categoryName]").val(categoryName);
+    				} else {
+        				$("input[name=categoryNo]").val("");
+    					$("input[name=categoryName]").val("");
+        			}
+    				return;
+    			}
+    			$("input[name=categoryNo]").val("");
+				$("input[name=categoryName]").val("");
+    			
+				var targetTag = $(".category-select[data-depth="+(depth+1)+"]");
+				$(".category-select[data-depth="+(depth+2)+"]").attr("disabled", true).empty();
+				targetTag.removeAttr("disabled")
+				targetTag.empty();
+    				$("<option>").val(0).text("하위 카테고리").appendTo(targetTag);
+    			for (let categoryDto of resp) {
+    				$("<option>").val(categoryDto.categoryNo).text(categoryDto.categoryName).appendTo(targetTag);
+				}
+    		  },
+    		  error : function(e) {
+    			  console.log("실패", e);
+    		  }
+    	  });
+    	});
+    	  
         // 옵션 분류 추가 버튼
         $(".option-group-btn").click(function () {
           var template = $("#option-template").html();
@@ -107,35 +175,61 @@
       <h1>상품 등록</h1>
       <hr />
       <form class="result-form" method="post" enctype="multipart/form-data">
-        <label
-          >카테고리
-          <select name="categoryNo">
-            <option value="3">패브릭소파</option>
-          </select> </label
-        ><br /><br />
-
-        <label>
-          상품명
-          <input type="text" name="itemName" /> </label
-        ><br /><br />
-
-        <label>
-          가격
-          <input type="text" name="itemPrice" /> </label
-        ><br /><br />
-
-        <label>
-          배송 타입
-          <select name="itemShippingType">
-            <option value="0">택배</option>
+      <div class="row">
+        <div class="category-select-box">
+          <div class="row">
+    		<div class="col-md-3">
+    		  <select class="form-select category-select" data-depth="1" required>
+    		  	<option selected value="0")>카테고리</option>
+            	<c:forEach var="categoryVO" items="${categoryVOList}">
+             	  <option value="${categoryVO.categoryNo}">${categoryVO.categoryName}</option>
+            	</c:forEach>
+          	  </select>
+    		</div>
+    	    <div class="col-md-3">
+    	      <select class="form-select category-select" data-depth="2" disabled>
+          	  </select>
+    	    </div>
+    	    <div class="col-md-3">
+    	      <select class="form-select category-select" data-depth="3" disabled>
+          	  </select>
+    	    </div>
+    	    <div class="col-md-3">
+    	      <input type="hidden" name="categoryNo" value="">
+    	      <input class="form-control" type="text" name="categoryName" value="" readonly>
+    	    </div>
+  		  </div>
+	    </div>
+	  </div>
+	  <div class="row">
+		<div class="mb-3">
+  			<label for="itemFormControlInput1" class="form-label">상품명</label>
+  			<input type="text" name="itemName" class="form-control" id="itemFormControlInput1">
+		</div>
+	  </div>
+	  
+	  <div class="row">
+		<div class="col mb-3">
+  		  <label for="itemFormControlInput2" class="form-label">가격</label>
+  		  <input type="text" name="itemPrice" class="form-control" id="itemFormControlInput2">
+		</div>
+		<div class="col mb-3">
+		  <label for="itemFormControlInput3" class="form-label">배송 타입</label>
+  		  <select class="form-select" name="itemShippingType" id="itemFormControlInput3">
+  			<option value="0">택배</option>
             <option value="1">착불</option>
-          </select> </label
-        ><br /><br />
+          </select>
+		</div>
+	  </div>
+
 
         <label>
           이미지
-          <input type="file" name="attach" />
+          <input type="file" name="attach" accept="image/*" class="form-control" multiple>
         </label>
+        <div class="imgs_wrap">
+				<div id="result"></div>
+		</div>
         <br /><br />
       </form>
       <button class="option-group-btn" type="button">옵션 분류 추가</button>

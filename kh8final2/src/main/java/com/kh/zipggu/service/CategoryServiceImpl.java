@@ -10,7 +10,7 @@ import com.kh.zipggu.repository.CategoryDao;
 import com.kh.zipggu.vo.CategoryVO;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private CategoryDao categoryDao;
@@ -26,6 +26,26 @@ public class AdminServiceImpl implements AdminService {
 		categoryDto.setCategoryName(categoryName);
 		categoryDto.setCategorySuper(categorySuper);
 		categoryDao.add(categoryDto);
+	}
+
+	@Override
+	public List<CategoryDto> listBySuper(int categorySuper) {
+		
+		return categoryDao.listBySuper(categorySuper);
+	}
+
+	@Override
+	public void modify(int categoryNo, String categoryName) {
+		
+		CategoryDto categoryDto = new CategoryDto();
+		categoryDto.setCategoryNo(categoryNo);
+		categoryDto.setCategoryName(categoryName);
+		categoryDao.modify(categoryDto);
+	}
+
+	@Override
+	public void delete(int categoryNo) {
+		categoryDao.delete(categoryNo);
 	}
 
 }
