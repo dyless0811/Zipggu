@@ -95,6 +95,7 @@ function deleteImageAction(index){
 	<div class="row mt-3">
 		<form method="post" enctype="multipart/form-data">
 			<div class="mt-3">
+				<!-- 로그인 한 사람만 글작성할수 있기때문에 세션값에서 받아와도 된다. -->
 				<label>작성자 : ${loginNick }</label>
 			</div>
 			<div class="mt-3">
@@ -112,6 +113,7 @@ function deleteImageAction(index){
 			<div class="mt-4">
 				<input type="file" name="attach" accept="image/*" class="form-control" multiple>
 			</div>
+			
 			
 			<div class="imgs_wrap">
 				<div id="result"></div>
