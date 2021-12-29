@@ -9,4 +9,6 @@ public interface CategoryDao {
 	List<CategoryVO> list();
 
 	void add(CategoryDto categoryDto);
+
+	List<CategoryDto> listBySuper(int categorySuper);
 }

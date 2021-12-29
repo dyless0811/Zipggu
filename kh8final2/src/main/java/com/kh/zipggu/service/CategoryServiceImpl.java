@@ -28,4 +28,10 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryDao.add(categoryDto);
 	}
 
+	@Override
+	public List<CategoryDto> listBySuper(int categorySuper) {
+		
+		return categoryDao.listBySuper(categorySuper);
+	}
+
 }

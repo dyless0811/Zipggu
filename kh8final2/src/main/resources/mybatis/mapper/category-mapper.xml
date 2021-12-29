@@ -73,6 +73,10 @@
 			 	<otherwise>null</otherwise>
 			 </choose>)
 	</insert>
+	
+	<select id="listBySuper" parameterType="int" resultType="CategoryDto">
+		select * from category where category_super = #{categorySuper} order by category_no
+	</select>
 </mapper> 
 
 

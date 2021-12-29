@@ -22,9 +22,13 @@ public class CategoryDaoImpl implements CategoryDao {
 
 	@Override
 	public void add(CategoryDto categoryDto) {
-		// TODO Auto-generated method stub
 		sqlSession.insert("category.add",categoryDto);
 		
+	}
+
+	@Override
+	public List<CategoryDto> listBySuper(int categorySuper) {
+		return sqlSession.selectList("category.listBySuper", categorySuper);
 	}
 	
 

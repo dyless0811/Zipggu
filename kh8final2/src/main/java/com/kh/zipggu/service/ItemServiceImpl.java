@@ -22,9 +22,11 @@ public class ItemServiceImpl implements ItemService {
 	private ItemOptionDao itemOptionDao;
 	
 	@Override
-	public void insert(ItemInsertVO itemInsertVo) {
+	public int insert(ItemInsertVO itemInsertVo) {
+		int itemNo = itemDao.sequance();
+		
 		ItemDto itemDto = new ItemDto();
-		itemDto.setItemNo(itemInsertVo.getItemNo());
+		itemDto.setItemNo(itemNo);
 		itemDto.setCategoryNo(itemInsertVo.getCategoryNo());
 		itemDto.setItemName(itemInsertVo.getItemName());
 		itemDto.setItemPrice(itemInsertVo.getItemPrice());
@@ -34,19 +36,21 @@ public class ItemServiceImpl implements ItemService {
 		
 		if(itemInsertVo.getOptionList() == null) {
 			ItemOptionDto itemOptionDto = new ItemOptionDto();
-			itemOptionDto.setItemNo(itemDto.getItemNo());
+			itemOptionDto.setItemNo(itemNo);
 			itemOptionDto.setItemOptionGroup("기본");
 			itemOptionDto.setItemOptionDetail("단품");
 			itemOptionDto.setItemOptionPrice(0);
 			itemOptionDto.setItemOptionRequired(1);
 			
 			itemOptionDao.insert(itemOptionDto);
+		} else {
+			for (ItemOptionDto itemOptionDto : itemInsertVo.getOptionList()) {
+				itemOptionDto.setItemNo(itemNo);
+				
+				itemOptionDao.insert(itemOptionDto);
+			}			
 		}
 		
-		for (ItemOptionDto itemOptionDto : itemInsertVo.getOptionList()) {
-			itemOptionDto.setItemNo(itemDto.getItemNo());
-			
-			itemOptionDao.insert(itemOptionDto);
-		}
+		return itemNo;
 	}
 }
