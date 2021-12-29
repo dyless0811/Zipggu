@@ -40,9 +40,10 @@ public class SnsReplyRestController {
 		snsReplyDto.setSnsNo(snsNo);
 		snsReplyDto.setMemberNo((int)session.getAttribute("loginNo"));
 		
-		
+		//댓글 등록
 		snsReplyDao.insert(snsReplyDto);
 		
+		//댓글 등록을 마치고 댓글 개수 갱신
 		snsReplyDao.replyCount(snsNo);
 	}
 	

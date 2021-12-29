@@ -19,6 +19,7 @@ public interface SnsReplyDao {
 	//댓글 삭제 기능
 	boolean delete(int snsReplyNo);
 
+	//댓글 갱신 기능
 	void replyCount(int snsNo);
 
 	
