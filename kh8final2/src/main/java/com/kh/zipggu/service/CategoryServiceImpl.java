@@ -10,7 +10,7 @@ import com.kh.zipggu.repository.CategoryDao;
 import com.kh.zipggu.vo.CategoryVO;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private CategoryDao categoryDao;
