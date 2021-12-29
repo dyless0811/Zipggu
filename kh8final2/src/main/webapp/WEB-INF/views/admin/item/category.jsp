@@ -82,7 +82,7 @@ $(function(){
 		$(".category-ul").empty();
 		$.ajax({
 			url : "${pageContext.request.contextPath}/admin/data/category/list",
-			type : "get",
+			type : "post",
 			data : {
 			},
 			async: false,

@@ -22,7 +22,7 @@ public class AdminRestController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@GetMapping("/category/list")
+	@PostMapping("/category/list")
 	public List<CategoryVO> categoryList() {
 		
 		return categoryService.list();
