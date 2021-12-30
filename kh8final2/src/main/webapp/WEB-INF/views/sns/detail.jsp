@@ -18,7 +18,10 @@
 		text-align:left;
 	}
 	.rounded-circle{
-		width:30%;
+		width:100%;
+	}
+	.flex-shrink-0{
+		width:8%
 	}
 </style>
 <script>
@@ -438,7 +441,7 @@
 		<!-- 일반 댓글-->
 		<div class="d-flex mb-4">
 			<!-- Parent comment-->
-			<div class="flex-shrink-0" style="padding: 0; margin-right: -150px;">
+			<div class="flex-shrink-0" >
 				<img class="rounded-circle" src="${root }/member/profile?memberNo={{memberNo}}" alt="...">
 			</div>
 			<div class="ms-3">
