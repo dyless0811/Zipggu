@@ -26,6 +26,7 @@ import com.kh.zipggu.entity.SnsFileDto;
 import com.kh.zipggu.repository.SnsDao;
 import com.kh.zipggu.repository.SnsFileDao;
 import com.kh.zipggu.service.SnsService;
+import com.kh.zipggu.vo.SnsListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,10 +83,11 @@ public class SnsController {
 		
 		log.debug("snsNo = {}", snsNo);
 		//파라미터로 넘어온 번호를 받아 번호에 해당하는 게시글 상세 조회
-		SnsDto snsDto = snsDao.get(snsNo);
+		SnsListVO snsDto = snsDao.get(snsNo);
 		//게시글에 들어있는 첨부파일 리스트 불러오기
 		List<SnsFileDto> list = snsFileDao.list(snsNo);
 		
+		System.out.println(snsDto);
 		//model로 페이지에 넘겨준다
 		model.addAttribute("snsDto", snsDto);
 		model.addAttribute("memberNick", (String)session.getAttribute("loginNick"));

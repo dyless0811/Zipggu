@@ -26,8 +26,8 @@
 	</insert>
 	
 	<!-- 게시글 상세페이지 조회  -->
-	<select id="get" parameterType="int" resultType="snsDto">
-		select * from sns where sns_no = #{snsNo}
+	<select id="get" parameterType="int" resultType="snsListVO">
+		select S.*, M.member_nickname from sns S left outer join member M on S.member_no = M.member_no where S.sns_no = #{snsNo}
 	</select>
 	
 	<!-- 게시글 목록 -->

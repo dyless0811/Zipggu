@@ -14,7 +14,7 @@ public interface SnsDao {
 	int sequence();
 
 	//단일조회 기능(상세페이지)
-	SnsDto get(int snsNo);
+	SnsListVO get(int snsNo);
 
 	//목록 조회
 	List<SnsDto> list();

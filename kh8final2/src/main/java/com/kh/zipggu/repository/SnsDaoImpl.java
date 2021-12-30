@@ -34,7 +34,7 @@ public class SnsDaoImpl implements SnsDao{
 	
 	//게시글 상세조회 기능
 	@Override
-	public SnsDto get(int snsNo) {
+	public SnsListVO get(int snsNo) {
 		
 		return sqlSession.selectOne("sns.get", snsNo);
 	}
