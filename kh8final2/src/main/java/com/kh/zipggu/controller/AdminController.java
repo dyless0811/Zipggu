@@ -1,5 +1,8 @@
 package com.kh.zipggu.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.repository.ItemDao;
 import com.kh.zipggu.service.CategoryService;
@@ -40,9 +45,9 @@ public class AdminController {
 	}
 	
 	@PostMapping("/item/insert")
-	public String itemInsert(@ModelAttribute ItemInsertVO vo) {
+	public String itemInsert(@ModelAttribute ItemInsertVO vo, @RequestParam List<MultipartFile> attach) throws IllegalStateException, IOException {
 	
-		return "redirect:/store/detail/"+itemService.insert(vo);
+		return "redirect:/store/detail/"+itemService.insert(vo, attach);
 	}
 	
 	@RequestMapping("/item/category")

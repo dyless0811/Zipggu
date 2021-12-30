@@ -37,7 +37,7 @@ $(function(){
 					var clonedTemplate = $("#item-template").clone();
 					var templateContent = $(clonedTemplate.html());
 					templateContent.find("a").attr("href","${pageContext.request.contextPath}/store/detail/"+resp[i].itemNo);
-				//	templateContent.find(".item-image").attr("style", "background-image: url('이미지 링크 + resp[i].itemNo')");
+					templateContent.find(".item-image").attr("style", "background-image: url('${pageContext.request.contextPath}/item/thumbnail?itemNo="+resp[i].itemNo+"')");
 					templateContent.find(".name").text(resp[i].itemName);
 					if(!resp[i].discountRate) {
 						templateContent.find(".discount").remove();
