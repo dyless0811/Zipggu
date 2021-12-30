@@ -25,6 +25,7 @@ public class StoreController {
 	
 		model.addAttribute("itemDto", storeService.getItemDto(itemNo));
 		model.addAttribute("itemOptionGroupMap", storeService.getOptionGroupMap(itemNo));
+		model.addAttribute("itemFileDtoList", storeService.nonThumbnailListByItemNo(itemNo));
 		return "store/detail";
 	}
 }
