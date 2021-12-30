@@ -47,21 +47,19 @@
 						var templateContent = $(clonedTemplate.html());
 						templateContent.find("#a").attr("href", "${pageContext.request.contextPath}/sns/detail?snsNo="+resp[i].snsNo);
 						templateContent.find("#thumnail").attr("src", "${pageContext.request.contextPath}/sns/thumnail?snsNo="+resp[i].snsNo);
-						var str = resp[i].snsDetail;
-						templateContent.find(".card-text").text(str.substr(-10));
+// 						var str = resp[i].snsDetail;
+// 						templateContent.find(".card-text").text(str.substr(-10));
 						templateContent.find(".profile-image").attr("src", "${pageContext.request.contextPath}/member/profile?memberNo="+resp[i].memberNo);
 						templateContent.find("#nickname").text(resp[i].memberNickname);
 						
 						var timestamp = resp[i].snsDate;
 						var date = new Date(resp[i].snsDate);
-
 						templateContent.find("#date").text(date.toLocaleString());
 // 						templateContent.find("#like").text(resp[i].snsLike);//좋아요개수
 						templateContent.find("#reply").text(resp[i].snsReplyCount);
 						
 						clonedTemplate.html(templateContent.prop('outerHTML'));
 						result.append(clonedTemplate.html());
-
 					}
 				},
 				error:function(e){
@@ -137,10 +135,10 @@
                  	
             				</div>
 						<div class="card-body">
-  							<div class="card-text">
-  								<pre id="content">${snsDto.snsDetail }</pre>
-  							</div>
-							<br>
+<!--   							<div class="card-text"> -->
+<%--   								<pre id="content">${snsDto.snsDetail }</pre> --%>
+<!--   							</div> -->
+							
 							<div>
                  				<!-- 페이지 이동 어디로??????????????????? -->
                					<a href="${root }/member/mypage">
