@@ -5,6 +5,16 @@
 <style>
 
 
+	.thumbnail_wrap {
+
+        border: 2px solid #A8A8A8;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 200px;
+
+    }
 	.imgs_wrap {
 
         border: 2px solid #A8A8A8;
@@ -14,7 +24,7 @@
         padding-bottom: 10px;
 
     }
-    .imgs_wrap img {
+    .imgs_wrap img, .thumbnail_wrap img {
         max-width: 150px;
         margin-left: 10px;
  	    margin-right: 10px;
@@ -172,7 +182,7 @@
       	$("input[name=attach]").on("change", handleImgsFilesSelect);
       });
       
-      
+      //이미지 미리보기
       function handleImgsFilesSelect(e) {
 
    	    sel_files = [];
@@ -275,6 +285,13 @@
 	  </div>
 
 
+        <label>
+          썸네일
+          <input type="file" name="thumbnail" accept="image/*" class="form-control">
+        </label>
+        <div class="thumbnail_wrap">
+				<div id="thumbnail-result"></div>
+		</div>
         <label>
           이미지
           <input type="file" name="attach" accept="image/*" class="form-control" multiple>

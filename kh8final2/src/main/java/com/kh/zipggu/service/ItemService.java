@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.zipggu.vo.ItemInsertVO;
 
 public interface ItemService {
-	int insert(ItemInsertVO itemInsertVo, List<MultipartFile> attach) throws IllegalStateException, IOException;
+	int insert(ItemInsertVO itemInsertVo, MultipartFile thumbnail, List<MultipartFile> attach) throws IllegalStateException, IOException;
 
 	ResponseEntity<ByteArrayResource> getThumbnail(int itemNo) throws IOException;
 

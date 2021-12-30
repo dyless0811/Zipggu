@@ -45,9 +45,9 @@ public class AdminController {
 	}
 	
 	@PostMapping("/item/insert")
-	public String itemInsert(@ModelAttribute ItemInsertVO vo, @RequestParam List<MultipartFile> attach) throws IllegalStateException, IOException {
+	public String itemInsert(@ModelAttribute ItemInsertVO vo,@RequestParam MultipartFile thumbnail , @RequestParam List<MultipartFile> attach) throws IllegalStateException, IOException {
 	
-		return "redirect:/store/detail/"+itemService.insert(vo, attach);
+		return "redirect:/store/detail/"+itemService.insert(vo,thumbnail , attach);
 	}
 	
 	@RequestMapping("/item/category")
