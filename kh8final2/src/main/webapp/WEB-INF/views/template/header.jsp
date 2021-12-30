@@ -122,11 +122,11 @@
                       <div class="profile-image-wrapper">
                      
                           	<c:choose>
-								<c:when test="${loginImage == null}">
+								<c:when test="${memberProfileNo == null}">
 									<img src="https://via.placeholder.com/120x120?text=User" class="profile-image">
 								</c:when>
 								<c:otherwise>
-									<img src="${root}/member/profile?memberProfileNo=${loginImage}" class="profile-image">
+									<img src="${root}/member/profile?memberProfileNo=${memberProfileNo}" class="profile-image">
 								</c:otherwise>
 							</c:choose>
 							
@@ -140,11 +140,11 @@
                           <div class="profile-image">
                           
                            	<c:choose>
-								<c:when test="${loginImage == null}">
+								<c:when test="${memberProfileNo == null}">
 									<img src="https://via.placeholder.com/120x120?text=User" class="profile-image">
 								</c:when>
 								<c:otherwise>
-									<img src="${root}/member/profile?memberProfileNo=${loginImage}" class="profile-image">
+									<img src="${root}/member/profile?memberProfileNo=${memberProfileNo}" class="profile-image">
 								</c:otherwise>
 							</c:choose>
 							

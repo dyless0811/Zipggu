@@ -1,9 +1,9 @@
 package com.kh.zipggu.controller;
 
-
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
-
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -35,11 +36,13 @@ import com.kh.zipggu.service.EmailService;
 import com.kh.zipggu.entity.CertificationDto;
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
+import com.kh.zipggu.entity.SnsDto;
 import com.kh.zipggu.naver.NaverLoginBO;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
 import com.kh.zipggu.service.MemberService;
 import com.kh.zipggu.vo.MemberJoinVO;
+import com.kh.zipggu.vo.MemberUploadVO;
 import com.kh.zipggu.vo.NaverMemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -66,8 +69,6 @@ public class MemberController {
 
 	@Autowired
 	JavaMailSenderImpl mailSender;
-	
-	
 
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -102,11 +103,9 @@ public class MemberController {
 			session.setAttribute("loginEmail", findDto.getMemberEmail());
 			session.setAttribute("loginNick", findDto.getMemberNickname());
 			session.setAttribute("loginGrade", findDto.getMemberGrade());
-			
+
 			MemberProfileDto memberProfileDto = memberProfileDao.noGet(findDto.getMemberNo());
 
-
-			
 			// 쿠키와 관련된 아이디 저장하기 처리
 			if (saveId != null) {// 체크 했다면(saveId값이 전송되었다면)
 				// 생성
@@ -269,10 +268,10 @@ public class MemberController {
 	public String mypage(HttpSession session, Model model) {
 		String memberEmail = (String) session.getAttribute("loginEmail");
 		int memberNo = (int) session.getAttribute("loginNo");
-		
+
 		MemberDto memberDto = memberDao.get(memberEmail);
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
-		
+
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberProfileDto", memberProfileDto);
 
@@ -436,31 +435,73 @@ public class MemberController {
 
 	@GetMapping("/profileEdit")
 	public String profileEdit(HttpSession session, Model model) {
-		String memberEmail = (String) session.getAttribute("loginEmail");
 		int memberNo = (int) session.getAttribute("loginNo");
-		MemberDto memberDto = memberDao.get(memberEmail);
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
-	
-		model.addAttribute("memberDto", memberDto);
+
 		model.addAttribute("memberProfileDto", memberProfileDto);
-		
+
 		return "member/profileEdit";
-	
+
 	}
 
 	@PostMapping("/profileEdit")
-	public String profileEdit(@ModelAttribute MemberDto memberDto, HttpSession session) {
+	public String profileEdit(@ModelAttribute MemberJoinVO memberJoinVO, HttpSession session)
+			throws IllegalStateException, IOException {
+		return "redirect:profileEdit?error";
+	}
+
+	// 프로필 이미지 삭제
+	@GetMapping("/delete")
+	public String delete(@RequestParam int memberProfileNo) {
+
+		memberProfileDao.delete(memberProfileNo);
+
+		return "redirect:/mypage";
+	}
+
+	// 프로필 이미지 등록
+	@GetMapping("/upload")
+	public String upload(HttpSession session, Model model) {
 		String memberEmail = (String) session.getAttribute("loginEmail");
-		memberDto.setMemberEmail(memberEmail);
+		int memberNo = (int) session.getAttribute("loginNo");
 
-		boolean result = memberDao.changeInformation(memberDto);
-		if (result) {
-			return "redirect:profileEdit_success";
-		} else {
-			return "redirect:profileEdit?error";
-		}
-	}	
+		MemberDto memberDto = memberDao.get(memberEmail);
+		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+
+		model.addAttribute("memberDto", memberDto);
+		model.addAttribute("memberProfileDto", memberProfileDto);
+
+		return "member/upload";
+	}
+
+	@PostMapping("/upload")
+	public String upload(@ModelAttribute MemberUploadVO memberUploadVO, HttpSession session)
+			throws IllegalStateException, IOException {
+		int memberNo = (int) session.getAttribute("loginNo");
+
+		memberService.upload(memberUploadVO, memberNo);
+		return "redirect:/member/mypage";
+	}
+
+//	
+//	// 프로필 수정
+//	@GetMapping("/edit")
+//	public String edit(@RequestParam int memberProfileNo, Model model) {
+//		
+//		//수정 페이지에서 작성한 내용을 보여주기 위해 넘어온 게시글 번호로 단일조회
+//		model.addAttribute("MemberProfileDto", memberProfileDao.get(memberProfileNo));
+//	
+//		return "member/edit";
+//	}	
+//		
+//	@PostMapping("/edit")
+//	public String edit(@ModelAttribute MemberProfileDto memberProfileDto) throws IllegalStateException, IOException {
+//		
+//		//파일이 변경될 수 있으니 같이 수정처리 해준다
+//		memberService.edit(memberUploadVO, attach);
+//		return "redirect:member/edit";
+//	}	
+//	
+//	
 	
-
-
 }

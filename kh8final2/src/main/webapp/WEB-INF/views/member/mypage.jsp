@@ -77,8 +77,8 @@ li {
 									<dt class="statsAttributeValue">6</dt>
 								</dl>
 								<a href="edit" class="a-border">설정</a>
-								<a href="profileInsert" class="a-border">프로필등록</a>
-								<a href="#" class="a-border">프로필수정</a>
+								<a href="upload" class="a-border">프로필등록</a>
+								<a href="profileEdit" class="a-border">프로필삭제</a>
 							</div>
 						</div>
 

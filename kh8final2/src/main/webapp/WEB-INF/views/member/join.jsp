@@ -50,154 +50,63 @@
 
 
 <script>
-	function emailCheck() {
-		var regex = /^[0-9a-zA-Z]([-]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-		var input = document.querySelector("input[name=memberEmail]");
-		var notice = input.nextElementSibling;
-
-		if (input.value.length == 0 || regex.test(input.value)) {
-			notice.textContent = "";
-			return true;
-		} else {
-			notice.textContent = "이메일 형식이 올바르지 않습니다";
-			return false;
-		}
-	}
-
-
-	function pwCheck() {
-		var regex = /^[A-Za-z0-9!@#$\s_-]{8,16}$/;
-		var input = document.querySelector("input[name=memberPw]");
-		var notice = input.nextElementSibling;
-
-		if (regex.test(input.value)) {
-			notice.textContent = "";
-			return true;
-		} else {
-			notice.textContent = "비밀번호는 8~16자 이내의 영문,숫자,특수문자로 작성하세요";
-			return false;
-		}
-	}
-
-	function pw2Check() {
-		//비밀번호 확인은 비밀번호 입력창 2개가 필요하다.
-		var pwInput = document.querySelector("input[name=memberPw]");
-		var pw2Input = document.querySelector("input[name=memberPw2]");
-		var notice = pw2Input.nextElementSibling;
-		//비밀번호 일치 = 입력창이 비어있지 않고 두 비밀번호 입력값이 같은 경우
-		if (pwInput.value.length > 0 && pwInput.value == pw2Input.value) {
-			notice.textContent = "";
-			return true;
-		} else {
-			notice.textContent = "비밀번호가 일치하지 않습니다";
-			return false;
-		}
-	}
-
-	function nicknameCheck() {
-		var regex = /^[가-힣0-9]{2,10}$/;
-		var input = document.querySelector("input[name=memberNickname]");
-		var notice = input.nextElementSibling;
-
-		if (regex.test(input.value)) {
-			notice.textContent = "";
-			return true;
-		} else {
-			notice.textContent = "닉네임은 한글, 숫자 2~10자로 작성하세요";
-			return false;
-		}
-	}
-
-	function serialCheck() {
-		var regex = /^[0-9]{6,6}$/;
-		var input = document.querySelector("input[name=serial]");
-		var notice = input.nextElementSibling;
-
-		if (regex.test(input.value)) {
-			notice.textContent = "";
-			return true;
-		} else {
-			notice.textContent = "이메일 인증을 완료해주세요.";
-			return false;
-		}
-	}
-
-	function formCheck() {
-		return emailCheck() && pwCheck() && pw2Check() && nicknameCheck() && serialCheck();
-	}
-	
-</script>
-
-
-
-<script>
-	/* 인증번호 전송 */
 
 	$(function() {
 
+		var checkCode = false;
+		
+	/* 인증번호 전송 */
+
+
+
 		var number = "";
-
-		$("#emailChk")
-				.click(
-						function() {
-
+		
+		$("#emailChk").click(function(e) {
+			e.preventDefault();
+			
 							var memberEmail = $("#email").val();
-							$
-									.ajax({
+							$.ajax({
 
-										url : "${pageContext.request.contextPath}/member/mailCheck?memberEmail="
-												+ memberEmail,
+										url : "${pageContext.request.contextPath}/member/mailCheck?memberEmail=" + memberEmail,
 										type : "get",
 										dataType : "text",
 										success : function(data) {
 											if (data == "error") {
-												// 						$("#email").attr("autofocus",true);
-// 												$(".successEmail").text(
-// 														"유효한 이메일 주소를 입력해주세요.");
-// 												$(".successEmail").css("color",
-// 														"red");
+												$("#email").attr("disabled", false);
+												$("#emailChk").attr("disabled", false);
+												
 											} else {
-												$("#emailChk2").attr(
-														"disabled", false);
-												$("#emailChk2").css("display",
-														"inline-block");
-												$(".successEmail").css(
-														"display", "none")
-												$(".disNone").css("display",
-														"inline-block")
-												$("#emailChk2").attr(
-														"disabled", false);
-												$("#serialChk").attr(
-														"readonly", false);
-												$("#timerC").css("display",
-														"inline-block");
-												// 		        		$("#spanC").empty();''
-
-												number = data;
+												$("#emailChk2").css("display","inline-block");
+												$(".successEmail").css("display", "none")
+												$(".disNone").css("display","inline-block")
+												$("#emailChk2").attr("disabled", false);
+												$("#serialChk").attr("readonly", false);
+												$("#timerC").css("display","inline-block");
+												
+												checkCode = false;
+												
+												number = data;			
 											}
 										}
 
 									});
 						});
 
+		
 		/* 인증번호 비교 */
-		$("#emailChk2")
-				.click(
-						function() {
-
+		$("#emailChk2").click(function(e) {
+			e.preventDefault();
 							var memberEmail = $("#email").val();
 							var serial = $("#serialChk").val();
 
-							$
-									.ajax({
-										url : "${pageContext.request.contextPath}/member/serialCheck?memberEmail="
-												+ memberEmail
-												+ "&serial="
-												+ serial,
+							$.ajax({
+										url : "${pageContext.request.contextPath}/member/serialCheck?memberEmail=" + memberEmail + "&serial=" + serial,
 										type : "get",
 										dataType : "text",
+										async: false,
 										success : function(data) {
-
+									
+											if (data != "" || serial != "") {		
 											if (data == serial) {
 												$(".successEmail").attr("disabled", true);
 												$("#emailChk2").attr("disabled", true);
@@ -208,27 +117,88 @@
 												$(".inputTop").attr("disabled",true)
 												$(".successEmailChk").css("display", "none");
 												$("#serialForm").css("display", "none");
-												$("#emailChk").text("이메일 인증 완료");
-												position : inherit;
-										
-
-
+												$("#emailChk").text("이메일 인증 완료");			
+												checkCode = true;
+												
+												console.log(checkCode);
+												
+											} else {
+												
+												$(".successEmailChk").text("인증번호가 일치하지 않습니다.");
+												$(".successEmailChk").css("color", "red");
+												$("#serialChk").attr("autofocus", true);				
+												checkCode = false;
+												console.log(checkCode);
 											}
-
-											else {
-												$(".successEmailChk").text(
-														"인증번호가 일치하지 않습니다.");
-												$(".successEmailChk").css(
-														"color", "red");
-												$("#serialChk").attr(
-														"autofocus", true);
-											}
-
+										}		
 										}
-									});
+									});					
 						});
+ 	});		
+	
+		function emailCheck() {
+			var regex = /^[0-9a-zA-Z]([-]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+			var input = document.querySelector("input[name=memberEmail]");
+			var notice = input.nextElementSibling;
 
-	});
+			if (input.value.length == 0 || regex.test(input.value)) {
+				notice.textContent = "";
+				return true;
+			} else {
+				notice.textContent = "이메일 형식이 올바르지 않습니다";
+				return false;
+			}
+		}
+
+
+		function pwCheck() {
+			var regex = /^[A-Za-z0-9!@#$\s_-]{8,16}$/;
+			var input = document.querySelector("input[name=memberPw]");
+			var notice = input.nextElementSibling;
+
+			if (regex.test(input.value)) {
+				notice.textContent = "";
+				return true;
+			} else {
+				notice.textContent = "비밀번호는 8~16자 이내의 영문,숫자,특수문자로 작성하세요";
+				return false;
+			}
+		}
+
+		function pw2Check() {
+			//비밀번호 확인은 비밀번호 입력창 2개가 필요하다.
+			var pwInput = document.querySelector("input[name=memberPw]");
+			var pw2Input = document.querySelector("input[name=memberPw2]");
+			var notice = pw2Input.nextElementSibling;
+			//비밀번호 일치 = 입력창이 비어있지 않고 두 비밀번호 입력값이 같은 경우
+			if (pwInput.value.length > 0 && pwInput.value == pw2Input.value) {
+				notice.textContent = "";
+				return true;
+			} else {
+				notice.textContent = "비밀번호가 일치하지 않습니다";
+				return false;
+			}
+		}
+
+		function nicknameCheck() {
+			var regex = /^[가-힣0-9]{2,10}$/;
+			var input = document.querySelector("input[name=memberNickname]");
+			var notice = input.nextElementSibling;
+
+			if (regex.test(input.value)) {
+				notice.textContent = "";
+				return true;
+			} else {
+				notice.textContent = "닉네임은 한글, 숫자 2~10자로 작성하세요";
+				return false;
+			}
+		}
+
+		
+		function formCheck() {
+			return emailCheck() && pwCheck() && pw2Check() && nicknameCheck();
+		}	
+				
 </script>
 
 <script>
@@ -267,8 +237,10 @@
 			// 타이머 끝
 			if (--count < 0) {
 				clearInterval(timer);
-				display.html("시간 초과");
-				$('.btn_chk').attr("disabled", "disabled");
+				display.html("시간초과");
+				$(".btn_chk").attr("disabled", true);
+				$("#serialChk").attr("disabled", true);
+				$("#serialChk").css("background", "#fff");
 				isRunning = false;
 			}
 		}, 1000);
@@ -420,18 +392,18 @@
 .sighForm {
 	display: flex;
 	width: 400px;
-    margin: 0 auto;
-    padding: 60px 0;
+	margin: 0 auto;
+	padding: 60px 0;
 }
 
 body {
-	overflow-y:scroll;
-	 }
+	overflow-y: scroll;
+}
 </style>
 
 </head>
 
-<body >
+<body>
 
 	<main>
 
@@ -439,8 +411,9 @@ body {
 
 			<div class="sighForm">
 
-				<form method="post" enctype="multipart/form-data" onsubmit="return formCheck();">
-					
+				<form method="post" enctype="multipart/form-data"
+					onsubmit="return formCheck();">
+
 					<div class="row center">
 						<h1 class="title-h1">회원가입</h1>
 					</div>
@@ -455,7 +428,7 @@ body {
 										d="M0 24C0 10.745 10.745 0 24 0s24 10.745 24 24-10.745 24-24 24S0 37.255 0 24z"></path>
 									<path fill="#3C2929"
 										d="M24 11.277c8.284 0 15 5.306 15 11.85 0 6.545-6.716 11.85-15 11.85-.92 0-1.822-.066-2.697-.191l-6.081 4.105a.43.43 0 0 1-.674-.476l1.414-5.282C11.777 31.031 9 27.335 9 23.127c0-6.544 6.716-11.85 15-11.85zm6.22 8.407c-.416 0-.718.297-.718.707v5.939c0 .41.289.686.718.686.41 0 .718-.295.718-.686v-1.932l.515-.526 1.885 2.57c.277.374.426.54.691.568.037.003.075.005.112.005.154 0 .66-.04.716-.563.038-.293-.137-.52-.348-.796l-2.043-2.675 1.727-1.743.176-.196c.234-.26.353-.39.353-.587.009-.422-.34-.652-.687-.661-.274 0-.457.15-.57.262l-2.528 2.634v-2.3c0-.422-.288-.706-.717-.706zm-9.364 0c-.56 0-.918.432-1.067.837l-2.083 5.517a.84.84 0 0 0-.065.315c0 .372.31.663.706.663.359 0 .578-.162.69-.51l.321-.97h2.999l.313.982c.111.335.34.498.7.498.367 0 .655-.273.655-.62 0-.056-.017-.196-.081-.369l-2.019-5.508c-.187-.53-.577-.835-1.069-.835zm-2.92.064h-4.452c-.417 0-.642.337-.642.654 0 .3.168.652.642.652h1.51v5.21c0 .464.274.752.716.752.443 0 .718-.288.718-.751v-5.21h1.508c.474 0 .643-.352.643-.653 0-.317-.225-.654-.643-.654zm7.554-.064c-.442 0-.717.287-.717.75v5.707c0 .497.28.794.75.794h2.674c.434 0 .677-.321.686-.627a.642.642 0 0 0-.17-.479c-.122-.13-.3-.2-.516-.2h-1.99v-5.195c0-.463-.274-.75-.717-.75zm-4.628 1.306l.008.01 1.083 3.265h-2.192L20.842 21a.015.015 0 0 1 .028 0z"></path></g></svg></a>
-								<a class="snsItem" href="${naverAuthUrl}"><svg width="48"
+							<a class="snsItem" href="${naverAuthUrl}"><svg width="48"
 									height="48" viewBox="0 0 48 48"
 									preserveAspectRatio="xMidYMid meet">
 									<g fill="none" fill-rule="evenodd">
@@ -469,33 +442,39 @@ body {
 					</div>
 
 					<div class="row">
-						<label class="title-type">이메일</label>
-						<input type="email" name="memberEmail" placeholder="이메일" autocomplete="off"  class="inputItemJ" id="email" onkeyup="emailCheck();">
+						<label class="title-type">이메일</label> <input type="email"
+							name="memberEmail" placeholder="이메일" autocomplete="off"
+							class="inputItemJ" id="email" required onblur="emailCheck();">
 						<div class="notice"></div>
 					</div>
-					<div class="div-button">
-						<button type="button" class="email-button doubleChk btn_recive_num" id="emailChk">이메일 인증하기</button>
-						<span class="point successEmail"></span>
-					</div>
+					
+<!-- 					<div class="div-button"> -->
+<!-- 						<button type="button" -->
+<!-- 							class="email-button doubleChk btn_recive_num" id="emailChk">이메일 -->
+<!-- 							인증하기</button> -->
+<!-- 						<span class="point successEmail"></span> -->
+<!-- 					</div> -->
 
 
-					<div class="serialForm disNone" id="serialForm">
-						<div class="sWrapper">
-							<div class="sMessage">이메일로 전송된 인증코드를 입력해주세요.</div>
-							<div class="inputContainer">
-								<div class="inputTop">
-									<input id="serialChk" type="text" name="serial" 
-										readonly placeholder="인증번호 6자리 입력" required class="inputSerial" autocomplete="off" maxlength="6" onkeyup="serialCheck();">
-										<span class="timer" id="timerC">00:00</span>
-									<button type="button" class="oKButton doubleChk btn_chk" id="emailChk2" disabled>확인</button>
-								</div>
-								<div class="errorMessage">
-									<span class="point successEmailChk" id="spanC"></span>
-								</div>
-							</div>
-						</div>
-						<div class="resendWrapper"></div>
-					</div>
+<!-- 					<div class="serialForm disNone" id="serialForm"> -->
+<!-- 						<div class="sWrapper"> -->
+<!-- 							<div class="sMessage">이메일로 전송된 인증코드를 입력해주세요.</div> -->
+<!-- 							<div class="inputContainer"> -->
+<!-- 								<div class="inputTop"> -->
+<!-- 									<input id="serialChk" type="text" name="serial" readonly -->
+<!-- 										placeholder="인증번호 6자리 입력" required class="inputSerial" -->
+<!-- 										autocomplete="off" maxlength="6" > -->
+<!-- 									<span class="timer" id="timerC">00:00</span> -->
+<!-- 									<button type="button" class="oKButton doubleChk btn_chk" -->
+<!-- 										id="emailChk2" disabled>확인</button> -->
+<!-- 								</div> -->
+<!-- 								<div class="errorMessage"> -->
+<!-- 									<span class="point successEmailChk" id="spanC"></span> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="resendWrapper"></div> -->
+<!-- 					</div> -->
 
 
 
@@ -503,7 +482,9 @@ body {
 						<div class="row">
 							<label class="title-type">비밀번호</label>
 							<div class="title-text">영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</div>
-							<input type="password" name="memberPw" placeholder="비밀번호" autocomplete="off" maxlength='16' class="inputItemJ" onkeyup="pwCheck();">
+							<input type="password" name="memberPw" placeholder="비밀번호"
+								autocomplete="off" maxlength='16' class="inputItemJ" required
+								onkeyup="pwCheck();">
 							<div class="notice"></div>
 						</div>
 					</div>
@@ -511,7 +492,7 @@ body {
 						<div class="row">
 							<label class="title-type">비빌번호 확인</label> <input type="password"
 								name="memberPw2" placeholder="비밀번호 확인" autocomplete="off"
-								maxlength='16' class="inputItemJ" onkeyup="pw2Check();">
+								maxlength='16' class="inputItemJ" required onkeyup="pw2Check();">
 							<div class="notice"></div>
 						</div>
 					</div>
@@ -520,19 +501,19 @@ body {
 							<label class="title-type">닉네임</label>
 							<div class="title-text">다른 유저와 겹치지 않는 별명을 입력해주세요. (2~10자)</div>
 							<input type="text" name="memberNickname" placeholder="별명 (2~10자)"
-								autocomplete="off" maxlength='10' class="inputItemJ"
+								autocomplete="off" maxlength='10' class="inputItemJ" required
 								onkeyup="nicknameCheck();">
 							<div class="notice"></div>
 						</div>
-						
+
 					</div>
 					<div class="bodyForm">
 						<div class="row">
-							<label class="title-type">프로필 이미지</label>
-						<input type="file" name="attach" accept="image/*" class="form-input">
+							<label class="title-type">프로필 이미지</label> <input type="file"
+								name="attach" accept="image/*" class="form-input">
 						</div>
 					</div>
-					
+
 					<div class="bodyForm">
 						<div class="checkForm">
 							<div class="row">
