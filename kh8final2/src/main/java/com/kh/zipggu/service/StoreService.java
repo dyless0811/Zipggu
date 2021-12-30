@@ -3,6 +3,9 @@ package com.kh.zipggu.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ResponseEntity;
+
 import com.kh.zipggu.entity.ItemDto;
 import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.vo.StoreListVO;

@@ -167,7 +167,59 @@
           console.log("submit!!");
           form.submit();
         });
+        
+        var sel_files = [];
+      	$("input[name=attach]").on("change", handleImgsFilesSelect);
       });
+      
+      
+      function handleImgsFilesSelect(e) {
+
+   	    sel_files = [];
+   	    $("#result").empty();
+
+   	    var files = e.target.files;
+   	    var filesArr = Array.prototype.slice.call(files);
+
+
+   	    var index = 0;
+   	    filesArr.forEach(function(f){
+   	        if(!f.type.match("image.*")){
+   	            alert("확장자는 이미지 확장자만 가능합니다.");
+   	            return;
+   	        }
+
+   	        sel_files.push(f);
+
+   	        var reader = new FileReader();
+   	        reader.onload = function(e) {
+   	            var html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+index+")\" id=\"img_id_"+index+"\"><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selProductFile' title='Click to remove'></a>";
+   	            $("#result").append(html);
+   	            index++;
+
+   	          }
+   	          reader.readAsDataURL(f);
+   	        });
+    	}
+
+    	function deleteImageAction(index){
+    	  console.log("index : " + index);
+    	  sel_files.splice();
+    		
+
+    		  
+    	  var img_id = "#img_id_" + index;
+    	  var del = $(img_id).remove();
+
+
+
+    	  if(del){
+    		  $("input[name=attach]").val("");
+    		  $("#result").empty();
+    	  }
+
+    	  console.log(sel_files);
+    	}
     </script>
 
 
