@@ -4,7 +4,7 @@
 
 
 <h1>이 곳이 내 집이다</h1>
-<h2>공백</h2>
+<h2><a href="${pageContext.request.contextPath}/admin">공백</a></h2>
 <h2>공백</h2>
 <h2>공백</h2>
 <h2>공백</h2>

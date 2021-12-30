@@ -6,7 +6,7 @@
 <div class="container-zipggu">
 	<h1>아이템 디테일</h1>
 	
-	thumbnail = <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}"><Br>
+	thumbnail = <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}" style="max-width:300px"><Br>
 	
 	itemNo = ${itemDto.itemNo} <br>
 	categoryNo = ${itemDto.categoryNo} <br>
@@ -16,7 +16,7 @@
 	
 	image = 
 	<c:forEach var="itemFileDto" items="#{itemFileDtoList}">
-		<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}" style="width:800px"><br>
+		<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}" style="max-width:300px"><br>
 	</c:forEach>
 	
 	<c:forEach var="map" items="${itemOptionGroupMap}" varStatus="status">

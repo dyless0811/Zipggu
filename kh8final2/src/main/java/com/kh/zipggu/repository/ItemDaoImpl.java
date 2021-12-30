@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.zipggu.entity.ItemDto;
 import com.kh.zipggu.entity.ItemOptionDto;
+import com.kh.zipggu.vo.ItemListVO;
+import com.kh.zipggu.vo.ItemSearchVO;
 import com.kh.zipggu.vo.StoreListVO;
 
 @Repository
@@ -39,5 +41,10 @@ public class ItemDaoImpl implements ItemDao {
 		param.put("startRow", startRow);
 		param.put("endRow", endRow);
 		return sqlSession.selectList("item.listByPage", param);
+	}
+
+	@Override
+	public List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO) {
+		return sqlSession.selectList("item.listBySearchVO", itemSearchVO);
 	}
 }

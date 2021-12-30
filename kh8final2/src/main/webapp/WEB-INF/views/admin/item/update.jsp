@@ -233,7 +233,7 @@
 
 
     <div class="container-zipggu">
-      <h1>상품 등록</h1>
+      <h1>상품 수정</h1>
       <hr />
       <form class="result-form" method="post" enctype="multipart/form-data">
       <div class="row">

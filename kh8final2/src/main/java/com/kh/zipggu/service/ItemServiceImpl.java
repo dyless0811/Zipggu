@@ -23,6 +23,8 @@ import com.kh.zipggu.repository.ItemDao;
 import com.kh.zipggu.repository.ItemFileDao;
 import com.kh.zipggu.repository.ItemOptionDao;
 import com.kh.zipggu.vo.ItemInsertVO;
+import com.kh.zipggu.vo.ItemListVO;
+import com.kh.zipggu.vo.ItemSearchVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +45,7 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int insert(ItemInsertVO itemInsertVo, List<MultipartFile> attach) throws IllegalStateException, IOException {
+	public int insert(ItemInsertVO itemInsertVo, MultipartFile thumbnail, List<MultipartFile> attach) throws IllegalStateException, IOException {
 		int itemNo = itemDao.sequance();
 		
 		ItemDto itemDto = new ItemDto();
@@ -71,35 +73,37 @@ public class ItemServiceImpl implements ItemService {
 				itemOptionDao.insert(itemOptionDto);
 			}			
 		}
-		
-		int thumbnail = 1;
+		itemFileInsert(itemNo, thumbnail, true);
 		//다중 첨부파일이 때문에 반복문으로 꺼내기
 		for(MultipartFile file : attach) {
-			
-			//만약 파일이 있다면
-			if(!file.isEmpty()) {
-				
-				//등록페이지에서 넘어오는 정보만 snsFileDto 객체에 정보 담아Dao로 보내기
-				//(여기서는 정보만 담아 보낸다)
-				int itemFileNo = itemFileDao.getSeq();
-				
-				File target = new File(directory, String.valueOf(itemFileNo));
-				file.transferTo(target);
-				
-				ItemFileDto itemFileDto = new ItemFileDto();
-				itemFileDto.setItemFileNo(itemFileNo);
-				itemFileDto.setItemNo(itemNo);
-				itemFileDto.setItemFileUploadname(file.getOriginalFilename());
-				itemFileDto.setItemFileSavename(String.valueOf(itemFileNo));
-				itemFileDto.setItemFileSize(file.getSize());
-				itemFileDto.setItemFileType(file.getContentType());
-				itemFileDto.setItemFileThumbnail(thumbnail);
-				//snsFileDao로 보내주고 등록 시작
-				itemFileDao.insert(itemFileDto);
-				thumbnail = 0;
-			}		
+			itemFileInsert(itemNo, file, false);		
 		}
 		return itemNo;
+	}
+
+	private void itemFileInsert(int itemNo, MultipartFile file, boolean isThumbnail) throws IOException {
+		int thumbnail = isThumbnail ? 1 : 0;
+		//만약 파일이 있다면
+		if(!file.isEmpty()) {
+			
+			//등록페이지에서 넘어오는 정보만 snsFileDto 객체에 정보 담아Dao로 보내기
+			//(여기서는 정보만 담아 보낸다)
+			int itemFileNo = itemFileDao.getSeq();
+			
+			File target = new File(directory, String.valueOf(itemFileNo));
+			file.transferTo(target);
+			
+			ItemFileDto itemFileDto = new ItemFileDto();
+			itemFileDto.setItemFileNo(itemFileNo);
+			itemFileDto.setItemNo(itemNo);
+			itemFileDto.setItemFileUploadname(file.getOriginalFilename());
+			itemFileDto.setItemFileSavename(String.valueOf(itemFileNo));
+			itemFileDto.setItemFileSize(file.getSize());
+			itemFileDto.setItemFileType(file.getContentType());
+			itemFileDto.setItemFileThumbnail(thumbnail);
+			//snsFileDao로 보내주고 등록 시작
+			itemFileDao.insert(itemFileDto);
+		}
 	}
 	
 	@Override
@@ -141,6 +145,16 @@ public class ItemServiceImpl implements ItemService {
 						.header("content-Encoding", "UTF-8")
 						.contentLength(itemFileDto.getItemFileSize())
 						.body(resource);
+	}
+
+	@Override
+	public ItemDto get(int itemNo) {
+		return itemDao.get(itemNo);
+	}
+
+	@Override
+	public List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO) {
+		return itemDao.listBySearchVO(itemSearchVO);
 	}
 
 }

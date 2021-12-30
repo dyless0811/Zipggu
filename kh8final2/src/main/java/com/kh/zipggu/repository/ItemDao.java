@@ -3,6 +3,8 @@ package com.kh.zipggu.repository;
 import java.util.List;
 
 import com.kh.zipggu.entity.ItemDto;
+import com.kh.zipggu.vo.ItemListVO;
+import com.kh.zipggu.vo.ItemSearchVO;
 import com.kh.zipggu.vo.StoreListVO;
 
 public interface ItemDao {
@@ -14,4 +16,5 @@ public interface ItemDao {
 	ItemDto get(int itemNo);
 	
 	List<StoreListVO> listByPage(int startRow, int endRow);
+	List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO);
 }
