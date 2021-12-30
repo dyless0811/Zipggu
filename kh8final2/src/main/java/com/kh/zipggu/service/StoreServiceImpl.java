@@ -64,6 +64,18 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<StoreListVO> getStoreList(int startRow, int endRow) {
 		return itemDao.listByPage(startRow, endRow);
-	}	
+	}
+
+	@Override
+	public List<ItemFileDto> fileListByItemNo(int itemNo) {
+		return itemFileDao.fileListByItemNo(itemNo);
+	}
+
+	@Override
+	public List<ItemFileDto> nonThumbnailListByItemNo(int itemNo) {
+		return itemFileDao.nonThumbnailListByItemNo(itemNo);
+	}
+	
+	
 	
 }

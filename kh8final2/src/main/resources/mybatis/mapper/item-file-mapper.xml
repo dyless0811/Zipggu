@@ -18,12 +18,26 @@
 		select item_file_seq.nextval from dual
 	</select>
 	
+	<select id="get" parameterType="int" resultType="ItemFileDto">
+		select * from item_file where item_file_no = #{itemFileNo}
+	</select>
+	
 	<select id="getThumbnail" parameterType="int" resultType="ItemFileDto">
 		select * from item_file where item_no = #{itemNo} and item_file_thumbnail = 1
+	</select>
+	
+	<select id="listByItemNo" parameterType="int" resultType="ItemFileDto">
+		select * from item_file where item_no = #{itemNo}
+	</select>
+	
+	<select id="nonThumbnailListByItemNo" parameterType="int" resultType="ItemFileDto">
+		select * from item_file where item_no = #{itemNo} and item_file_thumbnail = 0
 	</select>
 	
 	<insert id="insert" parameterType="ItemFileDto">
 		insert into item_file values(#{itemFileNo}, #{itemNo}, #{itemFileUploadname}, #{itemFileSavename}, #{itemFileSize}, #{itemFileType}, #{itemFileThumbnail}, 'N')
 	</insert>
+	
+	
 	
 </mapper> 

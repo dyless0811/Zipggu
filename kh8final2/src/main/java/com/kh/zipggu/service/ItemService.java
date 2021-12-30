@@ -13,4 +13,6 @@ public interface ItemService {
 	int insert(ItemInsertVO itemInsertVo, List<MultipartFile> attach) throws IllegalStateException, IOException;
 
 	ResponseEntity<ByteArrayResource> getThumbnail(int itemNo) throws IOException;
+
+	ResponseEntity<ByteArrayResource> getFile(int itemFileNo) throws IOException;
 }

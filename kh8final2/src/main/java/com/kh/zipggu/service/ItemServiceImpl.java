@@ -83,7 +83,7 @@ public class ItemServiceImpl implements ItemService {
 				//(여기서는 정보만 담아 보낸다)
 				int itemFileNo = itemFileDao.getSeq();
 				
-				File target = new File(directory, String.valueOf(itemFileDao));
+				File target = new File(directory, String.valueOf(itemFileNo));
 				file.transferTo(target);
 				
 				ItemFileDto itemFileDto = new ItemFileDto();
@@ -106,6 +106,26 @@ public class ItemServiceImpl implements ItemService {
 	public ResponseEntity<ByteArrayResource> getThumbnail(int itemNo) throws IOException {
 		
 		ItemFileDto itemFileDto = itemFileDao.getThumnail(itemNo);
+		
+		//ItemNo로 실제 파일 정보를 불러온다
+		File target = new File(directory, String.valueOf(itemFileDto.getItemFileNo()));
+		byte[] data = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(data); 
+		
+		String encodeName = URLEncoder.encode(itemFileDto.getItemFileUploadname(), "UTF-8");
+		encodeName = encodeName.replace("+", "%20");
+		
+		return ResponseEntity.ok()
+						.contentType(MediaType.APPLICATION_OCTET_STREAM)
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+encodeName+"\"")
+						.header("content-Encoding", "UTF-8")
+						.contentLength(itemFileDto.getItemFileSize())
+						.body(resource);
+	}
+
+	@Override
+	public ResponseEntity<ByteArrayResource> getFile(int itemFileNo) throws IOException {
+		ItemFileDto itemFileDto = itemFileDao.get(itemFileNo);
 		
 		//ItemNo로 실제 파일 정보를 불러온다
 		File target = new File(directory, String.valueOf(itemFileDto.getItemFileNo()));

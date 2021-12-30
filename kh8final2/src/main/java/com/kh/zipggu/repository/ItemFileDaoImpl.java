@@ -1,5 +1,7 @@
 package com.kh.zipggu.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,6 +29,22 @@ public class ItemFileDaoImpl implements ItemFileDao {
 	@Override
 	public ItemFileDto getThumnail(int itemNo) {
 		return sqlSession.selectOne("itemFile.getThumbnail", itemNo);
+	}
+
+	@Override
+	public ItemFileDto get(int itemFileNo) {
+		return sqlSession.selectOne("itemFile.get", itemFileNo);
+	}
+
+	@Override
+	public List<ItemFileDto> fileListByItemNo(int itemNo) {
+		return sqlSession.selectList("itemFile.listByItemNo", itemNo);
+	}
+
+	@Override
+	public List<ItemFileDto> nonThumbnailListByItemNo(int itemNo) {
+		
+		return sqlSession.selectList("itemFile.nonThumbnailListByItemNo", itemNo);
 	}
 
 }

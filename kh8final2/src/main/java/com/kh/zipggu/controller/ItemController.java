@@ -21,10 +21,16 @@ public class ItemController {
 	@Autowired
 	private ItemService itemService;
 	
-	//목록 페이지 썸네일을 위한 다운로드 기능
+	//아이템 썸네일 다운로드 기능
 	@GetMapping("/thumbnail")
 	@ResponseBody
 	public ResponseEntity<ByteArrayResource> thumnail(@RequestParam int itemNo) throws IOException{
 		return itemService.getThumbnail(itemNo);
+	}
+	//아이템 이미지 다운로드 기능
+	@GetMapping("/image")
+	@ResponseBody
+	public ResponseEntity<ByteArrayResource> image(@RequestParam int itemFileNo) throws IOException{
+		return itemService.getFile(itemFileNo);
 	}
 }
