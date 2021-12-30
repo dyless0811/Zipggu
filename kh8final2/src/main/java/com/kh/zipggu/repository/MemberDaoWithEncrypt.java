@@ -101,7 +101,12 @@ public class MemberDaoWithEncrypt implements MemberDao {
 
 	@Override
 	public MemberDto noGet(int memberNo) {
-		return sqlSession.selectOne("member.get", memberNo);
+		return sqlSession.selectOne("member.noGet", memberNo);
+	}
+
+	@Override
+	public void edit(MemberDto memberDto) {
+					sqlSession.update("member.edit", memberDto);			
 	}
 
 }

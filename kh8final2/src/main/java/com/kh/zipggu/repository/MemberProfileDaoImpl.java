@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
+import com.kh.zipggu.entity.SnsDto;
 import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberUploadVO;
 
@@ -67,12 +68,12 @@ public class MemberProfileDaoImpl implements MemberProfileDao{
 
 	@Override
 	public MemberProfileDto noGet(int memberNo) {
-		return sqlSession.selectOne("memberProfile.getByNo", memberNo);
+		return sqlSession.selectOne("memberProfile.noGet", memberNo);
 	}
 
 	@Override
-	public void delete(int memberProfileNo) {
-		sqlSession.delete("memberProfile.delete",memberProfileNo);
+	public void delete(int memberNo) {
+		sqlSession.delete("memberProfile.delete",memberNo);
 		}
 
 	@Override
@@ -90,8 +91,12 @@ public class MemberProfileDaoImpl implements MemberProfileDao{
 		sqlSession.insert("memberProfile.save", memberProfileDto);
 	}
 
+	@Override
+	public void edit(MemberProfileDto memberProfileDto) {
+		sqlSession.update("memberProfile.edit", memberProfileDto);
+	}
 
-		
+
 
 
 }

@@ -433,75 +433,77 @@ public class MemberController {
 
 	}
 
-	@GetMapping("/profileEdit")
-	public String profileEdit(HttpSession session, Model model) {
-		int memberNo = (int) session.getAttribute("loginNo");
-		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
-
-		model.addAttribute("memberProfileDto", memberProfileDto);
-
-		return "member/profileEdit";
-
-	}
-
-	@PostMapping("/profileEdit")
-	public String profileEdit(@ModelAttribute MemberJoinVO memberJoinVO, HttpSession session)
-			throws IllegalStateException, IOException {
-		return "redirect:profileEdit?error";
-	}
-
 	// 프로필 이미지 삭제
-	@GetMapping("/delete")
-	public String delete(@RequestParam int memberProfileNo) {
+	@GetMapping("/profileDelete")
+	public String profileDelete(@RequestParam int memberNo) {
 
-		memberProfileDao.delete(memberProfileNo);
-
-		return "redirect:/mypage";
+		memberProfileDao.delete(memberNo);
+		
+		return "redirect:profileEdit";
 	}
 
+//	@GetMapping("/profileEdit2")
+//	public String profileEdit2(HttpSession session, Model model) {
+//		int memberNo = (int) session.getAttribute("loginNo");
+//		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+//
+//		model.addAttribute("memberProfileDto", memberProfileDto);
+//
+//		return "member/profileEdit2";
+//
+//	}
+//
+//	@PostMapping("/profileEdit2")
+//	public String profileEdit2(@ModelAttribute MemberJoinVO memberJoinVO, HttpSession session)
+//			throws IllegalStateException, IOException {
+//		return "redirect:profileEdit2";
+//	}
+	
+	
 	// 프로필 이미지 등록
-	@GetMapping("/upload")
-	public String upload(HttpSession session, Model model) {
-		String memberEmail = (String) session.getAttribute("loginEmail");
-		int memberNo = (int) session.getAttribute("loginNo");
+//	@GetMapping("/upload")
+//	public String upload(HttpSession session, Model model) {
+//		String memberEmail = (String) session.getAttribute("loginEmail");
+//		int memberNo = (int) session.getAttribute("loginNo");
+//
+//		MemberDto memberDto = memberDao.get(memberEmail);
+//		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+//
+//		model.addAttribute("memberDto", memberDto);
+//		model.addAttribute("memberProfileDto", memberProfileDto);
+//
+//		return "member/upload";
+//	}
 
-		MemberDto memberDto = memberDao.get(memberEmail);
+	
+//	@PostMapping("/upload")
+//	public String upload(@ModelAttribute MemberUploadVO memberUploadVO, HttpSession session) throws IllegalStateException, IOException {
+//		int memberNo = (int) session.getAttribute("loginNo");
+//
+//		memberService.upload(memberUploadVO, memberNo);
+//		return "redirect:upload";
+//	}
+
+	// 프로필 수정
+	@GetMapping("/profileEdit")
+	public String profileEdit(Model model, HttpSession session) {
+		
+		int memberNo = (int)session.getAttribute("loginNo");
+		MemberDto memberDto = memberDao.noGet(memberNo);
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
 
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberProfileDto", memberProfileDto);
-
-		return "member/upload";
+		return "member/profileEdit";
 	}
 
-	@PostMapping("/upload")
-	public String upload(@ModelAttribute MemberUploadVO memberUploadVO, HttpSession session)
-			throws IllegalStateException, IOException {
-		int memberNo = (int) session.getAttribute("loginNo");
+	@PostMapping("/profileEdit")
+	public String profileEdit(@ModelAttribute MemberDto memberDto, MultipartFile attach) throws IllegalStateException, IOException {
+		
 
-		memberService.upload(memberUploadVO, memberNo);
-		return "redirect:/member/mypage";
+		memberService.edit(memberDto, attach);
+		
+		return "redirect:profileEdit";
 	}
 
-//	
-//	// 프로필 수정
-//	@GetMapping("/edit")
-//	public String edit(@RequestParam int memberProfileNo, Model model) {
-//		
-//		//수정 페이지에서 작성한 내용을 보여주기 위해 넘어온 게시글 번호로 단일조회
-//		model.addAttribute("MemberProfileDto", memberProfileDao.get(memberProfileNo));
-//	
-//		return "member/edit";
-//	}	
-//		
-//	@PostMapping("/edit")
-//	public String edit(@ModelAttribute MemberProfileDto memberProfileDto) throws IllegalStateException, IOException {
-//		
-//		//파일이 변경될 수 있으니 같이 수정처리 해준다
-//		memberService.edit(memberUploadVO, attach);
-//		return "redirect:member/edit";
-//	}	
-//	
-//	
-	
 }

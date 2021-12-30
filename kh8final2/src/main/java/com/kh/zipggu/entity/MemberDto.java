@@ -13,8 +13,6 @@ public class MemberDto {
 	private Date memberJoin;
 	private int memberPoint;
 	private String memberGrade;
-	private String birthday;
-	private String birthyear;
-
+	private String memberIntroduce;
 
 }
