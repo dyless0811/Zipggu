@@ -105,7 +105,7 @@ public class MemberController {
 			
 			MemberProfileDto memberProfileDto = memberProfileDao.noGet(findDto.getMemberNo());
 
-			session.setAttribute("loginImage", memberProfileDto.getMemberProfileNo());
+
 			
 			// 쿠키와 관련된 아이디 저장하기 처리
 			if (saveId != null) {// 체크 했다면(saveId값이 전송되었다면)
@@ -231,7 +231,6 @@ public class MemberController {
 		session.removeAttribute("loginEmail");
 		session.removeAttribute("loginNick");
 		session.removeAttribute("loginGrade");
-		session.removeAttribute("loginImage");
 
 		return "redirect:/";
 	}
@@ -435,6 +434,33 @@ public class MemberController {
 
 	}
 
+	@GetMapping("/profileEdit")
+	public String profileEdit(HttpSession session, Model model) {
+		String memberEmail = (String) session.getAttribute("loginEmail");
+		int memberNo = (int) session.getAttribute("loginNo");
+		MemberDto memberDto = memberDao.get(memberEmail);
+		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+	
+		model.addAttribute("memberDto", memberDto);
+		model.addAttribute("memberProfileDto", memberProfileDto);
+		
+		return "member/profileEdit";
+	
+	}
+
+	@PostMapping("/profileEdit")
+	public String profileEdit(@ModelAttribute MemberDto memberDto, HttpSession session) {
+		String memberEmail = (String) session.getAttribute("loginEmail");
+		memberDto.setMemberEmail(memberEmail);
+
+		boolean result = memberDao.changeInformation(memberDto);
+		if (result) {
+			return "redirect:profileEdit_success";
+		} else {
+			return "redirect:profileEdit?error";
+		}
+	}	
+	
 
 
 }
