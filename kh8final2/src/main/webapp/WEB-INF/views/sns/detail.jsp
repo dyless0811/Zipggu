@@ -1,10 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath }"></c:set>
 <c:set var="snsNo" value="${snsDto.snsNo }"></c:set>
 <c:set var="writer" value="${loginNo == snsDto.memberNo }"></c:set>
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+	.profile-image{
+		border-radius: 50%;
+		width:15%;
+		height:15%;
+	}
+	.nick{
+		font-weight: bold;
+		font-size:17px;
+		text-align:left;
+	}
+	.rounded-circle{
+		width:30%;
+	}
+</style>
 <script>
 	//댓글 등록
 	$(function(){
@@ -97,7 +113,7 @@
 					$(".more-btn").show();
 				}
 				
-				
+				console.log(resp);
 				
 				for(var i=0; i<resp.length; i++){
 					
@@ -112,11 +128,23 @@
 					
 					template = template.replace("{{snsReplyDepth}}", resp[i].snsReplyDepth);
 					
+					template = template.replace("{{memberNo}}", resp[i].memberNo);
+					
 					var margin = 20*resp[i].snsReplyDepth;
 					console.log(margin);
 					template = template.replace("{{margin}}", margin);
 					
-				
+					var icon = "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-arrow-return-right' viewBox='0 0 16 16'> <path fill-rule='evenodd' d='M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z'/> </svg>"; 
+					
+					
+					if(resp[i].snsReplyDepth > 0){
+						icon.repeat(resp[i].snsReplyDepth)
+						template = template.replace("{{icon}}", icon.repeat(resp[i].snsReplyDepth));
+					}
+					else{
+						template = template.replace("{{icon}}", "");
+					}
+					
 					
 
 					console.log(10);
@@ -167,15 +195,6 @@
 					reReplyDiv.html(reform);
 					});
 							
-					
-						
-							
-					
-					
-					
-						
-					
-					
 					
 					
 					tag.find(".edit-btn").click(function(){						
@@ -277,16 +296,19 @@
 </script>
 
 
-<h1 class="center">게시글 상세페이지</h1>
 
-	
-<div class="container">
+<div class="container mt-3">
 	<div class="row mt-3">
     	<div class="col">
     	</div>
     	<div class="col-7">
      		<div class="card mb-3">
-     
+
+	     			<div class="nick">
+	     				<img src="${root }/member/profile?memberNo=${snsDto.memberNo}" class="profile-image">
+	     				${snsDto.memberNickname }
+	     			</div>
+     			
      			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 	        		<div class="carousel-indicators">
 	          			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -417,13 +439,13 @@
 		<div class="d-flex mb-4">
 			<!-- Parent comment-->
 			<div class="flex-shrink-0">
-				<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
+				<img class="rounded-circle" src="${root }/member/profile?memberNo={{memberNo}}" alt="...">
 			</div>
 			<div class="ms-3">
 				
 				<span class="reply-no" style="display:none">{{snsReplyNo}}</span>
 				<div class="writer fw-bold">{{writer}}</div>
-				<pre class="replyDetail">{{replyDetail}}</pre>
+				<pre class="replyDetail">{{icon}}&nbsp;{{replyDetail}}</pre>
 				<div>
 				
 							<c:choose>

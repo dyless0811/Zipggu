@@ -4,6 +4,13 @@
 <c:set var="root" value="${pageContext.request.contextPath }"></c:set>
 <script src="${root }/resources/ckeditor5/build/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+	.profile-image{
+		border-radius: 50%;
+		width:15%;
+		height:15%;
+	}
+</style>
 <script>
 	$(function(){
 		var page = 1;
@@ -32,26 +39,29 @@
 						$(".more-btn").remove();
 					}
 					
+					console.log(resp);
+		
 					for(var i=0; i<resp.length; i++){
 						var result = $("#result")
 						var clonedTemplate = $("#sns-template").clone();
 						var templateContent = $(clonedTemplate.html());
-						templateContent.find("a").attr("href", "${pageContext.request.contextPath}/sns/detail?snsNo="+resp[i].snsNo);
+						templateContent.find("#a").attr("href", "${pageContext.request.contextPath}/sns/detail?snsNo="+resp[i].snsNo);
 						templateContent.find("#thumnail").attr("src", "${pageContext.request.contextPath}/sns/thumnail?snsNo="+resp[i].snsNo);
 						var str = resp[i].snsDetail;
 						templateContent.find(".card-text").text(str.substr(-10));
-						templateContent.find("#nickname").text("작성자 : " + resp[i].memberNickname);
+						templateContent.find(".profile-image").attr("src", "${pageContext.request.contextPath}/member/profile?memberNo="+resp[i].memberNo);
+						templateContent.find("#nickname").text(resp[i].memberNickname);
+						
 						var timestamp = resp[i].snsDate;
 						var date = new Date(resp[i].snsDate);
 
 						templateContent.find("#date").text(date.toLocaleString());
 // 						templateContent.find("#like").text(resp[i].snsLike);//좋아요개수
 						templateContent.find("#reply").text(resp[i].snsReplyCount);
-						templateContent.find()
+						
 						clonedTemplate.html(templateContent.prop('outerHTML'));
 						result.append(clonedTemplate.html());
-						
-						
+
 					}
 				},
 				error:function(e){
@@ -95,7 +105,6 @@
            </div>	
 		</div>
 	</div>
-	
     <button type="button" class="btn btn-primary more-btn">더보기</button>
 </div>
 
@@ -105,7 +114,7 @@
       		
             	<div class="col">
                 	<div class="card shadow-sm">
-                		<a href="detail?snsNo=${snsDto.snsNo }">
+                		<a href="detail?snsNo=${snsDto.snsNo }" id="a">
 						<img src="thumnail?snsNo=${snsDto.snsNo}" id="thumnail" class="bd-placeholder-img card-img-top" width="100%" height="225" >
 						</a>
 						<div class="d-flex justify-content-between align-items-center mt-2 ms-3">
@@ -129,22 +138,21 @@
             				</div>
 						<div class="card-body">
   							<div class="card-text">
-  								<div id="content"></div>
-  								<script language="javascript">
-  									var tmpStr = ${snsDto.getSnsDetailSub() };
-  									tmpStr = tmpStr.replaceAll("&lt;", "<");
-  									tmpStr = tmpStr.replaceAll("&gt;", ">");
-  									tmpStr = tmpStr.replaceAll("&amp;lt;", "<");
-  									tmpStr = tmpStr.replaceAll("&amp;gt;", ">");
-  									tmpStr = tmpStr.replaceAll("&amp;nbsp;", " ");
-  									tmpStr = tmpStr.replaceAll("&amp;amp;", "&");
-  									document.getElementById('content').innerHTML=tmpStr;
-  								</script>
+  								<pre id="content">${snsDto.snsDetail }</pre>
   							</div>
-								
-                 				<small class="text-muted" id="nickname">${loginNick }</small>
-                 				<br>
-                 				<small class="text-muted" id="date">dddd</small>
+							<br>
+							<div>
+                 				<!-- 페이지 이동 어디로??????????????????? -->
+               					<a href="${root }/member/mypage">
+               						<img src="profile?memberNo=${memberProfileDto.memberNo}" class="profile-image">
+                 				<small class="text-muted" id="nickname">
+                 					${loginNick }	
+                 				</small>
+               					</a>
+                 			</div>
+                 			<div>
+                 				<div class="text-muted" id="date">dddd</div>
+                 			</div>
           				</div>
         			</div>
       			</div>
