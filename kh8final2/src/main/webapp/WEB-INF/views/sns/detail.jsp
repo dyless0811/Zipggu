@@ -91,7 +91,10 @@
 				console.log("성공", resp);
 				
 				if(resp.length < sizeValue){
-					$(".more-btn").remove();
+					$(".more-btn").hide();
+				}
+				else{
+					$(".more-btn").show();
 				}
 				
 				
@@ -113,10 +116,7 @@
 					console.log(margin);
 					template = template.replace("{{margin}}", margin);
 					
-					if(resp[i].snsReplyDepth){
-						
-					}
-							
+				
 					
 
 					console.log(10);
@@ -139,7 +139,8 @@
 							reform.append("<input type='hidden' name='snsNo' value='"+${snsNo}+"'>");
 							reform.append("</div>");
 							reform.append("<button type='submit' class='btn btn-sm btn-outline-secondary mt-2'>답글등록</button>");
-					
+						
+							
 						reform.submit(function(e){
 							e.preventDefault();
 							
@@ -175,12 +176,7 @@
 						
 					
 					
-					tag.find(".remove-btn").click(function(){
-						console.log($(this).parent().parent().find("span").text());
-						$(this).parent().parent().find("span").text();
-						
-						deleteData($(this).parent().parent().find("span").text());
-					});
+					
 					
 					tag.find(".edit-btn").click(function(){						
 					console.log(11);
@@ -225,6 +221,16 @@
 						var div = $(this).parent();
 						div.html(form);
 					});
+					
+					
+					tag.find(".remove-btn").click(function(){
+						console.log($(this).parent().parent().find("span").text());
+						$(this).parent().parent().find("span").text();
+						
+						deleteData($(this).parent().parent().find("span").text(), snsNo);
+					});
+					
+					
 					$("#result").append(tag);
 					
 					
@@ -238,17 +244,23 @@
 	}
 	
 	//댓글 삭제
-	function deleteData(snsReplyNo){
+	function deleteData(snsReplyNo, snsNo){
 		console.log(10);
 		$.ajax({
-			url:"${pageContext.request.contextPath}/snsReply/delete?snsReplyNo="+snsReplyNo,
+			url:"${pageContext.request.contextPath}/snsReply/delete?snsReplyNo="+snsReplyNo+"&snsNo="+snsNo,
 			type:"delete",
+			data:{
+				snsReplyNo:snsReplyNo,
+				snsNo:snsNo
+			},
 			dataType:"text",
 			success:function(resp){
 				console.log("성공", resp);
 				
 				$("#result").empty();
 				
+				console.log(snsReplyNo);
+				console.log(snsNo);
 				page = 1;
 				loadList(page,size,snsNo);
 				page++;
@@ -410,12 +422,12 @@
 			<div class="ms-3">
 				
 				<span class="reply-no" style="display:none">{{snsReplyNo}}</span>
-				<span class="member-no" style="display:none">${loginNo }</span>
 				<div class="writer fw-bold">{{writer}}</div>
 				<pre class="replyDetail">{{replyDetail}}</pre>
 				<div>
 				
 							<c:choose>
+			
 								<c:when test="${writer }">
 									
 									<button class="edit-btn btn btn-sm btn-outline-secondary" data-sns-reply-no="{{snsReplyNo}}">수정</button>
@@ -428,6 +440,7 @@
 								<c:otherwise>
 									<button class="re-reply btn btn-sm btn-outline-secondary">대댓글</button>
 								</c:otherwise>
+				
 							</c:choose>
 					
 				</div>

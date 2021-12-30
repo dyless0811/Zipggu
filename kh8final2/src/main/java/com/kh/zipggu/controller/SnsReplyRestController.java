@@ -50,9 +50,7 @@ public class SnsReplyRestController {
 			
 			
 		}
-		
-		
-		
+
 		//댓글 등록을 마치고 댓글 개수 갱신
 		snsReplyDao.replyCount(snsNo);
 	}
@@ -73,9 +71,12 @@ public class SnsReplyRestController {
 	
 	//댓글 삭제 기능
 	@DeleteMapping("/delete")
-	public boolean delete(@RequestParam int snsReplyNo) {
+	public void delete(@RequestParam int snsReplyNo,@RequestParam int snsNo) {
 		
-		return snsReplyDao.delete(snsReplyNo);
+		snsReplyDao.delete(snsReplyNo);
+		
+		//댓글 삭제 하고 댓글 개수 갱신
+		snsReplyDao.replyCount(snsNo);
 		
 	}
 	
@@ -84,6 +85,8 @@ public class SnsReplyRestController {
 	public void edit(@ModelAttribute SnsReplyDto snsReplyDto) {
 		
 		snsReplyDao.edit(snsReplyDto);
+		
+		
 	}
 	
 	
