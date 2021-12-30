@@ -5,6 +5,7 @@
 <c:set var="snsNo" value="${snsDto.snsNo }"></c:set>
 <c:set var="writer" value="${loginNo == snsDto.memberNo }"></c:set>
 
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
 	.profile-image{
@@ -122,8 +123,11 @@
 					
 					var template = $("#reply-template").html();
 					
-					
-					template = template.replace("{{writer}}", resp[i].memberNickname);
+					if(resp[i].memberNo = ${loginNo}){
+						template = template.replace("{{writer}}", resp[i].memberNickname+"(작성자)");
+					}else{
+						template = template.replace("{{writer}}", resp[i].memberNickname);
+					}
 				
 					template = template.replace("{{replyDetail}}", resp[i].snsReplyDetail);
 	
