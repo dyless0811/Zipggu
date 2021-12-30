@@ -200,7 +200,7 @@
 					tag.find(".edit-btn").click(function(){						
 					console.log(11);
 					var memberNickname = $(this).parent().prevAll(".writer").text();
-					var snsReplyDetail = $(this).parent().prevAll(".replyDetail").text();
+					var snsReplyDetail = $(this).parent().prevAll(".replyDetail").val();
 					var snsReplyNo = $(this).parent().prevAll(".reply-no").text();
 						var form = $("<form class='mb-4' id='edit-from'>");
 						form.append("<div>");
@@ -438,7 +438,7 @@
 		<!-- 일반 댓글-->
 		<div class="d-flex mb-4">
 			<!-- Parent comment-->
-			<div class="flex-shrink-0">
+			<div class="flex-shrink-0" style="padding: 0; margin-right: -150px;">
 				<img class="rounded-circle" src="${root }/member/profile?memberNo={{memberNo}}" alt="...">
 			</div>
 			<div class="ms-3">
@@ -473,18 +473,7 @@
 
 
 <template>
-	<!-- 대댓글-->
-	<div class="d-flex mt-4">
-		<div class="flex-shrink-0">
-			<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
-		</div>
-		<div class="ms-3">
-				<div class="fw-bold">
-					Commenter Name
-				</div>
-					And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-		</div>
-	</div>
+	
 </template>
 
 
