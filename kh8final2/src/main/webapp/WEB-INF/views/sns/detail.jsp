@@ -55,12 +55,12 @@
 		});
 	});
 	
+
 	//페이징
 	var page = 1;
 	var size = 10;
 	var snsNo = ${snsNo};
 	console.log(snsNo);
-
 		
 		$(function(){
 			console.log(1);
@@ -100,16 +100,141 @@
 					
 					var template = $("#reply-template").html();
 					
+					
 					template = template.replace("{{writer}}", resp[i].memberNickname);
-					template = template.replace("{{replyDetail}}", resp[i].snsReplyDetail);
-					template = template.replace("{{snsReplyNo}}", resp[i].snsReplyNo);
 				
-					$("#result").append(template);
+					template = template.replace("{{replyDetail}}", resp[i].snsReplyDetail);
+	
+					template = template.replace("{{snsReplyNo}}", resp[i].snsReplyNo);
+					
+					template = template.replace("{{snsReplyDepth}}", resp[i].snsReplyDepth);
+					
+					var margin = 20*resp[i].snsReplyDepth;
+					console.log(margin);
+					template = template.replace("{{margin}}", margin);
+					
+					if(resp[i].snsReplyDepth){
+						
+					}
+							
+					
+
+					console.log(10);
+					var tag = $(template);
+					
+					
+					//대댓글
+					tag.find(".re-reply").click(function(){
+
+						var snsReplyNo = $(this).parent().prevAll(".reply-no").text();
+
+							var reform = $("<form class='mb-4' id='re-from'>");
+							reform.append("<div>");
+							reform.append("<textarea class='form-control' rows='1' cols='80' name='snsReplyDetail' id='detail'></textarea>");
+							reform.append("</div>");
+							reform.append("<div>");
+							reform.append("<input type='hidden' name='snsReplySuperno' value='"+snsReplyNo+"'>");
+							reform.append("</div>");
+							reform.append("<div>");
+							reform.append("<input type='hidden' name='snsNo' value='"+${snsNo}+"'>");
+							reform.append("</div>");
+							reform.append("<button type='submit' class='btn btn-sm btn-outline-secondary mt-2'>답글등록</button>");
+					
+						reform.submit(function(e){
+							e.preventDefault();
+							
+							var dataValue = $(this).serialize();
+							
+							$.ajax({
+								url:"${pageContext.request.contextPath}/snsReply/insert",
+								type:"post",
+								data:dataValue,
+								success:function(resp){
+									console.log("성공", resp);
+									
+									$("#result").empty();
+									
+									page = 1;
+									loadList(page,size,snsNo);
+									page++;
+									
+								},
+								error:function(e){}
+							});
+						});
+					var reReplyDiv = $(this).parent();
+					reReplyDiv.html(reform);
+					});
+							
+					
+						
+							
+					
+					
+					
+						
+					
+					
+					tag.find(".remove-btn").click(function(){
+						console.log($(this).parent().parent().find("span").text());
+						$(this).parent().parent().find("span").text();
+						
+						deleteData($(this).parent().parent().find("span").text());
+					});
+					
+					tag.find(".edit-btn").click(function(){						
+					console.log(11);
+					var memberNickname = $(this).parent().prevAll(".writer").text();
+					var snsReplyDetail = $(this).parent().prevAll(".replyDetail").text();
+					var snsReplyNo = $(this).parent().prevAll(".reply-no").text();
+						var form = $("<form class='mb-4' id='edit-from'>");
+						form.append("<div>");
+						form.append("<textarea class='form-control' rows='1' cols='80' name='snsReplyDetail' id='detail'>"+snsReplyDetail+"</textarea>");
+						form.append("</div>");
+						form.append("<div>");
+						form.append("<input type='hidden' name='snsReplyNo' value='"+snsReplyNo+"'>");
+						form.append("</div>");
+						form.append("<button type='submit' class='btn btn-sm btn-outline-secondary mt-2'>수정</button>");
+						
+						
+						form.submit(function(e){
+							e.preventDefault();
+							
+							var dataValue = $(this).serialize();
+							
+							console.log(dataValue);
+							$.ajax({
+								url:"${pageContext.request.contextPath}/snsReply/edit",
+								type:"post",
+								data:dataValue,
+								success:function(resp){
+									console.log("성공", resp);
+								
+									$("#result").empty();
+									
+									page = 1;
+									loadList(page,size,snsNo);
+									page++;
+									
+									
+								},
+								error:function(e){}
+							});
+						});	
+						
+						var div = $(this).parent();
+						div.html(form);
+					});
+					$("#result").append(tag);
+					
+					
+					
 				}
 				
 			},
 			error:function(e){}
 		});
+		
 	}
 	
 	//댓글 삭제
@@ -271,9 +396,11 @@
 		</div>
 	</div>
 </div>
+
+
 		
 <template id="reply-template">
-	<div class="reply">
+	<div class="reply" style="margin-left:{{margin}}px">
 		<!-- 일반 댓글-->
 		<div class="d-flex mb-4">
 			<!-- Parent comment-->
@@ -281,19 +408,28 @@
 				<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
 			</div>
 			<div class="ms-3">
-				<div class="fw-bold" id="writer">{{writer}}</div>
-				<pre id="replyDetail">{{replyDetail}}</pre>
+				
+				<span class="reply-no" style="display:none">{{snsReplyNo}}</span>
+				<span class="member-no" style="display:none">${loginNo }</span>
+				<div class="writer fw-bold">{{writer}}</div>
+				<pre class="replyDetail">{{replyDetail}}</pre>
 				<div>
-					<c:choose>
-						<c:when test="${writer }">
-							<button class="btn btn-sm btn-outline-secondary">수정</button>
-							<button onclick="deleteData({{snsReplyNo}});" class="btn btn-sm btn-outline-secondary">삭제</button>
-							<button class="btn btn-sm btn-outline-secondary">대댓글</button>
-						</c:when>
-						<c:otherwise>
-							<button class="btn btn-sm btn-outline-secondary">대댓글</button>
-						</c:otherwise>
-					</c:choose>
+				
+							<c:choose>
+								<c:when test="${writer }">
+									
+									<button class="edit-btn btn btn-sm btn-outline-secondary" data-sns-reply-no="{{snsReplyNo}}">수정</button>
+									
+									
+									
+									<button class="remove-btn btn btn-sm btn-outline-secondary">삭제</button>
+									<button class="re-reply btn btn-sm btn-outline-secondary">대댓글</button>
+								</c:when>
+								<c:otherwise>
+									<button class="re-reply btn btn-sm btn-outline-secondary">대댓글</button>
+								</c:otherwise>
+							</c:choose>
+					
 				</div>
 			</div>		
 		</div>
@@ -303,17 +439,17 @@
 
 <template>
 	<!-- 대댓글-->
-				<div class="d-flex mt-4">
-					<div class="flex-shrink-0">
-						<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
-					</div>
-					<div class="ms-3">
-							<div class="fw-bold">
-								Commenter Name
-							</div>
-								And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-					</div>
+	<div class="d-flex mt-4">
+		<div class="flex-shrink-0">
+			<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
+		</div>
+		<div class="ms-3">
+				<div class="fw-bold">
+					Commenter Name
 				</div>
+					And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
+		</div>
+	</div>
 </template>
 
 
