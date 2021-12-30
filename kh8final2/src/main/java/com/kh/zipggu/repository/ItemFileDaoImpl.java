@@ -26,7 +26,7 @@ public class ItemFileDaoImpl implements ItemFileDao {
 
 	@Override
 	public ItemFileDto getThumnail(int itemNo) {
-		return sqlSession.selectOne("itemFile.getThumbnail");
+		return sqlSession.selectOne("itemFile.getThumbnail", itemNo);
 	}
 
 }
