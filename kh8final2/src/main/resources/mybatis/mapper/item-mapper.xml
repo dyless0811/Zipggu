@@ -36,4 +36,41 @@
 	<insert id="insert" parameterType="ItemDto">
 		insert into item values(#{itemNo}, #{categoryNo}, #{itemName}, #{itemPrice} ,#{itemShippingType})
 	</insert>
+	
+	<select id="listBySearchVO" parameterType="map" resultType="ItemListVO">
+		select c.category_no category_no, c.category_name category_name, i.item_no item_no, i.item_name item_name, i.item_price item_price, i.item_shipping_type item_shipping_type from item i inner join category c on c.category_no = i.category_no
+			<where>
+				<if test="categoryNo > 0">
+					and category_no = #{categoryNo}
+				</if>
+				<if test="categoryName != null">
+					and instr(category_name, #{categoryName}) > 0
+				</if>
+				<if test="itemNo > 0">
+					and item_no = #{itemNo}
+				</if>
+				<if test="itemName != null">
+					and instr(item_name, #{itemName}) > 0
+				</if>
+				<choose>
+					<when test="minPrice != null and maxPrice > 0">
+						and item_price between #{minPrice} and #{maxPrice}
+					</when>
+					<when test="maxPrice > 0">
+						<![CDATA[			
+						and item_price <= #{maxPrice}
+						]]>
+					</when>
+				</choose>
+				<if test="itemShippingType != null">
+					and item_shipping_type = #{itemShippingType}
+				</if>
+			</where>
+			<if test="orders != null and orders.size() > 0">
+				order by 
+				<foreach item="vo" collection="orders" separator=",">
+					${vo.order} ${vo.sort}
+				</foreach>
+			</if>
+	</select>
 </mapper> 

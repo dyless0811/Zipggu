@@ -7,7 +7,7 @@
       <h1>관리자 페이지</h1>
       <hr />
       <ul>
-        <li>상품 설정</li>
+        <li><a href="admin/item">상품 설정</a></li>
         <li>회원 설정</li>
         <li>게시글 설정</li>
       </ul>

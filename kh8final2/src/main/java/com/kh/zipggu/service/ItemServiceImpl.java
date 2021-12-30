@@ -23,6 +23,8 @@ import com.kh.zipggu.repository.ItemDao;
 import com.kh.zipggu.repository.ItemFileDao;
 import com.kh.zipggu.repository.ItemOptionDao;
 import com.kh.zipggu.vo.ItemInsertVO;
+import com.kh.zipggu.vo.ItemListVO;
+import com.kh.zipggu.vo.ItemSearchVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -143,6 +145,16 @@ public class ItemServiceImpl implements ItemService {
 						.header("content-Encoding", "UTF-8")
 						.contentLength(itemFileDto.getItemFileSize())
 						.body(resource);
+	}
+
+	@Override
+	public ItemDto get(int itemNo) {
+		return itemDao.get(itemNo);
+	}
+
+	@Override
+	public List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO) {
+		return itemDao.listBySearchVO(itemSearchVO);
 	}
 
 }

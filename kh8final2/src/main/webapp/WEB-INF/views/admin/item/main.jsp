@@ -6,8 +6,9 @@
 		<h1>상품 설정</h1>
 		<hr>
 		<ul>
-			<li>카테고리  설정</li>
-			<li>상품 등록</li>
+			<li><a href="item/category">카테고리  설정</a></li>
+			<li><a href="item/insert">상품 등록</a></li>
+			<li><a href="item/list">상품 목록</a></li>
 		</ul>
 	</div>
 
