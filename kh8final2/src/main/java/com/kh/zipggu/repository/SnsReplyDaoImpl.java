@@ -33,6 +33,7 @@ public class SnsReplyDaoImpl implements SnsReplyDao{
 			SnsReplyDto reply = sqlSession.selectOne("snsReply.get",snsReplyDto.getSnsReplySuperno());
 			
 			//그룹 번호등록 및 차수 1증가
+			snsReplyDto.setSnsReplySuperno(reply.getSnsReplyNo());
 			snsReplyDto.setSnsReplyGroupno(reply.getSnsReplyGroupno());
 			snsReplyDto.setSnsReplyDepth(reply.getSnsReplyDepth()+1);
 			
@@ -84,6 +85,13 @@ public class SnsReplyDaoImpl implements SnsReplyDao{
 		int a = sqlSession.update("snsReply.replyCount", snsNo); 
 		
 		System.out.println(a);
+	}
+	
+	@Override
+	public void edit(SnsReplyDto snsReplyDto) {
+		
+		sqlSession.update("snsReply.edit", snsReplyDto);
+		
 	}
 	
 }

@@ -26,7 +26,7 @@
 		insert into sns_reply values
 		(#{snsReplyNo}, #{memberNo}, #{snsNo}, 
 		 #{snsReplyDetail}, sysdate, #{snsReplySuperno} , 
-		 #{snsReplyNo}, #{snsReplyDepth}
+		 #{snsReplyGroupno}, #{snsReplyDepth}
 		)
 	</insert>
 	
@@ -42,13 +42,15 @@
 	
 	<!-- 페이징 목록 기능 -->
 	<select id="listByPage" parameterType="map" resultType="snsReplyListVO">
-		select * from (
-			select rownum rn, TMP.* from (
-				select * from sns_reply S left outer join member M on S.member_no = M.member_no 
-				where S.sns_no = #{snsNo}
-				order by sns_reply_no desc
-			)TMP
-		) where rn between #{startRow} and #{endRow}
+	select * from (
+    	select rownum rn, TMP.* from (
+        	select S.*, M.member_nickname from sns_reply S left outer join member M on S.member_no = M.member_no
+       		where S.sns_no = #{snsNo}
+       		connect by prior S.sns_reply_no = S.sns_reply_superno
+        	start with S.sns_reply_superno is null
+        	order siblings by S.sns_reply_groupno desc, S.sns_reply_no asc
+    	)TMP
+	) where rn between ${startRow} and ${endRow}
 	</select>
 	
 	<!-- 댓글 삭제 기능 -->
@@ -59,6 +61,11 @@
 	<!-- 댓글 갯수 갱신 기능 -->
 	<update id="replyCount" parameterType="int">
 		update sns set sns_reply_count = (select count(*) from sns_reply where sns_no = #{snsNo}) where sns_no = #{snsNo}
+	</update>
+	
+	<!-- 댓글 수정 기능 -->
+	<update id="edit" parameterType="snsReplyDto">
+		update sns_reply set sns_reply_detail=#{snsReplyDetail} where sns_reply_no = #{snsReplyNo}
 	</update>
 	
 </mapper> 

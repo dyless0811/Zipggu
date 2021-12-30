@@ -35,13 +35,23 @@ public class SnsReplyRestController {
 	@PostMapping("/insert")
 	public void insert(@ModelAttribute SnsReplyDto snsReplyDto, HttpSession session, @RequestParam int snsNo) {
 		
-		System.out.println(snsReplyDto.getSnsNo());
-		System.out.println(snsNo);
-		snsReplyDto.setSnsNo(snsNo);
-		snsReplyDto.setMemberNo((int)session.getAttribute("loginNo"));
+		if(snsReplyDto.getSnsReplySuperno() > 0) {
+			snsReplyDto.setSnsNo(snsNo);
+			snsReplyDto.setMemberNo((int)session.getAttribute("loginNo"));
+			
+			snsReplyDao.insert(snsReplyDto);
+		}
+		else {
+			snsReplyDto.setSnsNo(snsNo);
+			snsReplyDto.setMemberNo((int)session.getAttribute("loginNo"));
+			
+			//댓글 등록
+			snsReplyDao.insert(snsReplyDto);
+			
+			
+		}
 		
-		//댓글 등록
-		snsReplyDao.insert(snsReplyDto);
+		
 		
 		//댓글 등록을 마치고 댓글 개수 갱신
 		snsReplyDao.replyCount(snsNo);
@@ -68,4 +78,14 @@ public class SnsReplyRestController {
 		return snsReplyDao.delete(snsReplyNo);
 		
 	}
+	
+	//댓글 수정
+	@PostMapping("/edit")
+	public void edit(@ModelAttribute SnsReplyDto snsReplyDto) {
+		
+		snsReplyDao.edit(snsReplyDto);
+	}
+	
+	
+	
 }
