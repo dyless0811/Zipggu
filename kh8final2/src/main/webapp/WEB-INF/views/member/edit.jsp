@@ -53,25 +53,29 @@
 	<div class="row float-container">
 
 
-		<div class="float-item-left">
+<!-- 		<div class="float-item-left"> -->
 			
-      <div class="row">
+<!--       <div class="row"> -->
       	
-        <label for="date" class="form-label mt-4">프로필 이미지 </label>
-        <input type="file" name="attach" accept="image/*" class="form-input">
-        <button type ="button">
-        <c:choose>
-            <c:when test="${memberProfileDto == null}">
-            <img src="https://via.placeholder.com/300x300?text=User" width="100%" class="image image-border">
-            </c:when>
-            <c:otherwise>
-            <img src="profile?memberProfileNo=${memberProfileDto.memberProfileNo}" width="100%" class="image image-border">
-            </c:otherwise>
-        </c:choose>
-        </button>
-        </div>
+<!--         <label for="date" class="form-label mt-4">프로필 이미지 </label> -->
+<!--         <input type="file" name="attach" accept="image/*" class="form-input"> -->
+<!--         <button type ="button"> -->
+<!--        						<div class="profileImageContainer">  -->
+<%-- 							<c:choose> --%>
+<%-- 								<c:when test="${memberProfileDto == null}"> --%>
+<!-- 									<img src="https://via.placeholder.com/120x120?text=User" -->
+<!-- 										class="profileImage"> -->
+<%-- 								</c:when> --%>
+<%-- 								<c:otherwise> --%>
+<!-- 									<img -->
+<%-- 										src="profile?memberProfileNo=${memberProfileDto.memberProfileNo}" width="100%" height="100%" class="profileImage"> --%>
+<%-- 								</c:otherwise> --%>
+<%-- 							</c:choose> --%>
+<!-- 						</div> -->
+<!--         </button> -->
+<!--         </div> -->
         
-        </div>
+<!--         </div> -->
     </div>
       <div class="form-group">
         <label for="exampleTextarea" class="form-label mt-4">한줄소개</label>
