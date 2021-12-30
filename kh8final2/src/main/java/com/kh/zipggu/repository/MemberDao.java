@@ -20,6 +20,9 @@ public interface MemberDao {
 	//비밀번호 변경
 	boolean changePassword(String memberEmail, String memberPw, String changePw);
 	
+	//회원 정보 변경
+	void edit(MemberDto memberDto);
+	
 	//개인정보 변경
 	boolean changeInformation(MemberDto memberDto);
 	

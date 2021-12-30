@@ -94,6 +94,29 @@
 			where member_email = #{memberEmail}
 	</update>
 
+
+
+	<update id="edit" parameterType="MemberDto">
+		update member
+<!-- 		set을 이용하여 수정항목을 동적으로 배치(단 마지막 콤마는 반드시 작성) -->
+		<set>
+			<if test="memberNickname != null">
+				member_nickname = #{memberNickname},
+			</if>
+<!-- 			<if test="memberGender != null"> -->
+<!-- 				member_gender = #{memberGender}, -->
+<!-- 			</if> -->
+<!-- 			<if test="memberBirth != null"> -->
+<!-- 				member_birth = #{memberBirth}, -->
+<!-- 			</if> -->
+			<if test="memberIntroduce != null">
+				member_introduce = #{memberIntroduce}
+			</if>
+		</set>
+			where member_no = #{memberNo}
+	</update>
+
+
 <!-- 회원 탈퇴 -->
 	<delete id="quit" parameterType="String">
 		delete member where member_email = #{memberEmail}

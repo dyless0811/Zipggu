@@ -8,4 +8,9 @@ import lombok.Data;
 public class MemberUploadVO {
 	private int memberNo;
 	private MultipartFile attach;
+	private int memberProfileNo;
+	private String memberProfileUploadname;
+	private String memberProfileSavename;
+	private long memberProfileSize;
+	private String memberProfileType;
 }
