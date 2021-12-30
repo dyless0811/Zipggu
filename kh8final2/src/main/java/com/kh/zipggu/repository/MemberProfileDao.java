@@ -9,7 +9,7 @@ public interface MemberProfileDao {
 	void save(MemberProfileDto memberProfileDto, MultipartFile multipartFile) throws IllegalStateException, IOException;
 	MemberProfileDto get(int memberProfileNo);
 	MemberProfileDto noGet(int memberNo);
-	byte[] load(int memberProfileNo) throws IOException;
+	byte[] load(int memberNo) throws IOException;
 	
 	void delete(int memberProfileNo);
 	

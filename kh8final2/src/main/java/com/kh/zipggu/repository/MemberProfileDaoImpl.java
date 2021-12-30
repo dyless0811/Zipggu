@@ -59,8 +59,8 @@ public class MemberProfileDaoImpl implements MemberProfileDao{
 	}
 
 	@Override
-	public byte[] load(int memberProfileNo) throws IOException {
-		File target = new File(directory, String.valueOf(memberProfileNo));
+	public byte[] load(int memberNo) throws IOException {
+		File target = new File(directory, String.valueOf(memberNo));
 		byte[] data = FileUtils.readFileToByteArray(target);
 		return data;
 	}

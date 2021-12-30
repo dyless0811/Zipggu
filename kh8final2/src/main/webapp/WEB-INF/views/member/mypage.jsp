@@ -57,7 +57,7 @@ li {
 								</c:when>
 								<c:otherwise>
 									<img
-										src="profile?memberProfileNo=${memberProfileDto.memberProfileNo}" width="100%" height="100%" class="profileImage">
+										src="profile?memberNo=${memberProfileDto.memberNo}" width="100%" height="100%" class="profileImage">
 								</c:otherwise>
 							</c:choose>
 						</div>

@@ -361,13 +361,13 @@ public class MemberController {
 //	= ByteArrayResource는 바이트 배열 형태의 자원을 담을 수 있는 Spring 도구
 	@GetMapping("/profile")
 	@ResponseBody // 이 메소드만큼은 뷰 리졸버를 쓰지 않겠다
-	public ResponseEntity<ByteArrayResource> profile(@RequestParam int memberProfileNo) throws IOException {
+	public ResponseEntity<ByteArrayResource> profile(@RequestParam int memberNo) throws IOException {
 
 		// 프로필번호(memberProfileNo)로 프로필 이미지 파일정보를 구한다.
-		MemberProfileDto memberProfileDto = memberProfileDao.get(memberProfileNo);
+		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
 
 		// 프로필번호(memberProfileNo)로 실제 파일 정보를 불러온다
-		byte[] data = memberProfileDao.load(memberProfileNo);
+		byte[] data = memberProfileDao.load(memberProfileDto.getMemberProfileNo());
 		ByteArrayResource resource = new ByteArrayResource(data);
 
 		String encodeName = URLEncoder.encode(memberProfileDto.getMemberProfileUploadname(), "UTF-8");
