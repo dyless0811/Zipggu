@@ -22,4 +22,6 @@ public interface ItemService {
 	ItemDto get(int itemNo);
 
 	List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO);
+
+	ResponseEntity<ByteArrayResource> getDummy() throws IOException;
 }

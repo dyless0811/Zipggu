@@ -37,11 +37,14 @@
 		insert into item values(#{itemNo}, #{categoryNo}, #{itemName}, #{itemPrice} ,#{itemShippingType})
 	</insert>
 	
-	<select id="listBySearchVO" parameterType="map" resultType="ItemListVO">
+	<select id="listBySearchVO" parameterType="ItemSearchVO" resultType="ItemListVO">
+			select * from (
+		    select rownum rn, TMP.* from (
+	
 		select c.category_no category_no, c.category_name category_name, i.item_no item_no, i.item_name item_name, i.item_price item_price, i.item_shipping_type item_shipping_type from item i inner join category c on c.category_no = i.category_no
 			<where>
 				<if test="categoryNo > 0">
-					and category_no = #{categoryNo}
+					and c.category_no = #{categoryNo}
 				</if>
 				<if test="categoryName != null">
 					and instr(category_name, #{categoryName}) > 0
@@ -66,11 +69,11 @@
 					and item_shipping_type = #{itemShippingType}
 				</if>
 			</where>
-			<if test="orders != null and orders.size() > 0">
-				order by 
-				<foreach item="vo" collection="orders" separator=",">
-					${vo.order} ${vo.sort}
-				</foreach>
+			<if test="order != null and sort != null">
+				order by ${order} ${sort}
 			</if>
+			
+					    )TMP
+		) where rn between ${startRow} and ${endRow}
 	</select>
 </mapper> 

@@ -107,9 +107,32 @@ public class ItemServiceImpl implements ItemService {
 	}
 	
 	@Override
+	public ResponseEntity<ByteArrayResource> getDummy() throws IOException {
+		
+		
+		//ItemNo로 실제 파일 정보를 불러온다
+		File target = new File(directory, "dummy");
+
+		byte[] data = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(data); 
+		
+		String encodeName = URLEncoder.encode("dummy.png", "UTF-8");
+		encodeName = encodeName.replace("+", "%20");
+		
+		return ResponseEntity.ok()
+				.contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+encodeName+"\"")
+				.header("content-Encoding", "UTF-8")
+				.contentLength(1132)
+				.body(resource);
+	}
+	@Override
 	public ResponseEntity<ByteArrayResource> getThumbnail(int itemNo) throws IOException {
 		
 		ItemFileDto itemFileDto = itemFileDao.getThumnail(itemNo);
+		if(itemFileDto == null) {
+			return getDummy();
+		}
 		
 		//ItemNo로 실제 파일 정보를 불러온다
 		File target = new File(directory, String.valueOf(itemFileDto.getItemFileNo()));
