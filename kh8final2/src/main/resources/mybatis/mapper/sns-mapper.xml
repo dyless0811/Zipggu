@@ -49,6 +49,13 @@
 		delete sns where sns_no = #{snsNo}
 	</delete>
 	
+	<!-- 남의 글일 경우에만 조회수를 증가하는 기능 -->
+	<update id="readUp" parameterType="map">
+		update sns set sns_count = sns_count +1 where sns_no = #{snsNo}
+		<if test="memberNo != null">
+		and member_no != ${memberNo}
+		</if>
+	</update>
 	
 	
 </mapper> 

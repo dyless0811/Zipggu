@@ -4,7 +4,8 @@
 <c:set var="root" value="${pageContext.request.contextPath }"></c:set>
 <c:set var="snsNo" value="${snsDto.snsNo }"></c:set>
 <c:set var="writer" value="${loginNo == snsDto.memberNo }"></c:set>
-
+<c:set var="login" value="${loginNo != null}"></c:set>
+<c:set var="loginNo" value="${loginNo}"></c:set>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
@@ -123,11 +124,23 @@
 					
 					var template = $("#reply-template").html();
 					
-					if(resp[i].memberNo = ${loginNo}){
+					var loginNo = "${loginNo}";
+					
+					console.log("loginNo",loginNo);
+					
+					if(loginNo == ""){
+						loginNo = 0;
+					}
+					
+					
+					if(resp[i].memberNo == loginNo){
 						template = template.replace("{{writer}}", resp[i].memberNickname+"(작성자)");
-					}else{
+					}
+					else{
 						template = template.replace("{{writer}}", resp[i].memberNickname);
 					}
+					
+					
 				
 					template = template.replace("{{replyDetail}}", resp[i].snsReplyDetail);
 	
@@ -300,6 +313,83 @@
 			$("#detail").focus();
 		});
 	});
+	
+	
+	
+	function snsLike(snsNo){
+			var snsNo = ${snsNo}
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath}/sns/data/like",
+				type:"get",
+				data:{
+					snsNo:snsNo
+				},
+				success:function(resp){
+					console.log("좋아요 성공", resp);
+					$(".like").css("color", "red");
+				
+					$(".me-auto").text("좋아요").css("color", "red");
+					$(".toast-body").text(snsNo + "게시글에 좋아요 하셨습니다.");
+				},
+				error:function(e){}
+				
+			});
+		}
+	
+	
+	//좋아요 삭제
+	function deleteLike(snsNo){
+		
+		var snsNo = ${snsNo}
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/sns/data/delete?snsNo="+snsNo,
+			type:"delete",
+			data:{
+				snsNo:snsNo
+			},
+			dataType:"text",
+			success:function(resp){
+				console.log("좋아요 취소 성공", resp);
+				$(".like").css("color", "black");
+				
+				$(".me-auto").text("좋아요 취소");
+				$(".toast-body").text(snsNo + "게시글에 좋아요 취소 하셨습니다.");
+			},
+			error:function(e){}
+		});
+	}
+	
+	
+	
+	$(function(){
+		$(".likebtn").click(function(e){
+			if(!${login}){
+				
+				
+				e.preventDefault();
+				
+				
+			}
+			
+			var snsNo = ${snsNo}
+				
+			var stylecolor =$(".like").css("color"); 
+			console.log(stylecolor);
+			console.log(stylecolor == "rgb(0, 0, 0)");
+			 
+			if(stylecolor == "rgb(0, 0, 0)"){
+				snsLike(snsNo);
+				
+			}
+			else{
+				deleteLike(snsNo);
+			}
+			
+		});
+	});
+	
 </script>
 
 
@@ -355,13 +445,45 @@
 
 				<!-- 버튼 -->	
 				<div class="card-body">
- 					<button type="button" class="btn btn-sm btn-outline-secondary" id="liveToastBtn">
+ 					<button  id="liveToastBtn" type="button" class="likebtn btn btn-sm btn-outline-secondary">
            				<!-- 좋아요 아이콘 -->
-               			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-							<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-						</svg>
+           			<c:choose>
+           				<c:when test="${snsLikeDto == null}">
+	               			<svg xmlns="http://www.w3.org/2000/svg" style="color:black" width="16" height="16" fill="currentColor" class="like bi bi-heart-fill" viewBox="0 0 16 16">
+							  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+							</svg>
+						</c:when>
+						<c:otherwise>
+							<svg xmlns="http://www.w3.org/2000/svg" style="color:red" width="16" height="16" fill="currentColor" class="like bi bi-heart-fill" viewBox="0 0 16 16">
+							  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+							</svg>
+						</c:otherwise>
+					</c:choose>
            			</button>
            			
+           			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+					  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+					    <div class="toast-header">
+					      <img src="http://placeimg.com/20/20/arch" class="rounded me-2" alt="...">
+					      <strong class="me-auto"><a href="${pageContext.request.contextPath }/member/login">로그인 하러가기</a></strong>
+					      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+					    </div>
+					    <div class="toast-body">
+					      	로그인 후 좋아요 가능합니다.
+					    </div>
+					  </div>
+					</div>
+					<script>
+					    var toastTrigger = document.getElementById('liveToastBtn')
+					    var toastLiveExample = document.getElementById('liveToast')
+					    if (toastTrigger) {
+					    toastTrigger.addEventListener('click', function () {
+					        var toast = new bootstrap.Toast(toastLiveExample)
+					
+					        toast.show()
+					    })
+					    }
+					</script>
             		&nbsp;&nbsp;
             		
            			<button id="replybtn" type="button" class="btn btn-sm btn-outline-secondary">

@@ -84,6 +84,7 @@ public class SnsReplyRestController {
 	@PostMapping("/edit")
 	public void edit(@ModelAttribute SnsReplyDto snsReplyDto) {
 		
+		
 		snsReplyDao.edit(snsReplyDto);
 		
 		

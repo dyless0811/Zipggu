@@ -62,6 +62,7 @@ public class SnsDaoImpl implements SnsDao{
 		
 	}
 	
+	//페이징 목록 기능
 	@Override
 	public List<SnsListVO> listByPage(int startRow, int endRow) {
 		
@@ -75,5 +76,20 @@ public class SnsDaoImpl implements SnsDao{
 		return sqlSession.selectList("sns.listByPage", param);
 	}
 	
+	//조회수 증가기능
+	@Override
+	public void readUp(int snsNo, int memberNo) {
+		
+		Map<String, Object>param = new HashMap<>();
+		param.put("snsNo", snsNo);
+		
+		if(memberNo != 0) {
+			param.put("memberNo", memberNo);
+		}
+		
+		sqlSession.update("sns.readUp", param);
+		
+		
+	}
 
 }

@@ -3,7 +3,7 @@ package com.kh.zipggu.entity;
 import lombok.Data;
 
 @Data
-public class SnsLike {
+public class SnsLikeDto {
 	
 	private int memberNo;
 	private int snsNo;
