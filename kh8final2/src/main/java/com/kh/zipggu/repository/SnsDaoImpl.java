@@ -91,5 +91,8 @@ public class SnsDaoImpl implements SnsDao{
 		
 		
 	}
+	
+	//좋아요 개수 출력 기능
+	
 
 }

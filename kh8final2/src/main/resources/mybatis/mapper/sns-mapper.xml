@@ -33,10 +33,12 @@
 	<!-- 게시글 목록 -->
 	<select id="listByPage" parameterType="int" resultType="snsListVO">
 		select * from (
-		    select rownum rn, TMP.* from (
-		        select * from sns S left outer join member M on S.member_no = M.member_no
-		    )TMP
-		) where rn between ${startRow} and ${endRow}
+        	select rownum rn, TMP.* from (
+            	select s.sns_no, s.member_no, s.sns_detail, s.sns_date, s.sns_count, s.sns_reply_count, m.member_nickname, 
+            	count(l.sns_no) count from sns S left outer join member M on S.member_no = M.member_no left outer join sns_like l on s.sns_no = l.sns_no 
+				group by s.sns_no, s.member_no, s.sns_detail, s.sns_date, s.sns_count, s.sns_reply_count, m.member_nickname
+        )TMP
+    ) where rn between ${startRow} and ${endRow}
 	</select>
 	
 	<!-- 게시글 수정 -->
