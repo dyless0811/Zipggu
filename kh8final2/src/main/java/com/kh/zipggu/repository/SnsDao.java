@@ -28,6 +28,9 @@ public interface SnsDao {
 	//페이징 목록조회
 	List<SnsListVO> listByPage(int startRow, int endRow);
 
+	//조회수 증가
+	void readUp(int snsNo, int memberNo);
+
 	
 	
 }

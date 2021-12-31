@@ -2,7 +2,9 @@ package com.kh.zipggu.controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.SnsDto;
 import com.kh.zipggu.entity.SnsFileDto;
+import com.kh.zipggu.entity.SnsLikeDto;
 import com.kh.zipggu.repository.SnsDao;
 import com.kh.zipggu.repository.SnsFileDao;
+import com.kh.zipggu.repository.SnsLikeDao;
 import com.kh.zipggu.service.SnsService;
 import com.kh.zipggu.vo.SnsListVO;
 
@@ -40,6 +44,9 @@ public class SnsController {
 	
 	@Autowired
 	private SnsFileDao snsFileDao;
+	
+	@Autowired
+	private SnsLikeDao snsLikeDao;
 	
 	@Autowired
 	private SnsService snsService;
@@ -87,8 +94,25 @@ public class SnsController {
 		//게시글에 들어있는 첨부파일 리스트 불러오기
 		List<SnsFileDto> list = snsFileDao.list(snsNo);
 		
-		System.out.println(snsDto);
+		
+		//조회수 증가
+		SnsLikeDto snsLikeDto = new SnsLikeDto();
+		if(session.getAttribute("loginNo") == null) {
+			int memberNo = 0;
+			snsDao.readUp(snsNo,memberNo);
+			snsLikeDto = snsLikeDao.get(snsNo, memberNo);
+			
+		}
+		else {
+			int memberNo = (int)session.getAttribute("loginNo");
+			snsDao.readUp(snsNo, memberNo);
+			//좋아요 단일 조회
+			snsLikeDto = snsLikeDao.get(snsNo, memberNo);
+			
+		}
+		
 		//model로 페이지에 넘겨준다
+		model.addAttribute("snsLikeDto", snsLikeDto);
 		model.addAttribute("snsDto", snsDto);
 		model.addAttribute("memberNick", (String)session.getAttribute("loginNick"));
 		model.addAttribute("fileList", list);
