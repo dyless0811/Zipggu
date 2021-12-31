@@ -31,6 +31,7 @@ public interface SnsDao {
 	//조회수 증가
 	void readUp(int snsNo, int memberNo);
 
+	//좋아요 개수 출력 기능
 	
 	
 }

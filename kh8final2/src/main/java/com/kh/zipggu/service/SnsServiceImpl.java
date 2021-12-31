@@ -153,11 +153,9 @@ public class SnsServiceImpl implements SnsService{
 		 snsDao.delete(snsNo);
 	}
 	
-	
+	//페이징 목록
 	@Override
 	public List<SnsListVO> listByPage(int startRow, int endRow) {
-		
-	
 		
 		return snsDao.listByPage(startRow, endRow);
 	}

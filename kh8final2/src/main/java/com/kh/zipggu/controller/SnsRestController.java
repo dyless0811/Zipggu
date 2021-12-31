@@ -26,6 +26,7 @@ public class SnsRestController {
 	@Autowired
 	private SnsLikeDao snsLikeDao;
 	
+	//목록 페이지
 	@GetMapping("/list")
 	public List<SnsListVO> snsList(@RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false, defaultValue = "18") int size) {
@@ -35,6 +36,7 @@ public class SnsRestController {
 		return snsService.listByPage(startRow, endRow);
 	}
 	
+	//좋아요 등록 기능
 	@GetMapping("/like")
 	public void insert(@RequestParam int snsNo, HttpSession session) {
 		
@@ -42,11 +44,10 @@ public class SnsRestController {
 	
 			
 			snsLikeDao.insert(snsNo, memberNo);
-		
-		
-		
+
 	}
 	
+	//좋아요 삭제 기능
 	@DeleteMapping("/delete")
 	public void delete(@RequestParam int snsNo, HttpSession session) {
 		

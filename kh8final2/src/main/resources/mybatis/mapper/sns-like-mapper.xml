@@ -32,4 +32,8 @@
 			</if>
 		</where> 
 	</select>
+	
+	<select id="likeCount" parameterType="int" resultType="int">
+		select count(*) from sns_like where sns_no = #{snsNo}
+	</select>
 </mapper> 
