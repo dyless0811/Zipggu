@@ -1,7 +1,5 @@
 package com.kh.zipggu.vo;
 
-import java.util.List;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +12,10 @@ public class ItemSearchVO {
 	private String itemName;
 	private int minPrice;
 	private int maxPrice;
-	private int itemShippingType;
-	private List<SortVO> orders;
+	private String itemShippingType;
+	private String order;
+	private String sort;
+	private int startRow;
+	private int endRow;
+	
 }

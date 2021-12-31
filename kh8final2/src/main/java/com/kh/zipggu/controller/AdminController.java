@@ -24,7 +24,6 @@ import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.service.ItemService;
 import com.kh.zipggu.vo.ItemInsertVO;
 import com.kh.zipggu.vo.ItemSearchVO;
-import com.kh.zipggu.vo.SortVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -78,36 +77,9 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/item/list")
-//	public String list(@ModelAttribute ItemSearchVO itemSearchVO, Model model){
-	public String list(
-				@RequestParam @Nullable int categoryNo,
-				@RequestParam @Nullable String categoryName,
-				@RequestParam @Nullable int itemNo,
-				@RequestParam @Nullable String itemName,
-				@RequestParam @Nullable int minPrice,
-				@RequestParam @Nullable int maxPrice,
-				@RequestParam @Nullable int itemShippingType,
-				Model model){
+	public String list(@ModelAttribute ItemSearchVO itemSearchVO, Model model){
 		
-		System.out.println("====================안댕==================");
-		Map<String, Object> param = new HashMap<>();
-		param.put("categoryNo", categoryNo);
-		param.put("categoryName", categoryName);
-		param.put("itemNo", itemNo);
-		param.put("itemName", itemName);
-		param.put("minPrice", minPrice);
-		param.put("maxPrice", maxPrice);
-		param.put("itemShippingType", itemShippingType);
-		
-		List<SortVO> orders = new ArrayList<>();
-		param.put("orders", orders);
-		
-		model.addAttribute("itemList", sqlSession.selectList("item.listBySearchVO", param));
-		
-		
-		System.out.println("============================안댕==============================");
-//		log.debug("{}==================================", itemSearchVO);
-//		model.addAttribute("itemList", itemService.listBySearchVO(itemSearchVO));
+		model.addAttribute("itemList", itemService.listBySearchVO(itemSearchVO));
 		return "admin/item/list";
 	}
 }
