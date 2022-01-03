@@ -22,4 +22,41 @@
 			#{cartNo}, #{memberNo}, #{itemNo}, #{quantity}
 		)
 	</insert>
+	
+	<resultMap type="CartListVO" id="CartAndOption">
+		<result column="cart_no" property="cartNo"/>
+		<result column="member_no" property="memberNo"/>
+		<result column="item_no" property="itemNo"/>
+		<result column="item_name" property="itemName"/>
+		<result column="quantity" property="quantity"/>
+		<result column="category_no" property="categoryNo"/>
+		<result column="item_price" property="itemPrice"/>
+		<result column="item_shipping_type" property="itemShippingType"/>
+		
+		<collection property="optionList" javaType="java.util.List" ofType="ItemOptionDto" select="listByCartNo" column="cart_no">
+			<result column="item_option_no" property="itemOptionNo"/>
+			<result column="item_no" property="itemNo"/>
+			<result column="item_option_group" property="itemOptionGroup"/>
+			<result column="item_option_detail" property="itemOptionDetail"/>
+			<result column="item_option_price" property="itemOptionPrice"/>
+			<result column="item_option_required" property="itemOptionRequired"/>
+		</collection>
+	</resultMap>
+	
+	<select id="listByCartNo" parameterType="int" resultType="ItemOptionDto">
+		select IO.*
+		from cart C
+    	inner join cart_option CO on C.cart_no = CO.cart_no
+    	inner join item_option IO on CO.item_option_no = IO.item_option_no
+    	where C.cart_no = ${cartNo}
+	</select>
+	
+	<select id="cartCustom" parameterType="int" resultMap="CartAndOption">
+		select 
+    		C.cart_no, C.member_no, C.item_no, C.quantity, I.category_no, I.item_name, I.item_price, I.item_shipping_type
+		from
+			cart C inner join item I on C.item_no = I.item_no
+		where
+			member_no = ${memberNo}
+	</select>
 </mapper> 

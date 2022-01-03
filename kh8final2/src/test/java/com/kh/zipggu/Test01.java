@@ -14,12 +14,15 @@ import com.kh.zipggu.entity.CategoryDto;
 import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.vo.CategoryVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 		"file:src/main/webapp/WEB-INF/spring/root-context.xml",
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
 		})
 @WebAppConfiguration
+@Slf4j
 public class Test01 {
 	
 	@Autowired
@@ -60,6 +63,12 @@ public class Test01 {
 	//@Test
 	public void test5() {
 		adminService.add("행거", 22);
+	}
+	
+	
+//	@Test
+	public void testCart()	{
+		System.out.println(sqlSession.selectList("cart.cartCustom", 1));
 	}
 	
 }
