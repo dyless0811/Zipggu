@@ -15,7 +15,7 @@
 	itemShippingType = ${itemDto.itemShippingType} <br>
 	
 	image = 
-	<c:forEach var="itemFileDto" items="#{itemFileDtoList}">
+	<c:forEach var="itemFileDto" items="${itemFileDtoList}">
 		<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}" style="max-width:300px"><br>
 	</c:forEach>
 	

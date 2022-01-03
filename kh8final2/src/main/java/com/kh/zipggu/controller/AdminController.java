@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.service.ItemService;
+import com.kh.zipggu.service.StoreService;
 import com.kh.zipggu.vo.ItemInsertVO;
 import com.kh.zipggu.vo.ItemSearchVO;
+import com.kh.zipggu.vo.ItemUpdateVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,10 +40,15 @@ public class AdminController {
 	private ItemService itemService;
 	
 	@Autowired
+	private StoreService storeService;
+	
+	@Autowired
 	private CategoryService categoryService;
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	
 	
 	@RequestMapping("")
 	public String main() {
@@ -69,8 +77,54 @@ public class AdminController {
 	public String itemUpdate(@PathVariable("itemNo") int itemNo, Model model) {
 		model.addAttribute("categoryVOList", categoryService.list());
 		model.addAttribute("itemDto", itemService.get(itemNo));
+		model.addAttribute("itemOptionGroupMap", storeService.getOptionGroupMap(itemNo));
+		model.addAttribute("itemFileDtoList", storeService.nonThumbnailListByItemNo(itemNo));
 		return "admin/item/update";
 	}
+	
+	@PostMapping("item/update")
+	@ResponseBody
+	public int itemUpdate(@ModelAttribute ItemUpdateVO vo, @RequestParam MultipartFile thumbnail , @RequestParam List<MultipartFile> attach) throws IllegalStateException, IOException {
+		
+		
+		return 0;
+	}
+	
+	@PostMapping("item/update/optionRemove")
+	@ResponseBody
+	public void itemOptionRemove(@RequestParam int itemOptionNo) {
+		System.out.println("========================================="+itemOptionNo);
+	}
+	@PostMapping("item/update/optionGroupRemove")
+	@ResponseBody
+	public void itemOptionGroupRemove(@RequestParam int itemNo, @RequestParam String itemOptionGroup) {
+		System.out.println("========================================="+itemNo);
+		System.out.println("========================================="+itemOptionGroup);
+	}
+	@PostMapping("item/update/optionUpdate")
+	@ResponseBody
+	public void itemOptionUpdate(@ModelAttribute ItemOptionDto itemOptionDto) {
+		System.out.println("========================================="+itemOptionDto.getItemOptionNo());		
+		System.out.println("========================================="+itemOptionDto.getItemOptionDetail());		
+		System.out.println("========================================="+itemOptionDto.getItemOptionPrice());		
+	}
+	@PostMapping("item/update/optionGroupUpdate")
+	@ResponseBody
+	public void itemOptionGroupUpdate(@RequestParam int itemNo, @RequestParam String itemOptionGroup, @RequestParam String changeGroup) {
+		System.out.println("========================================="+itemNo);		
+		System.out.println("========================================="+itemOptionGroup);				
+		System.out.println("========================================="+changeGroup);				
+	}
+	@PostMapping("item/update/optionInsert")
+	@ResponseBody
+	public void itemOptionInsert(@ModelAttribute ItemOptionDto itemOptionDto) {
+		System.out.println("========================================="+itemOptionDto.getItemNo());						
+		System.out.println("========================================="+itemOptionDto.getItemOptionGroup());						
+		System.out.println("========================================="+itemOptionDto.getItemOptionDetail());						
+		System.out.println("========================================="+itemOptionDto.getItemOptionPrice());				
+		System.out.println("========================================="+itemOptionDto.getItemOptionRequired());				
+	}
+	
 	
 	@RequestMapping("/item/category")
 	public String category() {
