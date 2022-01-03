@@ -34,9 +34,49 @@
 
     <script>
       $(function () {
+    	  //파일 미리보기, 파일 배열 저장, 파일 부분 삭제
+          var fileList = [];
+
+          function refreshView() {
+            $("#result").empty();
+            $.each(fileList, function (idx, file) {
+              // ---------------------------------------
+              var div = $("<div style='width:300px'>");
+              var reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = function (e) {
+                var html =
+                  '<img style="width:100%" src="' +
+                  e.target.result +
+                  "\" data-file='" +
+                  file.name +
+                  "'>";
+                div.append(html);
+              };
+              var btn = $("<button>").text("x");
+              btn.click(function () {
+                fileList.splice(idx, 1);
+                refreshView();
+              });
+              div.text(file.name).append(btn);
+              $("#result").append(div);
+              // ----------------------------------------
+            });
+          }
+
+          $("input[name=attach]").on("input", function () {
+            if (this.files.length == 0) {
+              return;
+            }
+            fileList.push(this.files[0]);
+            refreshView();
+            
+            $(this).val("");
+          });  
+    	  
+    	  
     	// 카테고리 선택
     	$(".category-select").change(function(){
-
     	  var depth = $(this).data("depth");
     	  var categoryNo = $(this).val();
     	  var categoryName = $(this).find("option:selected").text();
@@ -105,7 +145,6 @@
             is_empty_option = !$(this).find(".option-detail-list").text();
             if (is_empty_option) return false;
           });
-
           // 내용이 비어있는 상태를 검사
           var is_empty_value = false;
           $(".option-detail").each(function () {
@@ -127,9 +166,10 @@
               .prop("checked")
               ? 1
               : 0;
-
+		
             is_empty_value =
               !itemOptionGroup || !itemOptionDetail || !itemOptionPrice;
+
             if (is_empty_value) return false;
 			
             $(
@@ -171,12 +211,33 @@
             alert("사용하지 않는 옵션을 지워주세요");
             return;
           }
-          console.log("submit!!");
-          form.submit();
+          
+          var formData = new FormData($(".result-form")[0]);
+          var fileIndex = fileList.length;
+          for (var i = 0; i < fileIndex; i++) {  
+			formData.append("attach", fileList[i]);		
+		  }
+          
+          
+          $.ajax({
+        	url: "${pageContext.request.contextPath}/admin/item/insert",
+        	type: "post",
+        	data: formData,
+        	enctype: "multipart/form-data",
+        	async: false,
+        	contentType: false,
+       	 	processData: false,
+       	 	success: function(resp) {
+        		 console.log("성공", resp);
+        		 location.href = "${pageContext.request.contextPath}/store/detail/"+resp;
+        	 },
+       	 	error: function(e) {
+        		 console.log("실패", e);
+        	}
+          });
         });
         
         var sel_files = [];
-      	$("input[name=attach]").on("change", handleImgsFilesSelect);
       	$("input[name=thumbnail]").on("change", handleImgsFilesSelect);
       });
       
@@ -291,15 +352,15 @@
         <div class="thumbnail_wrap">
 				<div id="thumbnail-result"></div>
 		</div>
+      </form>
         <label>
-          이미지
-          <input type="file" name="attach" accept="image/*" class="form-control" multiple>
+          <div class="btn btn-primary">파일 추가</div>
+          <input type="file" name="attach" accept="image/*" class="form-control" hidden>
         </label>
         <div class="imgs_wrap">
 				<div id="result"></div>
 		</div>
         <br /><br />
-      </form>
       <button class="option-group-btn" type="button">옵션 분류 추가</button>
       <hr />
       <div class="option-list"></div>

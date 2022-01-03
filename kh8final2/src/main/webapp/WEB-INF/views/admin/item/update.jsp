@@ -34,6 +34,45 @@
 
     <script>
       $(function () {
+    	  $(".exist-detail-remove-btn").click(function(){
+      		itemOptionRemove($(this).parent().data("option-no"));
+      	  });
+    	  
+    	  $(".exist-group-remove-btn").click(function(){
+    		var itemNo = $("input[name=itemName]").data("item-no");
+    		var itemOptionGroup = $(this).parent().data("option-group");
+    		itemOptionGroupRemove(itemNo, itemOptionGroup);
+    	  });
+    	  
+    	  $(".exist-detail-update-btn").click(function(){
+    		var itemOptionNo = $(this).parent().data("option-no");
+    		var itemOptionDetail = $(this).prev().prev().find("input").val();
+    		var itemOptionPrice = $(this).prev().find("input").val();
+    		itemOptionUpdate(itemOptionNo, itemOptionDetail, itemOptionPrice);
+    	  });
+
+    	  $(".exist-group-update-btn").click(function(){
+    		var itemNo = $("input[name=itemName]").data("item-no");
+    		var itemOptionGroup = $(this).parent().data("option-group");
+    		var changeGroup = $(this).prev().find("input").val();
+    		itemOptionGroupUpdate(itemNo, itemOptionGroup, changeGroup);
+    	  });
+
+    	  $(".exist-option-insert-btn").click(function(){
+    		var itemNo = $("input[name=itemName]").data("item-no");
+    		var itemOptionGroup = $(this).parent().data("option-group");
+    		var itemOptionDetail = $(this).prev().prev().find("input").val();
+    		var itemOptionPrice = $(this).prev().find("input").val();
+    		var itemOptionRequired = $(this).parent().data("option-required");
+    		itemOptionInsert(itemNo, itemOptionGroup, itemOptionDetail, itemOptionPrice, itemOptionRequired);
+    	  });
+    	  
+    	  
+    	  
+    	  $(".exist-remove-btn").click(function(){
+    		 $(this).parent().remove(); 
+    	  });
+    	  
     	  //파일 미리보기, 파일 배열 저장, 파일 부분 삭제
           var fileList = [];
 
@@ -55,10 +94,7 @@
               };
               var btn = $("<button>").text("x");
               btn.click(function () {
-                console.log(idx);
-                console.log(fileList);
                 fileList.splice(idx, 1);
-                console.log(fileList);
                 refreshView();
               });
               div.text(file.name).append(btn);
@@ -148,10 +184,9 @@
             is_empty_option = !$(this).find(".option-detail-list").text();
             if (is_empty_option) return false;
           });
-
           // 내용이 비어있는 상태를 검사
           var is_empty_value = false;
-          $(".option-detail").each(function () {
+          $(".option-list>.option-detail").each(function () {
             var itemOptionGroup = $(this)
               .parent()
               .parent()
@@ -170,9 +205,10 @@
               .prop("checked")
               ? 1
               : 0;
-
+		
             is_empty_value =
               !itemOptionGroup || !itemOptionDetail || !itemOptionPrice;
+
             if (is_empty_value) return false;
 			
             $(
@@ -214,8 +250,30 @@
             alert("사용하지 않는 옵션을 지워주세요");
             return;
           }
-          console.log("submit!!");
-          form.submit();
+          
+          var formData = new FormData($(".result-form")[0]);
+          var fileIndex = fileList.length;
+          for (var i = 0; i < fileIndex; i++) {  
+			formData.append("attach", fileList[i]);		
+		  }
+          
+          
+          $.ajax({
+        	url: "${pageContext.request.contextPath}/admin/item/insert",
+        	type: "post",
+        	data: formData,
+        	enctype: "multipart/form-data",
+        	async: false,
+        	contentType: false,
+       	 	processData: false,
+       	 	success: function(resp) {
+        		 console.log("성공", resp);
+        		 location.href = "${pageContext.request.contextPath}/store/detail/"+resp;
+        	 },
+       	 	error: function(e) {
+        		 console.log("실패", e);
+        	}
+          });
         });
         
         var sel_files = [];
@@ -271,6 +329,91 @@
 
     	  console.log(sel_files);
     	}
+    	
+    	function itemOptionRemove(itemOptionNo) {
+    		$.ajax({
+    			url: "${pageContext.request.contextPath}/admin/item/update/optionRemove",
+    			type: "post",
+    			data: {
+    				itemOptionNo : itemOptionNo
+    			},
+    			success: function(resp){
+    				console.log("성공",resp);
+    			},
+    			error: function(e){
+    				console.log("실패",e)
+    			}
+    		});
+    	}
+    	function itemOptionGroupRemove(itemNo, itemOptionGroup) {
+    		$.ajax({
+    			url: "${pageContext.request.contextPath}/admin/item/update/optionGroupRemove",
+    			type: "post",
+    			data: {
+    				itemNo : itemNo,
+    				itemOptionGroup : itemOptionGroup
+    			},
+    			success: function(resp){
+    				console.log("성공",resp);
+    			},
+    			error: function(e){
+    				console.log("실패",e)
+    			}
+    		})
+    	}
+    	function itemOptionUpdate(itemOptionNo, itemOptionDetail, itemOptionPrice) {
+      		$.ajax({
+    			url: "${pageContext.request.contextPath}/admin/item/update/optionUpdate",
+    			type: "post",
+    			data: {
+    				itemOptionNo : itemOptionNo,
+    				itemOptionDetail : itemOptionDetail,
+    				itemOptionPrice : itemOptionPrice
+    			},
+    			success: function(resp){
+    				console.log("성공",resp);
+    			},
+    			error: function(e){
+    				console.log("실패",e)
+    			}
+    		})
+    	}
+    	function itemOptionGroupUpdate(itemNo, itemOptionGroup, changeGroup) {
+      		$.ajax({
+    			url: "${pageContext.request.contextPath}/admin/item/update/optionGroupUpdate",
+    			type: "post",
+    			data: {
+    				itemNo : itemNo,
+    				itemOptionGroup : itemOptionGroup,
+    				changeGroup : changeGroup
+    			},
+    			success: function(resp){
+    				console.log("성공",resp);
+    			},
+    			error: function(e){
+    				console.log("실패",e)
+    			}
+    		})
+    	}
+    	function itemOptionInsert(itemNo, itemOptionGroup, itemOptionDetail, itemOptionPrice, itemOptionRequired) {
+      		$.ajax({
+    			url: "${pageContext.request.contextPath}/admin/item/update/optionInsert",
+    			type: "post",
+    			data: {
+    				itemNo : itemNo,
+    				itemOptionGroup : itemOptionGroup,
+    				itemOptionDetail : itemOptionDetail,
+    				itemOptionPrice : itemOptionPrice,
+    				itemOptionRequired : itemOptionRequired
+    			},
+    			success: function(resp){
+    				console.log("성공",resp);
+    			},
+    			error: function(e){
+    				console.log("실패",e)
+    			}
+    		})
+    	}
     </script>
 
 
@@ -298,7 +441,7 @@
           	  </select>
     	    </div>
     	    <div class="col-md-3">
-    	      <input type="hidden" name="categoryNo" value="">
+    	      <input type="hidden" name="categoryNo" value="${itemDto.categoryNo}">
     	      <input class="form-control" type="text" name="categoryName" value="" readonly>
     	    </div>
   		  </div>
@@ -307,20 +450,20 @@
 	  <div class="row">
 		<div class="mb-3">
   			<label for="itemFormControlInput1" class="form-label">상품명</label>
-  			<input type="text" name="itemName" class="form-control" id="itemFormControlInput1">
+  			<input type="text" name="itemName" data-item-no="${itemDto.itemNo}" class="form-control" id="itemFormControlInput1" value="${itemDto.itemName}">
 		</div>
 	  </div>
 	  
 	  <div class="row">
 		<div class="col mb-3">
   		  <label for="itemFormControlInput2" class="form-label">가격</label>
-  		  <input type="text" name="itemPrice" class="form-control" id="itemFormControlInput2">
+  		  <input type="text" name="itemPrice" class="form-control" id="itemFormControlInput2" value="${itemDto.itemPrice}">
 		</div>
 		<div class="col mb-3">
 		  <label for="itemFormControlInput3" class="form-label">배송 타입</label>
   		  <select class="form-select" name="itemShippingType" id="itemFormControlInput3">
-  			<option value="0">택배</option>
-            <option value="1">착불</option>
+  			<option value="0" ${itemDto.itemShippingType == 0 ? "selected" : ""}>택배</option>
+            <option value="1" ${itemDto.itemShippingType == 1 ? "selected" : ""}>착불</option>
           </select>
 		</div>
 	  </div>
@@ -331,19 +474,71 @@
           <input type="file" name="thumbnail" accept="image/*" class="form-control">
         </label>
         <div class="thumbnail_wrap">
-				<div id="thumbnail-result"></div>
+				<div id="thumbnail-result">
+					<input type="hidden" name="remainingThumbnail" value="Y">
+					<button type="button" class="exist-remove-btn">x</button>
+					<img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemDto.itemNo}" style="width:300px">
+				</div>
 		</div>
+      </form>
         <label>
           <div class="btn btn-primary">파일 추가</div>
           <input type="file" name="attach" accept="image/*" class="form-control" hidden>
         </label>
         <div class="imgs_wrap">
-				<div id="result"></div>
+				<div id="result">
+					<c:forEach var="itemFileDto" items="${itemFileDtoList}">
+						<div>						
+							<input type="hidden" name="remainingFile" value="${itemFileDto.itemFileNo}">
+							${itemFileDto.itemFileUploadname}
+							<button type="button" class="exist-remove-btn">x</button>
+							<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}">
+						</div>
+					</c:forEach>
+				</div>
 		</div>
         <br /><br />
-      </form>
       <button class="option-group-btn" type="button">옵션 분류 추가</button>
       <hr />
+      <div class="exist-option-list">
+      <c:forEach var="map" items="${itemOptionGroupMap}" varStatus="status">
+      	<div class="option" data-option-group="${map.key}" data-option-required="${map.value[0].itemOptionRequired}">
+    	  <label>
+      		옵션 분류
+      		<input name="existItemOptionGroup" type="text" value="${map.key}"/>
+   		  </label>
+    	  <button type="button" class="exist-group-update-btn">수정</button>
+    	  <button type="button" class="exist-group-remove-btn">삭제</button>
+    	  <br /><br />
+   		   <label>
+      		옵션 내용
+      		<input name="itemOptionDetail" type="text" value=""/>
+    	  </label>
+    	  <label>
+			옵션 가격
+      		<input name="itemOptionPrice" type="text" value=""/>
+      	  </label>
+    	  <button type="button" class="exist-option-insert-btn">추가</button> <br><br>      	  
+    	  <div class="option-detail-list">
+    	  	<c:forEach var="optionDto" items="${map.value}">
+    	  	  <div class="option-detail" data-option-no="${optionDto.itemOptionNo}">
+    		    <label>
+      		           옵션 내용
+      			  <input name="itemOptionDetail" type="text" value="${optionDto.itemOptionDetail}"/>
+    			</label>
+    			<label>
+				    옵션 가격
+      			  <input name="itemOptionPrice" type="text" value="${optionDto.itemOptionPrice}"/>
+      			</label>
+      			<button type="button" class="exist-detail-update-btn">수정</button>
+      			<button type="button" class="exist-detail-remove-btn">삭제</button><br><br>
+  			  </div>
+    	  	</c:forEach>
+    	  </div>
+    	  <hr />
+  		</div>
+  	  </c:forEach>
+      </div>
       <div class="option-list"></div>
       <a href="" id="item-submit" class="btn btn-primary text-light">등록</a>
       <a href="${pageContext.request.contextPath}/admin/item" class="btn btn-primary text-light">취소</a>
