@@ -24,7 +24,7 @@
 		<select data-required="${map.value[0].itemOptionRequired}">
 			<option value="" disabled selected hidden>${map.key}</option>
 			<c:forEach var="optionDto" items="${map.value}">
-				<option value="${optionDto.itemOptionNo}">${optionDto.itemOptionDetail}</option>
+				<option value="${optionDto.itemOptionNo}" data-price="${optionDto.itemOptionPrice}">${optionDto.itemOptionDetail}</option>
 			</c:forEach>
 		</select>
 		<br>
