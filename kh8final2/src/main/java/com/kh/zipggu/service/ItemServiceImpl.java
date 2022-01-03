@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,5 +181,37 @@ public class ItemServiceImpl implements ItemService {
 	public List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO) {
 		return itemDao.listBySearchVO(itemSearchVO);
 	}
+
+	@Override
+	public void itemOptionDetailDelete(int itemOptionNo) {
+		itemOptionDao.itemOptionDetailDelete(itemOptionNo);
+	}
+
+	@Override
+	public void itemOptionGroupRemove(ItemOptionDto itemOptionDto) {
+		itemOptionDao.itemOptionGroupRemove(itemOptionDto);
+	}
+
+	@Override
+	public void itemOptionDetailUpdate(ItemOptionDto itemOptionDto) {
+		itemOptionDao.itemOptionDetailUpdate(itemOptionDto);
+	}
+
+
+	@Override
+	public void itemOptionGroupUpdate(int itemNo, String itemOptionGroup, String changeGroup) {
+		Map<String, Object> param = new LinkedHashMap<String, Object>();
+		param.put("itemNo", itemNo);
+		param.put("itemOptionGroup", itemOptionGroup);
+		param.put("changeGroup", changeGroup);
+		itemOptionDao.itemOptionGroupUpdate(param);		
+	}
+
+	@Override
+	public void itemOptionDetailInsert(ItemOptionDto itemOptionDto) {
+		itemOptionDao.itemOptionDetailInsert(itemOptionDto);
+	}
+	
+	
 
 }
