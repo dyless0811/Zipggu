@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.service.CategoryService;
@@ -58,9 +59,10 @@ public class AdminController {
 	}
 	
 	@PostMapping("/item/insert")
-	public String itemInsert(@ModelAttribute ItemInsertVO vo,@RequestParam MultipartFile thumbnail , @RequestParam List<MultipartFile> attach) throws IllegalStateException, IOException {
+	@ResponseBody
+	public int itemInsert(@ModelAttribute ItemInsertVO vo,@RequestParam MultipartFile thumbnail , @RequestParam List<MultipartFile> attach) throws IllegalStateException, IOException {
 	
-		return "redirect:/store/detail/"+itemService.insert(vo,thumbnail , attach);
+		return itemService.insert(vo,thumbnail , attach);
 	}
 	
 	@GetMapping("/item/update/{itemNo}")
