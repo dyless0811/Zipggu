@@ -21,10 +21,10 @@
 	
 	<c:forEach var="map" items="${itemOptionGroupMap}" varStatus="status">
 		${status.count}번째 옵션그룹
-		<select>
+		<select data-required="${map.value[0].itemOptionRequired}">
 			<option value="" disabled selected hidden>${map.key}</option>
 			<c:forEach var="optionDto" items="${map.value}">
-				<option data-option-no="${optionDto.itemOptionNo}">${optionDto.itemOptionDetail}</option>
+				<option value="${optionDto.itemOptionNo}">${optionDto.itemOptionDetail}</option>
 			</c:forEach>
 		</select>
 		<br>
