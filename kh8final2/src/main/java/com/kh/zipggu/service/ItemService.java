@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.ItemDto;
+import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.vo.ItemInsertVO;
 import com.kh.zipggu.vo.ItemListVO;
 import com.kh.zipggu.vo.ItemSearchVO;
@@ -24,4 +25,14 @@ public interface ItemService {
 	List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO);
 
 	ResponseEntity<ByteArrayResource> getDummy() throws IOException;
+
+	void itemOptionDetailDelete(int itemOptionNo);
+
+	void itemOptionGroupRemove(ItemOptionDto itemOptionDto);
+
+	void itemOptionDetailUpdate(ItemOptionDto itemOptionDto);
+
+	void itemOptionGroupUpdate(int itemNo, String itemOptionGroup, String changeGroup);
+
+	void itemOptionDetailInsert(ItemOptionDto itemOptionDto);
 }

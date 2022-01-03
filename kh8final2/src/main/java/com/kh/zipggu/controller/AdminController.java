@@ -45,10 +45,6 @@ public class AdminController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@Autowired
-	private SqlSession sqlSession;
-	
-	
 	
 	@RequestMapping("")
 	public String main() {
@@ -93,36 +89,27 @@ public class AdminController {
 	@PostMapping("item/update/optionRemove")
 	@ResponseBody
 	public void itemOptionRemove(@RequestParam int itemOptionNo) {
-		System.out.println("========================================="+itemOptionNo);
+		itemService.itemOptionDetailDelete(itemOptionNo);
 	}
 	@PostMapping("item/update/optionGroupRemove")
 	@ResponseBody
-	public void itemOptionGroupRemove(@RequestParam int itemNo, @RequestParam String itemOptionGroup) {
-		System.out.println("========================================="+itemNo);
-		System.out.println("========================================="+itemOptionGroup);
+	public void itemOptionGroupRemove(@ModelAttribute ItemOptionDto itemOptionDto) {
+		itemService.itemOptionGroupRemove(itemOptionDto);
 	}
 	@PostMapping("item/update/optionUpdate")
 	@ResponseBody
 	public void itemOptionUpdate(@ModelAttribute ItemOptionDto itemOptionDto) {
-		System.out.println("========================================="+itemOptionDto.getItemOptionNo());		
-		System.out.println("========================================="+itemOptionDto.getItemOptionDetail());		
-		System.out.println("========================================="+itemOptionDto.getItemOptionPrice());		
+		itemService.itemOptionDetailUpdate(itemOptionDto);	
 	}
 	@PostMapping("item/update/optionGroupUpdate")
 	@ResponseBody
 	public void itemOptionGroupUpdate(@RequestParam int itemNo, @RequestParam String itemOptionGroup, @RequestParam String changeGroup) {
-		System.out.println("========================================="+itemNo);		
-		System.out.println("========================================="+itemOptionGroup);				
-		System.out.println("========================================="+changeGroup);				
+		itemService.itemOptionGroupUpdate(itemNo, itemOptionGroup, changeGroup);				
 	}
 	@PostMapping("item/update/optionInsert")
 	@ResponseBody
 	public void itemOptionInsert(@ModelAttribute ItemOptionDto itemOptionDto) {
-		System.out.println("========================================="+itemOptionDto.getItemNo());						
-		System.out.println("========================================="+itemOptionDto.getItemOptionGroup());						
-		System.out.println("========================================="+itemOptionDto.getItemOptionDetail());						
-		System.out.println("========================================="+itemOptionDto.getItemOptionPrice());				
-		System.out.println("========================================="+itemOptionDto.getItemOptionRequired());				
+		itemService.itemOptionDetailInsert(itemOptionDto);			
 	}
 	
 	
