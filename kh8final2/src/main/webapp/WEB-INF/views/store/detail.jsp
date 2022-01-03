@@ -24,11 +24,13 @@
 		<select>
 			<option value="" disabled selected hidden>${map.key}</option>
 			<c:forEach var="optionDto" items="${map.value}">
-				<option>${optionDto.itemOptionDetail}</option>
+				<option data-option-no="${optionDto.itemOptionNo}">${optionDto.itemOptionDetail}</option>
 			</c:forEach>
 		</select>
 		<br>
 	</c:forEach>
+	<button class="btn btn-primary">장바구니</button>
+	<button class="btn btn-primary">구매하기</button>
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
