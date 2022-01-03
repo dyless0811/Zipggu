@@ -34,9 +34,52 @@
 
     <script>
       $(function () {
+    	  //파일 미리보기, 파일 배열 저장, 파일 부분 삭제
+          var fileList = [];
+
+          function refreshView() {
+            $("#result").empty();
+            $.each(fileList, function (idx, file) {
+              // ---------------------------------------
+              var div = $("<div style='width:300px'>");
+              var reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = function (e) {
+                var html =
+                  '<img style="width:100%" src="' +
+                  e.target.result +
+                  "\" data-file='" +
+                  file.name +
+                  "'>";
+                div.append(html);
+              };
+              var btn = $("<button>").text("x");
+              btn.click(function () {
+                console.log(idx);
+                console.log(fileList);
+                fileList.splice(idx, 1);
+                console.log(fileList);
+                refreshView();
+              });
+              div.text(file.name).append(btn);
+              $("#result").append(div);
+              // ----------------------------------------
+            });
+          }
+
+          $("input[name=attach]").on("input", function () {
+            if (this.files.length == 0) {
+              return;
+            }
+            fileList.push(this.files[0]);
+            refreshView();
+            
+            $(this).val("");
+          });  
+    	  
+    	  
     	// 카테고리 선택
     	$(".category-select").change(function(){
-
     	  var depth = $(this).data("depth");
     	  var categoryNo = $(this).val();
     	  var categoryName = $(this).find("option:selected").text();
@@ -176,7 +219,6 @@
         });
         
         var sel_files = [];
-      	$("input[name=attach]").on("change", handleImgsFilesSelect);
       	$("input[name=thumbnail]").on("change", handleImgsFilesSelect);
       });
       
@@ -292,8 +334,8 @@
 				<div id="thumbnail-result"></div>
 		</div>
         <label>
-          이미지
-          <input type="file" name="attach" accept="image/*" class="form-control" multiple>
+          <div class="btn btn-primary">파일 추가</div>
+          <input type="file" name="attach" accept="image/*" class="form-control" hidden>
         </label>
         <div class="imgs_wrap">
 				<div id="result"></div>
