@@ -13,16 +13,19 @@
 <!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cart">
 
+	<!-- 시퀀스 먼저 받는 기능 -->
 	<select id="sequence" resultType="int">
 		select cart_seq.nextval from dual
 	</select>
 
+	<!-- cart 테이블 등록 기능 -->
 	<insert id="insert" parameterType="cartDto">
 		insert into cart values(
 			#{cartNo}, #{memberNo}, #{itemNo}, #{quantity}
 		)
 	</insert>
 	
+	<!-- resultMap 구문 -->
 	<resultMap type="CartListVO" id="CartAndOption">
 		<result column="cart_no" property="cartNo"/>
 		<result column="member_no" property="memberNo"/>
@@ -43,6 +46,7 @@
 		</collection>
 	</resultMap>
 	
+	<!-- 장바구니 출력 -->
 	<select id="listByCartNo" parameterType="int" resultType="ItemOptionDto">
 		select IO.*
 		from cart C
@@ -51,6 +55,7 @@
     	where C.cart_no = ${cartNo}
 	</select>
 	
+	<!-- 장바구니 출력 -->
 	<select id="cartCustom" parameterType="int" resultMap="CartAndOption">
 		select 
     		C.cart_no, C.member_no, C.item_no, C.quantity, I.category_no, I.item_name, I.item_price, I.item_shipping_type
@@ -60,7 +65,7 @@
 			member_no = ${memberNo}
 	</select>
 	
-	
+	<!-- 결제페이지 목록 기능 -->
 	<select id="payList" parameterType="itemOrderListVO" resultMap="CartAndOption">
 		select 
     		C.cart_no, C.member_no, C.item_no, C.quantity, I.category_no, I.item_name, I.item_price, I.item_shipping_type
@@ -72,8 +77,29 @@
 		</foreach>
 	</select>
 	
+	<!-- 장바구니에서 상품 삭제 기능(ajax) -->
 	<delete id="delete" parameterType="int">
 		delete cart where cart_no = #{cartNo}
 	</delete>
+
+	<!-- 단일조회 (사용하지 않음) -->
+	<select id="get" parameterType="itemOrderListVO" resultMap="CartAndOption">
+		select * from cart 
+		where cart_no in
+		<foreach collection="list" open="(" close=")" separator="," item="vo">
+			${vo.cartNo}
+		</foreach>
+	</select>
+	
+	<!-- 수량 변경 기능 -->
+	<update id="updateQuantity" parameterType="itemOrderListVO">
+		<foreach collection="list" open="declare begin" close="; end;" separator=";" item="vo">
+		update cart
+		set 
+			quantity = ${vo.quantity}
+		where
+			cart_no = ${vo.cartNo}
+		</foreach> 	
+	</update>
 	
 </mapper> 

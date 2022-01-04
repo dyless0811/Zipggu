@@ -13,14 +13,17 @@
 <!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="like">
 	
+	<!-- 좋아요 등록 기능 -->
 	<insert id="insert" parameterType="map">
 		insert into sns_like values(#{memberNo}, #{snsNo})
 	</insert>
 	
+	<!-- 좋아요 삭제 기능 -->
 	<delete id="delete" parameterType="map">
 		delete sns_like where member_no = #{memberNo} and sns_no = #{snsNo}
 	</delete>
 	
+	<!-- 좋아요 단일 조회 기능 -->
 	<select id="get" parameterType="map" resultType="snsLikeDto">
 		select * from sns_like 
 		<where>
@@ -33,6 +36,7 @@
 		</where> 
 	</select>
 	
+	<!-- 좋아요 개수 확인 기능 -->
 	<select id="likeCount" parameterType="int" resultType="int">
 		select count(*) from sns_like where sns_no = #{snsNo}
 	</select>

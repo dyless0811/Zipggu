@@ -61,6 +61,7 @@ public class SnsController {
 		return "sns/main";
 	}
 	
+	//게시글 작성 페이지 이동
 	@GetMapping("/write")
 	public String write() {
 		
@@ -68,6 +69,7 @@ public class SnsController {
 		return "sns/write";
 	}
 	
+	//전달받은 snsDto로 등록 시작
 	@PostMapping("/write")
 	public String write(@ModelAttribute SnsDto snsDto, @RequestParam List<MultipartFile>attach, HttpSession session) throws IllegalStateException, IOException {
 		

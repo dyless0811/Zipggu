@@ -22,6 +22,7 @@ public interface SnsReplyDao {
 	//댓글 갱신 기능
 	void replyCount(int snsNo);
 
+	//댓글 수정 기능
 	void edit(SnsReplyDto snsReplyDto);
 
 

@@ -394,7 +394,7 @@
 
 
 
-<div class="container mt-3">
+<div class="container-zipggu">
 	<div class="row mt-3">
     	<div class="col">
     	</div>
