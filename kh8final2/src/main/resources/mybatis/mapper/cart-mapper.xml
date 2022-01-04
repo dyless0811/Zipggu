@@ -59,4 +59,21 @@
 		where
 			member_no = ${memberNo}
 	</select>
+	
+	
+	<select id="payList" parameterType="itemOrderListVO" resultMap="CartAndOption">
+		select 
+    		C.cart_no, C.member_no, C.item_no, C.quantity, I.category_no, I.item_name, I.item_price, I.item_shipping_type
+		from
+			cart C inner join item I on C.item_no = I.item_no
+		where cart_no in
+		<foreach collection="list" open="(" close=")" separator="," item="vo">
+			${vo.cartNo}
+		</foreach>
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete cart where cart_no = #{cartNo}
+	</delete>
+	
 </mapper> 

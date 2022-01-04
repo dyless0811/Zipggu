@@ -4,11 +4,15 @@ import java.util.List;
 
 import com.kh.zipggu.vo.CartListVO;
 import com.kh.zipggu.vo.CartVO;
+import com.kh.zipggu.vo.ItemOrderListVO;
 
 public interface CartService {
 
 	void insert(CartVO cartVO);
 
 	List<CartListVO> list(int memberNo);
+
+	List<CartListVO> listByOrder(ItemOrderListVO itemOrderListVO);
+
 
 }
