@@ -10,9 +10,10 @@ import com.kh.zipggu.entity.CartOptionDto;
 import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.repository.CartDao;
 import com.kh.zipggu.repository.CartOptionDao;
-import com.kh.zipggu.repository.ItemOptionDao;
 import com.kh.zipggu.vo.CartListVO;
 import com.kh.zipggu.vo.CartVO;
+import com.kh.zipggu.vo.ItemOrderListVO;
+import com.kh.zipggu.vo.ItemOrderVO;
 import com.kh.zipggu.vo.OptionVO;
 
 @Service
@@ -54,4 +55,13 @@ public class CartServiceImpl implements CartService{
 		
 		return cartDao.list(memberNo);
 	}
+	
+	
+	@Override
+	public List<CartListVO> listByOrder(ItemOrderListVO itemOrderListVO) {
+
+		return cartDao.listByOrder(itemOrderListVO);
+
+	}
+
 }
