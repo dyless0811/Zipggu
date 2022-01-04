@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
+  
   .layout{
   max-width: 600px;
   margin: 0 auto;
@@ -59,9 +60,41 @@
   .qna input:checked + label + div { /* 내용 영역 펼침 */
     display: block;
   }
+
+  h1{
+    color: #df625c;
+  }
+  
+  h3{
+    color: #df625c;
+  }
 </style>
 
 
+
+
+  <div id="contact-us">
+    <div class="container--my-page">
+        <article id="customer-center" class="customer-center">
+            <h1 class="customer-center__title">고객센터</h1>
+            <div class="row">
+                <section class="col-12 col-md-6 customer-center__contact">
+                    <address>
+                        운영시간 : 평일 09:00 ~ 18:00 (주말 & 공휴일 제외)
+                        <br>
+                        이메일 : customerservice@zipggu.com
+                   
+                        <button class="customer-center__contact__btn-copy-email" type="button">이메일 주소 복사</button>
+                        <br>
+                        전화 : 1234-5678
+                        <button class="customer-center__contact__btn-copy-phone" type="button">전화번호 복사</button>
+                    </address>
+                    <button class="btn btn-md btn-priority customer-center__contact__btn-inquiry" type="button">1:1 상담하기</button>
+                </section>
+            </div>
+        </article>
+    </div>
+  </div>
 <ul class="qna">
   <h3>주문/결제</h3>
     <li>
@@ -149,6 +182,7 @@
         <p>입금인이 달라도 가상계좌번호만 같으면 문제없습니다.</p>
       </div>
     </li>
+  <br><br>
   <h3>배송관련</h3>
     <li>
       <input type="checkbox" id="qna-12">
