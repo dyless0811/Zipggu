@@ -26,7 +26,8 @@ public interface SnsFileDao {
 	
 	//상세페이지에서 파일 전체목록 조회 기능에서 나온 번호 다운로드
 	SnsFileDto get(int snsFileNo);
-
+	
+	//파일 삭제 기능
 	void delete(int snsFileNo);
 	
 	

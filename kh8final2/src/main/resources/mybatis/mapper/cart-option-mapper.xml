@@ -13,6 +13,7 @@
 <!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cartOption">
 	
+	<!-- 장바구니 추가할때 같이 등록되는 상품 옵션 등록 기능 -->
 	<insert id="insert" parameterType="cartOptionDto">
 		insert into cart_option values(
 			cart_option_seq.nextval, #{itemOptionNo}, #{cartNo}

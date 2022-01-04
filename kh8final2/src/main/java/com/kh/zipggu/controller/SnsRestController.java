@@ -43,7 +43,7 @@ public class SnsRestController {
 		int memberNo = (int)session.getAttribute("loginNo");
 	
 			
-			snsLikeDao.insert(snsNo, memberNo);
+		snsLikeDao.insert(snsNo, memberNo);
 
 	}
 	

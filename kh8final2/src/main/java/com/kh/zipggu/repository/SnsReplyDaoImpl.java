@@ -69,6 +69,7 @@ public class SnsReplyDaoImpl implements SnsReplyDao{
 		return sqlSession.selectList("snsReply.listByPage", param);
 	}
 	
+	//댓글 삭제 기능
 	@Override
 	public boolean delete(int snsReplyNo) {
 		
@@ -78,6 +79,7 @@ public class SnsReplyDaoImpl implements SnsReplyDao{
 		
 	}
 	
+	//댓글 갯수 확인하는 기능
 	@Override
 	public void replyCount(int snsNo) {
 		
@@ -87,6 +89,7 @@ public class SnsReplyDaoImpl implements SnsReplyDao{
 		System.out.println(a);
 	}
 	
+	//댓글 수정 기능
 	@Override
 	public void edit(SnsReplyDto snsReplyDto) {
 		

@@ -15,6 +15,7 @@ public class SnsLikeDaoImpl implements SnsLikeDao{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//좋아요 등록 기능
 	@Override
 	public void insert(int snsNo, int memberNo) {
 		
@@ -26,6 +27,7 @@ public class SnsLikeDaoImpl implements SnsLikeDao{
 		
 	}
 	
+	//좋아요 삭제 기능
 	@Override
 	public void delete(int snsNo, int memberNo) {
 		
@@ -37,6 +39,7 @@ public class SnsLikeDaoImpl implements SnsLikeDao{
 		
 	}
 	
+	//좋아요 단일조회 (좋아요와 좋아요 취소를 위한 단일조회)
 	@Override
 	public SnsLikeDto get(int snsNo, int memberNo) {
 		

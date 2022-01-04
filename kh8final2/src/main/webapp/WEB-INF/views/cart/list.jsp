@@ -6,6 +6,7 @@
 
 <script>
 
+//체크박스 선택하여 구매하기
 $(function(){
 	$(".buy-btn").click(function(){
 		//하나도 체크되지 않은 경우는 중지
@@ -41,23 +42,29 @@ $(function(){
 	});
 });
 	
-	
+	//장바구니 삭제 ajax
 	$(function(){
 		$(".delete").on("click", function(){
+			//this == .delete 클래스의 버튼
 			
+			//input name=cartNo의 값을 변수에 저장
 			var cartNo = $("input[name=cartNo]").val();
 		
+			//삭제후 페이지에서 삭제를 위해 버튼 앞의 div를 변수에 저장
 			var cart = $(this).parent();
 			
+			//ajax...
 			$.ajax({
 				url:"${pageContext.request.contextPath}/cart/delete?cartNo="+cartNo,
 				type:"delete",
 				dataType:"text",
 				success:function(resp){
+					//성공이라면 콘솔에 찍어준다.
 					console.log("삭제제발!", resp);
+					//위에 저장한 변수로 삭제된 아이템 지우기.
 					cart.remove();
 					
-					console.log(cart);
+					//console.log(cart);
 					
 				},
 				error:function(e){}
@@ -66,6 +73,7 @@ $(function(){
 		});
 	});
     
+
 	
 </script>
 

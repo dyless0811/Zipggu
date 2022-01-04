@@ -14,10 +14,12 @@ public class CartRestController {
 
 	@Autowired
 	private CartDao cartDao;
-	
+
+	//장바구니에서 상품 삭제 기능
 	@DeleteMapping("/delete")
 	public void delete(@RequestParam int cartNo) {
 		
+		//파라미터로 전달받은 카트번호로 삭제 시작
 		cartDao.delete(cartNo);
 	}
 	

@@ -80,9 +80,11 @@ public class SnsDaoImpl implements SnsDao{
 	@Override
 	public void readUp(int snsNo, int memberNo) {
 		
+		//파라미터로 전달된 값 map에 저장
 		Map<String, Object>param = new HashMap<>();
 		param.put("snsNo", snsNo);
 		
+		//만약 memberNo가 0이 아니라면 map에 저장한다
 		if(memberNo != 0) {
 			param.put("memberNo", memberNo);
 		}
