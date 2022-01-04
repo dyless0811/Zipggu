@@ -225,7 +225,7 @@
                   </a>
                     </c:otherwise>
                     </c:choose>
-                    <a href="/help/">
+                    <a href="${root}/help/">
                       <div class="item sm-bar nonmember-order">고객센터</div>
                     </a>
                   </div>
