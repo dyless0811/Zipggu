@@ -102,7 +102,7 @@
                       </div>
                     </div>
                     <!-- </a> -->
-                    <a href="/commerce/cart">
+                    <a href="${root }/cart/list">
                       <div class="item sm-bar cart-icon">
                         <img
                           src="//cdn.ggumim.co.kr/resource/icons/ic_cart_black.png"
