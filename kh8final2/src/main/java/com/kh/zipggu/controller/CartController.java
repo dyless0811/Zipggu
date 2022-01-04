@@ -1,5 +1,7 @@
 package com.kh.zipggu.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.zipggu.service.CartService;
+import com.kh.zipggu.vo.CartListVO;
 import com.kh.zipggu.vo.CartVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +36,17 @@ public class CartController {
 		
 		return "redirect:/store/detail/"+cartVO.getItemNo();
 	}
-//	
-//	@GetMapping("/list")
-//	public String list(Model model) {
-//		
-//		
-//	}
+	
+	@GetMapping("/list")
+	public String list(Model model, HttpSession session) {
+		
+		int memberNo = (int)session.getAttribute("loginNo");
+		
+		List<CartListVO> cartListVO = cartService.list(memberNo);
+		
+		model.addAttribute("cartListVO", cartListVO);
+		
+		return "cart/list";
+	}
 	
 }

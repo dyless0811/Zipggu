@@ -93,7 +93,7 @@
 	</c:forEach>
 	<button class="option-plus btn btn-primary">추가</button>
 	<br><br>
-	<button id="cart-btn" class="btn btn-primary">장바구니</button>
+	<button id="cart-btn" class="btn btn-primary">장바구니 추가</button>
 	<button class="btn btn-primary">구매하기</button>
 </div>
 
@@ -108,6 +108,7 @@
 	<div>
 		수량 : <input type="number" id="quantity" name="optionList[0].quantity" min="1" max="999" value="1">
 	</div>
+
 </template>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

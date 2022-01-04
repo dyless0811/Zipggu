@@ -1,5 +1,7 @@
 package com.kh.zipggu.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,7 @@ import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.repository.CartDao;
 import com.kh.zipggu.repository.CartOptionDao;
 import com.kh.zipggu.repository.ItemOptionDao;
+import com.kh.zipggu.vo.CartListVO;
 import com.kh.zipggu.vo.CartVO;
 import com.kh.zipggu.vo.OptionVO;
 
@@ -41,5 +44,14 @@ public class CartServiceImpl implements CartService{
 				cartOptionDao.insert(cartOptionDto);
 			}
 		}
+	}
+	
+	
+	@Override
+	public List<CartListVO> list(int memberNo) {
+		
+		
+		
+		return cartDao.list(memberNo);
 	}
 }
