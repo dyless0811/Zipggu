@@ -1,8 +1,11 @@
 package com.kh.zipggu.repository;
 import java.io.IOException;
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
+
 import com.kh.zipggu.entity.MemberProfileDto;
-import com.kh.zipggu.vo.MemberJoinVO;
+
 
 
 public interface MemberProfileDao {
@@ -16,4 +19,5 @@ public interface MemberProfileDao {
 	void edit(MemberProfileDto memberProfileDto);
 	
 	void upload(MemberProfileDto memberProfileDto, MultipartFile multipartFile) throws IllegalStateException, IOException;
+
 }

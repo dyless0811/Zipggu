@@ -16,6 +16,7 @@ import com.kh.zipggu.entity.SnsFileDto;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
 import com.kh.zipggu.vo.MemberJoinVO;
+import com.kh.zipggu.vo.MemberListVO;
 import com.kh.zipggu.vo.MemberUploadVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -119,9 +120,20 @@ public class MemberServiceImpl implements MemberService {
 			memberProfileDao.save(memberProfileDto, multipartFile);
 		}
 	}
-	
-	
 
+
+
+//	@Override
+//	public List<MemberListVO> list(MemberListVO memberListVO) throws Exception {
+//		return memberDao.list(memberListVO);
+//	}
+	
+	@Override
+	public List<MemberListVO> VOlist(MemberListVO memberListVO) throws Exception {
+		return memberDao.VOlist(memberListVO);
+	}	
+
+	
 //	@Override
 //	public void edit(MemberProfileDto memberProfileDto, MultipartFile attach) throws IllegalStateException, IOException {
 //		//검사값 false를 변수에 담고

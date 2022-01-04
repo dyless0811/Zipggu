@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
+import com.kh.zipggu.vo.MemberListVO;
 
 @Repository
 public class MemberDaoWithEncrypt implements MemberDao {
@@ -39,7 +40,7 @@ public class MemberDaoWithEncrypt implements MemberDao {
 		} else {// 아니면 null을 반환
 			return null;
 		}
-	}
+	}	
 
 	@Override
 	public void join(MemberDto memberDto) {
@@ -99,6 +100,11 @@ public class MemberDaoWithEncrypt implements MemberDao {
 		return sqlSession.selectOne("member.emailGet", email);
 	}
 
+//	@Override
+//	public MemberDto noGet(int memberNo) {
+//		return sqlSession.selectOne("member.noGet", memberNo);
+//	}
+	
 	@Override
 	public MemberDto noGet(int memberNo) {
 		return sqlSession.selectOne("member.noGet", memberNo);
@@ -109,4 +115,17 @@ public class MemberDaoWithEncrypt implements MemberDao {
 					sqlSession.update("member.edit", memberDto);			
 	}
 
+	@Override
+	public List<MemberListVO> VOlist(MemberListVO memberListVO) {
+		return sqlSession.selectList("member.VOlist");
+	}
+
+	@Override
+	public List<MemberDto> list(MemberDto memberDto) {
+		return sqlSession.selectList("member.list");
+	}
+	
+	
+	
+	
 }

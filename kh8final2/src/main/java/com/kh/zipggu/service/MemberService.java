@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
 import com.kh.zipggu.vo.MemberJoinVO;
+import com.kh.zipggu.vo.MemberListVO;
 import com.kh.zipggu.vo.MemberUploadVO;
 
 public interface MemberService {
@@ -20,4 +21,9 @@ public interface MemberService {
 //	void edit(MemberProfileDto memberProfileDto, MultipartFile attach) throws IllegalStateException, IOException;
 	
 	void edit(MemberDto memberDto, MultipartFile attach) throws IllegalStateException, IOException;	
+	
+	List<MemberListVO> VOlist (MemberListVO memberListVO) throws Exception;
+	
+//	List<MemberDto> list (MemberDto memberDto) throws Exception;
+	
 }
