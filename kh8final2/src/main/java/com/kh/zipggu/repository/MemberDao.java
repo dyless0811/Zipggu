@@ -3,7 +3,7 @@
 import java.util.List;
 
 import com.kh.zipggu.entity.MemberDto;
-
+import com.kh.zipggu.vo.MemberListVO;
 
 public interface MemberDao {
 
@@ -15,8 +15,8 @@ public interface MemberDao {
 	
 	MemberDto emailGet(String email);//네이버 이메일 조회
 	
-	MemberDto login(MemberDto memberDto);//비밀번호 검사까지 통과하면 객체를 반환하도록 구현
-
+	MemberDto login(MemberDto memberDto);//비밀번호 검사까지 통과하면 객체를 반환하도록 구현	
+	
 	//비밀번호 변경
 	boolean changePassword(String memberEmail, String memberPw, String changePw);
 	
@@ -29,5 +29,8 @@ public interface MemberDao {
 	//회원 탈퇴
 	boolean quit(String memberEmail, String memberPw);
 	
+	List<MemberListVO> VOlist (MemberListVO memberListVO);
+	
+	List<MemberDto> list (MemberDto memberDto);	
 	
 }

@@ -29,6 +29,7 @@ li {
 <div class="layout-container" >
 
 	<div class="menu-container">
+	<c:if test="${memberDto.memberNo == loginNo}">
 		<nav class="menu-nav">
 			<ul style="transform: translateX(0px);">
 				<li class="page-item"><a href="#">프로필</a></li>
@@ -37,6 +38,7 @@ li {
 				<li class="page-item"><a href="#">설정</a></li>
 			</ul>
 		</nav>
+	</c:if>
 		<nav class="menu-nav">
 		<ul style="transform: translateX(0px);">
 			<li class="page-item"><a href="#"></a></li>
@@ -63,7 +65,7 @@ li {
 									<img src="https://via.placeholder.com/120x120?text=User" class="profileImage">
 								</c:when>
 								<c:otherwise>
-									<img src="profile?memberNo=${loginNo}" width="100%" height="100%" class="profileImage">
+									<img src="profile?memberNo=${memberProfileDto.memberNo}" width="100%" height="100%" class="profileImage">
 								</c:otherwise>
 							</c:choose>
 						</div>

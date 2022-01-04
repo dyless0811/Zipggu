@@ -80,6 +80,9 @@
                   <a href="${root }/sns">
                     <div class="item">커뮤니티</div>
                   </a>
+                   <a href="${root }/member/memberList">
+                    <div class="item">회원목록</div>
+                  </a>
                   <div class="right">
                     <!-- <a href="/search"> -->
                     <div class="item sm-bar">
@@ -122,11 +125,11 @@
                       <div class="profile-image-wrapper">
                      
                           	<c:choose>
-								<c:when test="${memberProfileNo == null}">
+								<c:when test="${memberProfileDto == null}">
 									<img src="https://via.placeholder.com/120x120?text=User" class="profile-image">
 								</c:when>
 								<c:otherwise>
-									<img src="${root}/member/profile?memberProfileNo=${memberProfileNo}" class="profile-image">
+									<img src="${root}/member/profile?memberNo=${loginNo}" class="profile-image">
 								</c:otherwise>
 							</c:choose>
 							
@@ -138,20 +141,20 @@
                       >
                         <div class="member-profile-section">
                           <div class="profile-image">
-                          
+                                               
                            	<c:choose>
-								<c:when test="${memberProfileNo == null}">
+								<c:when test="${memberProfileDto == null}">
 									<img src="https://via.placeholder.com/120x120?text=User" class="profile-image">
 								</c:when>
 								<c:otherwise>
-									<img src="${root}/member/profile?memberProfileNo=${memberProfileNo}" class="profile-image">
+									<img src="${root}/member/profile?memberNo=${loginNo}" class="profile-image">
 								</c:otherwise>
 							</c:choose>
 							
                           </div>
                           <div class="profile-contents">
                             <div class="profile-nickname">
-                              <a href="${root}/member/mypage">${loginNick}</a>
+                              <a href="${root}/member/page?memberNo=${loginNo}">${loginNick}</a>
                             </div>
                             <div class="profile-grade">
                               <div>등급</div>
@@ -181,7 +184,7 @@
                         </div>
                         <ul>
                           <li>
-                            <a href="${root}/member/mypage">마이페이지</a>
+                            <a href="${root}/member/page?memberNo=${loginNo}">마이페이지</a>
                           </li>                        
                           <li>
                             <a href="/member/noti/3194863"> 알림 </a>

@@ -33,16 +33,16 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.kh.zipggu.repository.CertificationDao;
 import com.kh.zipggu.service.EmailService;
+import com.kh.zipggu.service.FollowService;
 import com.kh.zipggu.entity.CertificationDto;
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
-import com.kh.zipggu.entity.SnsDto;
 import com.kh.zipggu.naver.NaverLoginBO;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
 import com.kh.zipggu.service.MemberService;
 import com.kh.zipggu.vo.MemberJoinVO;
-import com.kh.zipggu.vo.MemberUploadVO;
+import com.kh.zipggu.vo.MemberListVO;
 import com.kh.zipggu.vo.NaverMemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +70,9 @@ public class MemberController {
 	@Autowired
 	JavaMailSenderImpl mailSender;
 
+	@Autowired
+	private FollowService followService;
+	
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
@@ -102,9 +105,7 @@ public class MemberController {
 			session.setAttribute("loginNo", findDto.getMemberNo());
 			session.setAttribute("loginEmail", findDto.getMemberEmail());
 			session.setAttribute("loginNick", findDto.getMemberNickname());
-			session.setAttribute("loginGrade", findDto.getMemberGrade());
-
-			MemberProfileDto memberProfileDto = memberProfileDao.noGet(findDto.getMemberNo());
+			session.setAttribute("loginGrade", findDto.getMemberGrade());	
 
 			// 쿠키와 관련된 아이디 저장하기 처리
 			if (saveId != null) {// 체크 했다면(saveId값이 전송되었다면)
@@ -230,7 +231,7 @@ public class MemberController {
 		session.removeAttribute("loginEmail");
 		session.removeAttribute("loginNick");
 		session.removeAttribute("loginGrade");
-
+		
 		return "redirect:/";
 	}
 
@@ -266,10 +267,9 @@ public class MemberController {
 	// 내정보
 	@RequestMapping("/mypage")
 	public String mypage(HttpSession session, Model model) {
-		String memberEmail = (String) session.getAttribute("loginEmail");
 		int memberNo = (int) session.getAttribute("loginNo");
 
-		MemberDto memberDto = memberDao.get(memberEmail);
+		MemberDto memberDto = memberDao.noGet(memberNo);
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
 
 		model.addAttribute("memberDto", memberDto);
@@ -506,4 +506,38 @@ public class MemberController {
 		return "redirect:profileEdit";
 	}
 
+	
+	//임시 회원 리스트
+	@RequestMapping("/memberList")
+	public String memberList(Model model, @ModelAttribute MemberListVO memberListVO) throws Exception {
+		
+		model.addAttribute("memberListVO", memberService.VOlist(memberListVO));
+
+		return "member/memberList";
+	}
+	
+
+	// 개인 페이지
+	@RequestMapping("/page")
+	public String page(@RequestParam int memberNo ,HttpSession session, Model model) {
+	
+		MemberDto memberDto = memberDao.noGet(memberNo);
+		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+
+		// 팔로워카운트
+		int followerCount = followService.followerCount(memberNo);	
+		
+		// 팔로잉카운트
+		int followingCount = followService.followingCount(memberNo);
+	
+		model.addAttribute("followerCount", followerCount);
+		model.addAttribute("followingCount", followingCount);		
+
+		model.addAttribute("followingCount", followingCount);	
+		model.addAttribute("memberDto", memberDto);
+		model.addAttribute("memberProfileDto", memberProfileDto);
+
+		return "member/page";
+	}
+	
 }

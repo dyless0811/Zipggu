@@ -1,6 +1,7 @@
 package com.kh.zipggu.repository;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -95,8 +96,5 @@ public class MemberProfileDaoImpl implements MemberProfileDao{
 	public void edit(MemberProfileDto memberProfileDto) {
 		sqlSession.update("memberProfile.edit", memberProfileDto);
 	}
-
-
-
 
 }

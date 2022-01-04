@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- myBatis 매퍼 파일 - DBMS에서 실행할 SQL 구문을 저장하는 XML 파일 - namespace를 통해서 여러 개의 
+	매퍼를 구분한다 - 테이블 당 1개씩 만드는 것이 일반적이며, 따라서 namespace를 테이블명으로 작성하면 구분이 용이하다. - 
+	<insert> , <select> , <update> , <delete>를 이용해서 CRUD 구문을 작성한다. - 각 구문은 외부에서 
+	호출이 가능하도록 반드시 ID를 겹치지 않게 부여해야 한다. - parameterType 은 구문을 실행하기 위해 필요한 데이터의 
+	형태를 말한다. - resultType은 구문을 실행한 결과를 어떤 형태로 변환해야 하는지를 말한다. -->
+
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="follow">
+
+
+	<!-- 등록용 시퀀스번호 -->
+	<select id="seq" resultType="int">
+		select follow_seq.nextval from dual
+	</select>
+	
+	<!-- 팔로우 기능 -->
+	<insert id="follow">
+		insert into follow(follow_no, follower_user, following_user)
+		values (#{followNo},#{followerUser}, #{followingUser})
+	</insert>
+
+	<!-- 언팔로우 기능 -->
+	<delete id="unfollow">
+		delete from follow where follower_user =
+		#{followerUser} and following_user = #{followingUser}
+	</delete>
+
+	<!-- 팔로우 유무 조회 기능 -->
+	<select id="isFollow" parameterType="int" resultType="int">
+		select
+		count(*) from follow where follower_user = #{followerUser} and
+		following_user = #{followingUser}
+	</select>
+
+ 	<!-- 팔로우 리스트 조회 기능 -->
+	<select id="followerList" parameterType="int" resultType="FollowVO">
+		select
+		follower_user,
+		following_user,
+        M.member_nickname as member_nickname,
+        M.member_introduce as member_introduce,
+		F.follow_when as follow_when,
+		M.member_no as following_user,
+		P.member_profile_no as member_profile_no
+		from follow F
+		Left outer join member M
+		on (F.following_user = M.member_no)
+		Left outer join member_profile P
+		on (P.member_no = M.member_no)
+		where follower_user = #{followerUser}
+		order by member_nickname asc
+	</select>
+
+	<!-- 팔로잉 리스트 조회 기능 -->
+	<select id="followingList" parameterType="int"  resultType="FollowVO">
+	    select
+		follower_user,
+		following_user,
+        M.member_nickname as member_nickname,
+        M.member_introduce as member_introduce,
+		F.follow_when as follow_when,
+		P.member_profile_no as member_profile_no
+		from follow F
+		Left outer join member M
+		on (F.follower_user = M.member_no)
+		Left outer join member_profile P
+		on (P.member_no = F.follower_user)
+		where following_user = #{followingUser}
+		order by member_nickname asc
+	</select>
+
+	<!-- 탈퇴 시 팔로우 전체 삭제 -->
+	<delete id="deleteAllFollow">
+		delete from follow where follower_user =
+		#{followerUser}
+	</delete>
+
+	<!-- 팔로워 카운트 -->
+	<select id="followerCount" parameterType="int" resultType="int">
+		select
+        count(*)
+		from follow F
+		Left outer join member M
+		on (F.following_user = M.member_no)
+		where follower_user = #{followerUser}
+	</select>
+
+	<!-- 팔로잉 카운트 -->
+	<select id="followingCount" parameterType="int" resultType="int">
+		select
+        count(*)
+		from follow F
+		Left outer join member M
+		on (F.following_user = M.member_no)
+		where following_user = #{followingUser}
+	</select>
+
+
+</mapper>
