@@ -31,4 +31,8 @@ public class HomeController {
 		session.removeAttribute("loginNick");
 		return "redirect:/";
 	}
+	@GetMapping("/help")
+	public String help() {
+		return "customer/qna";
+	}
 }
