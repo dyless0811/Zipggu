@@ -36,13 +36,13 @@
     width: 0;
     height: 0;
     border: 8px solid transparent;
-    border-left: 8px solid #a00;
+    border-left: 8px solid #df625c;
     margin: 2px 0 0 8px;
     float: left;
   }
   .qna input:checked + label::before { /* 내용 펼침 상태 제목 앞 화살표 */
     border: 8px solid transparent;
-    border-top: 8px solid #a00;
+    border-top: 8px solid #df625c;
     border-bottom: 0;
     margin: 8px 4px 0;
   }
