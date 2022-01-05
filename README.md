@@ -28,7 +28,7 @@
 
 
 ## 3. database ERD Diagram
-
+![집꾸](https://user-images.githubusercontent.com/88871773/148164004-f9f7acd4-f737-4a5f-9c0f-bf8ec94cddfc.png)
 
 
 ## 4. 사이트 맵
