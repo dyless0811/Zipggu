@@ -3,6 +3,80 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+    .pay{
+        color: dimgray;
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .item-detail{
+        border: 1px;
+        background-color: #EAECEE;
+        width: 40rem;
+        height: 7rem;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 0 !important;
+        margin-left: auto;
+        padding:0;
+    }
+    .qty .count {
+        color: #000;
+        display: inline-block;
+        vertical-align: top;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 30px;
+        
+        min-width: 35px;
+        text-align: center;
+    }
+    .qty .plus {
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: top;
+        color: white;
+        width: 30px;
+        height: 30px;
+        font: 80px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 0%;
+    }
+    .qty .minus {
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: top;
+        color: white;
+        width: 30px;
+        height: 30px;
+        font: 80px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 0%;
+        background-clip: padding-box;
+    }
+    .minus:hover{
+        background-color: #717fe0 !important;
+    }
+    .plus:hover{
+        background-color: #717fe0 !important;
+    }
+    /*Prevent text selection*/
+    input{  
+        border: 0;
+        width: 2%;
+    }
+    nput::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input:disabled{
+        background-color:white;
+    }
+</style>
 
 <script>
 
@@ -74,7 +148,34 @@ $(function(){
 	});
     
 
-	
+	 $(function(){
+
+         $(".check-all").on("input", function(){
+            
+             console.log(1);
+
+             var isChecked = $(this).prop("checked");
+             console.log(isChecked);
+             $("input[type=checkbox]").prop("checked", isChecked);
+         });
+     });
+
+
+	 //수량 버튼 수정 필요함
+     $(document).ready(function(){
+         var quantity = $(".count")[0].value;
+         console.log(quantity);
+		    $('.count').prop('disabled', true);
+			$(document).on('click','.plus',function(){
+				$('.count').val(parseInt($('.count').val()) + 1 );
+ 		});
+     	$(document).on('click','.minus',function(){
+ 			$('.count').val(parseInt($('.count').val()) - 1 );
+ 				if ($('.count').val() == 0) {
+						$('.count').val(1);
+					}
+ 	    	});
+		});
 </script>
 
 <div class="container-zipggu">
@@ -107,4 +208,186 @@ $(function(){
 	
 	<div class="result"></div>
 	
+	
+	
+	
+	
+	
+<hr>
+
+<h1>장바구니 디자인 추가 부분</h1>
+<div class="container-zipggu">
+        <div class="p-5 mb-4 bg-light border rounded-3">
+
+            <div class="row mb-4">
+
+                <!--선택된 총 상품개수-->
+                <p class="h4 p-3 mb-2"><strong>?개 상품을 선택하셨어요</strong></p>
+
+                <!--총 상품 금액 + 배송비-->
+                <p class="h5"><strong>예상 결제 금액은 1,000,000,000,000원 입니다</strong></p>
+            </div>
+
+            <div class="row pay">
+
+                <!--선택된 총 상품 금액-->
+                <p>총 상품 금액  :  999,999,996,000 원</p>
+
+                <!--배송비-->
+                <p>총 배송비  :  4,000 원</p>
+
+            </div>
+            
+            
+            <div class="row mt-5">
+
+                <!--모두선택 체크박스-->
+                <div class="col-auto me-auto">
+                    <input type="checkbox" class="check-all form-check-input" ><span>모두선택</span>
+                </div>
+
+                <!--모두삭제 버튼-->
+                <div class="col-auto">
+                    <button class="btn btn-secondary">모두삭제</button>
+                </div>
+            </div>
+            
+            <!--장바구니에 추가한 상품목록 시작-->
+
+            <hr>
+            <!--상품명-->
+            
+            <div class="row mt-4 mb-4">
+                <p class="h4">RF 프레아 아쿠아텍스 패브릭 소파</p>
+            </div>
+            <div class="row">
+
+                <!--체크박스-->
+                <div class="col-auto me-auto">
+                    <input type="checkbox" class="check-item form-check-input">
+                </div>
+                <!--삭제버튼-->
+                <div class="col-auto">
+                    <button class="btn btn-secondary">삭제</button>
+                </div>
+            </div>
+
+    
+            <div class="row mb-4">
+
+                <!--상품 썸네일-->
+                <div class="col-auto">
+                    <img src="http://placeimg.com/150/150/animals" class="d-block w-100" alt="...">
+                </div>
+                <!--상품 옵션 및 수량-->
+                <div class="item-detail col-auto me-auto">
+
+                    <div class="row m-3">
+                        <!-- 옵션 -->
+                        <div class="col-auto me-auto">
+                            옵션 : 83 / 사이즈 / s / 0 옵션 : 85 / 색상 / 레드 / 0
+                        </div>
+                        <!--삭제 버튼-->
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </div>
+                    </div>
+
+
+                    <div class="row m-3">
+                        <!--수량-->
+                        <!--
+                            <div class="col-auto me-auto">
+                                <input type="number">
+                            </div>
+                        -->
+                        <div class="qty col-auto me-auto">
+                            <span class="minus bg-dark">-</span>
+                            <input type="number" class="count" name="quantity" value="1">
+                            <span class="plus bg-dark">+</span>
+                        </div>
+
+                        <!--상품금액-->
+                        <div class="col-auto">
+                            <p class="h5"><strong>1,500,000원</strong></p>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+
+
+            <!--장바구니에 추가한 상품목록 시작-->
+
+            <hr>
+            <!--상품명-->
+            <div class="row mt-5 mb-4">
+                <p class="h4">RF 프레아 아쿠아텍스 패브릭 소파</p>
+            </div>
+            <div class="row">
+
+                <!--체크박스-->
+                <div class="col-auto me-auto">
+                    <input type="checkbox" class="check-item form-check-input">
+                </div>
+                <!--삭제버튼-->
+                <div class="col-auto">
+                    <button class="btn btn-secondary">삭제</button>
+                </div>
+            </div>
+
+    
+            <div class="row">
+
+                <!--상품 썸네일-->
+                <div class="col-auto">
+                    <img src="http://placeimg.com/150/150/animals" class="d-block w-100" alt="...">
+                </div>
+                <!--상품 옵션 및 수량-->
+                <div class="item-detail col-auto me-auto">
+
+                    <div class="row m-3">
+                        <!-- 옵션 -->
+                        <div class="col-auto me-auto">
+                            옵션 : 83 / 사이즈 / s / 0 옵션 : 85 / 색상 / 레드 / 0
+                        </div>
+                        <!--삭제 버튼-->
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </div>
+                    </div>
+
+
+                    <div class="row m-3">
+                        <!--수량-->
+                        <!--
+                            <div class="col-auto me-auto">
+                                <input type="number">
+                            </div>
+                        -->
+                        <div class="qty col-auto me-auto">
+                            <span class="minus bg-dark">-</span>
+                            <input type="number" class="count" name="quantity" value="1">
+                            <span class="plus bg-dark">+</span>
+                        </div>
+
+                        <!--상품금액-->
+                        <div class="col-auto">
+                            <p class="h5"><strong>1,500,000원</strong></p>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+
+            <hr>
+            <div class="row mt-5">
+                <button class="btn btn-secondary btn-lg">구매하러가기</button>
+            </div>
+
+        </div>
+    </div>
+
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
