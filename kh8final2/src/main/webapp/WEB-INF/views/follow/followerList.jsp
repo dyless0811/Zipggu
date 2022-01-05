@@ -25,7 +25,6 @@
 							dataType :"text",
 							success : function(resp) {
 									console.log("팔로우성공", resp);
-
 							},
 							error:function(e){
 								console.log("실패", e);
@@ -187,6 +186,20 @@ button {
 	flex: 1 0 0px;
 	min-width: 0;
 }
+
+.followBtn {
+    background-color: #35c5f0;
+    border-color: #35c5f0;
+    color: #fff;
+    padding: 5px 7px;
+}
+
+.unfollowBtn {
+    background-color: #fff;
+    border-color: #dbdbdb;
+    color: #757575;
+    padding: 5px 7px;
+}
 </style>
 
 <div class="layout-container">
@@ -242,16 +255,16 @@ button {
 								<dl class="statsAttributeList">
 									<dd class="statsAttributeLabel">팔로워</dd>
 								<a href="${pageContext.request.contextPath}/follow/followerList?memberNo=${memberDto.memberNo}">
-									<dt class="statsAttributeValue">${followerCount}</dt>
+									<dt class="statsAttributeValue">${followingCount}</dt>
 								</a>		
 									<dd class="statsAttributeLabel">팔로잉</dd>
 								<a href="${pageContext.request.contextPath}/follow/followingList?memberNo=${memberDto.memberNo}">
-									<dt class="statsAttributeValue">${followingCount}</dt>
+									<dt class="statsAttributeValue">${followerCount}</dt>
 								</a>		
 								</dl>
 								
 								<c:if test="${memberDto.memberNo == loginNo}">
-								<div><a href="profileEdit" class="a-border">설정</a></div>
+								<div><a href="${pageContext.request.contextPath}/member/profileEdit" class="a-border">설정</a></div>
 								</c:if>
 							</div>
 						</div>
@@ -264,13 +277,13 @@ button {
 			<div class="mCol"></div>
 			<div class="rCol">
 				<div class="rDiv">
-					<h1 class="hTitle">팔로워</h1>
+					<h1 class="hTitle">팔로잉</h1>
 					
-					<c:forEach var="followVO" items="${followerList}">
+					<c:forEach var="followVO" items="${followingList}">
 						<div>
 			
 							<div class="divItemContainer">
-								<a href="${pageContext.request.contextPath}/member/page?memberNo=${followVO.followingUser}" class="itemLinkPlaceholder">
+								<a href="${pageContext.request.contextPath}/member/page?memberNo=${followVO.followerUser}" class="itemLinkPlaceholder">
 									<div class="itemImageContainer">
 										<c:choose>
 											<c:when test="${followVO.memberProfileNo == 0}">
@@ -278,7 +291,7 @@ button {
 													class="profileImage">
 											</c:when>
 											<c:otherwise>
-												<img src="${pageContext.request.contextPath}/member/profile?memberNo=${followVO.followingUser}"
+												<img src="${pageContext.request.contextPath}/member/profile?memberNo=${followVO.followerUser}"
 													width="100%" height="100%" class="profileImage">
 											</c:otherwise>
 										</c:choose>
@@ -291,13 +304,24 @@ button {
 								</a>
 								<div>
 
-								<button class="followBtn" id="follow-btn" data-member-no="${followVO.followingUser}">팔로우</button>
-								<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${followVO.followingUser}">언팔로우</button>
+									<c:choose>
+											<c:when test="${followVO.followingUser != followVO.followerUser}">
+												<button class="followBtn" id="follow-btn" data-member-no="${followVO.followerUser}">팔로우</button>
+											</c:when>
+											<c:otherwise>
+												<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${followVO.followerUser}">팔로잉</button>
+											</c:otherwise>
+									</c:choose>
+
+
+<%-- 								<button class="followBtn" id="follow-btn" data-member-no="${followVO.followerUser}">팔로우</button> --%>
+<%-- 								<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${followVO.followerUser}">언팔로우</button> --%>
+
 
 								</div>
 							</div>
 						</div>
-					</c:forEach>
+					</c:forEach>	
 				</div>
 			</div>
 		</div>

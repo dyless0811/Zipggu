@@ -30,52 +30,16 @@ public class FollowController {
 
 	@Autowired
 	private FollowService followService;
-
-	@Autowired
-	private MemberService memberService;	
 	
 	@Autowired
 	private MemberDao memberDao;
 	
 	@Autowired
 	private MemberProfileDao memberProfileDao;	
-	
+
 	//팔로워 목록 페이지
 	@RequestMapping("/followerList")
 	public String followerList(@RequestParam int memberNo ,HttpSession session, Model model) {
-	
-		MemberDto memberDto = memberDao.noGet(memberNo);
-		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
-
-		// 팔로우 객체 생성
-		FollowVO follow = new FollowVO();
-		follow.setFollowerUser(memberNo); // 선택 회원번호
-		
-		// 팔로워 리스트
-		List<FollowVO> followerList = followService.followerList(memberNo);
-		log.info("현재 페이지 회원 리스트 : " + followerList);
-		
-		// 팔로워카운트
-		int followerCount = followService.followerCount(memberNo);
-		log.info("팔로워 카운트 : " + followerCount);		
-		
-		// 팔로잉카운트
-		int followingCount = followService.followingCount(memberNo);
-		log.info("팔로잉 카운트 : " + followingCount);		
-		
-		model.addAttribute("followerCount", followerCount);
-		model.addAttribute("followingCount", followingCount);		
-		model.addAttribute("memberDto", memberDto);
-		model.addAttribute("memberProfileDto", memberProfileDto);
-		model.addAttribute("followerList", followerList);
-		
-		return "follow/followerList";
-	}	
-	
-	
-	//팔로잉 목록 페이지
-	@RequestMapping("/followingList")
-	public String followingList(@RequestParam int memberNo ,HttpSession session, Model model) {
 	
 		MemberDto memberDto = memberDao.noGet(memberNo);
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
@@ -87,26 +51,62 @@ public class FollowController {
 		FollowVO follow = new FollowVO();
 		follow.setFollowingUser(memberNo); // 상대 유저 회원 번호 
 		
+		// 팔로워 리스트
+		List<FollowVO> followerList = followService.followerList(memberNo);
+		log.info("현재 페이지 회원 리스트 : " + followerList);
+		
 		// 팔로잉리스트
 		List<FollowVO> followingList = followService.followingList(memberNo);
 		log.info("현재 페이지 회원 번호 리스트 : " + followingList);		
 
-		// 팔로워카운트
+		// 팔로워 카운트
 		int followerCount = followService.followerCount(memberNo);
 		log.info("팔로워 카운트 : " + followerCount);		
 		
-		// 팔로잉카운트
+		// 팔로잉 카운트
 		int followingCount = followService.followingCount(memberNo);
 		log.info("팔로잉 카운트 : " + followingCount);		
 		
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followingCount", followingCount);			
-		model.addAttribute("followingList", followingList);
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberProfileDto", memberProfileDto);
-
-		return "follow/followingList";
+		model.addAttribute("followerList", followerList);
+		model.addAttribute("followingList", followingList);
 		
-	}		
+		return "follow/followerList";
+		
+	}	
 	
+	//팔로잉 목록 페이지
+	@RequestMapping("/followingList")
+	public String followingList(@RequestParam int memberNo ,HttpSession session, Model model) {
+	
+	MemberDto memberDto = memberDao.noGet(memberNo);
+	MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+
+	// 팔로우 객체 생성
+	FollowVO follow = new FollowVO();
+	follow.setFollowerUser(memberNo); // 선택 회원번호
+	
+	// 팔로워 리스트
+	List<FollowVO> followerList = followService.followerList(memberNo);
+	log.info("현재 페이지 회원 리스트 : " + followerList);
+	
+	// 팔로워 카운트
+	int followerCount = followService.followerCount(memberNo);
+	log.info("팔로워 카운트 : " + followerCount);		
+	
+	// 팔로잉 카운트
+	int followingCount = followService.followingCount(memberNo);
+	log.info("팔로잉 카운트 : " + followingCount);		
+	
+	model.addAttribute("followerCount", followerCount);
+	model.addAttribute("followingCount", followingCount);		
+	model.addAttribute("memberDto", memberDto);
+	model.addAttribute("memberProfileDto", memberProfileDto);
+	model.addAttribute("followerList", followerList);
+	
+	return "follow/followingList";
+}	
 }
