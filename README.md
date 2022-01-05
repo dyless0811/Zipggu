@@ -20,15 +20,15 @@
 
 
 ## 2. 기술
-1. Web Front : 
-2. Web Server :  
+1. Web Front : `CSS`, `HTML`, `JavaScript`
+2. Web Server :  `Java`
 3. DBMS : 
 4. 개발환경 : 
 
 
 
 ## 3. database ERD Diagram
-
+![집꾸](https://user-images.githubusercontent.com/88871773/148185823-4f5247b6-7ece-4b74-8e8a-f3eef7483214.png)
 
 
 ## 4. 사이트 맵

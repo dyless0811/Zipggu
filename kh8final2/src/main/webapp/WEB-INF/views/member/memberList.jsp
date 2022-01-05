@@ -187,6 +187,20 @@ button {
 	flex: 1 0 0px;
 	min-width: 0;
 }
+
+.followBtn {
+    background-color: #35c5f0;
+    border-color: #35c5f0;
+    color: #fff;
+    padding: 5px 7px;
+}
+
+.unfollowBtn {
+    background-color: #fff;
+    border-color: #dbdbdb;
+    color: #757575;
+    padding: 5px 7px;
+}
 </style>
 
 <div class="layout-container">
@@ -201,8 +215,9 @@ button {
 			<div class="rCol">
 				<div class="rDiv">
 					<h1 class="hTitle">임시 회원 목록</h1>
+					<div>
 					<c:forEach var="memberListVO" items="${memberListVO}">
-						<div>
+						
 							<div class="divItemContainer">
 								<a href="${pageContext.request.contextPath}/member/page?memberNo=${memberListVO.memberNo}" class="itemLinkPlaceholder">															
 									<div class="itemImageContainer">
@@ -223,15 +238,18 @@ button {
 									</div>
 								</a>
 								<div>
-
-								<button class="followBtn" id="follow-btn" data-member-no="${memberListVO.memberNo}">팔로우</button>
-								<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${memberListVO.memberNo}">언팔로우</button>
-
+										<button class="followBtn" id="follow-btn" data-member-no="${memberListVO.memberNo}">팔로우</button>
+										<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${memberListVO.memberNo}">언팔로우</button>
+									</div>
 								</div>
-							</div>
-						</div>
+								
+								
 					</c:forEach>
-
+					
+	
+							
+					
+	</div>
 				</div>
 
 			</div>
