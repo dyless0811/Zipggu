@@ -13,7 +13,7 @@
 <!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="itemOption">
 	<select id="listByItemNo" parameterType="int" resultType="ItemOptionDto">
-		select * from item_option where item_no = #{itemNo}
+		select * from item_option where item_no = #{itemNo} order by item_option_no asc
 	</select>
 
 	<insert id="insert" parameterType="ItemOptionDto">
@@ -25,22 +25,22 @@
 	</insert>
 	
 	<delete id="itemOptionDetailDelete" parameterType="int">
-		delete from item_option where item_option_no = ${itemOptionNo}
+		delete from item_option where item_option_no = #{itemOptionNo}
 	</delete>
 	
 	<delete id="itemOptionGroupDelete" parameterType="ItemOptionDto">
-		delete from item_option where item_no = ${itemNo} and item_option_group = ${itemOptionGroup}
+		delete from item_option where item_no = #{itemNo} and item_option_group = #{itemOptionGroup}
 	</delete>
 	
 	<update id="itemOptionDetailUpdate" parameterType="ItemOptionDto">
-		update item_option set item_option_detail = ${itemOptionDetail}, item_option_price = ${itemOptionPrice} where item_option_no = ${itemOptionNo}
+		update item_option set item_option_detail = #{itemOptionDetail}, item_option_price = #{itemOptionPrice} where item_option_no = #{itemOptionNo}
 	</update>
 	
 	<update id="itemOptionGroupUpdate" parameterType="ItemOptionDto">
-		update item_option set item_option_group = ${changeGroup} where item_no = ${itemNo} and item_option_group = ${itemOptionGroup}
+		update item_option set item_option_group = #{changeGroup} where item_no = #{itemNo} and item_option_group = #{itemOptionGroup}
 	</update>
 	
 	<insert id="itemOptionDetailInsert" parameterType="ItemOptionDto">
-		insert into item_option values(item_option_seq.nextval, ${itemNo}, ${itemOptionGroup}, ${itemOptionDetail}, ${itemOptionPrice}, ${itemOptionRequired})
+		insert into item_option values(item_option_seq.nextval, #{itemNo}, #{itemOptionGroup}, #{itemOptionDetail}, #{itemOptionPrice}, #{itemOptionRequired})
 	</insert>
 </mapper> 

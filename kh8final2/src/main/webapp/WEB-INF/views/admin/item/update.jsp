@@ -36,12 +36,14 @@
       $(function () {
     	  $(".exist-detail-remove-btn").click(function(){
       		itemOptionRemove($(this).parent().data("option-no"));
+      		$(this).parent().remove();
       	  });
     	  
     	  $(".exist-group-remove-btn").click(function(){
-    		var itemNo = $("input[name=itemName]").data("item-no");
+    		var itemNo = $("input[name=itemNo]").val();
     		var itemOptionGroup = $(this).parent().data("option-group");
     		itemOptionGroupRemove(itemNo, itemOptionGroup);
+    		$(this).parent().remove();
     	  });
     	  
     	  $(".exist-detail-update-btn").click(function(){
@@ -186,7 +188,7 @@
           });
           // 내용이 비어있는 상태를 검사
           var is_empty_value = false;
-          $(".option-list>.option-detail").each(function () {
+          $(".option-detail").each(function () {
             var itemOptionGroup = $(this)
               .parent()
               .parent()
@@ -205,7 +207,6 @@
               .prop("checked")
               ? 1
               : 0;
-		
             is_empty_value =
               !itemOptionGroup || !itemOptionDetail || !itemOptionPrice;
 
@@ -258,8 +259,8 @@
 		  }
           
           
-          $.ajax({
-        	url: "${pageContext.request.contextPath}/admin/item/insert",
+         $.ajax({
+        	url: "${pageContext.request.contextPath}/admin/item/update",
         	type: "post",
         	data: formData,
         	enctype: "multipart/form-data",
@@ -408,6 +409,7 @@
     			},
     			success: function(resp){
     				console.log("성공",resp);
+    				location.reload();
     			},
     			error: function(e){
     				console.log("실패",e)
@@ -450,7 +452,8 @@
 	  <div class="row">
 		<div class="mb-3">
   			<label for="itemFormControlInput1" class="form-label">상품명</label>
-  			<input type="text" name="itemName" data-item-no="${itemDto.itemNo}" class="form-control" id="itemFormControlInput1" value="${itemDto.itemName}">
+  			<input type="text" name="itemName" class="form-control" id="itemFormControlInput1" value="${itemDto.itemName}">
+  			<input type="hidden" name="itemNo" value="${itemDto.itemNo}">
 		</div>
 	  </div>
 	  
@@ -480,13 +483,12 @@
 					<img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemDto.itemNo}" style="width:300px">
 				</div>
 		</div>
-      </form>
-        <label>
-          <div class="btn btn-primary">파일 추가</div>
-          <input type="file" name="attach" accept="image/*" class="form-control" hidden>
-        </label>
+      <label>
+        <div class="btn btn-primary">파일 추가</div>
+        <input type="file" name="attach" accept="image/*" class="form-control" hidden>
+      </label>
         <div class="imgs_wrap">
-				<div id="result">
+				<div id="exist-result">
 					<c:forEach var="itemFileDto" items="${itemFileDtoList}">
 						<div>						
 							<input type="hidden" name="remainingFile" value="${itemFileDto.itemFileNo}">
@@ -496,7 +498,9 @@
 						</div>
 					</c:forEach>
 				</div>
+				<div id="result"></div>
 		</div>
+      </form>
         <br /><br />
       <button class="option-group-btn" type="button">옵션 분류 추가</button>
       <hr />
@@ -521,7 +525,7 @@
     	  <button type="button" class="exist-option-insert-btn">추가</button> <br><br>      	  
     	  <div class="option-detail-list">
     	  	<c:forEach var="optionDto" items="${map.value}">
-    	  	  <div class="option-detail" data-option-no="${optionDto.itemOptionNo}">
+    	  	  <div class="exist-option-detail" data-option-no="${optionDto.itemOptionNo}">
     		    <label>
       		           옵션 내용
       			  <input name="itemOptionDetail" type="text" value="${optionDto.itemOptionDetail}"/>

@@ -13,14 +13,13 @@ import com.kh.zipggu.repository.CartDao;
 import com.kh.zipggu.service.CartService;
 import com.kh.zipggu.vo.CartListVO;
 import com.kh.zipggu.vo.ItemOrderListVO;
-import com.kh.zipggu.vo.ItemOrderVO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequestMapping("/payment")
-public class paymentController {
+public class PaymentController {
 	
 	@Autowired
 	private CartDao cartDao;
