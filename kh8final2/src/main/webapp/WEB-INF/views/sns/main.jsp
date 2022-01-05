@@ -68,6 +68,33 @@
 			});
 		}
 	});
+	
+
+	
+	$(function(){
+		$(document).on("click", ".follow-btn", function (){
+			console.log(1);
+		var memberNo = $(this).data("member-no");
+		console.log(memberNo);
+			
+		$.ajax({
+			url:"${pageContext.request.contextPath}/follow/follow",
+			type:"post",
+			data : {
+				memberNo : memberNo
+			},
+			dataType :"text",
+			success : function(resp) {
+					console.log("팔로우성공", resp);
+
+			},
+			error:function(e){
+				console.log("실패", e);
+			}
+		});
+	
+		});
+});
 </script>
 
 
@@ -109,13 +136,16 @@
 
 <template id="sns-template">
 
-	
-      		
             	<div class="col">
                 	<div class="card shadow-sm">
-                		<a href="detail?snsNo=${snsDto.snsNo }" id="a">
-						<img src="thumnail?snsNo=${snsDto.snsNo}" id="thumnail" class="bd-placeholder-img card-img-top" width="100%" height="225" >
-						</a>
+                		
+	                		<a href="detail?snsNo=${snsDto.snsNo }" id="a">
+								<img src="thumnail?snsNo=${snsDto.snsNo}" id="thumnail" class="card-img bd-placeholder-img card-img-top" width="100%" height="225" >
+								<div class="card-img-overlay">
+								<span id="count" style='color:white' style='text:bold'></span>
+								</div>
+							</a>
+						
 						<div class="d-flex justify-content-between align-items-center mt-2 ms-3">
   								<div>
    									<!-- 좋아요 아이콘 -->
@@ -131,8 +161,7 @@
 	  									<path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"></path>
 									</svg>
                    					<span id="reply"></span>
-                   					&nbsp;&nbsp;&nbsp;&nbsp;
-                   					<span id="count"></span>
+                   				
                  				</div>
                  	
             				</div>
@@ -143,12 +172,30 @@
 							
 							<div>
                  				<!-- 페이지 이동 어디로??????????????????? -->
-               					<a href="${root }/member/mypage">
+                 				<form class="follow">
+                 					<input type="hidden" name="memberNo" value="${loginNo }">
+                 				</form>
+                 				
+                 				<div class="dropdown">
+								  <a href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                						<img src="profile?memberNo=${memberProfileDto.memberNo}" class="profile-image">
-                 				<small class="text-muted" id="nickname">
-                 					${loginNick }	
-                 				</small>
-               					</a>
+               						<small class="text-muted" id="nickname">
+	                 					작성자	
+	                 				</small>
+								  </a>
+								
+								  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								    <li><button id="" class="follow-btn followBtn dropdown-item" data-member-no="${loginNo }">팔로우?</button></li>
+								    <li><a class="dropdown-item" href="#">팔로우 취소?</a></li>
+								    <li><a class="dropdown-item" href="#">회원 페이지?</a></li>
+								  </ul>
+								</div>
+<%--                					<a href="${root }/member/mypage"> --%>
+<%--                						<img src="profile?memberNo=${memberProfileDto.memberNo}" class="profile-image"> --%>
+<!--                  				<small class="text-muted" id="nickname"> -->
+<%--                  					${loginNick }	 --%>
+<!--                  				</small> -->
+<!--                					</a> -->
                  			</div>
                  			<div>
                  				<div class="text-muted" id="date">dddd</div>
@@ -156,8 +203,6 @@
           				</div>
         			</div>
       			</div>
-			
-    
 
 </template>
 
