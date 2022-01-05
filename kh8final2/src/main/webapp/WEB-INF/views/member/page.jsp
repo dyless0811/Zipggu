@@ -78,16 +78,16 @@ li {
 								<dl class="statsAttributeList">
 									<dd class="statsAttributeLabel">팔로워</dd>
 								<a href="${pageContext.request.contextPath}/follow/followerList?memberNo=${memberDto.memberNo}">
-									<dt class="statsAttributeValue">${followerCount}</dt>
+									<dt class="statsAttributeValue">${followingCount}</dt>
 								</a>		
 									<dd class="statsAttributeLabel">팔로잉</dd>
 								<a href="${pageContext.request.contextPath}/follow/followingList?memberNo=${memberDto.memberNo}">
-									<dt class="statsAttributeValue">${followingCount}</dt>
+									<dt class="statsAttributeValue">${followerCount}</dt>
 								</a>		
 								</dl>
 								
 								<c:if test="${memberDto.memberNo == loginNo}">
-								<div><a href="profileEdit" class="a-border">설정</a></div>
+								<div><a href="${pageContext.request.contextPath}/member/profileEdit" class="a-border">설정</a></div>
 								</c:if>
 							</div>
 						</div>
