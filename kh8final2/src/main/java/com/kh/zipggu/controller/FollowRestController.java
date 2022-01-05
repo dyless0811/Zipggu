@@ -36,6 +36,8 @@ public class FollowRestController {
 		
 		int followCheck = followService.isFollow(followVO);
 		
+		if(followerUser != followingUser) {
+		
 		if (followCheck != 0) {
 			
 			log.info("회원 번호 : " + memberNo + " [ 이미  팔로우 입니다 ]");
@@ -48,6 +50,9 @@ public class FollowRestController {
 			
 		}
 
+		} else {
+			log.info("동일유저 팔로우 방지");
+		}
 	}
 
 	// 언팔로우 요청
@@ -64,6 +69,8 @@ public class FollowRestController {
 		
 		int followCheck = followService.isFollow(followVO);
 
+		if(followerUser != followingUser) {
+		
 		if (followCheck == 0) {
 
 			log.info("회원 번호 : " + memberNo + " [ 팔로우중이 아닙니다 ]");
@@ -75,6 +82,10 @@ public class FollowRestController {
 			log.info("회원 번호 : " + memberNo + " [ 언팔로우 완료 ]");
 			
 		}
+		
+		} else {
+			log.info("동일유저 팔로우 방지");
+		}	
 
 	}
 
