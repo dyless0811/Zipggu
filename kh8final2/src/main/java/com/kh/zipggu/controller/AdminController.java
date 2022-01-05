@@ -78,14 +78,7 @@ public class AdminController {
 		return "admin/item/update";
 	}
 	
-	@PostMapping("item/update")
-	@ResponseBody
-	public int itemUpdate(@ModelAttribute ItemUpdateVO vo, @RequestParam MultipartFile thumbnail , @RequestParam List<MultipartFile> attach) throws IllegalStateException, IOException {
-		
-		
-		return 0;
-	}
-	
+	//상품 수정 시 기존의 상품 옵션 수정 기능
 	@PostMapping("item/update/optionRemove")
 	@ResponseBody
 	public void itemOptionRemove(@RequestParam int itemOptionNo) {

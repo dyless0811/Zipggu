@@ -30,7 +30,7 @@ public class CartController {
 	@PostMapping("/insert")
 	public String insert(@ModelAttribute CartVO cartVO, HttpSession session) {
 		
-		//log.debug("cartVO = {}", cartVO);
+		log.debug("=====================================cartVO = {}", cartVO);
 		
 		//회원 번호를 세션에 받아 cartVO에 저장
 		cartVO.setMemberNo((int)session.getAttribute("loginNo"));

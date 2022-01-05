@@ -13,6 +13,6 @@ public class CartVO {
 	private int itemNo;
 	
 	private int memberNo;
-	private List<OptionVO> optionList=new ArrayList<>();
+	private List<OptionVO> optionList = new ArrayList<>();
 	
 }
