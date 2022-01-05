@@ -20,8 +20,8 @@
 
 
 ## 2. 기술
-1. Web Front : 
-2. Web Server :  
+1. Web Front : `CSS`, `HTML`, `JavaScript`
+2. Web Server :  `Java`
 3. DBMS : 
 4. 개발환경 : 
 
