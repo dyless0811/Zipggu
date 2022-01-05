@@ -58,13 +58,35 @@ public class FollowTest {
 		}
 		
 	}
-
+	
+//	@Test
 	public void followTest3() {
 
 		List<FollowVO> follower = followDao.followerList(166);
 		
 		System.out.println(follower);
 
+	}		
+	
+	@Test
+	public void followTest4() {
+		
+		FollowVO followVO = new FollowVO();
+		
+		followVO.setFollowerUser(1);
+		followVO.setFollowingUser(166);
+		
+		int result = followDao.isFollow(followVO);
+		
+		System.out.println("팔로우  : " + result);
+		
+		if(result == 0) {
+			System.out.println("팔로우 체크 X");
+		} else {
+			System.out.println("팔로우 체크 O");
+		}
+		
+		
 	}		
 	
 }

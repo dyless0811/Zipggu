@@ -25,7 +25,6 @@
 							dataType :"text",
 							success : function(resp) {
 									console.log("팔로우성공", resp);
-
 							},
 							error:function(e){
 								console.log("실패", e);
