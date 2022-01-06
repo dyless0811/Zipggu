@@ -17,5 +17,4 @@ public interface CartService {
 	//장바구니에서 선택한 상품 결제페이지에서 출력하는 기능
 	List<CartListVO> listByOrder(ItemOrderListVO itemOrderListVO);
 
-
 }

@@ -150,7 +150,7 @@ $(function(){
 		});
 	});
     
-
+	//체크박스 전체 선택
 	 $(function(){
 
          $(".check-all").on("input", function(){
@@ -163,34 +163,67 @@ $(function(){
          });
      });
 
-
-	 //수량 버튼 수정 필요함
-     $(document).ready(function(){
-         var quantity = $(".count")[0].value;
-         console.log(quantity);
-		    $('.count').prop('disabled', true);
-			$(document).on('click','.plus',function(){
-				$('.count').val(parseInt($('.count').val()) + 1 );
- 		});
-     	$(document).on('click','.minus',function(){
- 			$('.count').val(parseInt($('.count').val()) - 1 );
- 				if ($('.count').val() == 0) {
-						$('.count').val(1);
-					}
- 	    	});
-		});
-	 
-   //체크박스 선택하여 구매하기
+	 //체크박스 선택하여 구매하기
      $(function(){
      	$(".ea").on("input", function(){
      		
      		
      		var ea = $("input[name=cartNo]:checked").length;
-     		console.log(ea);
      		$("#answer-length").text(ea);
-     		
+     		calcTotalPrice();
      	});
      });
+	 
+	 //수량 버튼
+     $(function(){
+		$('.count').prop('disabled', true);
+		
+		$(document).on('click','.plus',function(){
+			var count = $(this).siblings('.count');
+			count.val(parseInt(count.val()) + 1 );
+			calcItemPrice($(this));
+			calcTotalPrice();
+    	});
+		
+     	$(document).on('click','.minus',function(){
+			var count = $(this).siblings('.count');
+     		count.val(parseInt(count.val()) - 1 );
+ 			if (count.val() == 0) {
+ 				count.val(1);
+			}
+ 			calcItemPrice($(this));
+ 			calcTotalPrice();
+		});
+	});
+	
+	 function calcItemPrice(button){
+		 var priceTag = button.parent().next().find(".itemPrice");
+		 
+		 var quantity = button.siblings('.count').val();
+		 var price = quantity * priceTag.data("item-price");
+		 
+		 var value = (price).toLocaleString(undefined);
+		 priceTag.text(value);
+	 }
+	 function calcTotalPrice(){
+		 var totalPrice = 0;
+		 var shipping = 0;
+		 $(".cart input:checked").each(function(){
+			var count = $(this).parent().parent().next().find(".count").val();
+			var price = $(this).parent().parent().next().find(".itemPrice").data("item-price");
+			totalPrice += price * count;
+		 });
+		 
+		 if(0 < totalPrice && totalPrice < 50000){
+			 shipping = 3000;
+		 }
+		 
+		 $("#shipping").text((shipping).toLocaleString(undefined));
+		 $("#totalPrice").text((totalPrice).toLocaleString(undefined));
+		 $("#orderTotalPrice").text((shipping+totalPrice).toLocaleString(undefined));
+	 }
+	 
+
 </script>
 
 <div class="container-zipggu">
@@ -245,16 +278,16 @@ $(function(){
                 <p class="h4 p-3 mb-2"><strong><span id="answer-length">0</span>개 상품을 선택하셨어요</strong></p>
 
                 <!--총 상품 금액 + 배송비-->
-                <p class="h5"><strong>예상 결제 금액은 1,000,000,000,000원 입니다</strong></p>
+                <p class="h5"><strong>예상 결제 금액은 <span id="orderTotalPrice">0</span>원 입니다</strong></p>
             </div>
 
             <div class="row pay">
 
                 <!--선택된 총 상품 금액-->
-                <p>총 상품 금액  :  999,999,996,000 원</p>
+                <p>총 상품 금액  :  <span id="totalPrice">0</span> 원</p>
 
                 <!--배송비-->
-                <p>총 배송비  :  4,000 원</p>
+                <p>총 배송비  :  <span id="shipping">0</span> 원</p>
 
             </div>
             
@@ -306,8 +339,9 @@ $(function(){
 	                        <div class="col-auto me-auto">
 	                        
 		                	<!-- 옵션 반복문 시작 -->
-							<c:forEach var="optionList" items="${cartListVO.optionList }">
-	                            	<span>옵션 : ${optionList.itemOptionGroup } / ${optionList.itemOptionDetail }</span>
+		                	옵션 :
+							<c:forEach var="optionList" items="${cartListVO.optionList }" varStatus="status">
+	                            	<span>${status.index != 0 ? "/" : ""} ${optionList.itemOptionGroup}: ${optionList.itemOptionDetail}</span>
 	                            	<span style='display:none'>${optionList.itemOptionPrice }</span>
 							 </c:forEach>
 	                        </div>
@@ -320,22 +354,15 @@ $(function(){
 	                    </div>
 	
 	                    <div class="row m-3">
-	                        <!--수량-->
-	                        <!--
-	                            <div class="col-auto me-auto">
-	                                <input type="number">
-	                            </div>
-	                        -->
 	                        <div class="qty col-auto me-auto">
 	                            <span class="minus bg-dark">-</span>
-	                            <input type="text" class="count" name="quantity" value="${cartListVO.quantity }">
-<!-- 	                            <input type="number"  name="quantity" value="1"> -->
+	                            <input type="text" class="count" name="quantity" value="${cartListVO.quantity}">
 	                            <span class="plus bg-dark">+</span>
 	                        </div>
 	
 	                        <!--상품금액-->
 	                        <div class="col-auto">
-	                            <p class="h5"><strong>1,500,000원</strong></p>
+	                            <p class="h5"><strong><span class="itemPrice" data-item-price="${cartListVO.getTotalPrice()}">${cartListVO.getTotalPriceToString()}</span>원</strong></p>
 	                        </div>
 	                    </div>
 	

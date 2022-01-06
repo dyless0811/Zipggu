@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
 
@@ -66,10 +66,6 @@ $(function(){
 
 <h1>결제 페이지</h1>
 
-<c:forEach var="order" items="${orderList }">
-	<h5>${order.toString() }</h5>
-</c:forEach>
-
 
 <h3>배송주소</h3>
 <div>
@@ -95,21 +91,23 @@ $(function(){
                     <h2 class="accordion-header" id="flush-headingOne">
                     
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                            주문상품 2개
+                            주문상품 ${orderList.size()}개
                         </button>
 
                     </h2>
 
                     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
 
-
+						
                         <!--주문상품 내역 (반복문 시작)-->
+						
                         <div class="accordion-body">
+							<c:forEach var="order" items="${orderList}">
                             <div class="row mt-2">
 
                                 <!--상품 썸네일-->
                                 <div class="col-auto">
-                                    <img src="http://placeimg.com/100/100/animals" class="d-block w-100" alt="...">
+                                    <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${order.itemNo}" class="d-block w-100" alt="...">
                                 </div>
 
                                 <!--상품 옵션 및 수량-->
@@ -118,27 +116,30 @@ $(function(){
                                     <!-- 상품명 -->
                                     <div class="row m-1">
                                         <div class="col-auto me-auto">
-                                            <span style="font-size: 15px;"><strong>클린 싱크대 음식물 쓰레기 거름망</strong></span>
+                                            <span style="font-size: 15px;"><strong>${order.itemName}  ${order.quantity}개</strong></span>
                                         </div>
                                     </div>
                 
                                     <!--옵션-->
                                     <div class="row m-1">
                                         <div class="col-auto me-auto">
-                                            <span style="font-size: 12px; color: dimgray;"><strong>딥그린 / 1개</strong></span>
+                                            <span style="font-size: 12px; color: dimgray;">
+                                            	<c:forEach var="option" items="${order.optionList}" varStatus="status">
+                                            	<strong>${status.index != 0 ? "/" : ""} ${option.itemOptionGroup}: ${option.itemOptionDetail} </strong>
+                                            	</c:forEach>
+                                            </span>
                                         </div>
                                     </div>
                 
                                     <!--상품금액-->
                                     <div class="row m-1">
                                         <div class="col-auto me-auto">
-                                            <span style="font-size: 15px;"><strong>1,000,000,000</strong></span>
+                                            <span style="font-size: 15px;"><strong>${order.getTotalPriceToString()}</strong></span>
                                         </div>
                                     </div>
-                
                                 </div>
-                                
                             </div>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
@@ -205,7 +206,7 @@ $(function(){
         
                 
                 <div class="col-auto">
-                    <span style="color: black;"><strong>9,999,995,000 원</strong></span>
+                    <span style="color: black;"><strong>${totalPrice} 원</strong></span>
                 </div>
             </div>
             
@@ -217,7 +218,7 @@ $(function(){
         
                 
                 <div class="col-auto">
-                    <span style="color: black;"><strong>5,000 원</strong></span>
+                    <span style="color: black;"><strong>${shipping} 원</strong></span>
                 </div>
             </div>
 
@@ -229,7 +230,7 @@ $(function(){
         
                 
                 <div class="col-auto">
-                    <span style="color: black;"><strong>5,000 원</strong></span>
+                    <span style="color: black;"><strong>${totalAmount} 원</strong></span>
                 </div>
             </div>
             
@@ -242,7 +243,7 @@ $(function(){
             </div>
 
             <div class="row">
-                <button><img src="./kakaopay.jpg" width="100%" height=""></button>
+                <button><img src="${pageContext.request.contextPath}/resources/image/kakaopay.jpg" width="100%" height=""></button>
             </div>
 
             <hr>

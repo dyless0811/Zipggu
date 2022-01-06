@@ -1,5 +1,7 @@
 package com.kh.zipggu.vo;
 
+import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 
 import com.kh.zipggu.entity.ItemOptionDto;
@@ -20,4 +22,22 @@ public class CartListVO {
 	private int itemShippingType;
 	
 	private List<ItemOptionDto> optionList;
+	
+	public int getTotalPrice() {
+		int totalPrice = getItemPrice();
+		for (ItemOptionDto option : optionList) {
+			totalPrice += option.getItemOptionPrice(); 
+		}
+		return totalPrice;
+	}
+	public String getTotalPriceToString() {
+		DecimalFormat f = new DecimalFormat("###,###");
+		
+		return f.format(getTotalPrice());
+	}
+	public String getSumPriceToString() {
+		DecimalFormat f = new DecimalFormat("###,###");
+		
+		return f.format(getTotalPrice()*this.getQuantity());
+	}
 }
