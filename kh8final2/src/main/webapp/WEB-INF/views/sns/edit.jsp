@@ -89,7 +89,7 @@ function deleteImageAction(index){
 }
 </script>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<h1>게시글 수정 페이지</h1>
+<h1></h1>
 
 <div class="container-600 container-center">
 	<div class="row mt-3">

@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath }"></c:set>
-<script src="${root }/resources/ckeditor5/build/ckeditor.js"></script>
+<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
 <style>
 
 
@@ -90,10 +91,11 @@ function deleteImageAction(index){
 
   console.log(sel_files);
 }
+
+
 </script>
 
-<jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-<h1>sns 등록 페이지</h1>
+<h1></h1>
 
 <div class="container-600 container-center">
 	<div class="row mt-3">
@@ -104,7 +106,7 @@ function deleteImageAction(index){
 			</div>
 			<div class="mt-3">
 				<label class="danger">※에디터 기능은 굵게, 기울기, 링크만 사용 가능합니다. 그 외 기능 사용 금지</label>
-				<textarea name="snsDetail" id="editor"></textarea>
+				<textarea name="snsDetail" id="editor" required></textarea>
 				<script>
 					ClassicEditor
 						.create(document.querySelector('#editor'),{
