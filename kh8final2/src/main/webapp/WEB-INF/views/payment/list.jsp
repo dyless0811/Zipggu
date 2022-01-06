@@ -5,25 +5,62 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
-//Example starter JavaScript for disabling form submissions if there are invalid fields
+
+
+//form 스크립트
 $(function () {
-'use strict'
+	'use strict'
 
-// Fetch all the forms we want to apply custom Bootstrap validation styles to
-var forms = document.querySelectorAll('.needs-validation')
+	var forms = document.querySelectorAll('.needs-validation')
 
-// Loop over them and prevent submission
-Array.prototype.slice.call(forms)
-    .forEach(function (form) {
+	Array.prototype.slice.call(forms).forEach(function (form) {
     form.addEventListener('submit', function (event) {
         if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
+    	    event.preventDefault()
+        	event.stopPropagation()
         }
 
         form.classList.add('was-validated')
-    }, false)
+    	}, false)
     })
+});
+
+
+$(function(){
+    //.find-address-btn이 눌리면(태그 종류 무관) 무조건 주소 검색창 출력
+    $(".find-address-btn").click(function(e){
+        e.preventDefault();//a태그일 경우를 대비
+        findAddress();
+    });
+
+    function findAddress() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                console.log(data);
+               
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다
+                // (주의) jQuery로 처리하려면 jQuery CDN이 이 코드보다 위에 있어야 한다.
+
+                document.querySelector("input[name=postcode]").value = data.zonecode;
+                //$("input[name=postcode]").val(data.zonecode);
+                document.querySelector("input[name=basicAddress]").value = addr;
+                //$("input[name=basicAddress]").val(addr);
+                // 커서를 상세주소 필드로 이동한다.
+                document.querySelector("input[name=extraAddress]").focus();
+                //$("input[name=extraAddress]").focus();
+            }
+        }).open();
+    }
 });
 </script>
 
@@ -48,7 +85,7 @@ Array.prototype.slice.call(forms)
 
 <h1>디자인 시작</h1>
 
-<div class="container-zipggu">
+ <div class="container-zipggu">
         <div class="p-5 mb-4 bg-light border rounded-3">
             
             <!--주문상품 보여줄 곳-->
@@ -132,21 +169,21 @@ Array.prototype.slice.call(forms)
                     <div>
                         <label for="validationCustomUsername" class="form-label">우편번호</label>
                         <div class="input-group has-validation">
-                            <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>                  
-                            <button type="button" class="btn btn-secondary">우편번호찾기</button>
+                            <input type="text" class="form-control" name="postcode" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>  
+                            <input type="button" value="우편번호 찾기" class="find-address-btn btn btn-secondary">                
                         </div>
                     </div>
 
                      <!--주소-->
                      <div>
                         <label for="validationCustom02" class="form-label">주소지</label>
-                        <input type="text" class="form-control" id="validationCustom02" required>
+                        <input type="text" class="form-control" name="basicAddress" id="validationCustom02" required placeholder="주소">
                     </div>
                     
                        <!--상세 주소-->
                     <div>
                         <label for="validationCustom02" class="form-label">상세주소</label>
-                        <input type="text" class="form-control" id="validationCustom02" required>
+                        <input type="text" class="form-control"  name="extraAddress" id="validationCustom02" required placeholder="상세주소">
                     </div>
 
                   </form>
@@ -205,7 +242,7 @@ Array.prototype.slice.call(forms)
             </div>
 
             <div class="row">
-                <button><img src="${root }/resources/image/kakaopay.jpg" width="100%" height=""></button>
+                <button><img src="./kakaopay.jpg" width="100%" height=""></button>
             </div>
 
             <hr>
