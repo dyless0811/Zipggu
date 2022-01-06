@@ -82,6 +82,8 @@
 
 //체크박스 선택하여 구매하기
 $(function(){
+	var shipping = 0;
+	
 	$(".buy-btn").click(function(){
 		//하나도 체크되지 않은 경우는 중지
 		if($("input[name=cartNo]:checked").length == 0) return;
@@ -108,13 +110,9 @@ $(function(){
 				
 				count++;
 				
-				console.log(no);
-				console.log(quantity);
-				console.log(count);
-				
 			}
 		});
-			$("<input type='hidden' name='shipping' value='4000'>").appendTo(".send-form");
+			$("<input type='hidden' name='shipping' value='"+shipping+"'>").appendTo(".send-form");
 			form.submit();
 	});
 });
@@ -140,8 +138,6 @@ $(function(){
 					console.log("삭제제발!", resp);
 					//위에 저장한 변수로 삭제된 아이템 지우기.
 					cart.remove();
-					
-					//console.log(cart);
 					
 				},
 				error:function(e){}
@@ -207,7 +203,7 @@ $(function(){
 	 }
 	 function calcTotalPrice(){
 		 var totalPrice = 0;
-		 var shipping = 0;
+		 shipping = 0;
 		 $(".cart input:checked").each(function(){
 			var count = $(this).parent().parent().next().find(".count").val();
 			var price = $(this).parent().parent().next().find(".itemPrice").data("item-price");
@@ -222,8 +218,6 @@ $(function(){
 		 $("#totalPrice").text((totalPrice).toLocaleString(undefined));
 		 $("#orderTotalPrice").text((shipping+totalPrice).toLocaleString(undefined));
 	 }
-	 
-
 </script>
 
 <div class="container-zipggu">
