@@ -61,4 +61,16 @@ public class FollowServiceImpl implements FollowService{
 		return followDao.followingCount(memberNo);
 	}
 
+	@Override
+	public List<FollowVO> followerF4f(int memberNo) throws Exception {
+		// TODO Auto-generated method stub
+		return followDao.followerF4f(memberNo);
+	}
+
+	@Override
+	public List<FollowVO> followingF4f(int memberNo) throws Exception {
+		// TODO Auto-generated method stub
+		return followDao.followingF4f(memberNo);
+	}
+
 }

@@ -15,6 +15,7 @@
 		$(".followBtn").click(function(e) {
 				
 			var memberNoValue = $(this).data("member-no");
+			var button = $(this);
 			
 				$.ajax({
 							url : "${pageContext.request.contextPath}/follow/follow",
@@ -25,6 +26,17 @@
 							dataType :"text",
 							success : function(resp) {
 									console.log("팔로우성공", resp);
+// 									button.removeClass("followBtn");
+// 									button.addClass("unfollowBtn");						
+// 									button.css("background-color","#fff");
+// 									button.css("border-color","#dbdbdb");
+// 									button.css("color","#757575");
+// 									button.css("padding","5px 7px");										
+									
+								    button.toggleClass = "unfollowBtn";
+								    button.html("팔로잉");
+                                    
+								    
 							},
 							error:function(e){
 								console.log("실패", e);
@@ -35,6 +47,7 @@
 				$(".unfollowBtn").click(function(e) {
 					
 					var memberNoValue = $(this).data("member-no");
+					var button = $(this);
 					
 				$.ajax({
 							url : "${pageContext.request.contextPath}/follow/unfollow",
@@ -45,6 +58,17 @@
 							dataType :"text",
 							success : function(resp) {
 									console.log("언팔로우성공", resp);
+// 									button.removeClass("unfollowBtn");
+// 									button.addClass("followBtn");
+// 									button.css("background-color","#35c5f0");
+// 									button.css("border-color","#35c5f0");
+// 									button.css("color","#fff");
+// 									button.css("padding","5px 7px");	
+// 									button.html("팔로우")
+									button.toggleClass = "followBtn";
+								    button.html("팔로우");
+									    
+								    
 
 							},
 							error:function(e){
@@ -277,9 +301,9 @@ button {
 			<div class="mCol"></div>
 			<div class="rCol">
 				<div class="rDiv">
-					<h1 class="hTitle">팔로잉</h1>
+					<h1 class="hTitle">팔로워</h1>
 					
-					<c:forEach var="followVO" items="${followingList}">
+					<c:forEach var="followVO" items="${followerF4f}">
 						<div>
 			
 							<div class="divItemContainer">
@@ -303,20 +327,14 @@ button {
 									</div>
 								</a>
 								<div>
-
 									<c:choose>
-											<c:when test="${followVO.followingUser != followVO.followerUser}">
-												<button class="followBtn" id="follow-btn" data-member-no="${followVO.followerUser}">팔로우</button>
+											<c:when test="${followVO.f4f != 'Y'}"> 
+												<button class="followBtn" data-member-no="${followVO.followerUser}">팔로우</button>
 											</c:when>
 											<c:otherwise>
-												<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${followVO.followerUser}">팔로잉</button>
+												<button class="unfollowBtn" data-member-no="${followVO.followerUser}">팔로잉</button>
 											</c:otherwise>
 									</c:choose>
-
-
-<%-- 								<button class="followBtn" id="follow-btn" data-member-no="${followVO.followerUser}">팔로우</button> --%>
-<%-- 								<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${followVO.followerUser}">언팔로우</button> --%>
-
 
 								</div>
 							</div>

@@ -55,4 +55,15 @@ public class FollowDaoImpl implements FollowDao {
 	}
 
 
+	@Override
+	public List<FollowVO> followerF4f(int memberNo) {
+		return sqlSession.selectList("follow.followerF4f", memberNo);
+	}
+
+	@Override
+	public List<FollowVO> followingF4f(int memberNo) {
+		return sqlSession.selectList("follow.followingF4f", memberNo);
+	}
+
+
 }

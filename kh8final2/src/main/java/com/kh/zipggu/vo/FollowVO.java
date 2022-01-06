@@ -15,5 +15,5 @@ public class FollowVO {
 	private String memberIntroduce; //회원 한줄소개
 	
 	private int memberProfileNo; //회원 프로필 번호
-	
+	String f4f;
 }

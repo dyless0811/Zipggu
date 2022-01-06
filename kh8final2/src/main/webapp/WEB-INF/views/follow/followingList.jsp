@@ -279,9 +279,9 @@ button {
 			<div class="mCol"></div>
 			<div class="rCol">
 				<div class="rDiv">
-					<h1 class="hTitle">팔로워</h1>
+					<h1 class="hTitle">팔로잉</h1>
 					
-					<c:forEach var="followVO" items="${followerList}">
+					<c:forEach var="followVO" items="${followingF4f}">
 						<div>
 			
 							<div class="divItemContainer">
@@ -301,21 +301,19 @@ button {
 									<div class="SitemContent">
 										<div class="itemNickname">${followVO.memberNickname}</div>
 										<div class="itemIntroduce">${followVO.memberIntroduce}</div>
-
 									</div>
 								</a>
 								<div>
-<%-- 									<c:choose> --%>
-<%-- 											<c:when test="${followCheck == 0}"> --%>
-<%-- 												<button class="followBtn" id="follow-btn" data-member-no="${followVO.followingUser}">팔로우</button> --%>
-<%-- 											</c:when> --%>
-<%-- 											<c:otherwise> --%>
-<%-- 												<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${followVO.followingUser}">팔로잉</button> --%>
-<%-- 											</c:otherwise> --%>
-<%-- 									</c:choose> --%>
-								<button class="followBtn" id="follow-btn" data-member-no="${followVO.followingUser}">팔로우</button>
-								<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${followVO.followingUser}">언팔로우</button>
-
+					
+									<c:choose>
+											<c:when test="${followVO.f4f == N}"> 
+												<button class="followBtn" id="follow-btn" data-member-no="${followVO.followingUser}">팔로우</button>
+											</c:when>
+											<c:otherwise>
+												<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${followVO.followingUser}">팔로잉</button>
+											</c:otherwise>
+									</c:choose>
+									
 								</div>
 							</div>
 						</div>
