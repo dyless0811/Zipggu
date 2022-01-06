@@ -50,6 +50,12 @@
     .star-rating label:hover ~ label {
       -webkit-text-fill-color: #fff58c;
     }
+    .nick img {
+  		transition: all 0.2s linear;
+	}
+	.nick:hover img {
+	  	transform: scale(1.0);
+	}
 </style>
 <script>
 	$(function(){
@@ -182,72 +188,25 @@
   
 </script>
 
-<div class="container-zipggu">
-	<h1>아이템 디테일</h1>
-	
-	thumbnail = <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}" style="max-width:300px"><Br>
-	
-	itemNo = ${itemDto.itemNo} <br>
-	categoryNo = ${itemDto.categoryNo} <br>
-	itemName = ${itemDto.itemName} <br>
-	itemPrice = ${itemDto.itemPrice} <br>
-	itemShippingType = ${itemDto.itemShippingType} <br>
-	
-	image = 
-	<c:forEach var="itemFileDto" items="${itemFileDtoList}">
-		<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}" style="max-width:300px"><br>
-	</c:forEach>
-	
 
-	<button class="option-plus btn btn-primary">추가</button>
-	<br><br>
-	<button class="cart-btn btn btn-primary" data-buy-type="cart">장바구니 추가</button>
-	<button class="cart-btn btn btn-primary" data-buy-type="payment">구매하기</button>
-</div>
-
-
-<template id="option-template">
-	<div class="selected-item card center container-center">
-	</div>
-</template>
-
-
-
-
-
-
-
-
-<hr>
-<h1>상세페이지 디자인 추가 구역</h1>
-
-<div class="container-ziqggu mt-3">
+<div class="container-zipggu mt-3">
 
       <div class="container container-left">
         <div class="row">
+        
           <!--이미지 시작-->
           <div class="col-md-7">
             <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
               <div class="carousel-inner">
 
                 <div class="carousel-item active">
-
                   <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}" class="d-block w-100" alt="...">
-
                 </div>
-
+                
                 <div class="carousel-item">
-
                   <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}" class="d-block w-100" alt="...">
-
                 </div>
-
-                <div class="carousel-item">
-
-                  <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}" class="d-block w-100" alt="...">
-
-                </div>
-
+                
               </div>
 
               <!--좌 우 버튼-->
@@ -266,21 +225,21 @@
 
           <div class="col-md-5">
             <!-- 상품명 -->
-            <div class="mt-3">
+            <div class="mt-1">
               <label>상품명</label>
-              <p class="h4"><strong>◆인기절정◆누적판매 3만set 돌파! LED 수납3종 침대 SS/Q/K 3colors</strong></p>
+              <p class="h5"><strong>${itemDto.itemName}</strong></p>
             </div>
 
             <!-- 가격 -->
-            <div class="mt-5">
+            <div class="mt-3">
               <label>가격</label>
-              <p><strong>100,000,000,000 원</strong></p>
+              <p><strong>${itemDto.getItemPrice()} 원</strong></p>
             </div>
 
             <div class="mt-5"></div>
 
             <!-- 상품 옵션 -->
-            <div class="mt-5">
+            <div class="mt-2">
               <c:forEach var="map" items="${itemOptionGroupMap}" varStatus="status">
 				<label>${status.count}번째 상품옵션</label>
 				<select class="itemOptionNo form-select form-select-sm mb-3" aria-label=".form-select-lg example" data-required="${map.value[0].itemOptionRequired}">
@@ -291,18 +250,22 @@
 				</select>
 			  </c:forEach>
             </div>
+            
+            <!-- 옵션 추가하는 버튼 -->
             <button class="option-plus btn btn-primary">추가</button>
-
-            <div class="selected-items">
+			
+			<!-- 선택된 옵션 index 숨겨서 보관 -->
+            <div class="selected-items mt-3">
 			</div>
 			<form action="${root }/zipggu/cart/insert" method="post" class="cart">
-				<div>
+				<div class="mt-3">
 					<input type="hidden" name="itemNo" value="${itemDto.itemNo}">
 					<div class="result"></div>
 				</div>
 			</form>
+			
             <!-- 버튼 -->
-            <div class="mt-5 position-relative">
+            <div class="mt-3 position-relative">
               <div class="col-4">
                 <button type="button" class="cart-btn btn btn-primary position-absolute bottom-40 start-0 w-50 p-2">장바구니</button>
               </div>
@@ -315,57 +278,18 @@
       </div>
 
      
+     <div class="container m-3"></div>
+     <div class="container m-3"></div>
 
-      <!-- START THE FEATURETTES -->
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span>
-          </h2>
-          <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose
-            here.
-          </p>
-        </div>
-        <div class="col-md-5">
-
-          <img src="http://placeimg.com/500/500/tech" class="d-block w-100" alt="...">
-
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-7 order-md-2">
-          <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-          <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this
-            layout would work with some actual real-world content in place.</p>
-        </div>
-        <div class="col-md-5 order-md-1">
-
-          <img src="http://placeimg.com/500/500/tech" class="d-block w-100" alt="...">
-
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-          <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really
-            intended to be actually read, simply here to give you a better view of what this would look like with some
-            actual content. Your content.</p>
-        </div>
-        <div class="col-md-5">
-
-          <img src="http://placeimg.com/500/500/tech" class="d-block w-100" alt="...">
-
-        </div>
-      </div>
-
+    
+    <hr>
+	<div class="center">
+	<c:forEach var="itemFileDto" items="${itemFileDtoList}">
+		<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}" style="max-width:300px"><br><br><br>
+	</c:forEach>
+	</div>
+	
+	
       <hr class="featurette-divider">
 
       <!-- 상품 이미지 상세 이미지 마지막 -->
@@ -452,7 +376,7 @@
       <div class="row">
 
         <!--작성 회원 프로필사진 및 닉네임-->
-        <div class="col-auto me-auto">
+        <div class="nick col-auto me-auto">
             <img src="http://placeimg.com/500/500/people" class="member-img d-block w-100">
             <span>닉네임</span>
         </div>
@@ -494,7 +418,10 @@
 
 
 
-
+<template id="option-template">
+	<div class="selected-item card center container-center mt-3">
+	</div>
+</template>
 
 
 

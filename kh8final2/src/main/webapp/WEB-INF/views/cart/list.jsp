@@ -87,7 +87,7 @@ $(function(){
 		if($("input[name=cartNo]:checked").length == 0) return;
 		//form을 임시로 만들어서 body에 추가(전송용)
 		
-		var form = $("<form>").attr("action", "${root}/zipggu/payment/list").attr("method", "get").addClass("send-form");
+		var form = $("<form>").attr("action", "${root}/zipggu/payment/list").attr("method", "post").addClass("send-form");
 		$(".result").append(form);
 		
 		//모든 div를 돌면서 내부에 존재하는 checkbox와 수량을 조사한 뒤 체크된 항목에 대해서 번호와 수량을 별도의 form에 첨부
@@ -105,13 +105,16 @@ $(function(){
 				
 				$("<input type='hidden' name='list["+count+"].cartNo'>").val(no).appendTo(".send-form");
 				$("<input type='hidden' name='list["+count+"].quantity'>").val(quantity).appendTo(".send-form");
+				
 				count++;
 				
 				console.log(no);
 				console.log(quantity);
+				console.log(count);
+				
 			}
 		});
-
+			$("<input type='hidden' name='shipping' value='4000'>").appendTo(".send-form");
 			form.submit();
 	});
 });
@@ -125,7 +128,7 @@ $(function(){
 			var cartNo = $("input[name=cartNo]").val();
 		
 			//삭제후 페이지에서 삭제를 위해 버튼 앞의 div를 변수에 저장
-			var cart = $(this).parent();
+			var cart = $(this).parent().parent().parent().parent().parent();
 			
 			//ajax...
 			$.ajax({
@@ -176,53 +179,70 @@ $(function(){
 					}
  	    	});
 		});
+	 
+   //체크박스 선택하여 구매하기
+     $(function(){
+     	$(".ea").on("input", function(){
+     		
+     		
+     		var ea = $("input[name=cartNo]:checked").length;
+     		console.log(ea);
+     		$("#answer-length").text(ea);
+     		
+     	});
+     });
 </script>
 
 <div class="container-zipggu">
 
-<hr>
-<c:forEach var="cartListVO" items="${cartListVO }">	
-	<div class="cart">
-		<input type="checkbox" name="cartNo" value="${cartListVO.cartNo }">
-		<input type="text" name="quantity" value="${cartListVO.quantity }">
-		<h5>
-			카트NO : ${cartListVO.cartNo } / 멤버NO : ${cartListVO.memberNo } / 아이템NO : ${cartListVO.itemNo } / 
-			${cartListVO.itemName } / 수량 : ${cartListVO.quantity } / ${cartListVO.itemPrice }
-		</h5> 
-		<div>
-			<h5 style="color:blue">
-				<c:forEach var="optionList" items="${cartListVO.optionList }">
-					옵션 : ${optionList.itemOptionNo } / ${optionList.itemOptionGroup } / ${optionList.itemOptionDetail } / ${optionList.itemOptionPrice }
-				</c:forEach>
-			</h5>
-		</div>
-		<button class="delete">x</button>
-		<hr>
-	</div>
-</c:forEach>
-<button class="buy-btn">구매</button>
+<!-- <hr> -->
+
+<%-- <c:forEach var="cartListVO" items="${cartListVO }">	 --%>
+<!-- 	<div class="cart"> -->
+<%-- 		<input type="checkbox" name="cartNo" value="${cartListVO.cartNo }"> --%>
+<%-- 		<input type="text" name="quantity" value="${cartListVO.quantity }"> --%>
+<!-- 		<h5> -->
+<%-- 			카트NO : ${cartListVO.cartNo } / 멤버NO : ${cartListVO.memberNo } / 아이템NO : ${cartListVO.itemNo } /  --%>
+<%-- 			${cartListVO.itemName } / 수량 : ${cartListVO.quantity } / ${cartListVO.itemPrice } --%>
+<!-- 		</h5>  -->
+<!-- 		<div> -->
+<!-- 			<h5 style="color:blue"> -->
+<%-- 				<c:forEach var="optionList" items="${cartListVO.optionList }"> --%>
+<%-- 					옵션 : ${optionList.itemOptionNo } / ${optionList.itemOptionGroup } / ${optionList.itemOptionDetail } / ${optionList.itemOptionPrice } --%>
+<%-- 				</c:forEach> --%>
+<!-- 			</h5> -->
+<!-- 		</div> -->
+<!-- 		<button class="delete">x</button> -->
+<!-- 		<hr> -->
+<!-- 	</div> -->
+<%-- </c:forEach> --%>
+
+<!-- <button class="buy-btn">구매</button> -->
 
 	
-</div>
-<br><br>
-	
-	<div class="result"></div>
+<!-- </div> -->
+<!-- <br><br> -->
 	
 	
 	
 	
 	
 	
-<hr>
+	
+	
+<!-- <hr> -->
 
-<h1>장바구니 디자인 추가 부분</h1>
+<!-- <h1>장바구니 디자인 추가 부분</h1> -->
+
+
 <div class="container-zipggu">
+	
         <div class="p-5 mb-4 bg-light border rounded-3">
 
             <div class="row mb-4">
 
                 <!--선택된 총 상품개수-->
-                <p class="h4 p-3 mb-2"><strong>?개 상품을 선택하셨어요</strong></p>
+                <p class="h4 p-3 mb-2"><strong><span id="answer-length">0</span>개 상품을 선택하셨어요</strong></p>
 
                 <!--총 상품 금액 + 배송비-->
                 <p class="h5"><strong>예상 결제 금액은 1,000,000,000,000원 입니다</strong></p>
@@ -243,7 +263,7 @@ $(function(){
 
                 <!--모두선택 체크박스-->
                 <div class="col-auto me-auto">
-                    <input type="checkbox" class="check-all form-check-input" ><span>모두선택</span>
+                    <input type="checkbox" class="check-all ea form-check-input" ><span>모두선택</span>
                 </div>
 
                 <!--모두삭제 버튼-->
@@ -253,141 +273,92 @@ $(function(){
             </div>
             
             <!--장바구니에 추가한 상품목록 시작-->
-
+			<c:forEach var="cartListVO" items="${cartListVO }">
+            <div class="cart ">
             <hr>
-            <!--상품명-->
             
-            <div class="row mt-4 mb-4">
-                <p class="h4">RF 프레아 아쿠아텍스 패브릭 소파</p>
-            </div>
-            <div class="row">
+	            <!--상품명-->
+	            <div class="row mt-4 mb-4">
+	                <p class="h4">${cartListVO.itemName }</p>
+	                <span style='display:none;'>${cartListVO.itemPrice }</span>
+	            </div>
+	            <div class="row">
+	
+	                <!--체크박스-->
+	                <div class="col-auto me-auto">
+	                	<input type="checkbox" class="check-item ea form-check-input" name="cartNo" value="${cartListVO.cartNo }">
+	                </div>
+	            </div>
+	
+	    
+	            <div class="row mb-4">
+	
+	            
+	                <!--상품 썸네일-->
+	                <div class="col-auto">
+	                    <img src="http://placeimg.com/150/150/animals" class="d-block w-100" alt="...">
+	                </div>
+	                <!--상품 옵션 및 수량-->
+	                <div class="item-detail col-auto me-auto">
+	                
+	                    <div class="row m-3">
+	                        <!-- 옵션 -->
+	                        <div class="col-auto me-auto">
+	                        
+		                	<!-- 옵션 반복문 시작 -->
+							<c:forEach var="optionList" items="${cartListVO.optionList }">
+	                            	<span>옵션 : ${optionList.itemOptionGroup } / ${optionList.itemOptionDetail }</span>
+	                            	<span style='display:none'>${optionList.itemOptionPrice }</span>
+							 </c:forEach>
+	                        </div>
+	                        
+	                        <!--삭제 버튼-->
+	                        <div class="col-auto">
+	                            <button type="button" class="delete btn-close" aria-label="Close"></button>
+	                        </div>
+	                        
+	                    </div>
+	
+	                    <div class="row m-3">
+	                        <!--수량-->
+	                        <!--
+	                            <div class="col-auto me-auto">
+	                                <input type="number">
+	                            </div>
+	                        -->
+	                        <div class="qty col-auto me-auto">
+	                            <span class="minus bg-dark">-</span>
+	                            <input type="text" class="count" name="quantity" value="${cartListVO.quantity }">
+<!-- 	                            <input type="number"  name="quantity" value="1"> -->
+	                            <span class="plus bg-dark">+</span>
+	                        </div>
+	
+	                        <!--상품금액-->
+	                        <div class="col-auto">
+	                            <p class="h5"><strong>1,500,000원</strong></p>
+	                        </div>
+	                    </div>
+	
+	                </div>
+	                
+	            </div>
+			</div>
+			</c:forEach>
 
-                <!--체크박스-->
-                <div class="col-auto me-auto">
-                    <input type="checkbox" class="check-item form-check-input">
-                </div>
-                <!--삭제버튼-->
-                <div class="col-auto">
-                    <button class="btn btn-secondary">삭제</button>
-                </div>
-            </div>
-
-    
-            <div class="row mb-4">
-
-                <!--상품 썸네일-->
-                <div class="col-auto">
-                    <img src="http://placeimg.com/150/150/animals" class="d-block w-100" alt="...">
-                </div>
-                <!--상품 옵션 및 수량-->
-                <div class="item-detail col-auto me-auto">
-
-                    <div class="row m-3">
-                        <!-- 옵션 -->
-                        <div class="col-auto me-auto">
-                            옵션 : 83 / 사이즈 / s / 0 옵션 : 85 / 색상 / 레드 / 0
-                        </div>
-                        <!--삭제 버튼-->
-                        <div class="col-auto">
-                            <button type="button" class="btn-close" aria-label="Close"></button>
-                        </div>
-                    </div>
-
-
-                    <div class="row m-3">
-                        <!--수량-->
-                        <!--
-                            <div class="col-auto me-auto">
-                                <input type="number">
-                            </div>
-                        -->
-                        <div class="qty col-auto me-auto">
-                            <span class="minus bg-dark">-</span>
-                            <input type="number" class="count" name="quantity" value="1">
-                            <span class="plus bg-dark">+</span>
-                        </div>
-
-                        <!--상품금액-->
-                        <div class="col-auto">
-                            <p class="h5"><strong>1,500,000원</strong></p>
-                        </div>
-                    </div>
-
-                </div>
-                
-            </div>
-
-
-            <!--장바구니에 추가한 상품목록 시작-->
-
-            <hr>
-            <!--상품명-->
-            <div class="row mt-5 mb-4">
-                <p class="h4">RF 프레아 아쿠아텍스 패브릭 소파</p>
-            </div>
-            <div class="row">
-
-                <!--체크박스-->
-                <div class="col-auto me-auto">
-                    <input type="checkbox" class="check-item form-check-input">
-                </div>
-                <!--삭제버튼-->
-                <div class="col-auto">
-                    <button class="btn btn-secondary">삭제</button>
-                </div>
-            </div>
-
-    
-            <div class="row">
-
-                <!--상품 썸네일-->
-                <div class="col-auto">
-                    <img src="http://placeimg.com/150/150/animals" class="d-block w-100" alt="...">
-                </div>
-                <!--상품 옵션 및 수량-->
-                <div class="item-detail col-auto me-auto">
-
-                    <div class="row m-3">
-                        <!-- 옵션 -->
-                        <div class="col-auto me-auto">
-                            옵션 : 83 / 사이즈 / s / 0 옵션 : 85 / 색상 / 레드 / 0
-                        </div>
-                        <!--삭제 버튼-->
-                        <div class="col-auto">
-                            <button type="button" class="btn-close" aria-label="Close"></button>
-                        </div>
-                    </div>
-
-
-                    <div class="row m-3">
-                        <!--수량-->
-                        <!--
-                            <div class="col-auto me-auto">
-                                <input type="number">
-                            </div>
-                        -->
-                        <div class="qty col-auto me-auto">
-                            <span class="minus bg-dark">-</span>
-                            <input type="number" class="count" name="quantity" value="1">
-                            <span class="plus bg-dark">+</span>
-                        </div>
-
-                        <!--상품금액-->
-                        <div class="col-auto">
-                            <p class="h5"><strong>1,500,000원</strong></p>
-                        </div>
-                    </div>
-
-                </div>
-                
-            </div>
-
+		    <c:if test="${cartListVO.size() == 0 }">
+		    	<div class="center">
+		    		<h1>장바구니에 상품이 없습니다</h1>
+				</div>
+			</c:if>
+	
             <hr>
             <div class="row mt-5">
-                <button class="btn btn-secondary btn-lg">구매하러가기</button>
+                <button class="buy-btn btn btn-secondary btn-lg">구매하러가기</button>
             </div>
 
         </div>
     </div>
+    
+   	<div class="result"></div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
