@@ -26,14 +26,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class KakaoPayServiceImpl implements KakaoPayService {
 	@Value("${kakaopay.authorization}")
-	public static String Authorization;
+	public String Authorization;
 	
 	@Value("${kakaopay.contentType}")
-	public static String ContentType;
+	public String ContentType;
 	
 	@Override
 	public KakaoPayReadyResponseVO ready(KakaoPayReadyRequestVO requestVO) throws URISyntaxException {
-		
+		log.debug("========================================={}", Authorization);
+		log.debug("========================================={}", ContentType);
 		RestTemplate template = new RestTemplate();
 		
 		HttpHeaders headers = new HttpHeaders();

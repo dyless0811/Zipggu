@@ -3,7 +3,6 @@ package com.kh.zipggu.controller;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -43,10 +42,18 @@ public class PaymentController {
 	
 	@Autowired
 	private CartDao cartDao;
+
+	@Autowired
+	private OrdersDao ordersDao;
+
+	@Autowired
+	private OrderDetailDao orderDetailDao;
 	
 	@Autowired
 	private CartService cartService;
 	
+	@Autowired
+	private KakaoPayService kakaoPayService;
 	
 	//장바구니 페이지 또는 상품상세 페이지에서 저장된 상품 목록 찍어주는 기능
 	@PostMapping("/list")
@@ -69,19 +76,46 @@ public class PaymentController {
 		model.addAttribute("totalAmount", f.format(totalPrice+shipping));
 		return "payment/list";
 	}
-}
 	
-//	@Autowired
-//	private KakaoPayService kakaoPayService;
+	@PostMapping("/confirm")
+	public String confirm(@ModelAttribute ItemOrderListVO itemOrderListVO, @ModelAttribute OrdersDto ordersDto , HttpSession session) throws URISyntaxException {
+		log.debug("============================{}", itemOrderListVO);
+		log.debug("============================{}", ordersDto);
+		
+		List<CartListVO> cartListVOList = cartService.listByOrder(itemOrderListVO);
+		
+		String item_name = cartListVOList.get(0).getItemName();
+		if(cartListVOList.size() > 1)
+			item_name += " 외 " + (cartListVOList.size()-1) + "건";
+		int total_amount = 0;
+		for (CartListVO cartListVO : cartListVOList) {
+			total_amount += cartListVO.getSumPrice();
+		}
+		KakaoPayReadyRequestVO requestVO = new KakaoPayReadyRequestVO();
+		requestVO.setPartner_order_id(String.valueOf(ordersDao.sequence()));
+		requestVO.setPartner_user_id(String.valueOf(cartListVOList.get(0).getMemberNo()));
+		requestVO.setItem_name(item_name);
+		requestVO.setQuantity(1);
+		requestVO.setTotal_amount(total_amount);
+		
+		KakaoPayReadyResponseVO responseVO = kakaoPayService.ready(requestVO);
+		
+		session.setAttribute("tid", responseVO.getTid());
+		session.setAttribute("partner_order_id", requestVO.getPartner_order_id());
+		session.setAttribute("partner_user_id", requestVO.getPartner_user_id());
+		session.setAttribute("orderList", cartListVOList);
+		session.setAttribute("ordersDto", ordersDto);
+
+		return "redirect:"+responseVO.getNext_redirect_pc_url();
+		
+	}
+
+	
 //	
 //	@Autowired
 //	private ItemDao itemDao;
 //	
-//	@Autowired
-//	private OrdersDao ordersDao;
 //	
-//	@Autowired
-//	private OrderDetailDao orderDetailDao;
 //	
 //	@PostMapping("/list")
 //	public String confirm2(@RequestParam List<Integer> no, HttpSession session) throws URISyntaxException {
@@ -112,45 +146,46 @@ public class PaymentController {
 //		
 //	}
 //	
-//	@GetMapping("/success")
-//	public String success(@RequestParam String pg_token, HttpSession session) throws URISyntaxException {
-//		String tid = (String) session.getAttribute("tid");
-//		session.removeAttribute("tid");
-//		String partner_order_id = (String) session.getAttribute("partner_order_id");
-//		session.removeAttribute("partner_order_id");
-//		String partner_user_id = (String) session.getAttribute("partner_user_id");
-//		session.removeAttribute("partner_user_id");
-//		List<ProductDto> list = (List<ProductDto>) session.getAttribute("list");
-//		session.removeAttribute("list");
-//
-//		
-//		KakaoPayApproveRequestVO requestVO = new KakaoPayApproveRequestVO();
-//		requestVO.setTid(tid);
-//		requestVO.setPartner_order_id(partner_order_id);
-//		requestVO.setPartner_user_id(partner_user_id);
-//		requestVO.setPg_token(pg_token);
-//		
-//		KakaoPayApproveResponseVO responseVO = kakaoPayService.approve(requestVO);
-//		BuyDto buyDto = new BuyDto();
-//		buyDto.setNo(Integer.parseInt(responseVO.getPartner_order_id()));
-//		buyDto.setTid(responseVO.getTid());
-//		buyDto.setItemName(responseVO.getItem_name());
-//		buyDto.setTotalAmount(responseVO.getAmount().getTotal());
-//		buyDao.insert(buyDto);
-//		
-//		for (ProductDto productDto : list) {
-//			BuyDetailDto buyDetailDto = new BuyDetailDto();
-//			buyDetailDto.setBuyNo(buyDto.getNo());
-//			buyDetailDto.setProductNo(productDto.getNo());
-//			buyDetailDto.setProductName(productDto.getName());
-//			buyDetailDto.setQuantity(1);
-//			buyDetailDto.setPrice(productDto.getPrice() * 1);
-//			
-//			buyDetailDao.insert(buyDetailDto);
-//		}
-//		
-//		return "redirect:success_result";
-//	}
+	@GetMapping("/success")
+	public String success(@RequestParam String pg_token, HttpSession session) throws URISyntaxException {
+		String tid = (String) session.getAttribute("tid");
+		session.removeAttribute("tid");
+		String partner_order_id = (String) session.getAttribute("partner_order_id");
+		session.removeAttribute("partner_order_id");
+		String partner_user_id = (String) session.getAttribute("partner_user_id");
+		session.removeAttribute("partner_user_id");
+		List<CartListVO> cartListVOList = (List<CartListVO>) session.getAttribute("orderList");
+		session.removeAttribute("orderList");
+		OrdersDto ordersDto = (OrdersDto) session.getAttribute("ordersDto");
+		session.removeAttribute("ordersDto");
+
+		
+		KakaoPayApproveRequestVO requestVO = new KakaoPayApproveRequestVO();
+		requestVO.setTid(tid);
+		requestVO.setPartner_order_id(partner_order_id);
+		requestVO.setPartner_user_id(partner_user_id);
+		requestVO.setPg_token(pg_token);
+		
+		KakaoPayApproveResponseVO responseVO = kakaoPayService.approve(requestVO);
+		ordersDto.setOrderNo(Integer.parseInt(responseVO.getPartner_order_id()));
+		ordersDto.setTid(responseVO.getTid());
+		ordersDto.setOrderName(responseVO.getItem_name());
+		ordersDto.setTotalAmount(responseVO.getAmount().getTotal());
+		ordersDao.insert(ordersDto);
+		
+		for (CartListVO cartListVO : cartListVOList) {
+			OrderDetailDto orderDetailDto = new OrderDetailDto();
+			orderDetailDto.setOrderNo(ordersDto.getOrderNo());
+			orderDetailDto.setItemNo(cartListVO.getItemNo());
+			orderDetailDto.setOrderItemName(cartListVO.getItemName());
+			orderDetailDto.setOrderQuantity(cartListVO.getQuantity());
+			orderDetailDto.setOrderItemPrice(cartListVO.getSumPrice());
+			
+			orderDetailDao.insert(orderDetailDto);
+		}
+		
+		return "redirect:success_result";
+	}
 //	
 //	@GetMapping("/success_result")
 //	public String success_result() {
@@ -205,4 +240,5 @@ public class PaymentController {
 //			
 //			return "redirect:history_detail?no="+buyNo;
 //	}
-//}
+//
+}

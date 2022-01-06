@@ -9,20 +9,21 @@
 
 //form 스크립트
 $(function () {
-	'use strict'
-
-	var forms = document.querySelectorAll('.needs-validation')
-
-	Array.prototype.slice.call(forms).forEach(function (form) {
-    form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-    	    event.preventDefault()
-        	event.stopPropagation()
-        }
-
-        form.classList.add('was-validated')
-    	}, false)
-    })
+	$("#order-submit").click(function(){
+		var isEmpty = false;
+		$("input[name]").not("input[name=q]").each(function(){
+			if($(this).val() == ""){
+				isEmpty = true;
+				return false;
+			}
+		});
+		if(isEmpty) {
+			alert("빈칸!!!!!");
+			return;
+		}
+		$(".order-form").submit();
+		console.log($(".order-form"))
+	});
 });
 
 
@@ -51,12 +52,12 @@ $(function(){
                 // 우편번호와 주소 정보를 해당 필드에 넣는다
                 // (주의) jQuery로 처리하려면 jQuery CDN이 이 코드보다 위에 있어야 한다.
 
-                document.querySelector("input[name=postcode]").value = data.zonecode;
+                document.querySelector("input[name=addresseePostCode]").value = data.zonecode;
                 //$("input[name=postcode]").val(data.zonecode);
-                document.querySelector("input[name=basicAddress]").value = addr;
+                document.querySelector("input[name=addresseeAddress]").value = addr;
                 //$("input[name=basicAddress]").val(addr);
                 // 커서를 상세주소 필드로 이동한다.
-                document.querySelector("input[name=extraAddress]").focus();
+                document.querySelector("input[name=addresseeAddressDetail]").focus();
                 //$("input[name=extraAddress]").focus();
             }
         }).open();
@@ -82,6 +83,7 @@ $(function(){
 <h1>디자인 시작</h1>
 
  <div class="container-zipggu">
+ 	<form class="row g-3 order-form" action="confirm" method="post">
         <div class="p-5 mb-4 bg-light border rounded-3">
             
             <!--주문상품 보여줄 곳-->
@@ -102,9 +104,12 @@ $(function(){
                         <!--주문상품 내역 (반복문 시작)-->
 						
                         <div class="accordion-body">
-							<c:forEach var="order" items="${orderList}">
+                        	<input type="hidden" name="shipping" value="${shipping}">
+							<c:forEach var="order" items="${orderList}" varStatus="status">
+							<input type="hidden" name="list[${status.index}].cartNo" value="${order.cartNo}">
+							<input type="hidden" name="list[${status.index}].quantity" value="${order.quantity}">
                             <div class="row mt-2">
-
+								
                                 <!--상품 썸네일-->
                                 <div class="col-auto">
                                     <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${order.itemNo}" class="d-block w-100" alt="...">
@@ -134,7 +139,7 @@ $(function(){
                                     <!--상품금액-->
                                     <div class="row m-1">
                                         <div class="col-auto me-auto">
-                                            <span style="font-size: 15px;"><strong>${order.getTotalPriceToString()}</strong></span>
+                                            <strong><span style="font-size: 15px;">${order.getTotalPriceToString()}</span>원</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -152,25 +157,25 @@ $(function(){
             </div>
 
 
-                <form class="row g-3 needs-validation" novalidate>
+                
                     
                     <!--수취인 이름-->
                     <div>
                         <label for="validationCustom01" class="form-label">수령인</label>
-                        <input type="text" class="form-control" id="validationCustom01" required>
+                        <input type="text" name="addresseeName" class="form-control" id="validationCustom01" required>
                     </div>
                     
                     <!--휴대폰 번호-->
                     <div>
                         <label for="validationCustom02" class="form-label">휴대폰</label>
-                        <input type="text" class="form-control" id="validationCustom02" required>
+                        <input type="text" name="addresseePhone" class="form-control" id="validationCustom02" required>
                     </div>
 
                     <!--우편번호-->
                     <div>
                         <label for="validationCustomUsername" class="form-label">우편번호</label>
                         <div class="input-group has-validation">
-                            <input type="text" class="form-control" name="postcode" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>  
+                            <input type="text" class="form-control" name="addresseePostCode" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required placeholder="우편번호" readonly required>  
                             <input type="button" value="우편번호 찾기" class="find-address-btn btn btn-secondary">                
                         </div>
                     </div>
@@ -178,16 +183,16 @@ $(function(){
                      <!--주소-->
                      <div>
                         <label for="validationCustom02" class="form-label">주소지</label>
-                        <input type="text" class="form-control" name="basicAddress" id="validationCustom02" required placeholder="주소">
+                        <input type="text" class="form-control" name="addresseeAddress" id="validationCustom02" required placeholder="주소" readonly>
                     </div>
                     
                        <!--상세 주소-->
                     <div>
                         <label for="validationCustom02" class="form-label">상세주소</label>
-                        <input type="text" class="form-control"  name="extraAddress" id="validationCustom02" required placeholder="상세주소">
+                        <input type="text" class="form-control"  name="addresseeAddressDetail" id="validationCustom02" required placeholder="상세주소">
                     </div>
 
-                  </form>
+                  
 
                   <div class="row mt-4"></div>
 
@@ -243,7 +248,7 @@ $(function(){
             </div>
 
             <div class="row">
-                <button><img src="${pageContext.request.contextPath}/resources/image/kakaopay.jpg" width="100%" height=""></button>
+                <button type="button" id="order-submit"><img src="${pageContext.request.contextPath}/resources/image/kakaopay.jpg" width="100%" height=""></button>
             </div>
 
             <hr>
@@ -252,17 +257,8 @@ $(function(){
 
             </div>
 
-
-
-
-
-
-
-
-
-
-            
         </div>
+        </form>
     </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
