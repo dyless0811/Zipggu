@@ -10,6 +10,9 @@
 		width:15%;
 		height:15%;
 	}
+	.dropdown:hover{
+		background-color: #dfe6e9;
+	}
 </style>
 <script>
 	$(function(){
@@ -58,6 +61,8 @@
 						templateContent.find("#like").text(resp[i].count);//좋아요개수
 						templateContent.find("#reply").text(resp[i].snsReplyCount);
 						templateContent.find(".follow-btn").attr("data-member-no", resp[i].memberNo);
+						templateContent.find(".unfollowBtn").attr("data-member-no", resp[i].memberNo);
+						templateContent.find(".member-page").attr("href", "${pageContext.request.contextPath}/member/page?memberNo=" + resp[i].memberNo);
 						clonedTemplate.html(templateContent.prop('outerHTML'));
 						result.append(clonedTemplate.html());
 					}
@@ -94,6 +99,27 @@
 		});
 	
 		});
+		
+		$(document).on("click", ".unfollowBtn", function (){
+			
+			var memberNoValue = $(this).data("member-no");
+			
+		$.ajax({
+					url : "${pageContext.request.contextPath}/follow/unfollow",
+					type : "POST",
+					data : {
+						memberNo : memberNoValue
+					},
+					dataType :"text",
+					success : function(resp) {
+							console.log("언팔로우성공", resp);
+
+					},
+					error:function(e){
+						console.log("실패", e);
+					}
+				});
+		});
 });
 	
 	
@@ -101,7 +127,7 @@
 	
 </script>
 
-
+<div class="container-zipggu">
 <div class="container-fluid">
 	<div class="row py-lg-5 text-center">
    		<div class="col-lg-6 col-md-8 mx-auto">
@@ -137,14 +163,14 @@
 	</div>
     <button type="button" class="btn btn-primary more-btn">더보기</button>
 </div>
-
+</div>
 <template id="sns-template">
 
             	<div class="col">
                 	<div class="card shadow-sm">
                 		
 	                		<a href="detail?snsNo=${snsDto.snsNo }" id="a">
-								<img src="thumnail?snsNo=${snsDto.snsNo}" id="thumnail" class="card-img bd-placeholder-img card-img-top" width="100%" height="225" >
+								<img src="thumnail?snsNo=${snsDto.snsNo}" id="thumnail" class="card-img bd-placeholder-img card-img-top" width="100%" height="190" >
 								<div class="card-img-overlay">
 								<span id="count" style='color:white' style='text:bold'></span>
 								</div>
@@ -168,8 +194,8 @@
                    				
                  				</div>
                  	
-            				</div>
-						<div class="card-body">
+            			</div>
+						<div class="card-body p-2">
 <!--   							<div class="card-text"> -->
 <%--   								<pre id="content">${snsDto.snsDetail }</pre> --%>
 <!--   							</div> -->
@@ -189,9 +215,9 @@
 								  </a>
 								
 								  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								    <li><button id="" class="follow-btn followBtn dropdown-item">팔로우?</button></li>
-								    <li><a class="dropdown-item" href="#">팔로우 취소?</a></li>
-								    <li><a class="dropdown-item" href="#">회원 페이지?</a></li>
+								    <li><button id="" class="follow-btn followBtn dropdown-item">팔로우</button></li>
+								    <li><button class="unfollowBtn dropdown-item">팔로우 취소</button></li>
+								    <li><a class="member-page dropdown-item" href="">회원 페이지</a></li>
 								  </ul>
 								</div>
 <%--                					<a href="${root }/member/mypage"> --%>
@@ -202,7 +228,7 @@
 <!--                					</a> -->
                  			</div>
                  			<div>
-                 				<div class="text-muted" id="date">dddd</div>
+                 				<div class="text-muted" id="date">게시물 등록 날짜</div>
                  			</div>
           				</div>
         			</div>

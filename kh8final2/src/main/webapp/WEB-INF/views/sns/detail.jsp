@@ -25,6 +25,12 @@
 	.flex-shrink-0{
 		width:8%
 	}
+	.nick img {
+  		transition: all 0.2s linear;
+	}
+	.nick:hover img {
+	  	transform: scale(1.0);
+	}
 </style>
 <script>
 	//댓글 등록
@@ -134,7 +140,7 @@
 					
 					
 					if(resp[i].memberNo == loginNo){
-						template = template.replace("{{writer}}", resp[i].memberNickname+"(작성자)");
+						template = template.replace("{{writer}}", resp[i].memberNickname+"(내 댓글)");
 					}
 					else{
 						template = template.replace("{{writer}}", resp[i].memberNickname);
@@ -148,6 +154,7 @@
 					
 					template = template.replace("{{snsReplyDepth}}", resp[i].snsReplyDepth);
 					
+					template = template.replace("{{memberNo}}", resp[i].memberNo);
 					template = template.replace("{{memberNo}}", resp[i].memberNo);
 					
 					var margin = 20*resp[i].snsReplyDepth;
@@ -402,8 +409,10 @@
      		<div class="card mb-3">
 
 	     			<div class="nick">
+	     				<a href="${root}/member/page?memberNo=${snsDto.memberNo }">
 	     				<img src="${root }/member/profile?memberNo=${snsDto.memberNo}" class="profile-image">
 	     				${snsDto.memberNickname }
+	     				</a>
 	     			</div>
      			
      			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -570,13 +579,16 @@
 		<!-- 일반 댓글-->
 		<div class="d-flex mb-4">
 			<!-- Parent comment-->
-			<div class="flex-shrink-0" >
+			<div class="nick flex-shrink-0" >
+				<a href="${root}/member/page?memberNo={{memberNo}}">
 				<img class="rounded-circle" src="${root }/member/profile?memberNo={{memberNo}}" alt="...">
+				</a>
 			</div>
 			<div class="ms-3">
-				
 				<span class="reply-no" style="display:none">{{snsReplyNo}}</span>
-				<div class="writer fw-bold">{{writer}}</div>
+
+						<div class="writer fw-bold">{{writer}}</div>
+
 				<pre class="replyDetail">{{icon}}&nbsp;{{replyDetail}}</pre>
 				<div>
 				
