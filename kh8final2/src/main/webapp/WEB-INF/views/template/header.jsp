@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="login" value="${loginNo != null}"></c:set>
+<c:set var="admin" value="${loginGrade eq '관리자'}"></c:set>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 
 <!DOCTYPE html>
@@ -59,18 +60,11 @@
                   </a>
                 </div>
                 <div class="menu">
-                  <c:choose>
-                  <c:when test="${login}">
-                  <a href="${root}/sessionout">
-                    <div class="item">세션삭제</div>
+                  <c:if test="${admin}">
+                  <a href="${root}/admin">
+                    <div class="item">관리자</div>
                   </a>
-                  </c:when>
-                  <c:otherwise>
-                  <a href="${root}/sessionin">
-                    <div class="item">세션추가</div>
-                  </a>
-                  </c:otherwise>
-                  </c:choose>
+                  </c:if>
                   <a href="${root}/store">
                     <div class="item">스토어</div>
                   </a>
