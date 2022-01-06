@@ -65,7 +65,7 @@ public class PaymentController {
 		List<CartListVO> cartListVOList = cartService.listByOrder(itemOrderListVO);
 		int totalPrice = 0;
 		for (CartListVO cartListVO : cartListVOList) {
-			totalPrice += cartListVO.getTotalPrice();
+			totalPrice += cartListVO.getSumPrice();
 		}
 		//System.out.println("---------------------------------"+list);
 		DecimalFormat f = new DecimalFormat("###,###");
@@ -81,8 +81,8 @@ public class PaymentController {
 	public String confirm(@ModelAttribute ItemOrderListVO itemOrderListVO, @ModelAttribute OrdersDto ordersDto , HttpSession session) throws URISyntaxException {
 		log.debug("============================{}", itemOrderListVO);
 		log.debug("============================{}", ordersDto);
-		
 		List<CartListVO> cartListVOList = cartService.listByOrder(itemOrderListVO);
+		log.debug("============================{}", cartListVOList.get(0).getMemberNo());
 		
 		String item_name = cartListVOList.get(0).getItemName();
 		if(cartListVOList.size() > 1)
@@ -168,6 +168,7 @@ public class PaymentController {
 		
 		KakaoPayApproveResponseVO responseVO = kakaoPayService.approve(requestVO);
 		ordersDto.setOrderNo(Integer.parseInt(responseVO.getPartner_order_id()));
+		ordersDto.setMemberNo(Integer.parseInt(responseVO.getPartner_user_id()));
 		ordersDto.setTid(responseVO.getTid());
 		ordersDto.setOrderName(responseVO.getItem_name());
 		ordersDto.setTotalAmount(responseVO.getAmount().getTotal());
@@ -186,11 +187,11 @@ public class PaymentController {
 		
 		return "redirect:success_result";
 	}
-//	
-//	@GetMapping("/success_result")
-//	public String success_result() {
-//		return "pay/success_result";
-//	}
+	
+	@GetMapping("/success_result")
+	public String success_result() {
+		return "payment/success_result";
+	}
 //	
 //	@GetMapping("/history")
 //	public String history(Model model) {

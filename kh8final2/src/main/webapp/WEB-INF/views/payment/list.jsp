@@ -139,7 +139,7 @@ $(function(){
                                     <!--상품금액-->
                                     <div class="row m-1">
                                         <div class="col-auto me-auto">
-                                            <strong><span style="font-size: 15px;">${order.getTotalPriceToString()}</span>원</strong>
+                                            <strong><span style="font-size: 15px;">${order.getSumPriceToString()}</span>원</strong>
                                         </div>
                                     </div>
                                 </div>

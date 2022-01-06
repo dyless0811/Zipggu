@@ -19,7 +19,7 @@
 	<insert id="insert" parameterType="OrdersDto">
 		insert into orders values(
 			#{orderNo}, #{memberNo}, #{addresseeName}, #{addresseePhone},
-			#{addresseePostCode}, #{addresseeAddress}, #{addresseeAddress}, #{addresseeAddressDetail},
+			#{addresseePostCode}, #{addresseeAddress}, #{addresseeAddressDetail},
 			#{tid}, #{orderName}, #{totalAmount}, sysdate, '결제완료'
 		)
 	</insert>

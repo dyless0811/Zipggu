@@ -172,6 +172,8 @@ $(function(){
 	 
 	 //수량 버튼
      $(function(){
+    	calcTotalPrice();
+    	 
 		$('.count').prop('disabled', true);
 		
 		$(document).on('click','.plus',function(){
@@ -204,10 +206,13 @@ $(function(){
 	 function calcTotalPrice(){
 		 var totalPrice = 0;
 		 shipping = 0;
-		 $(".cart input:checked").each(function(){
+		 $(".cart input[type=checkbox]").each(function(){
 			var count = $(this).parent().parent().next().find(".count").val();
 			var price = $(this).parent().parent().next().find(".itemPrice").data("item-price");
-			totalPrice += price * count;
+			$(this).parent().parent().next().find(".itemPrice").text((price * count).toLocaleString(undefined));
+			if($(this).prop("checked")){
+				totalPrice += price * count;				
+			}
 		 });
 		 
 		 if(0 < totalPrice && totalPrice < 50000){
