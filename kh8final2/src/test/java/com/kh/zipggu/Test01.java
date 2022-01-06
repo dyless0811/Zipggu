@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -69,6 +70,20 @@ public class Test01 {
 //	@Test
 	public void testCart()	{
 		System.out.println(sqlSession.selectList("cart.cartCustom", 1));
+	}
+	
+	@Value("${kakaopay.authorization}")
+	private String authorization;
+	
+	@Value("${kakaopay.contentType}")
+	private String contentType;
+	
+//	@Test
+	public void testProperties() {
+		System.out.println("======================================");
+		System.out.println(authorization);
+		System.out.println(contentType);
+		System.out.println("======================================");
 	}
 	
 }
