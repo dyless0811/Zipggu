@@ -1,0 +1,45 @@
+<?xml version="1.0"  encoding="UTF-8"  ?>
+<!-- 
+	myBatis 매퍼 파일
+	= DBMS에서 실행할 SQL 구문을 저장하는 XML 파일
+	= namespace를 통해서 여러 개의 매퍼를 구분한다.
+	= 테이블 당 1개씩 만드는 것이 일반적이며, 따라서 namespace를 테이블명으로 작성하면 구분이 용이하다.
+	= <insert>, <select>, <update>, <delete>를 이용해서 CRUD 구문을 작성한다.
+	= 각 구문은 외부에서 호출이 가능하도록 반드시 ID를 겹치지 않게 부여해야 한다.
+	= parameterType은 구문을 실행하기 위해 필요한 데이터의 형태를 말한다.
+	= resultType은 구문을 실행한 결과를 어떤 형태로 변환해야 하는지를 말한다.
+ -->
+
+<!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orders">
+	<select id="sequence" resultType="int">
+		select orders_seq.nextval from dual
+	</select>
+
+	<insert id="insert" parameterType="OrdersDto">
+		insert into orders values(
+			#{orderNo}, #{memberNo}, #{addresseeName}, #{addresseePhone},
+			#{addresseePostCode}, #{addresseeAddress}, #{addresseeAddress}, #{addresseeAddressDetail},
+			#{tid}, #{orderName}, #{totalAmount}, sysdate, '결제완료'
+		)
+	</insert>
+	
+	<select id="list" resultType="OrdersDto">
+		select * from orders order by no asc
+	</select>
+	
+	<select id="get" parameterType="int" resultType="OrdersDto">
+		select * from orders where no = #{no}
+	</select>
+	
+	<update id="refresh" parameterType="int">
+		update orders
+		set status =
+		case
+			when (select count(*) from order_detail where order_no = #{orderNo}) = (select count(*) from order_detail where order_no = #{orderNo} and status = '결제') then '결제완료'
+			when (select count(*) from order_detail where order_no = #{orderNo}) = (select count(*) from order_detail where order_no = #{orderNo} and status = '취소') then '전체취소'
+			else '부분취소'
+		end
+		where no = #{no}
+	</update>
+</mapper> 

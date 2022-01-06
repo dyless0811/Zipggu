@@ -1,0 +1,42 @@
+<?xml version="1.0"  encoding="UTF-8"  ?>
+<!-- 
+	myBatis 매퍼 파일
+	= DBMS에서 실행할 SQL 구문을 저장하는 XML 파일
+	= namespace를 통해서 여러 개의 매퍼를 구분한다.
+	= 테이블 당 1개씩 만드는 것이 일반적이며, 따라서 namespace를 테이블명으로 작성하면 구분이 용이하다.
+	= <insert>, <select>, <update>, <delete>를 이용해서 CRUD 구문을 작성한다.
+	= 각 구문은 외부에서 호출이 가능하도록 반드시 ID를 겹치지 않게 부여해야 한다.
+	= parameterType은 구문을 실행하기 위해 필요한 데이터의 형태를 말한다.
+	= resultType은 구문을 실행한 결과를 어떤 형태로 변환해야 하는지를 말한다.
+ -->
+
+<!DOCTYPE  mapper PUBLIC  "-//mybatis.org//DTD  Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="orderDetail">
+
+	<insert id="insert" parameterType="OrderDetailDto">
+		insert into order_detail values(
+			order_detail_seq.nextval, #{orderNo}, #{itemNo},
+			#{orderQuantity}, #{deliveryStatus}, #{orderItemName},
+			#{orderItemPrice}, '결제'
+		)
+	</insert>
+	<select id="listByBuyNo" parameterType="int" resultType="OrderDetailDto">
+		select * from order_detail where order_no = #{orderNo}
+	</select>
+	
+	<select id="get" parameterType="map" resultType="OrderDetailDto">
+		select * from order_detail where order_no = #{orderNo} and item_no = #{itemNo}
+	</select>
+	
+	<update id="cancel" parameterType="map">
+		update order_detail set order_detail_status = '취소' where order_no = #{orderNo} and item_no = #{itemNo} 
+	</update>
+	
+	<select id="cancelAvailableAmount" parameterType="int" resultType="int">
+		select nvl(sum(order_item_price), 0) from order_detail where buy_no = #{orderNo} and order_detail_status = '결제'
+	</select>
+	
+	<update id="cancelAll" parameterType="int">
+		update order_detail set order_detail_status = '취소' where order_no = #{orderNo}
+	</update>
+</mapper> 

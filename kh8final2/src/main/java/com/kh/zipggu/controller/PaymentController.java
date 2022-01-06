@@ -1,6 +1,11 @@
 package com.kh.zipggu.controller;
 
+import java.net.URISyntaxException;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,8 +13,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.zipggu.entity.OrderDetailDto;
+import com.kh.zipggu.entity.OrdersDto;
+import com.kh.zipggu.entity.ItemDto;
+import com.kh.zipggu.repository.OrdersDao;
+import com.kh.zipggu.repository.OrderDetailDao;
+import com.kh.zipggu.repository.ItemDao;
+import com.kh.zipggu.service.KakaoPayService;
+import com.kh.zipggu.vo.kakaopay.KakaoPayApproveRequestVO;
+import com.kh.zipggu.vo.kakaopay.KakaoPayApproveResponseVO;
+import com.kh.zipggu.vo.kakaopay.KakaoPayCancelResponseVO;
+import com.kh.zipggu.vo.kakaopay.KakaoPayReadyRequestVO;
+import com.kh.zipggu.vo.kakaopay.KakaoPayReadyResponseVO;
 import com.kh.zipggu.repository.CartDao;
 import com.kh.zipggu.service.CartService;
 import com.kh.zipggu.vo.CartListVO;
@@ -30,19 +49,160 @@ public class PaymentController {
 	
 	
 	//장바구니 페이지 또는 상품상세 페이지에서 저장된 상품 목록 찍어주는 기능
-	@GetMapping("/list")
-	public String list(Model model, @ModelAttribute ItemOrderListVO itemOrderListVO) {
+	@PostMapping("/list")
+	public String list(Model model, @ModelAttribute ItemOrderListVO itemOrderListVO, @RequestParam int shipping) {
 		
 		//log.debug("ItemOrderListVO = {}", itemOrderListVO);
 		
 		//페이지에서 리스트로 보내진 quantity, cartNo가 있는 VO로 조회 시작
-		List<CartListVO>list = cartService.listByOrder(itemOrderListVO);
-		
+		List<CartListVO> cartListVOList = cartService.listByOrder(itemOrderListVO);
+		int totalPrice = 0;
+		for (CartListVO cartListVO : cartListVOList) {
+			totalPrice += cartListVO.getTotalPrice();
+		}
 		//System.out.println("---------------------------------"+list);
-		
+		DecimalFormat f = new DecimalFormat("###,###");
 		//조회된 내용으로 목록 출력
-		model.addAttribute("orderList", list);
-		
+		model.addAttribute("orderList", cartListVOList);
+		model.addAttribute("totalPrice", f.format(totalPrice));
+		model.addAttribute("shipping", f.format(shipping));
+		model.addAttribute("totalAmount", f.format(totalPrice+shipping));
 		return "payment/list";
 	}
 }
+	
+//	@Autowired
+//	private KakaoPayService kakaoPayService;
+//	
+//	@Autowired
+//	private ItemDao itemDao;
+//	
+//	@Autowired
+//	private OrdersDao ordersDao;
+//	
+//	@Autowired
+//	private OrderDetailDao orderDetailDao;
+//	
+//	@PostMapping("/list")
+//	public String confirm2(@RequestParam List<Integer> no, HttpSession session) throws URISyntaxException {
+//		List<itemDto> list = productDao.search(no);
+//		
+//		String item_name = list.get(0).getName();
+//		if(list.size() > 1)
+//			item_name += " 외 " + (list.size()-1) + "건";
+//		int total_amount = 0;
+//		for (ProductDto productDto : list) {
+//			total_amount += productDto.getPrice();
+//		}
+//		KakaoPayReadyRequestVO requestVO = new KakaoPayReadyRequestVO();
+//		requestVO.setPartner_order_id(String.valueOf(ordersDao.sequence()));
+//		requestVO.setPartner_user_id(UUID.randomUUID().toString());
+//		requestVO.setItem_name(item_name);
+//		requestVO.setQuantity(1);
+//		requestVO.setTotal_amount(total_amount);
+//		
+//		KakaoPayReadyResponseVO responseVO = kakaoPayService.ready(requestVO);
+//		
+//		session.setAttribute("tid", responseVO.getTid());
+//		session.setAttribute("partner_order_id", requestVO.getPartner_order_id());
+//		session.setAttribute("partner_user_id", requestVO.getPartner_user_id());
+//		session.setAttribute("list", list);
+//		
+//		return "redirect:"+responseVO.getNext_redirect_pc_url();
+//		
+//	}
+//	
+//	@GetMapping("/success")
+//	public String success(@RequestParam String pg_token, HttpSession session) throws URISyntaxException {
+//		String tid = (String) session.getAttribute("tid");
+//		session.removeAttribute("tid");
+//		String partner_order_id = (String) session.getAttribute("partner_order_id");
+//		session.removeAttribute("partner_order_id");
+//		String partner_user_id = (String) session.getAttribute("partner_user_id");
+//		session.removeAttribute("partner_user_id");
+//		List<ProductDto> list = (List<ProductDto>) session.getAttribute("list");
+//		session.removeAttribute("list");
+//
+//		
+//		KakaoPayApproveRequestVO requestVO = new KakaoPayApproveRequestVO();
+//		requestVO.setTid(tid);
+//		requestVO.setPartner_order_id(partner_order_id);
+//		requestVO.setPartner_user_id(partner_user_id);
+//		requestVO.setPg_token(pg_token);
+//		
+//		KakaoPayApproveResponseVO responseVO = kakaoPayService.approve(requestVO);
+//		BuyDto buyDto = new BuyDto();
+//		buyDto.setNo(Integer.parseInt(responseVO.getPartner_order_id()));
+//		buyDto.setTid(responseVO.getTid());
+//		buyDto.setItemName(responseVO.getItem_name());
+//		buyDto.setTotalAmount(responseVO.getAmount().getTotal());
+//		buyDao.insert(buyDto);
+//		
+//		for (ProductDto productDto : list) {
+//			BuyDetailDto buyDetailDto = new BuyDetailDto();
+//			buyDetailDto.setBuyNo(buyDto.getNo());
+//			buyDetailDto.setProductNo(productDto.getNo());
+//			buyDetailDto.setProductName(productDto.getName());
+//			buyDetailDto.setQuantity(1);
+//			buyDetailDto.setPrice(productDto.getPrice() * 1);
+//			
+//			buyDetailDao.insert(buyDetailDto);
+//		}
+//		
+//		return "redirect:success_result";
+//	}
+//	
+//	@GetMapping("/success_result")
+//	public String success_result() {
+//		return "pay/success_result";
+//	}
+//	
+//	@GetMapping("/history")
+//	public String history(Model model) {
+//		model.addAttribute("list", buyDao.list());
+//		return "pay/history";
+//	}
+//	
+//	@GetMapping("/history_detail")
+//	public String historyDetail(@RequestParam int no, Model model) throws URISyntaxException {
+//		BuyDto buyDto = buyDao.get(no);
+//		model.addAttribute("buyDto", buyDto);
+//		model.addAttribute("buyDetailList", buyDetailDao.list(no));
+//		model.addAttribute("responseVO", kakaoPayService.search(buyDto.getTid()));
+//		
+//		return "pay/history_detail";
+//	}
+//	
+//	@GetMapping("cancel_all")
+//	public String cancelAll(@RequestParam int no) throws URISyntaxException {
+//		BuyDto buyDto = buyDao.get(no);
+//		if(buyDto.isAllCanceled()) {
+//			throw new IllegalArgumentException("취소가 불가능한 항목입니다");
+//		}
+//		
+//		int amount = buyDetailDao.getCancelAvailableAmount(no);
+//		
+//		KakaoPayCancelResponseVO responseVO = kakaoPayService.cancel(buyDto.getTid(), amount);
+//		
+//		buyDetailDao.cancelAll(no);
+//		buyDao.refresh(no);
+//		
+//		return "redirect:history_detail?no="+no;
+//	}
+//	
+//	@GetMapping("cancel_part")
+//	public String cancelPart(@RequestParam int buyNo, @RequestParam int productNo) throws URISyntaxException {
+//		BuyDetailDto buyDetailDto = buyDetailDao.get(buyNo, productNo);
+//		
+//			if(!buyDetailDto.isCancelAvailable()) {
+//				throw new IllegalArgumentException("취소가 불가능한 항목입니다");
+//			}
+//			BuyDto buyDto = buyDao.get(buyNo);
+//			KakaoPayCancelResponseVO responseVO = kakaoPayService.cancel(buyDto.getTid(), buyDetailDto.getPrice());
+//			
+//			buyDetailDao.cancel(buyNo, productNo);
+//			buyDao.refresh(buyNo);
+//			
+//			return "redirect:history_detail?no="+buyNo;
+//	}
+//}

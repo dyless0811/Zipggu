@@ -6,6 +6,5 @@ import lombok.Data;
 
 @Data
 public class ItemOrderListVO {
-	
 	private List<ItemOrderVO> list;
 }
