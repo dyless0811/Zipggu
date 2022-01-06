@@ -57,7 +57,7 @@
 						templateContent.find("#date").text(date.toLocaleString());
 						templateContent.find("#like").text(resp[i].count);//좋아요개수
 						templateContent.find("#reply").text(resp[i].snsReplyCount);
-						
+						templateContent.find(".follow-btn").attr("data-member-no", resp[i].memberNo);
 						clonedTemplate.html(templateContent.prop('outerHTML'));
 						result.append(clonedTemplate.html());
 					}
@@ -95,6 +95,10 @@
 	
 		});
 });
+	
+	
+	
+	
 </script>
 
 
@@ -185,7 +189,7 @@
 								  </a>
 								
 								  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								    <li><button id="" class="follow-btn followBtn dropdown-item" data-member-no="${loginNo }">팔로우?</button></li>
+								    <li><button id="" class="follow-btn followBtn dropdown-item">팔로우?</button></li>
 								    <li><a class="dropdown-item" href="#">팔로우 취소?</a></li>
 								    <li><a class="dropdown-item" href="#">회원 페이지?</a></li>
 								  </ul>
