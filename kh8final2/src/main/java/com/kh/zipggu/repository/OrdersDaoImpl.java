@@ -16,7 +16,7 @@ public class OrdersDaoImpl implements OrdersDao {
 
 	@Override
 	public int sequence() {
-		return sqlSession.selectOne("buy.sequence");
+		return sqlSession.selectOne("orders.sequence");
 	}
 
 	@Override

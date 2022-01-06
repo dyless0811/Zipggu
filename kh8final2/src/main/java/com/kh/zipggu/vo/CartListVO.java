@@ -30,6 +30,10 @@ public class CartListVO {
 		}
 		return totalPrice;
 	}
+	public int getSumPrice() {
+		return getTotalPrice()*getQuantity();
+	}
+	
 	public String getTotalPriceToString() {
 		DecimalFormat f = new DecimalFormat("###,###");
 		
@@ -38,6 +42,6 @@ public class CartListVO {
 	public String getSumPriceToString() {
 		DecimalFormat f = new DecimalFormat("###,###");
 		
-		return f.format(getTotalPrice()*this.getQuantity());
+		return f.format(getSumPrice());
 	}
 }
