@@ -63,6 +63,10 @@
 	   		var templateContent = $(clonedTemplate.html());
 	   		
 			var check = false;
+			//선택한 옵션 묶음 div
+			var div = $("<div>");
+			//선택한 옵션 번호 배열
+			var options = [];
 			$(".itemOptionNo").each(function(index, option){
 				var optionVal = $(option).val();
 				var optionName = $(option).find("option:selected").text();
@@ -74,27 +78,47 @@
 					return true;  //continue
 				}
 				if(index == 0){
-					var button = $("<button>").text("x").addClass("remove-btn");
+					var button = $("<button>").text("x").addClass("remove-btn").css("width","30px").css("margin-left","auto");
 					templateContent.append(button);
 					var quantity = "<input type='number' class='quantity' min='1' max='999' value='1'>"
-					templateContent.append(quantity);
+					div.append(quantity);
 				}
-				templateContent.append(" / ");
+				div.append(" / ");
 			   	var optionData = "<span data-option-no="+optionVal+">"+optionName+"</span>";
-			   	templateContent.append(optionData);
+			   	div.append(optionData);
 			   	$(option).find("option:eq(0)").prop("selected", true);
-
+			   	//중복 옵션을 판단하기 위한 배열
+				options.push(parseInt(optionVal));
 			});
+			if(checkOption(options)){
+				alert("중복된 옵션입니다");
+				return;
+			}
 			if(check){
 				alert("옵션을 선택해주세요");
 				return;
 			}
-
+			templateContent.append(div);
 	   		clonedTemplate.html(templateContent.prop('outerHTML'));
 	   		var selectedItems = $(".selected-items");
 	   		selectedItems.append(clonedTemplate.html());
 		});
 	});
+	
+	function checkOption(options) {
+		var isExist = false;
+		$(".selected-item").each(function(index1, item){
+			var existOptions = [];
+			$(item).find("span").each(function(index2, option){
+				existOptions.push($(option).data("option-no"));
+			});
+			if(JSON.stringify(existOptions) == JSON.stringify(options)) {
+				isExist = true;
+				return false;
+			}
+		});
+		return isExist;
+	}
 	
 	$(function(){
 		$(".cart-btn").click(function(e){
@@ -142,20 +166,19 @@
 
   
 	//select 선택시 나오는 태그
-	 $(function(){
-	      $(".itemOptionNo").on("input", function(){
+// 	 $(function(){
+// 	      $(".itemOptionNo").on("input", function(){
 	        
-	        var selectedItem = $(this).val();
+// 	        var selectedItem = $(this).val();
 
-	          var form = $("<div class='card center container-center'>");
-	            form.append("<input type='number' class='number' name='quantity'>")
-	              form.append(selectedItem)
-	            console.log(form);
-	            var info = $(".result");
-	            info.html(form);
-	     
-	      });
-	    });
+// 	          var form = $("<div class='card center container-center'>");
+// 	            form.append("<input type='number' class='number' name='quantity'>")
+// 	            form.append(selectedItem)
+// 	            console.log(form);
+// 	            var info = $(".result");
+// 	            info.html(form);
+// 	      });
+// 	    });
   
 </script>
 
@@ -175,35 +198,16 @@
 		<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}" style="max-width:300px"><br>
 	</c:forEach>
 	
-	<c:forEach var="map" items="${itemOptionGroupMap}" varStatus="status">
-		${status.count}번째 옵션그룹
-		<select class="itemOptionNo" data-required="${map.value[0].itemOptionRequired}">
-			<option value="" disabled selected hidden>${map.key}</option>
-			<c:forEach var="optionDto" items="${map.value}">
-				<option value="${optionDto.itemOptionNo}" data-price="${optionDto.itemOptionPrice}">${optionDto.itemOptionDetail}</option>
-			</c:forEach>
-		</select>
-		<br>
-	</c:forEach>
+
 	<button class="option-plus btn btn-primary">추가</button>
 	<br><br>
 	<button class="cart-btn btn btn-primary" data-buy-type="cart">장바구니 추가</button>
 	<button class="cart-btn btn btn-primary" data-buy-type="payment">구매하기</button>
 </div>
-<div class="selected-items">
-
-</div>
-<form action="${root }/zipggu/cart/insert" method="post" class="cart">
-	<div>
-		<input type="hidden" name="itemNo" value="${itemDto.itemNo }">
-		<div class="result"></div>
-	</div>
-</form>
 
 
 <template id="option-template">
-	<div class="selected-item">
-		
+	<div class="selected-item card center container-center">
 	</div>
 </template>
 
@@ -228,19 +232,19 @@
 
                 <div class="carousel-item active">
 
-                  <img src="http://placeimg.com/640/690/people" class="d-block w-100" alt="...">
+                  <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}" class="d-block w-100" alt="...">
 
                 </div>
 
                 <div class="carousel-item">
 
-                  <img src="http://placeimg.com/640/690/people" class="d-block w-100" alt="...">
+                  <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}" class="d-block w-100" alt="...">
 
                 </div>
 
                 <div class="carousel-item">
 
-                  <img src="http://placeimg.com/640/690/people" class="d-block w-100" alt="...">
+                  <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${itemNo}" class="d-block w-100" alt="...">
 
                 </div>
 
@@ -277,17 +281,26 @@
 
             <!-- 상품 옵션 -->
             <div class="mt-5">
-              <label>상품옵션</label>
-              <select class="itemOptionNo form-select form-select-sm mb-3" aria-label=".form-select-lg example">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+              <c:forEach var="map" items="${itemOptionGroupMap}" varStatus="status">
+				<label>${status.count}번째 상품옵션</label>
+				<select class="itemOptionNo form-select form-select-sm mb-3" aria-label=".form-select-lg example" data-required="${map.value[0].itemOptionRequired}">
+					<option value="" disabled selected hidden>${map.key}</option>
+					<c:forEach var="optionDto" items="${map.value}">
+					<option value="${optionDto.itemOptionNo}" data-price="${optionDto.itemOptionPrice}">${optionDto.itemOptionDetail}</option>
+					</c:forEach>
+				</select>
+			  </c:forEach>
             </div>
+            <button class="option-plus btn btn-primary">추가</button>
 
-            <div class="result"></div>
-
+            <div class="selected-items">
+			</div>
+			<form action="${root }/zipggu/cart/insert" method="post" class="cart">
+				<div>
+					<input type="hidden" name="itemNo" value="${itemDto.itemNo}">
+					<div class="result"></div>
+				</div>
+			</form>
             <!-- 버튼 -->
             <div class="mt-5 position-relative">
               <div class="col-4">
