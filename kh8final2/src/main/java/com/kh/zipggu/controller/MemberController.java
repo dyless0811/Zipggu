@@ -41,6 +41,7 @@ import com.kh.zipggu.naver.NaverLoginBO;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
 import com.kh.zipggu.service.MemberService;
+import com.kh.zipggu.vo.FollowVO;
 import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberListVO;
 import com.kh.zipggu.vo.NaverMemberVO;
@@ -511,8 +512,9 @@ public class MemberController {
 	@RequestMapping("/memberList")
 	public String memberList(Model model, @ModelAttribute MemberListVO memberListVO) throws Exception {
 		
+		
 		model.addAttribute("memberListVO", memberService.VOlist(memberListVO));
-
+		
 		return "member/memberList";
 	}
 	

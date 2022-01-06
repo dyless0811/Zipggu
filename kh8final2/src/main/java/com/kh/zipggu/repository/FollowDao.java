@@ -30,4 +30,10 @@ public interface FollowDao {
 	//팔로잉 카운트
 	int followingCount(int memberNo);	
 	
+	//팔로워 페이지 맞팔유무
+	List<FollowVO> followerF4f (int memberNo);	
+	
+	//팔로잉 페이지 맞팔유무
+	List<FollowVO> followingF4f (int memberNo);	
+	
 }

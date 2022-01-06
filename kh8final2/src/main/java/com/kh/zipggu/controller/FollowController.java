@@ -39,8 +39,9 @@ public class FollowController {
 
 	//팔로워 목록 페이지
 	@RequestMapping("/followerList")
-	public String followerList(@RequestParam int memberNo ,HttpSession session, Model model) {
+	public String followerList(@RequestParam int memberNo, Model model) throws Exception {
 	
+		
 		MemberDto memberDto = memberDao.noGet(memberNo);
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
 
@@ -52,13 +53,17 @@ public class FollowController {
 		follow.setFollowingUser(memberNo); // 상대 유저 회원 번호 
 		
 		// 팔로워 리스트
-		List<FollowVO> followerList = followService.followerList(memberNo);
-		log.info("현재 페이지 회원 리스트 : " + followerList);
+//		List<FollowVO> followerList = followService.followerList(memberNo);
+//		log.info("현재 페이지 회원 리스트 : " + followerList);
 		
 		// 팔로잉리스트
-		List<FollowVO> followingList = followService.followingList(memberNo);
-		log.info("현재 페이지 회원 번호 리스트 : " + followingList);		
+//		List<FollowVO> followingList = followService.followingList(memberNo);
+//		log.info("현재 페이지 회원 번호 리스트 : " + followingList);		
 
+		// 맞팔 유무
+		List<FollowVO> followerF4f = followService.followerF4f(memberNo);
+		log.info("맞팔 리스트 : " + followerF4f);	
+		
 		// 팔로워 카운트
 		int followerCount = followService.followerCount(memberNo);
 		log.info("팔로워 카운트 : " + followerCount);		
@@ -67,12 +72,13 @@ public class FollowController {
 		int followingCount = followService.followingCount(memberNo);
 		log.info("팔로잉 카운트 : " + followingCount);		
 		
+		model.addAttribute("followerF4f", followerF4f);
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followingCount", followingCount);			
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberProfileDto", memberProfileDto);
-		model.addAttribute("followerList", followerList);
-		model.addAttribute("followingList", followingList);
+//		model.addAttribute("followerList", followerList);
+//		model.addAttribute("followingList", followingList);
 		
 		return "follow/followerList";
 		
@@ -80,8 +86,9 @@ public class FollowController {
 	
 	//팔로잉 목록 페이지
 	@RequestMapping("/followingList")
-	public String followingList(@RequestParam int memberNo ,HttpSession session, Model model) {
+	public String followingList(@RequestParam int memberNo , Model model) throws Exception {
 	
+		
 	MemberDto memberDto = memberDao.noGet(memberNo);
 	MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
 
@@ -90,8 +97,12 @@ public class FollowController {
 	follow.setFollowerUser(memberNo); // 선택 회원번호
 	
 	// 팔로워 리스트
-	List<FollowVO> followerList = followService.followerList(memberNo);
-	log.info("현재 페이지 회원 리스트 : " + followerList);
+//	List<FollowVO> followerList = followService.followerList(memberNo);
+//	log.info("현재 페이지 회원 리스트 : " + followerList);
+	
+	// 맞팔 유무
+	List<FollowVO> followingF4f= followService.followingF4f(memberNo);
+	log.info("맞팔 리스트 : " + followingF4f);	
 	
 	// 팔로워 카운트
 	int followerCount = followService.followerCount(memberNo);
@@ -101,12 +112,13 @@ public class FollowController {
 	int followingCount = followService.followingCount(memberNo);
 	log.info("팔로잉 카운트 : " + followingCount);		
 	
+	model.addAttribute("followingF4f", followingF4f);
 	model.addAttribute("followerCount", followerCount);
 	model.addAttribute("followingCount", followingCount);		
 	model.addAttribute("memberDto", memberDto);
 	model.addAttribute("memberProfileDto", memberProfileDto);
-	model.addAttribute("followerList", followerList);
-	
+//	model.addAttribute("followerList", followerList);
 	return "follow/followingList";
 }	
+	
 }

@@ -16,10 +16,11 @@
 	<select id="seq" resultType="int">
 		select follow_seq.nextval from dual
 	</select>
-	
+
 	<!-- 팔로우 기능 -->
 	<insert id="follow">
-		insert into follow(follow_no, follower_user, following_user)
+		insert into follow(follow_no, follower_user,
+		following_user)
 		values (#{followNo},#{followerUser}, #{followingUser})
 	</insert>
 
@@ -36,40 +37,58 @@
 		following_user = #{followingUser}
 	</select>
 
- 	<!-- 팔로우 리스트 조회 기능 -->
-	<select id="followerList" parameterType="int" resultType="FollowVO">
+	<!-- 팔로우 리스트 조회 기능 -->
+	<select id="followerList" parameterType="int"
+		resultType="FollowVO">
 		select
 		follower_user,
 		following_user,
-        M.member_nickname as member_nickname,
-        M.member_introduce as member_introduce,
-		F.follow_when as follow_when,
-		M.member_no as following_user,
-		P.member_profile_no as member_profile_no
+		M.member_nickname as
+		member_nickname,
+		M.member_introduce as member_introduce,
+		F.follow_when
+		as follow_when,
+		M.member_no as
+		following_user,
+		P.member_profile_no as
+		member_profile_no
 		from follow F
 		Left outer join member M
-		on (F.following_user = M.member_no)
-		Left outer join member_profile P
-		on (P.member_no = M.member_no)
-		where follower_user = #{followerUser}
-		order by member_nickname asc
+		on
+		(F.following_user = M.member_no)
+		Left outer
+		join member_profile P
+		on
+		(P.member_no = M.member_no)
+		where follower_user
+		= #{followerUser}
+		order
+		by member_nickname asc
 	</select>
 
 	<!-- 팔로잉 리스트 조회 기능 -->
-	<select id="followingList" parameterType="int"  resultType="FollowVO">
-	    select
+	<select id="followingList" parameterType="int"
+		resultType="FollowVO">
+		select
 		follower_user,
 		following_user,
-        M.member_nickname as member_nickname,
-        M.member_introduce as member_introduce,
-		F.follow_when as follow_when,
-		P.member_profile_no as member_profile_no
+		M.member_nickname as
+		member_nickname,
+		M.member_introduce as member_introduce,
+		F.follow_when
+		as follow_when,
+		P.member_profile_no
+		as member_profile_no
 		from follow F
 		Left outer join member M
-		on (F.follower_user = M.member_no)
-		Left outer join member_profile P
-		on (P.member_no = F.follower_user)
-		where following_user = #{followingUser}
+		on
+		(F.follower_user = M.member_no)
+		Left outer
+		join member_profile P
+		on
+		(P.member_no = F.follower_user)
+		where
+		following_user = #{followingUser}
 		order by member_nickname asc
 	</select>
 
@@ -82,22 +101,61 @@
 	<!-- 팔로워 카운트 -->
 	<select id="followerCount" parameterType="int" resultType="int">
 		select
-        count(*)
+		count(*)
 		from follow F
 		Left outer join member M
-		on (F.following_user = M.member_no)
+		on
+		(F.following_user =
+		M.member_no)
 		where follower_user = #{followerUser}
 	</select>
 
 	<!-- 팔로잉 카운트 -->
 	<select id="followingCount" parameterType="int" resultType="int">
 		select
-        count(*)
+		count(*)
 		from follow F
 		Left outer join member M
-		on (F.following_user = M.member_no)
+		on
+		(F.following_user =
+		M.member_no)
 		where following_user = #{followingUser}
 	</select>
+
+
+	<!-- 팔로워 페이지 맞팔 유무 -->
+	<select id="followerF4f" parameterType="int"
+		resultType="followVO">
+		select
+		f1.follower_user, f1.following_user, nvl2( f2.follow_no, 'Y', 'N') "F4F", me.member_no,
+		me.member_nickname, me.member_introduce, pro.member_profile_no
+		from follow f1
+		left outer join follow f2 on f1.follower_user = f2.following_user and
+		f1.following_user = f2.follower_user
+		left outer join member me on f1.follower_user = me.member_no
+		left outer join member_profile pro on me.member_no = pro.member_no
+		where f1.following_user = #{memberNo}
+	</select>
+
+	<!-- 팔로잉 페이지 맞팔 유무 -->
+	<select id="followingF4f" parameterType="int"
+		resultType="followVO">
+		select
+		f1.follower_user, f1.following_user, nvl2(
+		f2.follow_no, 'Y', 'N') "F4F", me.member_no,
+		me.member_nickname,
+		me.member_introduce, pro.member_profile_no
+		from follow f1
+		left outer
+		join follow f2 on f1.follower_user = f2.following_user and
+		f1.following_user = f2.follower_user
+		left outer join member me on
+		f1.following_user = me.member_no
+		left outer join member_profile pro on
+		me.member_no = pro.member_no
+		where f1.follower_user = #{memberNo}
+	</select>
+
 
 
 </mapper>
