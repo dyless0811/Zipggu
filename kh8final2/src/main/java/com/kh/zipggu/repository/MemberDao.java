@@ -15,7 +15,7 @@ public interface MemberDao {
 	
 	MemberDto emailGet(String email);//네이버 이메일 조회
 	
-	MemberDto login(MemberDto memberDto);//비밀번호 검사까지 통과하면 객체를 반환하도록 구현	
+	MemberListVO login(MemberListVO memberListVO);//비밀번호 검사까지 통과하면 객체를 반환하도록 구현	
 	
 	//비밀번호 변경
 	boolean changePassword(String memberEmail, String memberPw, String changePw);

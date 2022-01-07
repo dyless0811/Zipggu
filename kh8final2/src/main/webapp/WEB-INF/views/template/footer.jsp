@@ -44,6 +44,7 @@
           <p>아이디 = ${loginEmail }</p>
           <p>닉네임 = ${loginNick }</p>
           <p>등급 = ${loginGrade }</p>
+          <p>프로필번호 = ${loginProfileNo }</p>
         
           <p style="margin: 20px 0; overflow: hidden">
             <span style="float: left"
