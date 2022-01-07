@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.zipggu.entity.SnsDto;
+import com.kh.zipggu.repository.SnsDao;
 import com.kh.zipggu.repository.SnsLikeDao;
 import com.kh.zipggu.service.SnsService;
 import com.kh.zipggu.vo.SnsListVO;
@@ -29,6 +31,9 @@ public class SnsRestController {
 	
 	@Autowired
 	private SnsLikeDao snsLikeDao;
+	
+	@Autowired
+	private SnsDao snsDao;
 	
 	//목록 페이지
 	@GetMapping("/list")
@@ -48,6 +53,28 @@ public class SnsRestController {
 		log.debug("------------------------------{}" + param);
 				
 		return snsService.listByPage(param);
+	}
+	
+	//팔로우 한 사람들의 글
+	//목록 페이지
+	@GetMapping("/follower")
+	public List<SnsListVO> followList(@RequestParam(required = false, defaultValue = "1") int page,
+			@RequestParam(required = false, defaultValue = "18") int size,
+			@RequestParam int loginNo) {
+		
+		
+		
+		int endRow = page * size;
+		int startRow = endRow - (size - 1);
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("endRow", endRow);
+		param.put("startRow", startRow);
+		param.put("loginNo", loginNo);
+		
+		log.debug("------------------------------{}" + param);
+				
+		return snsService.followerList(param);
 	}
 	
 	//좋아요 등록 기능
@@ -70,4 +97,26 @@ public class SnsRestController {
 		snsLikeDao.delete(snsNo, memberNo);
 		
 	}
+	
+	//팔로우 한 사람들의 글
+		//목록 페이지
+		@GetMapping("/mylist")
+		public List<SnsDto> myList(@RequestParam(required = false, defaultValue = "1") int page,
+				@RequestParam(required = false, defaultValue = "10") int size,
+				@RequestParam int pageMember) {
+			
+			
+			
+			int endRow = page * size;
+			int startRow = endRow - (size - 1);
+			
+			Map<String, Object> param = new HashMap<>();
+			param.put("endRow", endRow);
+			param.put("startRow", startRow);
+			param.put("pageMember", pageMember);
+			
+			log.debug("------------------------------{}" + param);
+					
+			return snsDao.myList(param);
+		}
 }

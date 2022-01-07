@@ -84,6 +84,12 @@ public class SnsDaoImpl implements SnsDao{
 	}
 	
 	
+	@Override
+	public List<SnsListVO> followerList(Map<String, Object> param) {
+		
+		return sqlSession.selectList("sns.followerList", param);
+	}
+	
 	//조회수 증가기능
 	@Override
 	public void readUp(int snsNo, int memberNo) {
@@ -101,8 +107,11 @@ public class SnsDaoImpl implements SnsDao{
 		
 		
 	}
-	
-	//좋아요 개수 출력 기능
-	
 
+	//내가쓴 게시물 목록
+	@Override
+	public List<SnsDto> myList(Map<String, Object> param) {
+		
+		return sqlSession.selectList("sns.myList", param);
+	}
 }

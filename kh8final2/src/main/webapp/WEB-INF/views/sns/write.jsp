@@ -30,7 +30,7 @@
 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-
+<script src="${root }/resources/ckeditor5/build/ckeditor.js"></script>
 <script>
         
 var sel_files = [];
