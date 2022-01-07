@@ -3,9 +3,81 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
+      <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      rel="stylesheet"
+    />
+        <style>
+      .container-zipggu {
+        width: 1000px;
+        margin: auto;
+      }
+      .float-div {
+        width: 100%;
+        height: 500px;
+        border: 1px solid #003458;
+      }
+      .float-div.left {
+        overflow: scroll;
+        width: 40%;
+        float: left;
+        box-sizing: border-box;
+        background: whitesmoke;
+      }
+      .float-div.right {
+        width: 60%;
+        float: right;
+        box-sizing: border-box;
+        background: #ece6cc;
+      }
+      .right-content {
+        width: 70%;
+        margin: auto;
+      }
+      .cate-box {
+        max-width: 100%;
+        border: 1px solid lightgray;
+        padding: 20px;
+      }
+      .cate-box ul {
+        padding-left: 25px;
+      }
+      .cate-box li {
+        margin: 8px 0;
+      }
+      .cate-box a {
+        color: gray;
+      }
+      .cate-box i {
+        color: royalblue;
+      }
+      .cate-parent,
+      .cate,
+      .btn-box {
+        display: flex;
+        justify-content: space-between;
+      }
+      .cate-child {
+        display: none;
+      }
+      .modify-btn,
+      .delete-btn,
+      .cate-btn,
+      .add-btn,
+      .remove-btn {
+        padding: 0 5px;
+      }
+      .cate-parent.color {
+        background: pink;
+      }
+      .cate-btn.color {
+        background: hotpink;
+      }
+    </style>
 <script>
 $(function(){
+	var result = $(".furniture-item-group-3")
+
 	var page = 1;
 	var size = 24;
 	var url = new URL(location.href);
@@ -14,16 +86,45 @@ $(function(){
 	if(urlParams.get("categoryNo")){
 		categoryNo = urlParams.get("categoryNo");
 	}
+	var categoryList = [];
+	
+	
 	var itemName = urlParams.get("itemName");
-	var result = $(".furniture-item-group-3")
+	
+	$(document).on("click",".categoryBtn",function(){
+		var categoryNo = $(this).data("category-no");
+		if(categoryNo == 0) {
+			urlParams.delete("categoryNo");
+		} else {
+			urlParams.set("categoryNo", categoryNo);		
+		}
+		location.href=url.href;
+	});
+	
+	$(".searchForm").keypress(function(event){
+		if(event.keyCode == 13){
+			urlParams.set("itemName", $(this).val());
+			location.href=url.href;
+		}
+	});
+	
+// 	$(".searchBtn").click(function(){
+// 		urlParams.set("itemName", $(".searchForm").val());
+// 		location.href=url.href;
+// 	});
+	
 	$(".more-btn").click(function(){
-		loadData(page, size);
+		
+		loadItem(page, size);
 		page++;
 	});
 	
+	loadData();
+	create_btn();
+	
 	$(".more-btn").click();
 	
-	function loadData(page, size){
+	function loadItem(page, size){
 		$.ajax({
 			url : "${pageContext.request.contextPath}/store/data/list",
 			type : "get",
@@ -31,6 +132,7 @@ $(function(){
 				page : page,
 				size : size,
 				categoryNo : categoryNo,
+				categoryList : categoryList,
 				itemName : itemName
 			},
 			dataType : "json",
@@ -71,53 +173,167 @@ $(function(){
 			}
 		});
 	}
-});
-</script>
-<div class="home-promotion">
-    <div class="star-monday-list monday-slick slick-initialized slick-slider slick-dotted" style=""><button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="">Previous</button><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 13000px; transform: translate3d(-4000px, 0px, 0px);"><div class="slick-slide slick-cloned" data-slick-index="-1" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1291" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/202112171457583CoG3ReM19.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="0" aria-hidden="true" role="tabpanel" id="slick-slide00" style="width: 1000px;" aria-describedby="slick-slide-control00" tabindex="-1"><div><a href="/promotion/view/346" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211223165233MGRnGRTRgD.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="1" aria-hidden="true" role="tabpanel" id="slick-slide01" style="width: 1000px;" aria-describedby="slick-slide-control01" tabindex="-1"><div><a href="/promotion/view/987" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211223142301mkO5gb09LW.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="2" aria-hidden="true" role="tabpanel" id="slick-slide02" style="width: 1000px;" aria-describedby="slick-slide-control02" tabindex="-1"><div><a href="/promotion/view/1292" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211217180649R2B6jWyCUc.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-current slick-active" data-slick-index="3" aria-hidden="false" role="tabpanel" id="slick-slide03" style="width: 1000px;" aria-describedby="slick-slide-control03"><div><a href="/promotion/view/1290" style="width: 100%; display: inline-block;" tabindex="0">
-                <img src="//cdn.ggumim.co.kr/original/20211211163639KO4vIIxFBs.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="4" aria-hidden="true" role="tabpanel" id="slick-slide04" style="width: 1000px;" aria-describedby="slick-slide-control04" tabindex="-1"><div><a href="/promotion/view/1285" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211211161556JA4Nu06WbE.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="5" aria-hidden="true" role="tabpanel" id="slick-slide05" style="width: 1000px;" aria-describedby="slick-slide-control05" tabindex="-1"><div><a href="/promotion/view/1291" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/202112171457583CoG3ReM19.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="6" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/346" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211223165233MGRnGRTRgD.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="7" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/987" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211223142301mkO5gb09LW.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="8" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1292" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211217180649R2B6jWyCUc.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="9" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1290" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211211163639KO4vIIxFBs.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="10" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1285" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211211161556JA4Nu06WbE.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="11" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1291" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/202112171457583CoG3ReM19.png" style="width: 100%;">
-            </a></div></div></div></div><button class="slick-next slick-arrow" aria-label="Next" type="button" style="">Next</button><ul class="slick-dots" style="" role="tablist"><li class="" role="presentation"><button type="button" role="tab" id="slick-slide-control00" aria-controls="slick-slide00" aria-label="1 of 6" tabindex="-1">1</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control01" aria-controls="slick-slide01" aria-label="2 of 6" tabindex="-1">2</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control02" aria-controls="slick-slide02" aria-label="3 of 6" tabindex="-1">3</button></li><li role="presentation" class="slick-active"><button type="button" role="tab" id="slick-slide-control03" aria-controls="slick-slide03" aria-label="4 of 6" tabindex="0" aria-selected="true">4</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control04" aria-controls="slick-slide04" aria-label="5 of 6" tabindex="-1">5</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control05" aria-controls="slick-slide05" aria-label="6 of 6" tabindex="-1">6</button></li></ul></div>
-</div>
 
 
-<div class="container-zipggu store">
-	<div class="commerce-title">
-        <h2>실시간 베스트
-            <a href="/furniture/more/c2/?type=hour" style="float: right; font-weight: 500; font-size: 16px; margin-top: 10px; cursor: pointer;">
-                전체보기 &gt;
-            </a>
-        </h2>
-    </div>
 	
-	<div class="furniture-item-group-3 preact-furniture-list">
+	function loadData(){
+		$(".category-ul").empty();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/admin/data/category/list",
+			type : "post",
+			data : {
+			},
+			async: false,
+			dataType : "json",
+			success:function(resp){
+				console.log("성공", resp);
+				
+					var ul = $(".category-ul");
+					var category = $("<li>")
+					.append($("<div>")
+						.addClass("cate")
+						.append($("<a>")
+							.addClass("categoryBtn")
+							.attr("data-category-no", 0)
+							.attr("href","#")
+							.text("전체카테고리")
+						)
+					);
+					
+					ul.append(category);
+					draw_category(resp, ul);
+					
+					if(categoryNo != 0) {
+						$(".categoryBtn[data-category-no="+categoryNo+"]").parent().parent().find(".categoryBtn").each(function(){
+							categoryList.push($(this).data("category-no"));
+						})						
+					}
+				
 
-	</div>
-	<button type="button" class="btn btn-primary more-btn">더보기</button>
-</div>
+			},
+			error:function(e){
+				console.log("실패", e);
+			}
+		});
+	}
+	
+	function draw_category(list, ul) {
+		for (let categoryVO of list) {
+			if(categoryVO.list != null && categoryVO.list.length > 0) {
+				draw_category(categoryVO.list, draw_parent(categoryVO, ul));			
+			} else {
+				draw_child(categoryVO, ul);		
+			}
+		}
+	}
+	
+	function draw_parent(categoryVO, ul) {
+		var category = $("<li>")
+		.append($("<div>")
+			.addClass("cate-parent")
+			.append($("<a>")
+				.addClass("categoryBtn")
+				.attr("data-category-no", categoryVO.categoryNo)
+				.attr("data-category-name", categoryVO.categoryName)
+				.attr("href","#")
+				.text(categoryVO.categoryName)
+			)
+			.append($("<div>")
+				.addClass("btn-box")
+			)
+		)
+		.append($("<ul>")
+			.addClass("cate-child")
+			.addClass("cate-no-"+categoryVO.categoryNo)
+		);
+		
+		ul.append(category);
+		
+		ul = $(".cate-no-"+categoryVO.categoryNo);
+		
+		return ul;
+	}
+	
+	function draw_child(categoryVO, ul) {
+		var category = $("<li>")
+		.append($("<div>")
+			.addClass("cate")
+			.append($("<a>")
+				.addClass("categoryBtn")
+				.attr("data-category-no", categoryVO.categoryNo)
+				.attr("data-category-name", categoryVO.categoryName)
+				.attr("href","#")
+				.text(categoryVO.categoryName)
+			)
+		);
+
+		ul.append(category);
+	}
+    function create_btn() {
+        //화살표
+        var cateBtn = $("<a>")
+          .addClass("cate-btn")
+          .append($("<i>").addClass("fas fa-caret-down"))
+          .attr("href", "javascript:void(0)")
+          .click(function () {
+            $(this).parent().parent().next().toggle();
+            $(this).children("i").toggleClass("fa-rotate-180");
+          });
+        $(".btn-box").append(cateBtn);
+    }
+});    	
+	
+	
+
+</script>
+   <div class="container mt-5">
+        <div class="row">
+            <!--카테고리 시작-->
+            <div class="col-3">
+	                <div class="cate-box">
+	 			<ul class="category-ul">
+	 			  <li>
+	 			    <div class="cate">
+	                  <a href="#">전체카테고리</a>
+	                  <div class="btn4-box" data-category-no="0"></div>
+	                </div>
+	 			  </li>
+	 			</ul>
+	          </div>
+            </div>
+
+
+            <!--상품 내용 시작-->
+            <div class="col-9">
+
+                <div class="d-flex">
+                    <input class="form-control me-sm-2 searchForm" type="text" placeholder="검색어를 입력해 주세요." value="${param.itemName}">
+                </div>
+
+                <div class="commerce-title">
+	             	<h2>
+			        	<span>
+			        		<c:choose>
+			        			<c:when test="${param.itemName == null}">
+			        				상품 목록
+			        			</c:when>
+			        			<c:otherwise>
+			        				'${param.itemName}' 검색 결과
+			        			</c:otherwise>
+			        		</c:choose>
+			        	</span>
+			            <a href="${pageContext.request.contextPath}/store/list" style="float: right; font-weight: 500; font-size: 16px; margin-top: 10px; cursor: pointer;">
+			                전체보기 &gt;
+			            </a>
+			        </h2>
+                </div>
+                <div class="furniture-item-group-3 preact-furniture-list">
+
+                </div>
+                <button type="button" class="btn btn-primary more-btn">더보기</button>
+            </div>
+        </div>
+    </div>
 
 <template id="item-template">
 	<div class="col-xs-6 col-md-3 item">

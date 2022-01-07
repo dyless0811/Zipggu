@@ -14,10 +14,9 @@ public class StoreController {
 	@Autowired
 	private StoreService storeService;
 	
-	
-	@RequestMapping("")
-	public String main() {
-		return "store/main";
+	@RequestMapping({"/list/{categoryNo}", "/list", ""})
+	public String list(@PathVariable(required = false) Integer categoryNo) {
+		return "store/list";
 	}
 	
 	@RequestMapping("/detail/{itemNo}")

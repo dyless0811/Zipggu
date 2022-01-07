@@ -15,6 +15,6 @@ public interface ItemDao {
 	// 아이템 단일 조회
 	ItemDto get(int itemNo);
 	
-	List<StoreListVO> listByPage(int startRow, int endRow);
+	List<StoreListVO> listByPage(ItemSearchVO itemSearchVO);
 	List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO);
 }

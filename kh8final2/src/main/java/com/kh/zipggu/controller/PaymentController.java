@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.zipggu.entity.OrderDetailDto;
+import com.kh.zipggu.entity.OrderOptionDto;
 import com.kh.zipggu.entity.OrdersDto;
 import com.kh.zipggu.entity.ItemDto;
+import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.repository.OrdersDao;
 import com.kh.zipggu.repository.OrderDetailDao;
+import com.kh.zipggu.repository.OrderOptionDao;
 import com.kh.zipggu.repository.ItemDao;
 import com.kh.zipggu.service.KakaoPayService;
 import com.kh.zipggu.vo.kakaopay.KakaoPayApproveRequestVO;
@@ -48,6 +51,9 @@ public class PaymentController {
 
 	@Autowired
 	private OrderDetailDao orderDetailDao;
+	
+	@Autowired
+	private OrderOptionDao orderOptionDao;
 	
 	@Autowired
 	private CartService cartService;
@@ -176,6 +182,7 @@ public class PaymentController {
 		
 		for (CartListVO cartListVO : cartListVOList) {
 			OrderDetailDto orderDetailDto = new OrderDetailDto();
+			orderDetailDto.setOrderDetailNo(orderDetailDao.sequence());
 			orderDetailDto.setOrderNo(ordersDto.getOrderNo());
 			orderDetailDto.setItemNo(cartListVO.getItemNo());
 			orderDetailDto.setOrderItemName(cartListVO.getItemName());
@@ -183,6 +190,14 @@ public class PaymentController {
 			orderDetailDto.setOrderItemPrice(cartListVO.getSumPrice());
 			
 			orderDetailDao.insert(orderDetailDto);
+			for (ItemOptionDto optionList : cartListVO.getOptionList()) {
+				OrderOptionDto orderOptionDto = new OrderOptionDto();
+				orderOptionDto.setItemOptionNo(optionList.getItemOptionNo());
+				orderOptionDto.setOrderDetailNo(orderDetailDto.getOrderDetailNo());
+				orderOptionDao.insert(orderOptionDto);
+			}
+			
+			cartDao.delete(cartListVO.getCartNo());
 		}
 		
 		return "redirect:success_result";

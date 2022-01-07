@@ -68,9 +68,6 @@
                   <a href="${root}/store">
                     <div class="item">스토어</div>
                   </a>
-                  <a href="/star">
-                    <div class="item">컨텐츠</div>
-                  </a>
                   <a href="${root }/sns">
                     <div class="item">커뮤니티</div>
                   </a>
@@ -84,12 +81,12 @@
                         <div class="input-round">
                           <div class="text">
                             <!-- 내 스타일 매거진, 상품, 사진 검색 -->
-                            <form action="#" method="get">
+                            <form action="${root}/store/list" method="get">
                               <input
                                 class="search-box"
                                 type="text"
-                                name="q"
-                                placeholder="내 스타일 매거진, 상품, 사진 검색"
+                                name="itemName"
+                                placeholder="상품 검색"
                                 autocomplete="off"
                               />
                             </form>
