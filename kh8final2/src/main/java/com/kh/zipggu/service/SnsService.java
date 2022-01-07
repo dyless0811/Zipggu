@@ -2,6 +2,7 @@ package com.kh.zipggu.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +23,10 @@ public interface SnsService {
 	void delete(int snsNo);
 	
 	//SNS 전체 목록 기능
-	List<SnsListVO> listByPage(int startRow, int endRow);
+	//List<SnsListVO> listByPage(int startRow, int endRow, String column);
+
+	//SNS 전체 목록 기능
+	List<SnsListVO> listByPage(Map<String, Object> param);
 
 	
 	

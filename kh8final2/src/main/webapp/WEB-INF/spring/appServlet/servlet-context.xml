@@ -77,11 +77,14 @@
 		= mvc:exclude-mapping에 제외할 주소를 지정(여러 개 작성 가능)
 		= bean에 처리할 인터셉터 클래스 객체를 지정
 		= Spring 표현식을 사용하여 주소 패턴을 지정(*, **)
-	 <mvc:interceptors>
 	 	TestInterceptor에 대한 등록 처리
+	 <mvc:interceptors>
 	 	<mvc:interceptor>
-	 		<mvc:mapping path="/**"/>
-	 		<bean class="com.kh.spring15.interceptor.TestInterceptor"></bean>
+	 		<mvc:mapping path="member/**"/>
+	 		<mvc:mapping path="/member/join"/>
+	 		<mvc:mapping path="/member/login"/>
+	 		<mvc:mapping path="/member/page"/>
+	 		<bean class="com.kh.zipggu.interceptor.MemberInterceptor"></bean>
 	 	</mvc:interceptor>
 	 </mvc:interceptors>
 	 -->

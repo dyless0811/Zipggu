@@ -1,6 +1,7 @@
 package com.kh.zipggu.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.zipggu.entity.SnsDto;
 import com.kh.zipggu.vo.SnsListVO;
@@ -26,10 +27,13 @@ public interface SnsDao {
 	void delete(int snsNo);
 
 	//페이징 목록조회
-	List<SnsListVO> listByPage(int startRow, int endRow);
+	//List<SnsListVO> listByPage(int startRow, int endRow);
 
 	//조회수 증가
 	void readUp(int snsNo, int memberNo);
+
+	//페이징 목록조회
+	List<SnsListVO> listByPage(Map<String, Object> param);
 	
 	
 }
