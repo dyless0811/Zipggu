@@ -136,6 +136,79 @@ $(function(){
 	</div>
 </template>
 
+
+
+
+
+
+
+    <div class="container-zipggu">
+        <div class="row">
+
+            <!--카테고리 시작-->
+            <div class="col-2">
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+
+                        <!--큰 카테고리 제목-->
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <!--큰 카테고리 (반복 시작)-->
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            침대
+                            </button>
+                        </h2>
+
+                        <!--작은 카테고리-->
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <!--작은 카테고리 제목-->
+                            <div class="accordion-body">싱글침대</div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            <!--상품 내용 시작-->
+            <div class="col-9">
+                
+                <form class="d-flex">
+                    <input class="form-control me-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+
+                <div class="commerce-title">
+                    <h2>실시간 베스트
+                        <a href="/furniture/more/c2/?type=hour" style="float: right; font-weight: 500; font-size: 16px; margin-top: 10px; cursor: pointer;">
+                            전체보기 &gt;
+                        </a>
+                    </h2>
+                </div>
+                <div class="furniture-item-group-3 preact-furniture-list">
+                    
+                </div>
+                <button type="button" class="btn btn-primary more-btn">더보기</button>
+            </div>
+        </div>
+
+        
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
 
 

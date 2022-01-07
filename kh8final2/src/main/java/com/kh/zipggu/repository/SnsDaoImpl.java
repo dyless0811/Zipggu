@@ -63,18 +63,26 @@ public class SnsDaoImpl implements SnsDao{
 	}
 	
 	//페이징 목록 기능
+//	@Override
+//	public List<SnsListVO> listByPage(int startRow, int endRow) {
+//		
+//		SnsListVO vo = new SnsListVO();
+//		
+//		
+//		Map<String, Object> param = new HashMap<>();
+//		param.put("startRow", startRow);
+//		param.put("endRow", endRow);
+//		
+//		return sqlSession.selectList("sns.listByPage", param);
+//	}
+	
+	
 	@Override
-	public List<SnsListVO> listByPage(int startRow, int endRow) {
-		
-		SnsListVO vo = new SnsListVO();
-		
-		
-		Map<String, Object> param = new HashMap<>();
-		param.put("startRow", startRow);
-		param.put("endRow", endRow);
+	public List<SnsListVO> listByPage(Map<String, Object> param) {
 		
 		return sqlSession.selectList("sns.listByPage", param);
 	}
+	
 	
 	//조회수 증가기능
 	@Override

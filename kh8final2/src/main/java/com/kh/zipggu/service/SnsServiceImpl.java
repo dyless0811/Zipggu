@@ -3,6 +3,7 @@ package com.kh.zipggu.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -154,10 +155,16 @@ public class SnsServiceImpl implements SnsService{
 	}
 	
 	//페이징 목록
+//	@Override
+//	public List<SnsListVO> listByPage(int startRow, int endRow, String column) {
+//		
+//		return snsDao.listByPage(startRow, endRow, column);
+//	}
+	
 	@Override
-	public List<SnsListVO> listByPage(int startRow, int endRow) {
+	public List<SnsListVO> listByPage(Map<String, Object> param) {
 		
-		return snsDao.listByPage(startRow, endRow);
+		return snsDao.listByPage(param);
 	}
 	
 }

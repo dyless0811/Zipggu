@@ -19,21 +19,38 @@
 		var page = 1;
 		var size = 18;
 		var result = $("#result")
+		var column = "sns_no";
 		
 		$(".more-btn").click(function(){
-			loadData(page, size);
+			loadData(page, size, column);
 			page++;
 		});
 		
+
+		
+			$(".column").click(function(e){
+				e.preventDefault();
+				page = 1;
+				column = $(this).data("column");
+				$(this).parent().next().next().find(".row").empty();
+				console.log(column);
+				loadData(page, size, column);
+				page++;
+			});
+			
+			
+		
 		$(".more-btn").click();
 		
-		function loadData(page, size){
+	});
+		function loadData(page, size, column){
 			$.ajax({
 				url : "${pageContext.request.contextPath}/sns/data/list",
 				type : "get",
 				data : {
 					page : page,
-					size : size
+					size : size,
+					column : column
 				},
 				dataType : "json",
 				success:function(resp){
@@ -72,9 +89,9 @@
 				}
 			});
 		}
-	});
 	
-
+	
+	
 	
 	$(function(){
 		$(document).on("click", ".follow-btn", function (){
@@ -150,7 +167,13 @@
            	</p>
         </div>
     </div>
-
+	
+	<div class="container text-start">
+		<a href="sns" class="column btn btn-outline-secondary" data-column="sns_count">조회수 정렬</a>
+		<a href="sns" class="column btn btn-outline-secondary" data-column="count">좋아요 정렬</a>
+		<a href="sns" class="column btn btn-outline-secondary" data-column="sns_reply_count">댓글 정렬</a>
+	</div>
+	
    	<div class="container text-end">
 		<a href="sns/write" class="btn btn-outline-secondary">등록</a>
 	</div>

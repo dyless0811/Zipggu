@@ -1,6 +1,8 @@
 package com.kh.zipggu.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.zipggu.entity.SnsLikeDto;
 import com.kh.zipggu.repository.SnsLikeDao;
 import com.kh.zipggu.service.SnsService;
 import com.kh.zipggu.vo.SnsListVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/sns/data")
 public class SnsRestController {
@@ -29,11 +33,21 @@ public class SnsRestController {
 	//목록 페이지
 	@GetMapping("/list")
 	public List<SnsListVO> snsList(@RequestParam(required = false, defaultValue = "1") int page,
-			@RequestParam(required = false, defaultValue = "18") int size) {
+			@RequestParam(required = false, defaultValue = "18") int size,
+			@RequestParam(required = false, defaultValue = "sns_no") String column) {
+		
+		
 		int endRow = page * size;
 		int startRow = endRow - (size - 1);
 		
-		return snsService.listByPage(startRow, endRow);
+		Map<String, Object> param = new HashMap<>();
+		param.put("endRow", endRow);
+		param.put("startRow", startRow);
+		param.put("column", column);
+		
+		log.debug("------------------------------{}" + param);
+				
+		return snsService.listByPage(param);
 	}
 	
 	//좋아요 등록 기능
