@@ -18,7 +18,7 @@ public interface MemberDao {
 	MemberListVO login(MemberListVO memberListVO);//비밀번호 검사까지 통과하면 객체를 반환하도록 구현	
 	
 	//비밀번호 변경
-	boolean changePassword(String memberEmail, String memberPw, String changePw);
+	boolean changePassword(String memberEmail, String changePw);
 	
 	//회원 정보 변경
 	void edit(MemberDto memberDto);

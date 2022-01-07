@@ -274,20 +274,15 @@ public class MemberController {
 	}
 
 	@PostMapping("/password")
-	public String password(@RequestParam String memberPw, @RequestParam String changePw, HttpSession session) {
+	public String password(@RequestParam String changePw, HttpSession session) {
 		String memberEmail = (String) session.getAttribute("loginEmail");
 
-		boolean result = memberDao.changePassword(memberEmail, memberPw, changePw);
+		boolean result = memberDao.changePassword(memberEmail,  changePw);
 		if (result) {
-			return "redirect:password_success";
+			return "redirect:password";
 		} else {
 			return "redirect:password?error";
 		}
-	}
-
-	@RequestMapping("/password_success")
-	public String passwordSuccess() {
-		return "member/password_success";
 	}
 
 
