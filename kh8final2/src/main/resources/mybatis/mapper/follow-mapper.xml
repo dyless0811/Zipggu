@@ -124,44 +124,92 @@
 
 
 	<!-- 팔로워 페이지 맞팔 유무 -->
-	<select id="followerF4f" parameterType="int"
-		resultType="followVO">
-		select
-		f1.follower_user, f1.following_user, nvl2(
-		f2.follow_no, 'Y', 'N') "F4F", me.member_no,
-		me.member_nickname,
-		me.member_introduce, pro.member_profile_no
-		from follow f1
-		left outer
-		join follow f2 on f1.follower_user = f2.following_user and
-		f1.following_user = f2.follower_user
-		left outer join member me on
-		f1.follower_user = me.member_no
-		left outer join member_profile pro on
-		me.member_no = pro.member_no
-		where f1.following_user = #{memberNo}
-		order by me.member_nickname asc
-	</select>
+	<!-- <select id="followerF4f" parameterType="int" -->
+	<!-- resultType="followVO"> -->
+	<!-- select -->
+	<!-- f1.follower_user, f1.following_user, nvl2( -->
+	<!-- f2.follow_no, 'Y', 'N') "F4F", me.member_no, -->
+	<!-- me.member_nickname, -->
+	<!-- me.member_introduce, pro.member_profile_no -->
+	<!-- from follow f1 -->
+	<!-- left outer -->
+	<!-- join follow f2 on f1.follower_user = f2.following_user and -->
+	<!-- f1.following_user = f2.follower_user -->
+	<!-- left outer join member me on -->
+	<!-- f1.follower_user = me.member_no -->
+	<!-- left outer join member_profile pro on -->
+	<!-- me.member_no = pro.member_no -->
+	<!-- where f1.following_user = #{memberNo} -->
+	<!-- order by me.member_nickname asc -->
+	<!-- </select> -->
 
 	<!-- 팔로잉 페이지 맞팔 유무 -->
-	<select id="followingF4f" parameterType="int"
+	<!-- <select id="followingF4f" parameterType="int" -->
+	<!-- resultType="followVO"> -->
+	<!-- select -->
+	<!-- f1.follower_user, f1.following_user, nvl2( -->
+	<!-- f2.follow_no, 'Y', 'N') "F4F", me.member_no, -->
+	<!-- me.member_nickname, -->
+	<!-- me.member_introduce, pro.member_profile_no -->
+	<!-- from follow f1 -->
+	<!-- left outer -->
+	<!-- join follow f2 on f1.follower_user = f2.following_user and -->
+	<!-- f1.following_user = f2.follower_user -->
+	<!-- left outer join member me on -->
+	<!-- f1.following_user = me.member_no -->
+	<!-- left outer join member_profile pro on -->
+	<!-- me.member_no = pro.member_no -->
+	<!-- where f1.follower_user = #{memberNo} -->
+	<!-- order -->
+	<!-- by me.member_nickname asc -->
+	<!-- </select> -->
+
+	<!-- 팔로워 페이지 맞팔 유무 -->
+	<select id="followerF4f" parameterType="map"
 		resultType="followVO">
 		select
 		f1.follower_user, f1.following_user, nvl2(
 		f2.follow_no, 'Y', 'N') "F4F", me.member_no,
 		me.member_nickname,
 		me.member_introduce, pro.member_profile_no
-		from follow f1
+		from
+		(select * from follow f1
+		where f1.following_user=#{memberNo}) f1
+		left outer join
+		(select * from follow f2
+		where f2.follower_user=#{loginNo}) f2
+		on f1.follower_user = f2.following_user
+		left outer join member me on f1.follower_user = me.member_no
 		left outer
-		join follow f2 on f1.follower_user = f2.following_user and
-		f1.following_user = f2.follower_user
-		left outer join member me on
-		f1.following_user = me.member_no
-		left outer join member_profile pro on
-		me.member_no = pro.member_no
-		where f1.follower_user = #{memberNo}
-		order
-		by me.member_nickname asc
+		join member_profile pro on me.member_no = pro.member_no
+		order by
+		me.member_nickname asc
 	</select>
+
+
+
+	<!-- 팔로잉 페이지 맞팔 유무 -->
+	<select id="followingF4f" parameterType="map"
+		resultType="followVO">
+		select
+		f1.follower_user, f1.following_user, nvl2(
+		f2.follow_no, 'Y', 'N') "F4F", me.member_no,
+		me.member_nickname,
+		me.member_introduce, pro.member_profile_no
+		from
+		(select * from follow f1
+		where f1.follower_user=#{memberNo}) f1
+		left outer join
+		(select * from follow f2
+		where f2.follower_user=#{loginNo}) f2
+		on f1.following_user = f2.following_user
+		left outer join member me on f1.following_user = me.member_no
+		left
+		outer join member_profile pro on me.member_no = pro.member_no
+		order by
+		me.member_nickname asc
+	</select>
+
+
 
 </mapper>
