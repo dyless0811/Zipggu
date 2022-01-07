@@ -72,10 +72,6 @@ a:visited {
 	text-decoration: none;
 }
 
-li {
-	margin: 0 10px;
-}
-
 .container-1200 {
     width: 1200px;
 }
@@ -163,6 +159,29 @@ li {
 	width: 700px;
 	border:1px solid rgb(218, 220, 224);
 }
+
+.page-navigation__item>a.active, .page-navigation__item>a:not(.active):hover {
+    color: #35c5f0;
+}
+.page-navigation__item>a {
+    display: inline-block;
+    padding: 0 10px;
+    font-weight: 700;
+    position: relative;
+    height: 60px;
+    line-height: 60px;
+    transition: color .15s ease;
+    font-size: 15px;
+}
+
+.page-navigation__item {
+    display: inline-block;
+}
+
+ul{
+margin-bottom: 0px;
+}
+
 </style>
 <script>
 	
@@ -245,19 +264,17 @@ $(function(){
 	<c:if test="${memberDto.memberNo == loginNo}">
 		<nav class="menu-nav">
 			<ul style="transform: translateX(0px);">
-				<li class="page-item"><a href="#">프로필</a></li>
+				<li class="page-item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${loginNo}" class="active">프로필</a></li>
 				<li class="page-item"><a href="#">나의 쇼핑</a></li>
 				<li class="page-item"><a href="#">나의 리뷰</a></li>
-				<li class="page-item"><a href="#">설정</a></li>
+				<li class="page-item"><a href="${pageContext.request.contextPath}/member/profileEdit" >설정</a></li>
 			</ul>
 		</nav>
 	</c:if>
 		<nav class="menu-nav">
 		<ul style="transform: translateX(0px);">
-			<li class="page-item"><a href="#"></a></li>
-			<li class="page-item"><a href="#"></a></li>
-			<li class="page-item"><a href="#"></a></li>
-			<li class="page-item"><a href="#"></a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${loginNo}" class="active">모두보기</a></li>
+			<li class="page-navigation__item"><a href="#">사진</a></li>
 		</ul>
 	</nav>
 	</div>
@@ -337,9 +354,7 @@ $(function(){
 
 								<c:if test="${memberDto.memberNo == loginNo}">
 									<div>
-										<a
-											href="${pageContext.request.contextPath}/member/profileEdit"
-											class="a-border">설정</a>
+										<a href="${pageContext.request.contextPath}/member/profileEdit" class="a-border">설정</a>
 									</div>
 								</c:if>
 							</div>

@@ -190,6 +190,28 @@ li {
     color: #fff !important;
 }
 
+.page-navigation__item>a.active, .page-navigation__item>a:not(.active):hover {
+    color: #35c5f0;
+}
+.page-navigation__item>a {
+    display: block;
+    padding: 0 10px;
+    font-weight: 700;
+    position: relative;
+    height: 60px;
+    line-height: 60px;
+    transition: color .15s ease;
+    font-size: 15px;
+}
+
+.page-navigation__item {
+    display: inline-block;
+}
+
+ul{
+margin-bottom: 0px;
+}
+
 </style>
 
 <div>
@@ -197,18 +219,16 @@ li {
 	<div class="menu-container">
 		<nav class="menu-nav">
 			<ul style="transform: translateX(0px);">
-				<li class="page-item"><a href="#">프로필</a></li>
+				<li class="page-item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${loginNo}">프로필</a></li>
 				<li class="page-item"><a href="#">나의 쇼핑</a></li>
 				<li class="page-item"><a href="#">나의 리뷰</a></li>
-				<li class="page-item"><a href="#">설정</a></li>
+				<li class="page-item"><a href="${pageContext.request.contextPath}/member/profileEdit" class="active">설정</a></li>
 			</ul>
 		</nav>
 		<nav class="menu-nav">
 		<ul style="transform: translateX(0px);">
-			<li class="page-item"><a href="#"></a></li>
-			<li class="page-item"><a href="#"></a></li>
-			<li class="page-item"><a href="#"></a></li>
-			<li class="page-item"><a href="#"></a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/profileEdit" class="active">회원정보수정</a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/password">비밀번호 변경</a></li>
 		</ul>
 		</nav>
 	</div>
@@ -299,7 +319,18 @@ li {
 					
 			<div class="infoFormItemGroup">
 				<div class="infoFormItemField">
-					<input type="date" name="memberBirth" class="form-control"   value="${memberDto.getMemberBirthDay()}" placeholder="date input">
+				
+				    <c:choose>
+						<c:when test="${memberDto.memberBirth == null}">
+							<input type="date" name="memberBirth" class="form-control">
+						</c:when>
+					<c:otherwise>
+       						<input type="date" name="memberBirth" class="form-control"   value="${memberDto.getMemberBirthDay()}" >
+					</c:otherwise>	            
+					</c:choose>				
+
+				
+				
 				</div>
 			</div>
 			
