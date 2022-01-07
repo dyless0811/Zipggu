@@ -83,17 +83,17 @@
 			<if test="memberNickname != null">
 				member_nickname = #{memberNickname},
 			</if>
-<!-- 			<if test="memberGender != null"> -->
-<!-- 				member_gender = #{memberGender}, -->
-<!-- 			</if> -->
-<!-- 			<if test="memberBirth != null"> -->
-<!-- 				member_birth = #{memberBirth}, -->
-<!-- 			</if> -->
+			<if test="memberGender != null">
+				member_gender = #{memberGender},
+			</if>
+			<if test="memberBirth != null">
+				member_birth = #{memberBirth},
+			</if>
 			<if test="memberIntroduce != null">
 				member_introduce = #{memberIntroduce}
 			</if>
 		</set>
-			where member_no = #{memberNo}
+			where member_email = #{memberEmail}
 	</update>
 
 

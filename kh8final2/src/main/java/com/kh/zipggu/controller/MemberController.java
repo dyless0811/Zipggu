@@ -1,9 +1,8 @@
 package com.kh.zipggu.controller;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -267,19 +266,6 @@ public class MemberController {
 		return "redirect:join_success";
 	}
 
-	// 내정보
-	@RequestMapping("/mypage")
-	public String mypage(HttpSession session, Model model) {
-		int memberNo = (int) session.getAttribute("loginNo");
-
-		MemberDto memberDto = memberDao.noGet(memberNo);
-		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
-
-		model.addAttribute("memberDto", memberDto);
-		model.addAttribute("memberProfileDto", memberProfileDto);
-
-		return "member/mypage";
-	}
 
 //	비밀번호 변경
 	@GetMapping("/password")
@@ -304,33 +290,6 @@ public class MemberController {
 		return "member/password_success";
 	}
 
-	@GetMapping("/edit")
-	public String edit(HttpSession session, Model model) {
-		String memberEmail = (String) session.getAttribute("loginEmail");
-		MemberDto memberDto = memberDao.get(memberEmail);
-
-		model.addAttribute("memberDto", memberDto);
-
-		return "member/edit";
-	}
-
-	@PostMapping("/edit")
-	public String edit(@ModelAttribute MemberDto memberDto, HttpSession session) {
-		String memberEmail = (String) session.getAttribute("loginEmail");
-		memberDto.setMemberEmail(memberEmail);
-
-		boolean result = memberDao.changeInformation(memberDto);
-		if (result) {
-			return "redirect:edit_success";
-		} else {
-			return "redirect:edit?error";
-		}
-	}
-
-	@RequestMapping("/edit_success")
-	public String editSuccess() {
-		return "member/edit_success";
-	}
 
 	@GetMapping("/quit")
 	public String quit() {
@@ -497,6 +456,7 @@ public class MemberController {
 
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberProfileDto", memberProfileDto);
+		
 		return "member/profileEdit";
 	}
 
@@ -551,5 +511,8 @@ public class MemberController {
 
 		return "member/page";
 	}
+	
+
+
 	
 }

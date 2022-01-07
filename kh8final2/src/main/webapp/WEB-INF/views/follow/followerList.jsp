@@ -471,8 +471,8 @@ button {
 										</c:choose>
 									</div>
 									<div class="SitemContent">
-										<%-- 										<div class="itemNickname">${followVO.memberNickname}</div> --%>
-										<div class="itemNickname">${followVO.followerUser}</div>
+										<div class="itemNickname">${followVO.memberNickname}</div>
+<%-- 										<div class="itemNickname">${followVO.followerUser}</div> --%>
 										<div class="itemIntroduce">${followVO.memberIntroduce}</div>
 
 									</div>
