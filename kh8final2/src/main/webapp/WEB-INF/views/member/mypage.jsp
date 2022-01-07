@@ -33,7 +33,7 @@ li {
 			<ul style="transform: translateX(0px);">
 				<li class="page-item"><a href="#">프로필</a></li>
 				<li class="page-item"><a href="#">나의 쇼핑</a></li>
-				<li class="page-item"><a href="#">나의 리뷰</a></li>
+				<li class="page-item"><a href="#">팔로워 글 목록</a></li>
 				<li class="page-item"><a href="#">설정</a></li>
 			</ul>
 		</nav>

@@ -108,5 +108,10 @@ public class SnsDaoImpl implements SnsDao{
 		
 	}
 
-
+	//내가쓴 게시물 목록
+	@Override
+	public List<SnsDto> myList(Map<String, Object> param) {
+		
+		return sqlSession.selectList("sns.myList", param);
+	}
 }

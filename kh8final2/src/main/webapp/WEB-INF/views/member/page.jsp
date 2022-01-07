@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<c:set var="pageMember" value="${memberDto.memberNo}"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
 <script>
 	$(document).ready(function() {
 
@@ -54,6 +53,10 @@
 			});
 		});
 	});
+	
+	
+	
+	
 </script>
 
 
@@ -143,7 +146,97 @@ li {
     word-break: break-word;
     text-align: left;
 }
+.figure-img{
+	display: inline-block;
+	width:50px;
+	height:50px;
+	overflow: hidden;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.follower-img{
+	border-radius:50%;
+	width:8%;
+	height:8%;
+}
+.d-flex{
+	width: 700px;
+	border:1px solid rgb(218, 220, 224);
+}
 </style>
+<script>
+	
+$(function(){
+	var page = 1;
+	var size = 4;
+	var pageMember = ${pageMember};
+	
+	
+	console.log("로그인No = ", pageMember);
+			
+	var result = $("#result-pageMember")
+	console.log("팔로워 목록?????????????????");
+	$(".pageMember-more-btn").click(function(){
+		loadmyList(page, size, pageMember);
+		page++;
+	});
+			
+	
+	$(".pageMember-more-btn").click();
+	
+});
+	function loadmyList(page, size, pageMember){
+		
+		
+		console.log("로그인No ============== ", pageMember);
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/sns/data/mylist",
+			type : "get",
+			data : {
+				page : page,
+				size : size,
+				pageMember : pageMember
+			},
+			dataType : "json",
+			success:function(resp){
+				
+				console.log("팔로워 목록 성공", resp);
+				
+				if(resp.length < size){
+					$(".pageMember-more-btn").remove();
+				}
+				
+				console.log(resp);
+				
+				if(resp.length > 0){
+					for(var i=0; i<resp.length; i++){
+						var result = $("#pageMember")
+						var clonedTemplate = $(".pageMember-template").clone();
+						var templateContent = $(clonedTemplate.html());
+						templateContent.find("#b").attr("href", "${pageContext.request.contextPath}/sns/detail?snsNo="+resp[i].snsNo);
+						templateContent.find(".figure-img").attr("src", "${pageContext.request.contextPath}/sns/thumnail?snsNo="+resp[i].snsNo);
+						//templateContent.find(".profile-image").attr("src", "${pageContext.request.contextPath}/member/profile?memberNo="+resp[i].memberNo);
+						templateContent.find(".member-page").attr("href", "${pageContext.request.contextPath}/member/page?memberNo=" + resp[i].memberNo);
+						clonedTemplate.html(templateContent.prop('outerHTML'));
+						result.append(clonedTemplate.html());
+					}
+				}
+				
+				else{
+					var result = $("#pageMember")
+					result.append("<div class='m-5'><h3>게시글이 없습니다</h3>");
+					
+					
+				}
+			},
+			error:function(e){
+				console.log("실패", e);
+			}
+		});
+	}
+	
+</script>
 
 
 <div class="layout-container" >
@@ -268,11 +361,15 @@ li {
 			<div class="main-right">
 
 				<div class="div-right">
-				<span>자리만잡아두기1</span>
-				<div class="itemBox">
+				
+				<span>내가 쓴 게시물</span>
+				<div class="d-flex flex-wrap">
 
+		        		<div id="pageMember"></div>
+		        		<button type="button" class="btn btn-primary pageMember-more-btn">더보기</button>
+			   
 				</div>
-				<span>자리만잡아두기2</span>
+				<span>팔로워 게시물</span>
 				<div class="itemBox">
 
 				</div>
@@ -286,6 +383,22 @@ li {
 	</div>
 
 </div>
+
+
+<template class="pageMember-template">
+	
+			
+           <figure class="figure m-2">
+            	<a href="detail?snsNo=${snsDto.	snsNo }" id="b">
+                	<img src="http://placeimg.com/150/150/animals" class="figure-img img-fluid rounded border border-3" alt="...">
+                	<figcaption class="figure-caption text-center"><span class="member-nick"></span></figcaption>
+                </a>
+            </figure>
+
+
+        
+</template>
+
 
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

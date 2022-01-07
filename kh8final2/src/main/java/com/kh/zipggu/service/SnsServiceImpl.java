@@ -176,4 +176,6 @@ public class SnsServiceImpl implements SnsService{
 		return snsDao.followerList(param);
 	}
 	
+
+	
 }
