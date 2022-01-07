@@ -476,7 +476,7 @@ button {
 								
 								<c:if test="${loginNo != followVO.followingUser }">
 									<c:choose>
-											<c:when test="${followVO.f4f == N}"> 
+											<c:when test="${followVO.f4f != 'Y'}"> 
 												<button class="followBtn" id="followBtn_${followVO.followingUser}" data-member-no="${followVO.followingUser}">팔로우</button>
 												<button class="unfollowBtn" id="unfollowBtn_${followVO.followingUser}" style="display:none" data-member-no="${followVO.followingUser}">팔로잉</button>
 											</c:when>

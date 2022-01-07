@@ -37,7 +37,6 @@ public class FollowController {
 	//팔로워 목록 페이지
 	@RequestMapping("/followerList")
 	public String followerList(@RequestParam int memberNo,@ModelAttribute FollowVO followVO ,Model model, HttpSession session) throws Exception {
-	
 		
 		MemberDto memberDto = memberDao.noGet(memberNo);
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
@@ -58,17 +57,17 @@ public class FollowController {
 //		log.info("현재 페이지 회원 번호 리스트 : " + followingList);		
 
 		
-		int followerUser = (int) session.getAttribute("loginNo");
+		int loginNo = (int) session.getAttribute("loginNo");
 		int followingUser = memberNo;
 
-		followVO.setFollowerUser(followerUser);
+		followVO.setFollowerUser(loginNo);
 		followVO.setFollowingUser(followingUser);
 		
 		int followCheck = followService.isFollow(followVO);		
 		
 		
 		// 맞팔 유무
-		List<FollowVO> followerF4f = followService.followerF4f(memberNo);
+		List<FollowVO> followerF4f = followService.followerF4f(loginNo,memberNo);
 		log.info("맞팔 리스트 : " + followerF4f);	
 		
 		// 팔로워 카운트
@@ -109,17 +108,17 @@ public class FollowController {
 //	List<FollowVO> followerList = followService.followerList(memberNo);
 //	log.info("현재 페이지 회원 리스트 : " + followerList);
 
-	int followerUser = (int) session.getAttribute("loginNo");
+	int loginNo = (int) session.getAttribute("loginNo");
 	int followingUser = memberNo;
 
-	followVO.setFollowerUser(followerUser);
+	followVO.setFollowerUser(loginNo);
 	followVO.setFollowingUser(followingUser);
 	
 	int followCheck = followService.isFollow(followVO);		
 	
 	
 	// 맞팔 유무
-	List<FollowVO> followingF4f= followService.followingF4f(memberNo);
+	List<FollowVO> followingF4f= followService.followingF4f(loginNo,memberNo);
 	log.info("맞팔 리스트 : " + followingF4f);	
 	
 	// 팔로워 카운트
