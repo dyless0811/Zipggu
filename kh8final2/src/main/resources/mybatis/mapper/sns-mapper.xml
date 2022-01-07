@@ -73,4 +73,14 @@
 	    ) where rn between ${startRow} and ${endRow}
 	</select>
 	
+	
+	<!-- 내가 쓴 게시물 조회 -->
+	<select id="myList" parameterType="map" resultType="snsDto">
+		select * from (
+	        	select rownum rn, TMP.* from (
+	            	select * from sns where member_no = ${pageMember} order by sns_no desc
+	        )TMP
+	    ) where rn between ${startRow} and ${endRow}
+	</select>
+	
 </mapper> 

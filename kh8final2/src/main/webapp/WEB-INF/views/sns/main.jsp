@@ -15,8 +15,8 @@
 	}
 	.figure-img{
 		display: inline-block;
-		width:150px;
-		height:150px;
+		width:120px;
+		height:120px;
 		overflow: hidden;
 	    object-fit: cover;
 	    border-radius: 5px;
@@ -33,6 +33,19 @@
 	    overflow: hidden;
 	    object-fit: cover;
 	    border-radius: 5px;
+	}
+	.count{
+		color:black;
+		font-size: 13px;
+		
+	}
+	.reply{
+		color:black;
+		font-size: 13px;
+	}
+	.like{
+		color:black;
+		font-size: 13px;
 	}
 </style>
 <script>
@@ -53,7 +66,11 @@
 				e.preventDefault();
 				page = 1;
 				column = $(this).data("column");
-				$(this).parent().next().next().find(".row").empty();
+				
+				console.log($(this).parent().parent().next().find(".row"));
+				
+				$(this).parent().parent().next().find(".row");
+				
 				console.log(column);
 				loadData(page, size, column);
 				page++;
@@ -230,72 +247,72 @@
 </script>
 
 <div class="container-zipggu">
-<div class="container-fluid">
+
 	<div class="container-zipggu">
         <div class="p-5 mb-4 bg-light border rounded-3">
         	<span class="logincheck" style="display:none">${loginNo }</span>
         	
-        			<h5 class="mb-4"><strong>내가 팔로우 한사람의 피드</strong></h5>
-        			<div id="result-follow"></div>
+     		<h5 class="mb-4"><strong>내가 팔로우 한사람의 피드</strong></h5>
+        	<div id="result-follow"></div>
         
+			<button type="button" class="btn btn-primary follow-more-btn">더보기</button>
         </div>
     </div>	
-		</div>
-		<button type="button" class="btn btn-primary follow-more-btn">더보기</button>
-	</div>    
 	
-	<div class="container text-start mt-4">
-		<div class="row">
-			<div class="col-auto me-auto">
-				<a href="sns" class="column btn btn-outline-secondary" data-column="sns_count">조회수 정렬</a>
-				<a href="sns" class="column btn btn-outline-secondary" data-column="count">좋아요 정렬</a>
-				<a href="sns" class="column btn btn-outline-secondary" data-column="sns_reply_count">댓글 정렬</a>
-			</div>
-			<div class="col-auto">
-				<a href="sns/write" class="btn btn-outline-secondary">등록</a>
-			</div>
+</div>    
+	
+	<div class="container-zipggu"></div>
+	
+<div class="container-zipggu">
+	<div class="row">
+		<div class="col-auto me-auto">
+			<a href="sns" class="column btn btn-outline-secondary" data-column="sns_count">조회수 정렬</a>
+			<a href="sns" class="column btn btn-outline-secondary" data-column="count">좋아요 정렬</a>
+			<a href="sns" class="column btn btn-outline-secondary" data-column="sns_reply_count">댓글 정렬</a>
+		</div>
+		<div class="col-auto">
+			<a href="sns/write" class="btn btn-outline-secondary">등록</a>
 		</div>
 	</div>
 	
 	
-	<div class="album py-5">
+	<div class="album py-4">
 		<div class="container">
-           <div class="row row-cols-sm-5 g-3" id="result"> 	
-           </div>	
+           <div class="row row-cols-sm-4 g-1 empty" id="result"></div>	
 		</div>
     <button type="button" class="btn btn-primary more-btn">더보기</button>
 	</div>
 </div>
-</div>
+
 <template id="sns-template">
 
-            	<div class="col">
+            	<div class="col mt-3">
                 	<div class="card shadow-sm" style="width: 200px;">
                 		
 	                		<a href="detail?snsNo=${snsDto.snsNo }" id="a">
-								<img src="thumnail?snsNo=${snsDto.snsNo}" class="thumnail card-img bd-placeholder-img card-img-top">
+								<img src="thumnail?snsNo=${snsDto.snsNo}" class="thumnail card-img bd-placeholder-img card-img-top border border-1">
 								<div class="card-img-overlay">
-								<span id="count" style='color:white' style='text:bold'></span>
+								
 								</div>
 							</a>
 						
-						<div class="d-flex justify-content-between align-items-center mt-2 ms-3">
-  								<div>
+						<div class="center">
+  								
    									<!-- 좋아요 아이콘 -->
-                 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart m-1" viewBox="0 0 16 16">
 										<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
 									</svg>
-                   					<span id="like"></span>
-                   					&nbsp;&nbsp;
+                   					<span id="like" class="reply m-1"></span>
+                   					
                    					
                 					<!-- 댓글 아이콘 -->
-                   					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots ms-4" viewBox="0 0 16 16">
+                   					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots m-1" viewBox="0 0 16 16">
 	  									<path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
 	  									<path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"></path>
 									</svg>
-                   					<span id="reply"></span>
-                   				
-                 				</div>
+                   					<span id="reply" class="reply m-1"></span>
+                   					<span id="count" class="count m-1"></span>
+                 				
                  	
             			</div>
 						<div class="card-body p-2">
@@ -311,7 +328,7 @@
                  				
                  				<div class="dropdown">
 								  <a href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-               						<img src="profile?memberNo=${memberProfileDto.memberNo}" class="profile-image">
+               						<img src="profile?memberNo=${memberProfileDto.memberNo}" class="profile-image border border-2">
                						<small class="text-muted" id="nickname">
 	                 					작성자	
 	                 				</small>
