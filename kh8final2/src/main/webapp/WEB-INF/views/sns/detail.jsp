@@ -31,6 +31,14 @@
 	.nick:hover img {
 	  	transform: scale(1.0);
 	}
+	.d-block{
+		display: inline-block;
+		width:400px;
+		height:100%;
+		overflow: inherit;
+	    
+	    border-radius: 5px;
+	}
 </style>
 <script>
 	//댓글 등록
@@ -415,13 +423,7 @@
 	     				</a>
 	     			</div>
      			
-     			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-	        		<div class="carousel-indicators">
-	          			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-	          			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-	          			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-	        		</div>
-	        
+     			<div id="carouselExampleIndicators" class="carousel slide" data-bs-touch="false">
 	        
 	        		<div class="carousel-inner">
 		       			<c:forEach var="snsFileDto" items="${fileList }" varStatus="i">

@@ -35,5 +35,9 @@ public interface SnsDao {
 	//페이징 목록조회
 	List<SnsListVO> listByPage(Map<String, Object> param);
 	
+	//내가 팔로우 한사람들 글 목록
+	List<SnsListVO> followerList(Map<String, Object> param);
+
+	
 	
 }

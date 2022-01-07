@@ -13,6 +13,27 @@
 	.dropdown:hover{
 		background-color: #dfe6e9;
 	}
+	.figure-img{
+		display: inline-block;
+		width:150px;
+		height:150px;
+		overflow: hidden;
+	    object-fit: cover;
+	    border-radius: 5px;
+	}
+	.follower-img{
+		border-radius:50%;
+		width:8%;
+		height:8%;
+	}
+	.thumnail{
+	    display: inline-block;
+	    width: 100%;
+	    height: 170px;
+	    overflow: hidden;
+	    object-fit: cover;
+	    border-radius: 5px;
+	}
 </style>
 <script>
 	$(function(){
@@ -66,7 +87,7 @@
 						var clonedTemplate = $("#sns-template").clone();
 						var templateContent = $(clonedTemplate.html());
 						templateContent.find("#a").attr("href", "${pageContext.request.contextPath}/sns/detail?snsNo="+resp[i].snsNo);
-						templateContent.find("#thumnail").attr("src", "${pageContext.request.contextPath}/sns/thumnail?snsNo="+resp[i].snsNo);
+						templateContent.find(".thumnail").attr("src", "${pageContext.request.contextPath}/sns/thumnail?snsNo="+resp[i].snsNo);
 // 						var str = resp[i].snsDetail;
 // 						templateContent.find(".card-text").text(str.substr(-10));
 						templateContent.find(".profile-image").attr("src", "${pageContext.request.contextPath}/member/profile?memberNo="+resp[i].memberNo);
@@ -140,60 +161,119 @@
 });
 	
 	
-	
+	$(function(){
+		var page = 1;
+		var size = 5;
+		var loginNo = 0;
+		
+		if (${loginNo}+0 != 0) {
+
+			loginNo = ${loginNo} + 0;
+		}
+		
+		console.log("로그인No = ", loginNo);
+				
+		var result = $("#result-follow")
+		console.log("팔로워 목록?????????????????");
+		$(".follow-more-btn").click(function(){
+			loadfollower(page, size, loginNo);
+			page++;
+		});
+			
+		
+		$(".follow-more-btn").click();
+		
+	});
+		function loadfollower(page, size, loginNo){
+			
+			
+			console.log("로그인No ============== ", loginNo);
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/sns/data/follower",
+				type : "get",
+				data : {
+					page : page,
+					size : size,
+					loginNo : loginNo
+				},
+				dataType : "json",
+				success:function(resp){
+					
+					console.log("팔로워 목록 성공", resp);
+					
+					if(resp.length < size){
+						$(".follow-more-btn").remove();
+					}
+					
+					console.log(resp);
+		
+					for(var i=0; i<resp.length; i++){
+						var result = $("#result-follow")
+						var clonedTemplate = $(".follower-template").clone();
+						var templateContent = $(clonedTemplate.html());
+						templateContent.find("#b").attr("href", "${pageContext.request.contextPath}/sns/detail?snsNo="+resp[i].snsNo);
+						templateContent.find(".figure-img").attr("src", "${pageContext.request.contextPath}/sns/thumnail?snsNo="+resp[i].snsNo);
+						//templateContent.find(".profile-image").attr("src", "${pageContext.request.contextPath}/member/profile?memberNo="+resp[i].memberNo);
+						templateContent.find(".member-nick").text(resp[i].memberNickname);
+						templateContent.find(".member-page").attr("href", "${pageContext.request.contextPath}/member/page?memberNo=" + resp[i].memberNo);
+						clonedTemplate.html(templateContent.prop('outerHTML'));
+						result.append(clonedTemplate.html());
+					}
+				},
+				error:function(e){
+					console.log("실패", e);
+				}
+			});
+		}
 	
 </script>
 
 <div class="container-zipggu">
 <div class="container-fluid">
-	<div class="row py-lg-5 text-center">
-   		<div class="col-lg-6 col-md-8 mx-auto">
-        	<h1 class="fw-light">
-        		<font style="vertical-align: inherit;">
-        		<font style="vertical-align: inherit;">
-        			앨범 예
-        		</font>
-        		</font>
-        	</h1>
-           	<p class="lead text-muted">
-           		<font style="vertical-align: inherit;">
-           		<font style="vertical-align: inherit;">
-           			아래 앨범에 대한 간략한 설명(내용, 제작자 등). 
-           		</font>
-           		<font style="vertical-align: inherit;">
-           			짧고 귀엽게 유지하되 너무 짧지 않도록 하여 사람들이 이 앨범을 완전히 건너뛰지 않도록 합니다.
-           		</font>
-           		</font>
-           	</p>
+	<div class="container-zipggu">
+        <div class="p-5 mb-4 bg-light border rounded-3">
+        	<span class="logincheck" style="display:none">${loginNo }</span>
+        	
+        			<h5 class="mb-4"><strong>내가 팔로우 한사람의 피드</strong></h5>
+        			<div id="result-follow"></div>
+        
         </div>
-    </div>
+    </div>	
+		</div>
+		<button type="button" class="btn btn-primary follow-more-btn">더보기</button>
+	</div>    
 	
-	<div class="container text-start">
-		<a href="sns" class="column btn btn-outline-secondary" data-column="sns_count">조회수 정렬</a>
-		<a href="sns" class="column btn btn-outline-secondary" data-column="count">좋아요 정렬</a>
-		<a href="sns" class="column btn btn-outline-secondary" data-column="sns_reply_count">댓글 정렬</a>
+	<div class="container text-start mt-4">
+		<div class="row">
+			<div class="col-auto me-auto">
+				<a href="sns" class="column btn btn-outline-secondary" data-column="sns_count">조회수 정렬</a>
+				<a href="sns" class="column btn btn-outline-secondary" data-column="count">좋아요 정렬</a>
+				<a href="sns" class="column btn btn-outline-secondary" data-column="sns_reply_count">댓글 정렬</a>
+			</div>
+			<div class="col-auto">
+				<a href="sns/write" class="btn btn-outline-secondary">등록</a>
+			</div>
+		</div>
 	</div>
 	
-   	<div class="container text-end">
-		<a href="sns/write" class="btn btn-outline-secondary">등록</a>
-	</div>
 	
 	<div class="album py-5">
 		<div class="container">
-           <div class="row row-cols-1 row-cols-sm-4 row-cols-sm-4 g-3" id="result"> 	
+           <div class="row row-cols-sm-5 g-3" id="result"> 	
            </div>	
 		</div>
-	</div>
     <button type="button" class="btn btn-primary more-btn">더보기</button>
+	</div>
 </div>
 </div>
 <template id="sns-template">
 
             	<div class="col">
-                	<div class="card shadow-sm">
+                	<div class="card shadow-sm" style="width: 200px;">
                 		
 	                		<a href="detail?snsNo=${snsDto.snsNo }" id="a">
-								<img src="thumnail?snsNo=${snsDto.snsNo}" id="thumnail" class="card-img bd-placeholder-img card-img-top" width="100%" height="190" >
+								<img src="thumnail?snsNo=${snsDto.snsNo}" class="thumnail card-img bd-placeholder-img card-img-top">
 								<div class="card-img-overlay">
 								<span id="count" style='color:white' style='text:bold'></span>
 								</div>
@@ -251,12 +331,27 @@
 <!--                					</a> -->
                  			</div>
                  			<div>
-                 				<div class="text-muted" id="date">게시물 등록 날짜</div>
+                 				<div class="text-muted" id="date" style="font-size: 8px;">게시물 등록 날짜</div>
                  			</div>
           				</div>
         			</div>
       			</div>
 
+</template>
+
+<!-- 팔로워 목록 템플릿 -->
+
+<template class="follower-template">
+	
+			
+            <figure class="figure m-2">
+            	<a href="detail?snsNo=${snsDto.snsNo }" id="b">
+                	<img src="http://placeimg.com/150/150/animals" class="figure-img img-fluid rounded" alt="...">
+                	<figcaption class="figure-caption text-center"><span class="member-nick"></span></figcaption>
+                </a>
+            </figure>
+
+        
 </template>
 
 

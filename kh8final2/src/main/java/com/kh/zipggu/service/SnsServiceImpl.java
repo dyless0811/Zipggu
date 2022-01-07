@@ -161,10 +161,19 @@ public class SnsServiceImpl implements SnsService{
 //		return snsDao.listByPage(startRow, endRow, column);
 //	}
 	
+	//조회수순, 댓글순, 최신순 목록
 	@Override
 	public List<SnsListVO> listByPage(Map<String, Object> param) {
 		
 		return snsDao.listByPage(param);
+	}
+	
+	//내가 팔로우 한 사람들의 글 목록
+	@Override
+	public List<SnsListVO> followerList(Map<String, Object> param) {
+		
+		
+		return snsDao.followerList(param);
 	}
 	
 }

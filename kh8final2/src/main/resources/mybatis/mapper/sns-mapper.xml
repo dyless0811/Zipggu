@@ -59,6 +59,18 @@
 		and member_no != ${memberNo}
 		</if>
 	</update>
-	
+
+
+	<!-- 내가 팔로우 한사람들의 글 목록 -->
+	<select id="followerList" parameterType="map" resultType="snsListVO">
+		select * from (
+	        	select rownum rn, TMP.* from (
+	            	select 
+                    s.*, m.member_nickname
+                    from (select following_user from follow where follower_user = ${loginNo}) f inner join sns s on f.following_user = s.member_no
+                    left outer join member m on s.member_no = m.member_no
+	        )TMP
+	    ) where rn between ${startRow} and ${endRow}
+	</select>
 	
 </mapper> 
