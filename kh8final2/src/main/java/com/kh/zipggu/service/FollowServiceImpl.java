@@ -1,6 +1,8 @@
 package com.kh.zipggu.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,16 +63,27 @@ public class FollowServiceImpl implements FollowService{
 		return followDao.followingCount(memberNo);
 	}
 
+
+//	@Override
+//	public List<FollowVO> followerF4f(int memberNo) throws Exception {
+//		return followDao.followerF4f(memberNo);
+//	}
+//
+//	@Override
+//	public List<FollowVO> followingF4f(int memberNo) throws Exception {
+//		return followDao.followingF4f(memberNo);
+//	}
+
 	@Override
-	public List<FollowVO> followerF4f(int memberNo) throws Exception {
-		// TODO Auto-generated method stub
-		return followDao.followerF4f(memberNo);
+	public List<FollowVO> followerF4f(int loginNo, int memberNo) throws Exception {
+		return followDao.followerF4f(loginNo, memberNo);
 	}
 
 	@Override
-	public List<FollowVO> followingF4f(int memberNo) throws Exception {
-		// TODO Auto-generated method stub
-		return followDao.followingF4f(memberNo);
+	public List<FollowVO> followingF4f(int loginNo, int memberNo) throws Exception {
+		return followDao.followingF4f(loginNo, memberNo);
 	}
+	
+	
 
 }

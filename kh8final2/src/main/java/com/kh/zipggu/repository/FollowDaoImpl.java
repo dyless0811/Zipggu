@@ -1,6 +1,8 @@
 package com.kh.zipggu.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +57,30 @@ public class FollowDaoImpl implements FollowDao {
 	}
 
 
+//	@Override
+//	public List<FollowVO> followerF4f(int memberNo) {
+//		return sqlSession.selectList("follow.followerF4f", memberNo);
+//	}
+
+//	@Override
+//	public List<FollowVO> followingF4f(int memberNo) {
+//		return sqlSession.selectList("follow.followingF4f", memberNo);
+//	}
+
 	@Override
-	public List<FollowVO> followerF4f(int memberNo) {
-		return sqlSession.selectList("follow.followerF4f", memberNo);
+	public List<FollowVO> followerF4f(int loginNo, int memberNo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("loginNo", loginNo);
+		param.put("memberNo", memberNo);
+		return sqlSession.selectList("follow.followerF4f", param);
 	}
 
 	@Override
-	public List<FollowVO> followingF4f(int memberNo) {
-		return sqlSession.selectList("follow.followingF4f", memberNo);
+	public List<FollowVO> followingF4f(int loginNo, int memberNo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("loginNo", loginNo);
+		param.put("memberNo", memberNo);			
+		return sqlSession.selectList("follow.followingF4f", param);
 	}
 
 

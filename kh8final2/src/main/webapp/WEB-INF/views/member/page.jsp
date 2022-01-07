@@ -3,6 +3,61 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
+<script>
+	$(document).ready(function() {
+
+		$(".profileFollowBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+			var button = $(this);
+
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/follow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("팔로우성공", resp);
+
+					$("#profileFollowBtn_" + memberNoValue).css('display', 'none');
+					$("#profileUnfollowBtn_" + memberNoValue).css('display', 'block');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+
+		$(".profileUnfollowBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+			var button = $(this);
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/unfollow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("언팔로우성공", resp);
+
+					$("#profileFollowBtn_" + memberNoValue).css('display', 'block');
+					$("#profileUnfollowBtn_" + memberNoValue).css('display', 'none');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+	});
+</script>
+
+
+
 <style>
 a:link {
 	color: #424242;
@@ -22,7 +77,72 @@ li {
     width: 1200px;
 }
 
+.profileUnfollowBtn {
+	margin: 0px 0px 7px;
+	display: block;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 19px;
+	color: rgb(130, 140, 148);
+	user-select: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: 1px solid transparent;
+	background: none;
+	font-weight: 700;
+	text-decoration: none;
+	text-align: center;
+	transition: color .1s, background-color .1s, border-color .1s;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 140px;
+	padding: 9px 10px;
+	font-size: 15px;
+	background-color: #fff;
+	border-color: #dbdbdb;
+	color: #757575;
+}
 
+.profileFollowBtn {
+	margin: 0px 0px 7px;
+	display: block;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 19px;
+	color: rgb(130, 140, 148);
+	user-select: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: 1px solid transparent;
+	background: none;
+	font-weight: 700;
+	text-decoration: none;
+	text-align: center;
+	transition: color .1s, background-color .1s, border-color .1s;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 140px;
+	padding: 9px 10px;
+	font-size: 15px;
+	border-color: #09addb;
+	background-color: #09addb;
+	color: #fff;
+}
+
+.introduceContainer {
+    margin: 24px 0px;
+    text-align: center;
+    color: rgb(66, 66, 66);
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 400;
+    word-break: break-word;
+    text-align: left;
+}
 </style>
 
 
@@ -86,12 +206,56 @@ li {
 								</a>		
 								</dl>
 								
+							<c:if test="${memberDto.memberNo != loginNo}">
+									<div style="display: inline-block">
+										<c:choose>
+											<c:when test="${followCheck != 0}">
+												<button class="profileUnfollowBtn" id="profileUnfollowBtn_${memberDto.memberNo}" data-member-no="${memberDto.memberNo}">
+													<svg width="16" height="16" viewBox="0 0 16 16"
+														preserveAspectRatio="xMidYMid meet"
+														class="css-1wvdp85-StatsFollowIcon e1iro1t90">
+													<path fill="#BDBDBD"
+															d="M6.185 10.247L13.264 2.95 14.699 4.343 6.256 13.046 1.3 8.432 2.663 6.968z">
+													</path>
+												</svg>
+													팔로잉
+												</button>
+												<button class="profileFollowBtn"  id="profileFollowBtn_${memberDto.memberNo}" data-member-no="${memberDto.memberNo}" style="display: none">
+													팔로우</button>
+											</c:when>
+											<c:otherwise>
+												<button class="profileUnfollowBtn" style="display: none"  id="profileUnfollowBtn_${memberDto.memberNo}" data-member-no="${memberDto.memberNo}">
+													<svg width="16" height="16" viewBox="0 0 16 16"
+														preserveAspectRatio="xMidYMid meet"
+														class="css-1wvdp85-StatsFollowIcon e1iro1t90">
+													<path fill="#BDBDBD"
+															d="M6.185 10.247L13.264 2.95 14.699 4.343 6.256 13.046 1.3 8.432 2.663 6.968z">
+													</path>
+												</svg>
+													팔로잉
+												</button>
+												<button class="profileFollowBtn"  id="profileFollowBtn_${memberDto.memberNo}" data-member-no="${memberDto.memberNo}">팔로우</button>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</c:if>
+
+
+
 								<c:if test="${memberDto.memberNo == loginNo}">
-								<div><a href="${pageContext.request.contextPath}/member/profileEdit" class="a-border">설정</a></div>
+									<div>
+										<a
+											href="${pageContext.request.contextPath}/member/profileEdit"
+											class="a-border">설정</a>
+									</div>
 								</c:if>
 							</div>
 						</div>
 
+					</div>
+
+					<div class="introduceContainer">
+							<p style="text-align: center;">${memberDto.memberIntroduce}</p>
 					</div>
 
 				</div>

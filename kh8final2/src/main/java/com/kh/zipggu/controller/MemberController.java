@@ -94,19 +94,20 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String login(@ModelAttribute MemberDto memberDto, // 회원정보
+	public String login(@ModelAttribute MemberListVO memberListVO, // 회원정보
 			@RequestParam(required = false) String saveId, // 아이디 저장(선택)
 			HttpServletResponse response, // 쿠키 생성을 위한 응답객체
 			HttpSession session) {// 세션객체
 		// 회원정보 단일조회 및 비밀번호 일치판정
-		MemberDto findDto = memberDao.login(memberDto);
-		log.debug("{}", memberDto);
+		MemberListVO findDto = memberDao.login(memberListVO);
+		log.debug("{}", memberListVO);
 		if (findDto != null) {
 			// 세션에 설정하고 root로 리다이렉트
 			session.setAttribute("loginNo", findDto.getMemberNo());
 			session.setAttribute("loginEmail", findDto.getMemberEmail());
 			session.setAttribute("loginNick", findDto.getMemberNickname());
 			session.setAttribute("loginGrade", findDto.getMemberGrade());	
+			session.setAttribute("loginProfileNo", findDto.getMemberProfileNo());	
 
 			// 쿠키와 관련된 아이디 저장하기 처리
 			if (saveId != null) {// 체크 했다면(saveId값이 전송되었다면)
@@ -232,6 +233,7 @@ public class MemberController {
 		session.removeAttribute("loginEmail");
 		session.removeAttribute("loginNick");
 		session.removeAttribute("loginGrade");
+		session.removeAttribute("loginProfileNo");
 		
 		return "redirect:/";
 	}
@@ -521,7 +523,7 @@ public class MemberController {
 
 	// 개인 페이지
 	@RequestMapping("/page")
-	public String page(@RequestParam int memberNo ,HttpSession session, Model model) {
+	public String page(@RequestParam int memberNo ,@ModelAttribute FollowVO followVO ,Model model, HttpSession session) {
 	
 		MemberDto memberDto = memberDao.noGet(memberNo);
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
@@ -532,9 +534,17 @@ public class MemberController {
 		// 팔로잉카운트
 		int followingCount = followService.followingCount(memberNo);
 	
+		int followerUser = (int) session.getAttribute("loginNo");
+		int followingUser = memberNo;
+
+		followVO.setFollowerUser(followerUser);
+		followVO.setFollowingUser(followingUser);
+		
+		int followCheck = followService.isFollow(followVO);		
+		
+		model.addAttribute("followCheck", followCheck);
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followingCount", followingCount);		
-
 		model.addAttribute("followingCount", followingCount);	
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("memberProfileDto", memberProfileDto);
