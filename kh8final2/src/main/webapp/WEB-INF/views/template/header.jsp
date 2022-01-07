@@ -22,7 +22,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha1.min.js"></script>
-    <script src="${root }/resources/ckeditor5/build/ckeditor.js"></script>
+    
     <script>
     	//form이 전송되면 input[type=password]가 자동 암호화되도록 설정
     	$(function(){

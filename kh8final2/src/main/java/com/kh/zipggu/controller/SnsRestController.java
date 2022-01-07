@@ -50,6 +50,28 @@ public class SnsRestController {
 		return snsService.listByPage(param);
 	}
 	
+	//팔로우 한 사람들의 글
+	//목록 페이지
+	@GetMapping("/follower")
+	public List<SnsListVO> followList(@RequestParam(required = false, defaultValue = "1") int page,
+			@RequestParam(required = false, defaultValue = "18") int size,
+			@RequestParam int loginNo) {
+		
+		
+		
+		int endRow = page * size;
+		int startRow = endRow - (size - 1);
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("endRow", endRow);
+		param.put("startRow", startRow);
+		param.put("loginNo", loginNo);
+		
+		log.debug("------------------------------{}" + param);
+				
+		return snsService.followerList(param);
+	}
+	
 	//좋아요 등록 기능
 	@GetMapping("/like")
 	public void insert(@RequestParam int snsNo, HttpSession session) {

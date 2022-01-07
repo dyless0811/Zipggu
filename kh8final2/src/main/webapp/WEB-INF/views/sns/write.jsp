@@ -30,7 +30,7 @@
 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-
+<script src="${root }/resources/ckeditor5/build/ckeditor.js"></script>
 <script>
         
 var sel_files = [];
@@ -106,7 +106,7 @@ function deleteImageAction(index){
 			</div>
 			<div class="mt-3">
 				<label class="danger">※에디터 기능은 굵게, 기울기, 링크만 사용 가능합니다. 그 외 기능 사용 금지</label>
-				<textarea name="snsDetail" id="editor" required></textarea>
+				<textarea name="snsDetail" id="editor"></textarea>
 				<script>
 					ClassicEditor
 						.create(document.querySelector('#editor'),{
