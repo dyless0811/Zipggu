@@ -52,24 +52,6 @@ public class MemberDaoWithEncrypt implements MemberDao {
 		// 변경된 정보를 가진 memberDto를 기존처럼 등록
 		sqlSession.insert("member.insert", memberDto);
 	}
-
-//	@Override
-//	public boolean changePassword(String memberEmail, String memberPw, String changePw) {
-//		// 변경해야 할 내용
-//		// 1. 비밀번호 검사는 무조건 encoder.matches()로 한다.
-//		// 2. 변경할 비밀번호는 암호화를 한다.
-//		MemberDto memberDto = sqlSession.selectOne("member.get", memberEmail);
-//		if (encoder.matches(memberPw, memberDto.getMemberPw())) {
-//			Map<String, Object> param = new HashMap<>();
-//			param.put("memberEmail", memberEmail);
-//			param.put("changePw", encoder.encode(changePw));// 변경할 비밀번호 암호화
-//
-//			int count = sqlSession.update("member.changePassword", param);
-//			return count > 0;
-//		} else {
-//			return false;
-//		}
-//	}
 	
 	@Override
 	public boolean changePassword(String memberEmail, String changePw) {
@@ -132,6 +114,24 @@ public class MemberDaoWithEncrypt implements MemberDao {
 	@Override
 	public List<MemberDto> list(MemberDto memberDto) {
 		return sqlSession.selectList("member.list");
+	}
+
+	@Override
+	public int count(String column, String keyword) {
+		Map<String,Object> param = new HashMap<>();
+		param.put("column",column);
+		param.put("keyword",keyword);
+		return sqlSession.selectOne("member.count",param);
+	}
+
+	@Override
+	public List<MemberDto> search(String column, String keyword, int begin, int end) {
+		Map<String,Object> param = new HashMap<>();
+		param.put("column",column);
+		param.put("keyword",keyword);
+		param.put("begin",begin);
+		param.put("end",end);
+		return sqlSession.selectList("member.search",param);
 	}
 	
 	

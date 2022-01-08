@@ -17,6 +17,7 @@ import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
 import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberListVO;
+import com.kh.zipggu.vo.MemberPageVO;
 import com.kh.zipggu.vo.MemberUploadVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -121,62 +122,23 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
-
-
-//	@Override
-//	public List<MemberListVO> list(MemberListVO memberListVO) throws Exception {
-//		return memberDao.list(memberListVO);
-//	}
 	
 	@Override
 	public List<MemberListVO> VOlist(MemberListVO memberListVO) throws Exception {
 		return memberDao.VOlist(memberListVO);
+	}
+
+
+	@Override
+	public MemberPageVO memberPage(MemberPageVO memberPageVO) throws Exception {
+		int count = memberDao.count(memberPageVO.getColumn(),memberPageVO.getKeyword());
+		memberPageVO.setCount(count);
+		memberPageVO.calculate();
+		List<MemberDto> list = memberDao.search(memberPageVO.getColumn(), memberPageVO.getKeyword(),memberPageVO.getBegin(),memberPageVO.getEnd());
+		memberPageVO.setList(list);
+		return memberPageVO;
 	}	
 
-	
-//	@Override
-//	public void edit(MemberProfileDto memberProfileDto, MultipartFile attach) throws IllegalStateException, IOException {
-//		//검사값 false를 변수에 담고
-//		boolean check = false;
-//		//파일이 있는지 없는 체크
-//		
-//		MultipartFile multipartFile = attach;
-//			//만약 파일이 비어있지 않다면
-//			if(!multipartFile.isEmpty()) {
-//				check = true;
-//		}
-//		
-//		//파일이 있다면 기존 파일을 삭제하고 새로운 파일을 추가
-//				if(check) {
-//					//해당 번호에 파일 업로드 되어 있는지 확인한다
-//					
-//					MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
-//					System.out.println("-----------------------------------------------------------------1"+memberProfileDto.getMemberNo());
-//					if(!multipartFile.isEmpty()) {
-//						//파일이 있다면 삭제
-//							File target = new File(directory, String.valueOf(memberProfileDto.getMemberProfileSavename()));
-//							target.delete();
-//							
-//							//db에서도 파일 삭제
-//							memberProfileDao.delete(memberProfileDto.getMemberNo());
-//						}
-//					}
-//
-//						if(!multipartFile.isEmpty()) {
-//							
-//							//등록페이지에서 넘어오는 정보만 snsFileDto 객체에 정보 담아Dao로 보내기
-//							//(여기서는 정보만 담아 보낸다)
-//								MemberProfileDto memberProfileDto = new MemberProfileDto();
-//								memberProfileDto.setMemberNo(memberProfileDto.getMemberNo());
-//								memberProfileDto.setMemberProfileUploadname(multipartFile.getOriginalFilename());
-//								memberProfileDto.setMemberProfileType(multipartFile.getContentType());
-//								memberProfileDto.setMemberProfileSize(multipartFile.getSize());
-//								memberProfileDao.save(memberProfileDto, multipartFile);
-//								System.out.println("-----------------------------------------------------------------2"+memberProfileDto.getMemberNo());
-//							}
-						
-		
-//						memberProfileDao.edit(memberProfileDto);
-//					}
+
 
 }

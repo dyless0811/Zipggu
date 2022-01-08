@@ -82,7 +82,7 @@
 												$("#emailChk2").attr("disabled", false);
 												$("#serialChk").attr("readonly", false);
 												$("#timerC").css("display","inline-block");
-												
+												$("#emailChk").text("이메일 재발송 하기");
 												checkCode = false;
 												
 												number = data;			

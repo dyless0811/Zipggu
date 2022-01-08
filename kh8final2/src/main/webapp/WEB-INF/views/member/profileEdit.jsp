@@ -68,15 +68,15 @@ function fn_submit(){
 <script>
 
 function emailCheck() {
-	var regex = /^[0-9a-zA-Z]([-]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+
 	var input = document.querySelector("input[name=memberEmail]");
 	var notice = input.nextElementSibling;
 	var loginEmail = '${loginEmail}';
 	
-	if (input.value.length == 0 || regex.test(input.value) && loginEmail == $("input[name=memberEmail]").val() ) {
-		notice.textContent = "";
+	if (loginEmail == $("input[name=memberEmail]").val() ) {
 		return true;
 	} else {
+		$(".notice").css("color", "red");
 		notice.textContent = "이메일 변경이 불가합니다";
 		return false;
 	}
@@ -265,6 +265,10 @@ margin-bottom: 0px;
 	color: red;
 }
 
+.warning {
+
+}
+
 </style>
 
 <div>
@@ -309,8 +313,8 @@ margin-bottom: 0px;
 				
 			<div class="infoFormItemGroup">
 				<div class="infoFormItemField">
-					<input type="email" name="memberEmail" class="formTextControl"  value="${memberDto.memberEmail}" readonly="" onblur="emailCheck();">
-					<div class="notice"></div>
+					<input type="email" name="memberEmail" class="formTextControl"  value="${memberDto.memberEmail}" readonly onkeyup="emailCheck();">
+					<div class="notice" style="  margin-top: 10px; color: #9e9e9e; font-size: 13px;  font-weight: 700;">이메일을 변경하시려면 운영자에게 문의해주세요.</div>	
 				</div>
 			</div>
 			

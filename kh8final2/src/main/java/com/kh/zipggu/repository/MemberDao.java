@@ -33,4 +33,7 @@ public interface MemberDao {
 	
 	List<MemberDto> list (MemberDto memberDto);	
 	
+	int count(String column, String keyword);
+	List<MemberDto> search(String column, String keyword, int begin, int end);
+	
 }
