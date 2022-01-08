@@ -9,11 +9,7 @@
 <c:set var="writer" value="${loginNo == snsDto.memberNo }"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
-	.profile-image{
-		border-radius: 50%;
-		width:15%;
-		height:15%;
-	}
+	
 	.nick{
 		font-weight: bold;
 		font-size:17px;
@@ -25,11 +21,28 @@
 	.flex-shrink-0{
 		width:8%
 	}
-	.nick img {
-  		transition: all 0.2s linear;
+	.nick{
+		height:50px;
+	}
+	.profile-img {
+		border-radius: 50%;
+		width:40px;
+		height:40px;
+  		
+  		margin-top:5px;
+  		margin-left:5px
+
+	}
+	
+	.nick{
+		transition: all 0.3s ease-in-out;
 	}
 	.nick:hover img {
-	  	transform: scale(1.0);
+	  	transform: scale(1.2);
+		  -webkit-transform: scale(1.2);
+		  -moz-transform: scale(1.2);
+		  -ms-transform: scale(1.2);
+		  -o-transform: scale(1.2);
 	}
 	.d-block{
 		display: inline-block;
@@ -39,8 +52,44 @@
 	    
 	    border-radius: 5px;
 	}
+	.reDate{
+		font-size:11px;
+	}
 </style>
 <script>
+
+//몇분전 몇시간전 몇일전 시간 변환
+function timeForToday(value) {
+    const today = new Date();
+    const timeValue = new Date(value);
+	
+    console.log("timeValue = ", timeValue);
+    
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    
+    console.log("betweenTime = ", betweenTime);
+    
+    if (betweenTime < 1) return '방금전';
+    if (betweenTime < 60) {
+    	
+    	console.log(${betweenTime});
+        return betweenTime + "분전";
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+        return betweenTimeHour + "시간";
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+        return betweenTimeDay + "일전";
+    }
+
+    return Math.floor(betweenTimeDay / 365) + "년전";
+}
+
+
 	//댓글 등록
 	$(function(){
 		//console.log(1);
@@ -161,6 +210,11 @@
 					template = template.replace("{{snsReplyNo}}", resp[i].snsReplyNo);
 					
 					template = template.replace("{{snsReplyDepth}}", resp[i].snsReplyDepth);
+					
+					var timestamp = resp[i].snsReplyDate;
+					var today = new Date();
+					var date = new Date(timestamp);
+					template = template.replace("{{snsReplyDate}}", timeForToday(date));
 					
 					template = template.replace("{{memberNo}}", resp[i].memberNo);
 					template = template.replace("{{memberNo}}", resp[i].memberNo);
@@ -418,8 +472,8 @@
 
 	     			<div class="nick">
 	     				<a href="${root}/member/page?memberNo=${snsDto.memberNo }">
-	     				<img src="${root }/member/profile?memberNo=${snsDto.memberNo}" class="profile-image">
-	     				${snsDto.memberNickname }
+	     				<img src="${root }/member/profile?memberNo=${snsDto.memberNo}" class="profile-img">
+	     				<span class="mt-3">${snsDto.memberNickname }</span>
 	     				</a>
 	     			</div>
      			
@@ -529,7 +583,7 @@
             		<!-- 내용 -->
 					<pre class="card-text mt-3" id="content">${snsDto.snsDetail }</pre>
 
-     					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+     					<p class="card-text"><small class="text-muted">${snsDto.getSnsDate() }</small></p>
    				</div>
 			</div>
 
@@ -589,7 +643,7 @@
 			<div class="ms-3">
 				<span class="reply-no" style="display:none">{{snsReplyNo}}</span>
 
-						<div class="writer fw-bold">{{writer}}</div>
+						<div class="writer fw-bold">{{writer}}<span class="reDate text-muted">&nbsp;({{snsReplyDate}})</span></div>
 
 				<pre class="replyDetail">{{icon}}&nbsp;{{replyDetail}}</pre>
 				<div>
