@@ -69,7 +69,7 @@
 				
 				console.log($(this).parent().parent().next().find(".row"));
 				
-				$(this).parent().parent().next().find(".row");
+				$(this).parent().parent().next().find(".row").empty();
 				
 				console.log(column);
 				loadData(page, size, column);
