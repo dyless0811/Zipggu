@@ -54,6 +54,18 @@ public class MemberDaoWithEncrypt implements MemberDao {
 	}
 	
 	@Override
+	public void snsJoin(MemberListVO memberListVO) {
+		
+		int sequence = sqlSession.selectOne("member.seq");
+		
+		String origin = memberListVO.getMemberPw();
+		String encrypt = encoder.encode(origin);
+		memberListVO.setMemberNo(sequence);
+		memberListVO.setMemberPw(encrypt);
+		sqlSession.insert("member.insert", memberListVO);
+	}	
+
+	@Override
 	public boolean changePassword(String memberEmail, String changePw) {
 
 			Map<String, Object> param = new HashMap<>();
@@ -92,7 +104,7 @@ public class MemberDaoWithEncrypt implements MemberDao {
 	}
 
 	@Override
-	public MemberDto emailGet(String email) {
+	public MemberListVO emailGet(String email) {
 		return sqlSession.selectOne("member.emailGet", email);
 	}
 	
@@ -133,8 +145,5 @@ public class MemberDaoWithEncrypt implements MemberDao {
 		param.put("end",end);
 		return sqlSession.selectList("member.search",param);
 	}
-	
-	
-	
-	
+
 }
