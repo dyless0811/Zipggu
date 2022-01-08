@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<c:set var="loginEmail" value="${loginEmail}"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 
@@ -62,7 +62,55 @@ function fn_submit(){
            }
        });
 }
+
 </script>
+
+<script>
+
+function emailCheck() {
+	var regex = /^[0-9a-zA-Z]([-]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+	var input = document.querySelector("input[name=memberEmail]");
+	var notice = input.nextElementSibling;
+	var loginEmail = '${loginEmail}';
+	
+	if (input.value.length == 0 || regex.test(input.value) && loginEmail == $("input[name=memberEmail]").val() ) {
+		notice.textContent = "";
+		return true;
+	} else {
+		notice.textContent = "이메일 변경이 불가합니다";
+		return false;
+	}
+}
+
+function nicknameCheck() {
+	var regex = /^[가-힣0-9]{2,10}$/;
+	var input = document.querySelector("input[name=memberNickname]");
+	var notice = input.nextElementSibling;
+
+	if (regex.test(input.value)) {
+		notice.textContent = "";
+		return true;
+	} else {
+		notice.textContent = "닉네임은 한글, 숫자 2~10자로 작성하세요";
+		return false;
+	}
+}
+
+
+function formCheck() {
+	if(emailCheck() && nicknameCheck()){
+		
+		alert('회원 정보 변경이 완료되었습니다');
+		$('form').submit();
+		
+	}else{
+		alert('회원 정보가 올바르지 않습니다.');
+		return
+	}
+	return emailCheck() && nicknameCheck();
+}	
+</script>
+
 
 
 <style>
@@ -212,6 +260,11 @@ ul{
 margin-bottom: 0px;
 }
 
+.notice {
+	font-size: 12px;
+	color: red;
+}
+
 </style>
 
 <div>
@@ -256,7 +309,8 @@ margin-bottom: 0px;
 				
 			<div class="infoFormItemGroup">
 				<div class="infoFormItemField">
-					<input type="email" name="memberEmail" class="formTextControl"  value="${memberDto.memberEmail}" readonly="">
+					<input type="email" name="memberEmail" class="formTextControl"  value="${memberDto.memberEmail}" readonly="" onblur="emailCheck();">
+					<div class="notice"></div>
 				</div>
 			</div>
 			
@@ -270,7 +324,8 @@ margin-bottom: 0px;
 					
 			<div class="infoFormItemGroup">
 				<div class="infoFormItemField">
-					<input type="text" name="memberNickname" class="formTextControl" value="${memberDto.memberNickname}">
+					<input type="text" name="memberNickname" class="formTextControl" value="${memberDto.memberNickname}" onblur="nicknameCheck();">
+					<div class="notice"></div>
 				</div>
 			</div>
 			
@@ -384,7 +439,7 @@ margin-bottom: 0px;
 		</div>
 
 		<div class="d-grid gap-2">
-			<input type="submit" class="submitButton" value="회원 정보 수정">
+			<button type="button" class="submitButton" onclick="formCheck()" >회원 정보 수정</button>
 		</div>
 
 	</form>
@@ -405,6 +460,6 @@ margin-bottom: 0px;
 
 </div>
 </div>
-</div>
+
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
