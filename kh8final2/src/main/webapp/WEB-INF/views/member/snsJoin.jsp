@@ -1,7 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<c:set var="loginEmail" value="${memberListVO.memberEmail}"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+
+<script>
+
+function emailCheck() {
+
+	var input = document.querySelector("input[name=memberEmail]");
+	var notice = input.nextElementSibling;
+	var loginEmail = '${loginEmail}';
+	
+	if (loginEmail == $("input[name=memberEmail]").val() ) {
+		return true;
+	} else {
+		$(".notice").css("color", "red");
+		notice.textContent = "이메일 변경이 불가합니다";
+		return false;
+	}
+}
+
+function nicknameCheck() {
+	var regex = /^[가-힣0-9]{2,10}$/;
+	var input = document.querySelector("input[name=memberNickname]");
+	var notice = input.nextElementSibling;
+
+	if (regex.test(input.value)) {
+		notice.textContent = "";
+		return true;
+	} else {
+		notice.textContent = "닉네임은 한글, 숫자 2~10자로 작성하세요";
+		return false;
+	}
+}
+
+
+function formCheck() {
+	if(emailCheck() && nicknameCheck()){
+		
+		alert('회원 가입이 완료되었습니다');
+		$('form').submit();
+		
+	}else{
+		alert('회원 정보가 올바르지 않습니다.');
+		return
+	}
+	return emailCheck() && nicknameCheck();
+}	
+</script>
 
 <style>
 .title-h1{
@@ -83,7 +130,7 @@
 }
 
 .check-text{
-    font-size: 14px;
+    font-size: 12px;
     color: #424242;
     line-height: 18px;
     padding-left: 7px;
@@ -169,8 +216,7 @@ input[type="checkbox"]{
     color: #fff;
     width: 100%;
     display: inline-block;
-    margin: 0;
-    padding: 0;
+    margin-top: 10px;
     box-sizing: border-box;
     border: 1px solid transparent;
     font-weight: 700;
@@ -182,31 +228,65 @@ input[type="checkbox"]{
     font-size: 17px;
     line-height: 26px;
 }
+
+.topBottom{
+	padding: 100px 0px;
+}
+
+.sns-sign-up {
+    margin: 30px auto;
+    width: 100%;
+    max-width: 360px;
+
+    color: #292929;
+}
+
+.sns-sign-up__title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.user-sign-up-form__form-group {
+    margin: 0 0 20px;
+}
+
+.notice {
+	font-size: 12px;
+	color: red;
+}
+
 </style>
 
-<h4>email = ${email}</h4>
-<h4>password= ${password}</h4>
-<h4>nickname = ${nickname}</h4>
+<div class="topBottom">
 
-<div class="container-400 container-center">
+<div class="sns-sign-up">
 
 <form method="post">
-		<input type="hidden" name="memberPassword"  value="${password}">
+
+		<input type="hidden" name="memberPw"  value="${memberListVO.memberPw}">
+		<input type="hidden" name="memberType"  value="네이버">
 
 
-	<div class="row center">
-		<h1 class="title-h1">추가 정보 입력</h1>
+	<div class="sns-sign-up__title">
+		<div class="title-h1">추가 정보 입력</div>
 	</div>
 	
-	<div class="row">
-		<input type="text" name="memberEmail" value="${email}" autocomplete="off" required class="inputItem" readonly>
+	<div class="user-sign-up-form__form-group">
+	<div class="sns-sign-up -input">
+		<input type="text" name="memberEmail" value="${memberListVO.memberEmail}" autocomplete="off" required class="inputItem" readonly onkeyup="emailCheck();">
+		<div class="notice"></div>
+	</div>
 	</div>
 
-	<div class="row">
-		<input type="text" name="memberNickname" placeholder="닉네임을 입력해주세요" autocomplete="off"  required class="inputItem">
+	<div class="user-sign-up-form__form-group">
+	<div class="sns-sign-up -input">
+		<input type="text" name="memberNickname" value="${memberListVO.memberNickname}" placeholder="닉네임을 입력해주세요" autocomplete="off"  required class="inputItem" onblur="nicknameCheck();">
+		<div class="notice"></div>
 	</div>
-	
+	</div>
 
+	<div class="user-sign-up-form__form-group">
 		<div class="div-check">
 		
 		<div class="div-check-one div-ob">
@@ -222,13 +302,13 @@ input[type="checkbox"]{
 		
 		<div class="div-check-two div-ob">	
 		<input type="checkbox" name="" class="check-button" >
-		<a href="usepolicy" target=”_blank”><span class="check-text">이용약관</span></a>
+		<a href="usepolicy" target=”_blank” style="text-decoration : underline"><span class="check-text">이용약관</span></a>
 		<span class="check-text-ob">(필수)</span>
 		</div>
 		
 		<div class="div-check-two div-ob">	
 		<input type="checkbox" name="" class="check-button" >
-		<a href="privacy" target=”_blank”><span class="check-text">개인정보수집 및 이용동의</span></a>
+		<a href="privacy" target=”_blank” style="text-decoration : underline"><span class="check-text">개인정보수집 및 이용동의</span></a>
 		<span class="check-text-ob">(필수)</span>
 		</div>
 		
@@ -239,14 +319,14 @@ input[type="checkbox"]{
 		</div>
 		
 		</div>
-	
-	
-	<div class="row">
-		<input type="submit" value="회원가입 완료" class="buttonWrapper">
 	</div>
-
+	
+	<div class="user-sign-up-form__form-group">
+		<button type="button" class="buttonWrapper" onclick="formCheck()">회원가입 완료</button>
+	</div>
+	
 </form>
 
 </div>
-
+</div>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

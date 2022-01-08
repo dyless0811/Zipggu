@@ -545,13 +545,13 @@ body {
 
 							<div class="div-check-two div-ob">
 								<input type="checkbox" name="" class="check-button check-size">
-								<a href="usepolicy" target=”_blank”><span class="check-text">이용약관</span></a>
+								<a href="usepolicy" target=”_blank” style="text-decoration : underline"><span class="check-text">이용약관</span></a>
 								<span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
 								<input type="checkbox" name="" class="check-button check-size">
-								<a href="privacy" target=”_blank”><span class="check-text">개인정보수집
+								<a href="privacy" target=”_blank” style="text-decoration : underline"><span class="check-text">개인정보수집
 										및 이용동의</span></a> <span class="check-text-ob">(필수)</span>
 							</div>
 

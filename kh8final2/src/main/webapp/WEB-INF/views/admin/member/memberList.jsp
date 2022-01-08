@@ -94,7 +94,7 @@
 					<c:otherwise>
 						<li class="">
 						<!-- 목록용 링크 -->
-						<a href="memberList?p=${i}" class="">${i}</a>
+						<a href="memberList?p=${i}" class="page-link">${i}</a>
 						</li>
 					</c:otherwise>
 				</c:choose>

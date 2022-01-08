@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +42,6 @@ import com.kh.zipggu.service.MemberService;
 import com.kh.zipggu.vo.FollowVO;
 import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberListVO;
-import com.kh.zipggu.vo.NaverMemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -130,8 +128,9 @@ public class MemberController {
 		}
 	}
 
-	@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
+	
+	@GetMapping("/snsJoin")
+	public String snsJoin(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException, ParseException {
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
@@ -145,72 +144,67 @@ public class MemberController {
 		// Top레벨 단계 _response 파싱
 		JSONObject response_obj = (JSONObject) jsonObj.get("response");
 		// response의 nickname값 파싱
-		String id = (String) response_obj.get("id");
+		String pw = (String) response_obj.get("id");
 		String email = (String) response_obj.get("email");
 		String nickname = (String) response_obj.get("nickname");
 		String gender = (String) response_obj.get("gender");
 		String birthyear = (String) response_obj.get("birthyear");
 		String birthday = (String) response_obj.get("birthday");
-		String profile_image = (String) response_obj.get("profile_image");
 
-		NaverMemberVO naverMemverVO = new NaverMemberVO();
-		naverMemverVO.setId(id);
-		naverMemverVO.setEmail(email);
-		naverMemverVO.setNickname(nickname);
-		naverMemverVO.setGender(gender);
-		naverMemverVO.setBirthyear(birthyear);
-		naverMemverVO.setBirthday(birthday);
-		naverMemverVO.setProfile_image(profile_image);
-//	naverMemverVO.setNaver_login(true);
+		MemberListVO memberListVO = new MemberListVO();
+		memberListVO.setMemberPw(pw);
+		memberListVO.setMemberEmail(email);
+		memberListVO.setMemberNickname(nickname);
+		memberListVO.setMemberGender(gender);
+		memberListVO.setMemberBirth(birthyear+birthday);
+		
+
 
 		System.out.println("response_obj= " + response_obj);
 		System.out.println("apiResult= " + apiResult);
 
 		// 4.파싱 닉네임 세션으로 저장
 
-		MemberDto memberDto = memberDao.emailGet(email);
-		System.out.println("check= " + memberDto);
+		MemberListVO findVO = memberDao.emailGet(email);
+		System.out.println("check= " + findVO);
 
-		if (memberDto == null) { // 일치하는 이메일 없으면 가입
+		if (findVO == null) { // 일치하는 이메일 없으면 가입
 
-			model.addAttribute("email", email);
-			model.addAttribute("password", id);
-			model.addAttribute("nickname", nickname);
-			model.addAttribute("gender", gender);
-			model.addAttribute("birthyear", birthyear);
-			model.addAttribute("birthday", birthday);
-			model.addAttribute("birthyear", birthyear);
-			model.addAttribute("profile_image", profile_image);
+			model.addAttribute("memberListVO", memberListVO);
+			
+			return "member/snsJoin";
 
-			System.out.println("loginEmail= " + email);
-			System.out.println("email= " + email);
-			System.out.println("id= " + id);
-			System.out.println("nickname= " + nickname);
-			System.out.println("gender= " + gender);
-			System.out.println("birthyear= " + birthyear);
-			System.out.println("birthday= " + birthday);
-			System.out.println("birthyear= " + birthyear);
-			System.out.println("profile_image= " + profile_image);
-			return "member/callback";
+		} else {
+		
+		MemberListVO find = memberDao.login(memberListVO);
+		if (find != null) {
+			// 세션에 설정하고 root로 리다이렉트
+			session.setAttribute("loginNo", find.getMemberNo());
+			session.setAttribute("loginEmail", find.getMemberEmail());
+			session.setAttribute("loginNick", find.getMemberNickname());
+			session.setAttribute("loginGrade", find.getMemberGrade());	
+			session.setAttribute("loginProfileNo", find.getMemberProfileNo());	
+			model.addAttribute("result", apiResult);
 
+			return "redirect:/";
+			
+		} else {
+			return "redirect:login?error";	
+		}	
+		
 		}
+	}
 
-		session.setAttribute("naverMemverVO", naverMemverVO);
-		session.setAttribute("loginEmail", email);
-		model.addAttribute("result", apiResult);
-		System.out.println("loginEmail= " + email);
-		System.out.println("email= " + email);
-		System.out.println("id= " + id);
-		System.out.println("nickname= " + nickname);
-		System.out.println("gender= " + gender);
-		System.out.println("birthyear= " + birthyear);
-		System.out.println("birthday= " + birthday);
-		System.out.println("birthyear= " + birthyear);
-		System.out.println("profile_image= " + profile_image);
+	
+	@PostMapping("/snsJoin")
+	public String snsJoin(@ModelAttribute MemberListVO memberListVO) throws IllegalStateException, IOException {
+		
+		memberDao.snsJoin(memberListVO);
 
 		return "redirect:/";
 	}
-
+	
+	
 	@RequestMapping("/usepolicy")
 	public String usepolicy() {
 		return "member/usepolicy";
@@ -221,10 +215,7 @@ public class MemberController {
 		return "member/privacy";
 	}
 
-	@RequestMapping("/snsJoin")
-	public String snsJoin() {
-		return "member/snsJoin";
-	}
+
 
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
@@ -258,14 +249,6 @@ public class MemberController {
 	public String joinSuccess() {
 		return "member/join_success";
 	}
-
-	@PostMapping("/snsJoin")
-	public String join2(@ModelAttribute MemberDto memberDto) throws IllegalStateException, IOException {
-		memberDao.join(memberDto);
-
-		return "redirect:join_success";
-	}
-
 
 //	비밀번호 변경
 	@GetMapping("/password")
