@@ -7,7 +7,7 @@
 
 <script>
 
-function pwCheck() {
+	function pwCheck() {
 	var regex = /^[A-Za-z0-9!@#$\s_-]{8,16}$/;
 	var input = document.querySelector("input[name=changePw]");
 	var notice = input.nextElementSibling;
@@ -36,9 +36,23 @@ function pw2Check() {
 	}
 }
 
-$("form").submit(function(){
+
+function formCheck() {
+	if(pwCheck() && pw2Check()){
+		
+		alert('비밀번호 변경이 완료되었습니다');
+		$('form').submit();
+		
+	}else{
+		alert('비밀번호가 올바르지 않습니다.');
+		return
+	}
 	return pwCheck() && pw2Check();
-});
+}	
+
+
+
+
 
 </script>
 
@@ -185,7 +199,7 @@ margin-bottom: 0px;
 		
 	<div>	
 	
-	<form method="post" name="form">
+	<form method="post">
 	
 		<div class="passwordSection">
 		
@@ -214,7 +228,7 @@ margin-bottom: 0px;
 			</div>		
 
 		<div class="d-grid gap-2">
-			<input type="submit" class="passwordButton" value="비밀번호 변경">
+			<button type="button" class="passwordButton" onclick="formCheck()">비밀번호 변경</button>
 		</div>
 
 	</form>

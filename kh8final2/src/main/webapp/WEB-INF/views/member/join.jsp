@@ -50,10 +50,10 @@
 
 
 <script>
-
+	var checkCode = false;
 	$(function() {
 
-		var checkCode = false;
+	
 		
 	/* 인증번호 전송 */
 
@@ -199,6 +199,14 @@
 			return emailCheck() && pwCheck() && pw2Check() && nicknameCheck();
 		}	
 				
+		function EmailCheck(){
+			if(checkCode){
+				$("form").submit();
+			}else{
+				alert('이메일 인증을 먼저 해주세요.');
+				return
+			}
+		}
 </script>
 
 <script>
@@ -246,6 +254,7 @@
 		}, 1000);
 		isRunning = true;
 	}
+	
 </script>
 
 
@@ -448,33 +457,33 @@ body {
 						<div class="notice"></div>
 					</div>
 					
-<!-- 					<div class="div-button"> -->
-<!-- 						<button type="button" -->
-<!-- 							class="email-button doubleChk btn_recive_num" id="emailChk">이메일 -->
-<!-- 							인증하기</button> -->
-<!-- 						<span class="point successEmail"></span> -->
-<!-- 					</div> -->
+					<div class="div-button">
+						<button type="button"
+							class="email-button doubleChk btn_recive_num" id="emailChk">이메일
+							인증하기</button>
+						<span class="point successEmail"></span>
+					</div>
 
 
-<!-- 					<div class="serialForm disNone" id="serialForm"> -->
-<!-- 						<div class="sWrapper"> -->
-<!-- 							<div class="sMessage">이메일로 전송된 인증코드를 입력해주세요.</div> -->
-<!-- 							<div class="inputContainer"> -->
-<!-- 								<div class="inputTop"> -->
-<!-- 									<input id="serialChk" type="text" name="serial" readonly -->
-<!-- 										placeholder="인증번호 6자리 입력" required class="inputSerial" -->
-<!-- 										autocomplete="off" maxlength="6" > -->
-<!-- 									<span class="timer" id="timerC">00:00</span> -->
-<!-- 									<button type="button" class="oKButton doubleChk btn_chk" -->
-<!-- 										id="emailChk2" disabled>확인</button> -->
-<!-- 								</div> -->
-<!-- 								<div class="errorMessage"> -->
-<!-- 									<span class="point successEmailChk" id="spanC"></span> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="resendWrapper"></div> -->
-<!-- 					</div> -->
+					<div class="serialForm disNone" id="serialForm">
+						<div class="sWrapper">
+							<div class="sMessage">이메일로 전송된 인증코드를 입력해주세요.</div>
+							<div class="inputContainer">
+								<div class="inputTop">
+									<input id="serialChk" type="text" name="serial" readonly
+										placeholder="인증번호 6자리 입력" required class="inputSerial"
+										autocomplete="off" maxlength="6" >
+									<span class="timer" id="timerC">00:00</span>
+									<button type="button" class="oKButton doubleChk btn_chk"
+										id="emailChk2" disabled>확인</button>
+								</div>
+								<div class="errorMessage">
+									<span class="point successEmailChk" id="spanC"></span>
+								</div>
+							</div>
+						</div>
+						<div class="resendWrapper"></div>
+					</div>
 
 
 
@@ -557,7 +566,7 @@ body {
 					</div>
 
 					<div class="row">
-						<input type="submit" value="회원가입하기" class="buttonWrapperJ">
+						<button type="button"  class="buttonWrapperJ" onclick="EmailCheck();">회원가입하기</button>
 					</div>
 
 				</form>
