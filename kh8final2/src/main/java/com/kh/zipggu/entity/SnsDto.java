@@ -1,10 +1,13 @@
 package com.kh.zipggu.entity;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class SnsDto {
 	
 	private int snsNo;
@@ -14,5 +17,5 @@ public class SnsDto {
 	private int snsCount;
 	private int snsReplyCount;
 	
-
+	
 }
