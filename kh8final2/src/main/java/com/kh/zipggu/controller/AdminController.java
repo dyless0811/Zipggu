@@ -65,8 +65,14 @@ public class AdminController {
 	@PostMapping("/item/insert")
 	@ResponseBody
 	public int itemInsert(@ModelAttribute ItemInsertVO vo,@RequestParam MultipartFile thumbnail , @RequestParam List<MultipartFile> attach) throws IllegalStateException, IOException {
-	
+		log.debug("==================================={}",vo);
 		return itemService.insert(vo,thumbnail , attach);
+	}
+	
+	@PostMapping("/item/update/{itemNo}")
+	public String itemUpdate(@PathVariable("itemNo") int itemNo) {
+		
+		return "admin/item/update";
 	}
 	
 	@GetMapping("/item/update/{itemNo}")

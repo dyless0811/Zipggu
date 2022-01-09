@@ -31,7 +31,7 @@
 	</select>
 	
 	<select id="nonThumbnailListByItemNo" parameterType="int" resultType="ItemFileDto">
-		select * from item_file where item_no = #{itemNo} and item_file_thumbnail = 0
+		select * from item_file where item_no = #{itemNo} and item_file_thumbnail = 0 order by item_file_no asc
 	</select>
 	
 	<insert id="insert" parameterType="ItemFileDto">
