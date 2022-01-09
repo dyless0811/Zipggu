@@ -9,7 +9,7 @@
 		<h2>페이지를 찾을 수 없습니다.</h2>
 	</div>
 	<div class="row">
-		<img src="${pageContext.request.contextPath }/resources/image/error/403.jpg" width="100%">		
+		<img src="${pageContext.request.contextPath }/resources/image/404.png" width="100%">		
 	</div>
 	
 </div>

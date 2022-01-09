@@ -9,7 +9,7 @@
 		<h2>접근 권한이 없습니다.</h2>
 	</div>
 	<div class="row">
-		<img src="${pageContext.request.contextPath }/resources/image/error/403.jpg" width="100%">		
+		<img src="${pageContext.request.contextPath }/resources/image/403.png" width="100%">		
 	</div>
 	
 </div>

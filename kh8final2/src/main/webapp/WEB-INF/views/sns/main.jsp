@@ -324,7 +324,7 @@ function timeForToday(value) {
             	<div class="col mt-3">
                 	<div class="card shadow-sm" style="width: 200px;">
                 		
-	                		<a href="detail?snsNo=${snsDto.snsNo }" id="a">
+	                		<a href="detail?snsNo=${snsDto.snsNo}" id="a">
 								<img src="thumnail?snsNo=${snsDto.snsNo}" class="thumnail card-img bd-placeholder-img card-img-top border border-1">
 								<div class="card-img-overlay">
 								
