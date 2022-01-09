@@ -24,10 +24,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.service.ItemService;
+import com.kh.zipggu.service.MemberService;
 import com.kh.zipggu.service.StoreService;
 import com.kh.zipggu.vo.ItemInsertVO;
 import com.kh.zipggu.vo.ItemSearchVO;
 import com.kh.zipggu.vo.ItemUpdateVO;
+import com.kh.zipggu.vo.MemberListVO;
+import com.kh.zipggu.vo.MemberPageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +48,8 @@ public class AdminController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	@Autowired
+	private MemberService memberService;
 	
 	@RequestMapping("")
 	public String main() {
@@ -124,4 +129,20 @@ public class AdminController {
 		model.addAttribute("itemList", itemService.listBySearchVO(itemSearchVO));
 		return "admin/item/list";
 	}
+	
+	
+	
+	
+	// 회원 목록 조회
+	@RequestMapping("/member/memberList")
+	public String memberList(Model model, @ModelAttribute MemberPageVO memberPageVO) throws Exception {
+		
+			MemberPageVO param = memberService.memberPage(memberPageVO);
+			System.err.println(param);
+			model.addAttribute("memberPageVO",param);
+			System.out.println("---------------------------------------------"+model);
+			
+		return "admin/member/memberList";
+	}	
+	
 }

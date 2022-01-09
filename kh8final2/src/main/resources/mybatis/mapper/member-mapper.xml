@@ -23,12 +23,12 @@
 
 	<!-- 조회 -->
 	<select id="VOlist" resultType="MemberListVO">
-		select M.member_no, M.member_email, M.member_nickname, M.member_join, M.member_grade, M.member_point, M.member_introduce, M.member_type, P.member_profile_no from member M LEFT outer join member_profile P on M.member_no = P.member_no
+		select M.member_no, M.member_email, M.member_nickname, M.member_join, M.member_birth ,M.member_gender, M.member_grade, M.member_point, M.member_introduce, M.member_type, P.member_profile_no from member M LEFT outer join member_profile P on M.member_no = P.member_no
 	</select>
 
 	<!-- 조회 -->
 	<select id="list" resultType="MemberDto">
-		select * from member
+		select * from member 
 	</select>
 
 	<!-- 단일조회 -->
@@ -46,28 +46,19 @@
 	</select>	
 	
 	<!-- 이메일 중복 조회 -->
-	<select id="emailGet" resultType="MemberDto">
+	<select id="emailGet" resultType="MemberListVO">
 		select * from member where member_email = #{email}
 	</select>
 	
 	<!-- 등록 -->
 	<insert id="insert" parameterType="MemberDto">
 		insert into member(
-			member_no, member_email, member_pw, member_nickname
+			member_no, member_email, member_pw, member_nickname, member_type
 		)
 		values(
-			#{memberNo}, #{memberEmail}, #{memberPw}, #{memberNickname}
+			#{memberNo}, #{memberEmail}, #{memberPw}, #{memberNickname}, #{memberType}
 		)
 	</insert>
-
-<!-- 	<insert id="insert2" parameterType="MemberDto"> -->
-<!-- 		insert into member -->
-<!-- 		values( -->
-<!-- 			#{memberId}, #{memberPw}, #{memberNick}, -->
-<!-- 			#{memberBirth}, #{memberEmail}, #{memberPhone}, -->
-<!-- 			sysdate, 100, '준회원' -->
-<!-- 		) -->
-<!-- 	</insert> -->
 
 	<!-- 비밀번호 변경 -->
 	<update id="changePassword" parameterType="map">
@@ -83,17 +74,17 @@
 			<if test="memberNickname != null">
 				member_nickname = #{memberNickname},
 			</if>
-<!-- 			<if test="memberGender != null"> -->
-<!-- 				member_gender = #{memberGender}, -->
-<!-- 			</if> -->
-<!-- 			<if test="memberBirth != null"> -->
-<!-- 				member_birth = #{memberBirth}, -->
-<!-- 			</if> -->
+			<if test="memberGender != null">
+				member_gender = #{memberGender},
+			</if>
+			<if test="memberBirth != null">
+				member_birth = #{memberBirth},
+			</if>
 			<if test="memberIntroduce != null">
 				member_introduce = #{memberIntroduce}
 			</if>
 		</set>
-			where member_no = #{memberNo}
+			where member_email = #{memberEmail}
 	</update>
 
 
@@ -101,5 +92,29 @@
 	<delete id="quit" parameterType="String">
 		delete member where member_email = #{memberEmail}
 	</delete>
+
+	<!-- 검색 및 페이지네이션 -->
+	<select id="count" parameterType="map" resultType="int">
+		select count(*) from member
+		<where>
+			<if test="column != null and keyword != null">	
+			 and instr(${column},#{keyword}) > 0
+			</if>
+		</where>
+	</select>
+	
+	<select id="search" parameterType="map" resultType="MemberDto">
+		select * from (
+		select rownum rn, tmp.* from(
+		select * from member
+		<where>
+			<if test="column != null and keyword != null">	
+			 and instr(${column},#{keyword}) > 0
+			</if>
+		</where>
+		order by member_no asc
+		)tmp) where rn between #{begin} and #{end}
+	</select>
+
 
 </mapper>

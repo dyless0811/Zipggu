@@ -14,5 +14,7 @@ public class MemberJoinVO {
 	private String memberEmail;
 	private String memberPw;
 	private String memberNickname;
+	private String memberBirth;
+	private String memberGender;
 	private MultipartFile attach;
 }

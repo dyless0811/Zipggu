@@ -49,6 +49,38 @@
 	}
 </style>
 <script>
+
+//몇분전 몇시간전 몇일전 시간 변환
+function timeForToday(value) {
+    const today = new Date();
+    const timeValue = new Date(value);
+	
+    console.log("timeValue = ", timeValue);
+    
+    const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+    
+    console.log("betweenTime = ", betweenTime);
+    
+    if (betweenTime < 1) return '방금전';
+    if (betweenTime < 60) {
+    	
+        return betweenTime + "분전";
+    }
+
+    const betweenTimeHour = Math.floor(betweenTime / 60);
+    if (betweenTimeHour < 24) {
+        return betweenTimeHour + "시간";
+    }
+
+    const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+    if (betweenTimeDay < 365) {
+        return betweenTimeDay + "일전";
+    }
+
+    return Math.floor(betweenTimeDay / 365) + "년전";
+}
+
+
 	$(function(){
 		var page = 1;
 		var size = 18;
@@ -69,7 +101,7 @@
 				
 				console.log($(this).parent().parent().next().find(".row"));
 				
-				$(this).parent().parent().next().find(".row");
+				$(this).parent().parent().next().find(".row").empty();
 				
 				console.log(column);
 				loadData(page, size, column);
@@ -110,9 +142,12 @@
 						templateContent.find(".profile-image").attr("src", "${pageContext.request.contextPath}/member/profile?memberNo="+resp[i].memberNo);
 						templateContent.find("#nickname").text(resp[i].memberNickname);
 						templateContent.find("#count").text("조회수 : "+resp[i].snsCount);
+						
 						var timestamp = resp[i].snsDate;
-						var date = new Date(resp[i].snsDate);
-						templateContent.find("#date").text(date.toLocaleString());
+						var today = new Date();
+						var date = new Date(timestamp);
+						templateContent.find("#date").text(timeForToday(date));
+						
 						templateContent.find("#like").text(resp[i].count);//좋아요개수
 						templateContent.find("#reply").text(resp[i].snsReplyCount);
 						templateContent.find(".follow-btn").attr("data-member-no", resp[i].memberNo);
