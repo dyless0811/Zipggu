@@ -116,5 +116,13 @@
 		)tmp) where rn between #{begin} and #{end}
 	</select>
 
+    <select id="emailConfirm" parameterType="String" resultType="int">
+        select count(*) from member where member_email= #{memberEmail}
+    </select>
+
+    <select id="nickConfirm" parameterType="String" resultType="int">
+        select count(*) from member where member_nickname= #{memberNickname}
+    </select>
+
 
 </mapper>

@@ -399,11 +399,11 @@ position: absolute;
 }
 
 
-
-
 .layout-container {
     position: relative;
     padding: 0px 0px 40px;
+    height:auto; 
+    min-height: 100%;
 }
 
 .menu-container {

@@ -146,4 +146,16 @@ public class MemberDaoWithEncrypt implements MemberDao {
 		return sqlSession.selectList("member.search",param);
 	}
 
+	@Override
+	public int emailConfirm(String memberEmail) {
+	     int emailCnt = sqlSession.selectOne("member.emailConfirm", memberEmail);
+	     return emailCnt;
+	}
+
+	@Override
+	public int nickConfirm(String memberNickname) {
+	     int nickCnt = sqlSession.selectOne("member.nickConfirm", memberNickname);
+	     return nickCnt;
+	}	
+	
 }
