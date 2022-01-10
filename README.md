@@ -1,4 +1,10 @@
-# kh8final2
+# Final Project
+
+### 팀명 : <b>Zipggu</b>
+
+### 주제 : 
+
+##### 사이트 제작 목적 : 
 
 ## 0. 목차
 
