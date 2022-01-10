@@ -7,8 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.zipggu.entity.OrdersDto;
+import com.kh.zipggu.vo.OrderListVO;
+import com.kh.zipggu.vo.OrderSearchVO;
 import com.kh.zipggu.vo.ReviewListVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class OrdersDaoImpl implements OrdersDao {
 
@@ -44,6 +49,13 @@ public class OrdersDaoImpl implements OrdersDao {
 	public List<ReviewListVO> reviewList(int memberNo) {
 		
 		return sqlSession.selectList("orders.reviewList", memberNo);
+	}
+
+	@Override
+	public List<OrderListVO> listBySearchVO(OrderSearchVO orderSearchVO) {
+		List<OrderListVO> a = sqlSession.selectList("orders.listBySearchVO", orderSearchVO);
+		log.debug("=============================================={}", a);
+		return a;
 	}
 
 }

@@ -12,10 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.zipggu.entity.CategoryDto;
 import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.service.ItemService;
+import com.kh.zipggu.service.OrderService;
 import com.kh.zipggu.vo.CategoryVO;
 import com.kh.zipggu.vo.ItemListVO;
 import com.kh.zipggu.vo.ItemSearchVO;
+import com.kh.zipggu.vo.OrderListVO;
+import com.kh.zipggu.vo.OrderSearchVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/admin/data")
 public class AdminRestController {
@@ -24,6 +30,8 @@ public class AdminRestController {
 	private CategoryService categoryService;
 	@Autowired
 	private ItemService itemService;
+	@Autowired
+	private OrderService orderService;
 	
 	@PostMapping("/category/list")
 	public List<CategoryVO> categoryList() {
