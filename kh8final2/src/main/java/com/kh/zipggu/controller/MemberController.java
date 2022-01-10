@@ -495,7 +495,6 @@ public class MemberController {
 		return "member/page";
 	}
 	
-<<<<<<< HEAD
 	@RequestMapping("orders")
 	public String orders(Model model, HttpSession session) {
 		if(session.getAttribute("loginNo") == null) {
@@ -505,7 +504,6 @@ public class MemberController {
 		
 		return "member/orders";
 	}
-=======
     // 이메일 중복 검사
     @PostMapping("/emailConfirm")
     @ResponseBody
@@ -525,9 +523,7 @@ public class MemberController {
         
         return nickConfirm;
     }
-	
 
->>>>>>> refs/remotes/origin/main
 	
 	@Autowired
 	private OrderService orderService;
