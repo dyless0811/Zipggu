@@ -6,6 +6,8 @@
 
 <script>
 
+var checkNick = false;
+
 function emailCheck() {
 
 	var input = document.querySelector("input[name=memberEmail]");
@@ -35,21 +37,24 @@ function nicknameCheck() {
 	}
 }
 
+
 function nickConfirm(){
-    var memberNickname = $("#nick").val();
+    var memberNickname = $("#nick").val();     
+    
     $.ajax({
         url:"${pageContext.request.contextPath}/member/nickConfirm", 
         type:"post", 
         data:{memberNickname:memberNickname},
 		dataType : "text",
         success:function(nickConfirm){
-            if(nickConfirm != 1){
-
+            if(nickConfirm == 0){
+            	console.log("nickConfirm",nickConfirm);
 				$("#nickConfirm").text("");
-				return true;
+				checkNick = true;
+				
             } else {
                 $("#nickConfirm").text("사용 중인 별명입니다.");
-                return false;
+                checkNick = false;
             }
         },
 		error:function(e){
@@ -58,39 +63,43 @@ function nickConfirm(){
     });
 };   
 
+$(document).ready(function() {
+	$("#selectall").click(function() {
+		if($("#selectall").is(":checked")) {
+			$("input[name=selectItem]").prop("checked", true);
+			$("input[name=selectItem2]").prop("checked", true);
+		} else{
+			$("input[name=selectItem]").prop("checked", false);
+			$("input[name=selectItem2]").prop("checked", false);
+		}
+	});
+
+	$(".checkall").click(function() {
+		var total = $("input[name=selectItem]").length + $("input[name=selectItem2]").length;
+		var checked = $("input[name=selectItem]:checked").length + $("input[name=selectItem2]:checked").length;
+
+		console.log("total",total);
+		console.log("checked",checked);
+		if(total != checked) $("#selectall").prop("checked", false);
+		else $("#selectall").prop("checked", true); 
+	});
+});	
+
 function formCheck() {
-	if(emailCheck() && nicknameCheck() && nickConfirm()){
+	if(emailCheck() && nicknameCheck() && checkNick && $("input:checkbox[name=selectItem]").is(":checked") == true){
 		
 		alert('회원 가입이 완료되었습니다');
 		$('form').submit();
 		
-	}else{
-		return
+	}else{	
+		
+		alert('회원 정보가 올바르지 않습니다.');
+		return false;
+		
 	}
-	return emailCheck() && nicknameCheck() && nickConfirm();
 }	
 
 </script>
-
-<script>
-
-	$(document).ready(function() {
-		$("#selectall").click(function() {
-			if($("#selectall").is(":checked")) $("input[name=selectItem]").prop("checked", true);
-			else $("input[name=selectItem]").prop("checked", false);
-		});
-
-		$("input[name=selectItem]").click(function() {
-			var total = $("input[name=selectItem]").length;
-			var checked = $("input[name=selectItem]:checked").length;
-
-			if(total != checked) $("#selectall").prop("checked", false);
-			else $("#selectall").prop("checked", true); 
-		});
-	});	
-	
-</script>
-
 
 <style>
 .title-h1{
@@ -323,7 +332,7 @@ input[type="checkbox"]{
 
 	<div class="user-sign-up-form__form-group">
 	<div class="sns-sign-up -input">
-		<input type="text" name="memberNickname" value="${memberListVO.memberNickname}" placeholder="닉네임을 입력해주세요" autocomplete="off"  required class="inputItem" onblur="nicknameCheck();">
+		<input type="text" name="memberNickname" value="${memberListVO.memberNickname}" placeholder="닉네임을 입력해주세요" autocomplete="off"  required class="inputItem"  id="nick" oninput = "nickConfirm()"  onblur="nicknameCheck();">
 		<div class="notice"></div>
 		<div id="nickConfirm" style="font-size: 12px; color: red;"></div>
 	</div>
@@ -344,19 +353,19 @@ input[type="checkbox"]{
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="selectItem" class="check-button check-size checkall"required>
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall" required>
 								<a href="usepolicy" target=”_blank” style="text-decoration : underline"><span class="check-text">이용약관</span></a>
 								<span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="selectItem" class="check-button check-size">
-								<a href="privacy" target=”_blank” style="text-decoration : underline"  required>
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall" required>
+								<a href="privacy" target=”_blank” style="text-decoration : underline"  >
 								<span class="check-text">개인정보수집 및 이용동의</span></a> <span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="selectItem" class="check-button check-size checkall">
+								<input type="checkbox" name="selectItem2" class="check-button check-size checkall">
 								<span class="check-text">이벤트, 프로모션 알림 메일 및 SMS 수신</span> <span
 									class="check-text-ob2">(선택)</span>
 							</div>

@@ -29,7 +29,7 @@ public interface MemberDao {
 	boolean changeInformation(MemberDto memberDto);
 	
 	//회원 탈퇴
-	boolean quit(String memberEmail, String memberPw);
+	boolean quit(String memberEmail);
 	
 	List<MemberListVO> VOlist (MemberListVO memberListVO);
 	

@@ -253,6 +253,13 @@ button {
     padding: 5px 7px;
 }
 
+.followBtn2 {
+    background-color: #35c5f0;
+    border-color: #35c5f0;
+    color: #fff;
+    padding: 5px 7px;
+}
+
 .unfollowBtn {
     background-color: #fff;
     border-color: #dbdbdb;
@@ -326,6 +333,34 @@ button {
     word-break: break-word;
     text-align: left;
 }
+
+.profile2FollowBtn {
+	margin: 0px 0px 7px;
+	display: block;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 19px;
+	color: rgb(130, 140, 148);
+	user-select: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: 1px solid transparent;
+	background: none;
+	font-weight: 700;
+	text-decoration: none;
+	text-align: center;
+	transition: color .1s, background-color .1s, border-color .1s;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 140px;
+	padding: 9px 10px;
+	font-size: 15px;
+	border-color: #09addb;
+	background-color: #09addb;
+	color: #fff;
+}
 </style>
 
 <div class="layout-container">
@@ -389,6 +424,19 @@ button {
 								</a>		
 								</dl>
 								
+								
+								
+						<c:choose>
+						<c:when test="${loginEmail == null}">
+								<c:if test="${memberDto.memberNo != loginNo}">
+									<div style="display: inline-block">
+										<button type="button" class="profile2FollowBtn" onClick="location.href='${pageContext.request.contextPath}/member/login'">팔로우</button>
+									</div>
+								</c:if>
+						</c:when>	
+															
+						<c:otherwise>					
+								
 								<c:if test="${memberDto.memberNo != loginNo}">
 									<div style="display: inline-block">
 										<c:choose>
@@ -424,6 +472,9 @@ button {
 								</c:if>
 
 
+						</c:otherwise>
+					</c:choose>
+
 
 								<c:if test="${memberDto.memberNo == loginNo}">
 									<div>
@@ -449,6 +500,42 @@ button {
 				<div class="rDiv">
 					<h1 class="hTitle">팔로잉</h1>
 					
+					<c:choose>
+				
+					<c:when test="${loginEmail == null}">
+							<c:forEach var="followVO" items="${followerList}">
+						<div>
+
+							<div class="divItemContainer">
+								<a href="${pageContext.request.contextPath}/member/page?memberNo=${followVO.followingUser}"
+									class="itemLinkPlaceholder">
+									<div class="itemImageContainer">
+										<c:choose>
+											<c:when test="${followVO.memberProfileNo == 0}">
+												<img src="https://via.placeholder.com/120x120?text=User"
+													class="profileImage">
+											</c:when>
+											<c:otherwise>
+												<img
+													src="${pageContext.request.contextPath}/member/profile?memberNo=${followVO.followingUser}"
+													width="100%" height="100%" class="profileImage">
+											</c:otherwise>
+										</c:choose>
+									</div>
+									<div class="SitemContent">
+										<div class="itemNickname">${followVO.memberNickname}</div>
+										<div class="itemIntroduce">${followVO.memberIntroduce}</div>
+									</div>
+								</a>
+								<div>
+												<button class="followBtn2" onClick="location.href='${pageContext.request.contextPath}/member/login'">팔로우</button>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+					</c:when>
+					
+					<c:otherwise>
 					<c:forEach var="followVO" items="${followingF4f}">
 						<div>
 			
@@ -491,6 +578,9 @@ button {
 							</div>
 						</div>
 					</c:forEach>
+					</c:otherwise>
+		</c:choose>
+					
 				</div>
 			</div>
 		</div>

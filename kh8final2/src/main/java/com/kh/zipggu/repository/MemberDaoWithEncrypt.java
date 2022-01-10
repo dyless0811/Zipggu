@@ -62,7 +62,7 @@ public class MemberDaoWithEncrypt implements MemberDao {
 		String encrypt = encoder.encode(origin);
 		memberListVO.setMemberNo(sequence);
 		memberListVO.setMemberPw(encrypt);
-		sqlSession.insert("member.insert", memberListVO);
+		sqlSession.insert("member.insert2", memberListVO);
 	}	
 
 	@Override
@@ -93,14 +93,10 @@ public class MemberDaoWithEncrypt implements MemberDao {
 	}
 
 	@Override
-	public boolean quit(String memberEmail, String memberPw) {
-		MemberDto findDto = sqlSession.selectOne("member.get", memberEmail);
-		if (encoder.matches(memberPw, findDto.getMemberPw())) {
+	public boolean quit(String memberEmail) {
+
 			int count = sqlSession.delete("member.quit", memberEmail);
 			return count > 0;
-		} else {
-			return false;
-		}
 	}
 
 	@Override
@@ -148,14 +144,13 @@ public class MemberDaoWithEncrypt implements MemberDao {
 
 	@Override
 	public int emailConfirm(String memberEmail) {
-	     int emailCnt = sqlSession.selectOne("member.emailConfirm", memberEmail);
-	     return emailCnt;
+	     return sqlSession.selectOne("member.emailConfirm", memberEmail);
 	}
 
 	@Override
 	public int nickConfirm(String memberNickname) {
-	     int nickCnt = sqlSession.selectOne("member.nickConfirm", memberNickname);
-	     return nickCnt;
+	    
+	     return sqlSession.selectOne("member.nickConfirm", memberNickname);
 	}	
 	
 }

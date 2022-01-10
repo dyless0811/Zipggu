@@ -30,10 +30,6 @@
 			//this == form
 			e.preventDefault();//form 기본 전송 이벤트 방지
 			
-			if(!formCheck()){
-				return true;
-			}
-
 			//모든 비밀번호 입력창에 SHA-1 방식 암호화 지시(32byte 단방향 암호화)
 			$(this).find("input[type=password]").each(function() {
 				//this == 입력창
@@ -51,6 +47,9 @@
 
 <script>
 	var checkCode = false;
+	var checkEmail = false;
+	var checkNick = false;
+	
 	$(function() {
 
 	
@@ -194,27 +193,103 @@
 			}
 		}
 
+		   function emailConfirm(){
+		        var memberEmail = $("#email").val();
+		        
+		        $.ajax({
+		            url:"${pageContext.request.contextPath}/member/emailConfirm", 
+		            type:"post", 
+		            data:{memberEmail:memberEmail},
+					dataType : "text",
+		            success:function(emailConfirm){
+		            	console.log("성공",emailConfirm)
+		                if(emailConfirm == 0){
+							$("#emailChk").attr("disabled", false);
+							$("#emailConfirm").text("");					
+							checkEmail = true;
+		                } else {
+		                    $("#emailConfirm").text("이미 가입한 이메일입니다.");
+							$("#emailChk").attr("disabled", true);
+							checkEmail = false;							
+		                }
+		            },
+					error:function(e){
+						console.log("실패", e);
+					}
+		        });
+		    };
+		    
+		    function nickConfirm(){
+		        var memberNickname = $("#nick").val();     
+		        
+		        $.ajax({
+		            url:"${pageContext.request.contextPath}/member/nickConfirm", 
+		            type:"post", 
+		            data:{memberNickname:memberNickname},
+					dataType : "text",
+		            success:function(nickConfirm){
+		                if(nickConfirm == 0){
+		                	console.log("nickConfirm",nickConfirm);
+							$("#nickConfirm").text("");
+							checkNick = true;
+							
+		                } else {
+		                    $("#nickConfirm").text("사용 중인 별명입니다.");
+		                    checkNick = false;
+		                }
+		            },
+					error:function(e){
+						console.log("실패", e);
+					}
+		        });
+		    };   
+		     
+
+			$(document).ready(function() {
+				$("#selectall").click(function() {
+					if($("#selectall").is(":checked")) {
+						$("input[name=selectItem]").prop("checked", true);
+						$("input[name=selectItem2]").prop("checked", true);
+					} else{
+						$("input[name=selectItem]").prop("checked", false);
+						$("input[name=selectItem2]").prop("checked", false);
+					}
+				});
+
+				$(".checkall").click(function() {
+					var total = $("input[name=selectItem]").length + $("input[name=selectItem2]").length;
+					var checked = $("input[name=selectItem]:checked").length + $("input[name=selectItem2]:checked").length;
+
+					console.log("total",total);
+					console.log("checked",checked);
+					if(total != checked) $("#selectall").prop("checked", false);
+					else $("#selectall").prop("checked", true); 
+				});
+			});	
+		
+		
 		
 		function formCheck() {
-			if(emailCheck() && pwCheck() && pw2Check() && nicknameCheck() && emailConfirm() && nickConfirm()){
+			if(emailCheck() && pwCheck() && pw2Check() && nicknameCheck()  && checkNick && checkEmail && checkCode && $("input:checkbox[name=selectItem]").is(":checked") == true){
 				
 				alert('회원 가입이 완료되었습니다');
 				$('form').submit();
 				
 			}else{
-				return
+				alert('회원 정보가 올바르지 않습니다.');
+				return false;
 			}
-			returnemailCheck() && pwCheck() && pw2Check() && nicknameCheck() && emailConfirm() && nickConfirm();
+			
 		}			
 				
-		function EmailCheck(){
-			if(checkCode){
-				$("form").submit();
-			}else{
-				alert('이메일 인증을 먼저 해주세요.');	
-				return
-			}
-		}
+// 		function EmailCheck(){
+// 			if(checkCode){
+// 				return true;
+// 			}else{
+// 				alert('이메일 인증을 먼저 해주세요.');	
+// 				return false;
+// 			}
+// 		}
 </script>
 
 <script>
@@ -267,71 +342,7 @@
 
 <script>
 
-    function emailConfirm(){
-        var memberEmail = $("#email").val();
-        $.ajax({
-            url:"${pageContext.request.contextPath}/member/emailConfirm", 
-            type:"post", 
-            data:{memberEmail:memberEmail},
-			dataType : "text",
-            success:function(emailConfirm){
-                if(emailConfirm != 1){
-					$("#emailChk").attr("disabled", false);
-					$("#emailConfirm").text("");
-					return true;
-                } else {
-                    $("#emailConfirm").text("이미 가입한 이메일입니다.");
-					$("#emailChk").attr("disabled", true);
-					return false;
-                }
-            },
-			error:function(e){
-				console.log("실패", e);
-			}
-        });
-    };
-    
-    function nickConfirm(){
-        var memberNickname = $("#nick").val();
-        $.ajax({
-            url:"${pageContext.request.contextPath}/member/nickConfirm", 
-            type:"post", 
-            data:{memberNickname:memberNickname},
-			dataType : "text",
-            success:function(nickConfirm){
-                if(nickConfirm != 1){
-
-					$("#nickConfirm").text("");
-					return true;
-                } else {
-                    $("#nickConfirm").text("사용 중인 별명입니다.");
-                    return false;
-                }
-            },
-			error:function(e){
-				console.log("실패", e);
-			}
-        });
-    };   
-     
-</script>
-
-<script>
-
-	$(document).ready(function() {
-		$("#selectall").click(function() {
-			if($("#selectall").is(":checked")) $("input[name=selectItem]").prop("checked", true);
-			else $("input[name=selectItem]").prop("checked", false);
-		});
-
-		$("input[name=selectItem]").click(function() {
-			var total = $("input[name=selectItem]").length;
-			var checked = $("input[name=selectItem]:checked").length;
-
-			if(total != checked) $("#selectall").prop("checked", false);
-			else $("#selectall").prop("checked", true); 
-		});
-	});	
+ 
 	
 </script>
 
@@ -497,8 +508,7 @@ body {
 
 			<div class="sighForm">
 
-				<form method="post" enctype="multipart/form-data"
-					onsubmit="return formCheck();">
+				<form method="post" enctype="multipart/form-data">
 
 					<div class="row center">
 						<h1 class="title-h1">회원가입</h1>
@@ -623,19 +633,19 @@ body {
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="selectItem" class="check-button check-size checkall"required>
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall" required>
 								<a href="usepolicy" target=”_blank” style="text-decoration : underline"><span class="check-text">이용약관</span></a>
 								<span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="selectItem" class="check-button check-size">
-								<a href="privacy" target=”_blank” style="text-decoration : underline"  required>
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall" required>
+								<a href="privacy" target=”_blank” style="text-decoration : underline"  >
 								<span class="check-text">개인정보수집 및 이용동의</span></a> <span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="selectItem" class="check-button check-size checkall">
+								<input type="checkbox" name="selectItem2" class="check-button check-size checkall">
 								<span class="check-text">이벤트, 프로모션 알림 메일 및 SMS 수신</span> <span
 									class="check-text-ob2">(선택)</span>
 							</div>
@@ -645,7 +655,7 @@ body {
 					</div>
 
 					<div class="row">
-						<button type="button"  class="buttonWrapperJ" onclick="EmailCheck();">회원가입하기</button>
+						<button type="button"  class="buttonWrapperJ" onclick="formCheck();">회원가입하기</button>
 					</div>
 
 				</form>

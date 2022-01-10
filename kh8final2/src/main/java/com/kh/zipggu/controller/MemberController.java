@@ -125,7 +125,7 @@ public class MemberController {
 				c.setMaxAge(0);
 				response.addCookie(c);
 			}
-
+			
 			return "redirect:/";
 		} else {
 			return "redirect:login?error";
@@ -274,23 +274,26 @@ public class MemberController {
 	}
 
 
-	@GetMapping("/quit")
-	public String quit() {
-		return "member/quit";
+	@GetMapping("/withdrawal")
+	public String withdrawals() {
+		return "member/withdrawal";
 	}
 
-	@PostMapping("/quit")
-	public String quit(HttpSession session, @RequestParam String memberPw) {
+	@PostMapping("/withdrawal")
+	public String quit(HttpSession session) {
 		String memberEmail = (String) session.getAttribute("loginEmail");
 
-		boolean result = memberDao.quit(memberEmail, memberPw);
+		boolean result = memberDao.quit(memberEmail);
 		if (result) {
-			session.removeAttribute("ses");
-			session.removeAttribute("grade");
+			session.removeAttribute("loginNo");
+			session.removeAttribute("loginEmail");
+			session.removeAttribute("loginNick");
+			session.removeAttribute("loginGrade");
+			session.removeAttribute("loginProfileNo");
 
-			return "redirect:quit_success";
+			return "redirect:/";
 		} else {
-			return "redirect:quit?error";
+			return "redirect:withdrawal?error";
 		}
 	}
 
@@ -476,7 +479,11 @@ public class MemberController {
 		
 		// 팔로잉카운트
 		int followingCount = followService.followingCount(memberNo);
-	
+
+		
+		
+		if(session.getAttribute("loginNo") != null) {
+		
 		int followerUser = (int) session.getAttribute("loginNo");
 		int followingUser = memberNo;
 
@@ -486,6 +493,8 @@ public class MemberController {
 		int followCheck = followService.isFollow(followVO);		
 		
 		model.addAttribute("followCheck", followCheck);
+		
+		}
 		model.addAttribute("followerCount", followerCount);
 		model.addAttribute("followingCount", followingCount);		
 		model.addAttribute("followingCount", followingCount);	
