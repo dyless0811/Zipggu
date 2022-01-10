@@ -119,7 +119,14 @@ $(function(){
 	
 	//장바구니 삭제 ajax
 	$(function(){
+		$(".delete-all-btn").on("click", function(){
+			$(".delete").each(function(){
+				$(this).click();
+			});
+		});
+		
 		$(".delete").on("click", function(){
+			var button = $(this).parent().parent().parent().parent().prev().find(".ea");
 			//this == .delete 클래스의 버튼
 			
 			//input name=cartNo의 값을 변수에 저장
@@ -133,16 +140,18 @@ $(function(){
 				url:"${pageContext.request.contextPath}/cart/delete?cartNo="+cartNo,
 				type:"delete",
 				dataType:"text",
+				async: false,
 				success:function(resp){
 					//성공이라면 콘솔에 찍어준다.
 					console.log("삭제제발!", resp);
 					//위에 저장한 변수로 삭제된 아이템 지우기.
+					calcItemPrice(button);
 					cart.remove();
 					
 				},
 				error:function(e){}
 			});
-			
+			calcTotalPrice();
 		});
 	});
     
@@ -162,10 +171,7 @@ $(function(){
 	 //체크박스 선택하여 구매하기
      $(function(){
      	$(".ea").on("input", function(){
-     		
-     		
-     		var ea = $("input[name=cartNo]:checked").length;
-     		$("#answer-length").text(ea);
+     	
      		calcTotalPrice();
      	});
      });
@@ -204,6 +210,7 @@ $(function(){
 		 priceTag.text(value);
 	 }
 	 function calcTotalPrice(){
+		 var ea = $("input[name=cartNo]:checked").length;
 		 var totalPrice = 0;
 		 shipping = 0;
 		 $(".cart input[type=checkbox]").each(function(){
@@ -219,6 +226,7 @@ $(function(){
 			 shipping = 3000;
 		 }
 		 
+  		 $("#answer-length").text(ea);
 		 $("#shipping").text((shipping).toLocaleString(undefined));
 		 $("#totalPrice").text((totalPrice).toLocaleString(undefined));
 		 $("#orderTotalPrice").text((shipping+totalPrice).toLocaleString(undefined));
@@ -300,7 +308,7 @@ $(function(){
 
                 <!--모두삭제 버튼-->
                 <div class="col-auto">
-                    <button class="btn btn-secondary">모두삭제</button>
+                    <button class="btn btn-secondary delete-all-btn">모두삭제</button>
                 </div>
             </div>
             

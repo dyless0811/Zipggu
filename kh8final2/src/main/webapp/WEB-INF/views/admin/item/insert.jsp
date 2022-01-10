@@ -65,14 +65,14 @@
           }
 
           $("input[name=attach]").on("input", function () {
-            if (this.files.length == 0) {
-              return;
-            }
-            fileList.push(this.files[0]);
-            refreshView();
-            
-            $(this).val("");
-          });  
+              if (this.files.length == 0) {
+                return;
+              }
+              fileList.push(this.files[0]);
+              refreshView();
+              
+              $(this).val("");
+            });  
     	  
     	  
     	// 카테고리 선택
@@ -215,6 +215,7 @@
           var formData = new FormData($(".result-form")[0]);
           var fileIndex = fileList.length;
           for (var i = 0; i < fileIndex; i++) {  
+        	  console.log("fileIndex = ", fileIndex);
 			formData.append("attach", fileList[i]);		
 		  }
           
@@ -352,7 +353,6 @@
         <div class="thumbnail_wrap">
 				<div id="thumbnail-result"></div>
 		</div>
-      </form>
         <label>
           <div class="btn btn-primary">파일 추가</div>
           <input type="file" name="attach" accept="image/*" class="form-control" hidden>
@@ -360,6 +360,7 @@
         <div class="imgs_wrap">
 				<div id="result"></div>
 		</div>
+      </form>
         <br /><br />
       <button class="option-group-btn" type="button">옵션 분류 추가</button>
       <hr />

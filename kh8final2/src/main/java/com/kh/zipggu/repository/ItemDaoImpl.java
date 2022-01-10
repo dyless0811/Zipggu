@@ -36,15 +36,22 @@ public class ItemDaoImpl implements ItemDao {
 	}
 	
 	@Override
-	public List<StoreListVO> listByPage(int startRow, int endRow) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("startRow", startRow);
-		param.put("endRow", endRow);
-		return sqlSession.selectList("item.listByPage", param);
+	public List<StoreListVO> listByPage(ItemSearchVO itemSearchVO) {
+		return sqlSession.selectList("item.listByPage", itemSearchVO);
 	}
 
 	@Override
 	public List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO) {
 		return sqlSession.selectList("item.listBySearchVO", itemSearchVO);
+	}
+
+	@Override
+	public void update(ItemDto itemDto) {
+		sqlSession.update("item.update", itemDto);
+	}
+
+	@Override
+	public void delete(int itemNo) {
+		sqlSession.delete("item.delete", itemNo);
 	}
 }

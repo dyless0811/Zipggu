@@ -6,6 +6,7 @@ import com.kh.zipggu.entity.OrderDetailDto;
 
 
 public interface OrderDetailDao {
+	int sequence();
 	void insert(OrderDetailDto orderDetailDto);
 	List<OrderDetailDto> list(int orderNo);
 	OrderDetailDto get(int orderNo, int itemNo);

@@ -12,6 +12,7 @@ import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.vo.ItemInsertVO;
 import com.kh.zipggu.vo.ItemListVO;
 import com.kh.zipggu.vo.ItemSearchVO;
+import com.kh.zipggu.vo.ItemUpdateVO;
 
 public interface ItemService {
 	int insert(ItemInsertVO itemInsertVo, MultipartFile thumbnail, List<MultipartFile> attach) throws IllegalStateException, IOException;
@@ -21,6 +22,8 @@ public interface ItemService {
 	ResponseEntity<ByteArrayResource> getFile(int itemFileNo) throws IOException;
 
 	ItemDto get(int itemNo);
+
+	ItemDto delete(int itemNo);
 
 	List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO);
 
@@ -35,4 +38,7 @@ public interface ItemService {
 	void itemOptionGroupUpdate(int itemNo, String itemOptionGroup, String changeGroup);
 
 	void itemOptionDetailInsert(ItemOptionDto itemOptionDto);
+
+	int update(ItemUpdateVO itemUpdateVo, MultipartFile thumbnail, List<MultipartFile> attach) throws IOException;
+
 }

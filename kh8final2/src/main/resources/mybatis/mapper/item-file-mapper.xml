@@ -23,7 +23,7 @@
 	</select>
 	
 	<select id="getThumbnail" parameterType="int" resultType="ItemFileDto">
-		select * from item_file where item_no = #{itemNo} and item_file_thumbnail = 1
+		select * from item_file where item_no = #{itemNo} and item_file_thumbnail = 1 and item_file_del = 'N'
 	</select>
 	
 	<select id="listByItemNo" parameterType="int" resultType="ItemFileDto">
@@ -31,13 +31,22 @@
 	</select>
 	
 	<select id="nonThumbnailListByItemNo" parameterType="int" resultType="ItemFileDto">
-		select * from item_file where item_no = #{itemNo} and item_file_thumbnail = 0
+		select * from item_file 
+		where item_no = #{itemNo} 
+			and item_file_thumbnail = 0 
+			and item_file_del = 'N' 
+		order by item_file_no asc
 	</select>
 	
 	<insert id="insert" parameterType="ItemFileDto">
 		insert into item_file values(#{itemFileNo}, #{itemNo}, #{itemFileUploadname}, #{itemFileSavename}, #{itemFileSize}, #{itemFileType}, #{itemFileThumbnail}, 'N')
 	</insert>
 	
-	
+	<update id="updateFiles" parameterType="list">
+		update item_file set item_file_del = 'Y' where item_file_no not in 
+		<foreach collection="list" item="remainingFile" open="(" separator="," close=")">
+			#{remainingFile}
+		</foreach>
+	</update>
 	
 </mapper> 

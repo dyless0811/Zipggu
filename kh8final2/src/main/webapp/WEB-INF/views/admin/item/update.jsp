@@ -255,9 +255,12 @@
           var formData = new FormData($(".result-form")[0]);
           var fileIndex = fileList.length;
           for (var i = 0; i < fileIndex; i++) {  
+        	 console.log("fileIndex = ", fileIndex);
 			formData.append("attach", fileList[i]);		
 		  }
-          
+          $("input[name=remainingImg]").each(function(index, fileNo){
+        	formData.append("remainingFile["+index+"]", $(fileNo).val());  
+          });
           
          $.ajax({
         	url: "${pageContext.request.contextPath}/admin/item/update",
@@ -275,6 +278,12 @@
         		 console.log("실패", e);
         	}
           });
+        });
+        
+        $("#item-delete-btn").click(function(e){
+        	if(!confirm("정말 삭제하시겠습니까?")){
+	        	e.preventDefault();        		
+        	}
         });
         
         var sel_files = [];
@@ -485,13 +494,13 @@
 		</div>
       <label>
         <div class="btn btn-primary">파일 추가</div>
-        <input type="file" name="attach" accept="image/*" class="form-control" hidden>
+          <input type="file" name="attach" accept="image/*" class="form-control" hidden>
       </label>
         <div class="imgs_wrap">
 				<div id="exist-result">
 					<c:forEach var="itemFileDto" items="${itemFileDtoList}">
 						<div>						
-							<input type="hidden" name="remainingFile" value="${itemFileDto.itemFileNo}">
+							<input type="hidden" name="remainingImg" value="${itemFileDto.itemFileNo}">
 							${itemFileDto.itemFileUploadname}
 							<button type="button" class="exist-remove-btn">x</button>
 							<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}">
@@ -545,7 +554,8 @@
       </div>
       <div class="option-list"></div>
       <a href="" id="item-submit" class="btn btn-primary text-light">등록</a>
-      <a href="${pageContext.request.contextPath}/admin/item" class="btn btn-primary text-light">취소</a>
+      <a href="${pageContext.request.contextPath}/admin/item" class="btn btn-secondary text-light">취소</a>
+      <a href="${pageContext.request.contextPath}/admin/item/delete?itemNo=${itemDto.itemNo}" id="item-delete-btn" class="btn btn-danger text-light">삭제</a>
     </div>
     
     <!--옵션-->

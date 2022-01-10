@@ -11,9 +11,10 @@
 $(function () {
 	$("#order-submit").click(function(){
 		var isEmpty = false;
-		$("input[name]").not("input[name=q]").each(function(){
+		$("input[name]").not("input[class=search-box]").each(function(){
 			if($(this).val() == ""){
 				isEmpty = true;
+				console.log($(this));
 				return false;
 			}
 		});
