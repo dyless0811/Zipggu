@@ -1,13 +1,12 @@
 package com.kh.zipggu.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 public class OrderListVO {
+		
 	private int orderNo;
 	private String orderName;
 	private int totalAmount;

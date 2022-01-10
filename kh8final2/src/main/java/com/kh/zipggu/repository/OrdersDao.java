@@ -3,9 +3,13 @@ package com.kh.zipggu.repository;
 import java.util.List;
 
 import com.kh.zipggu.entity.OrdersDto;
+
+import com.kh.zipggu.vo.ReviewOrderListVO;
+
 import com.kh.zipggu.vo.OrderListVO;
 import com.kh.zipggu.vo.OrderSearchVO;
 import com.kh.zipggu.vo.ReviewListVO;
+
 
 public interface OrdersDao {
 	int sequence();
@@ -15,5 +19,5 @@ public interface OrdersDao {
 	void refresh(int OrderNo);
 	List<OrderListVO> listBySearchVO(OrderSearchVO orderSearchVO);
 	//리뷰 작성시 구매한 목록 출력
-	List<ReviewListVO> reviewList(int memberNo);
+	List<ReviewOrderListVO> orderList(int memberNo);
 }

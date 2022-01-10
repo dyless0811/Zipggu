@@ -57,6 +57,40 @@
 	.nick:hover img {
 	  	transform: scale(1.0);
 	}
+	 .star-ratingUpdate {
+      display: flex;
+      flex-direction: row-reverse;
+      font-size: 1.5rem;
+      line-height: 2.5rem;
+      justify-content: space-around;
+      padding: 0 0.2em;
+      text-align: center;
+      width: 5em;
+    }
+    
+    .star-ratingUpdate input {
+      display: none;
+    }
+    
+    .star-ratingUpdate label {
+      -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+      -webkit-text-stroke-width: 2.3px;
+      -webkit-text-stroke-color: #2b2a29;
+      cursor: pointer;
+    }
+    
+    .star-ratingUpdate :checked ~ label {
+      -webkit-text-fill-color: gold;
+    }
+    
+    .star-ratingUpdate label:hover,
+    .star-ratingUpdate label:hover ~ label {
+      -webkit-text-fill-color: #fff58c;
+    }
+    .review-img{
+    	width:380px;
+    	height:100%;
+    }
 </style>
 <script>
 	$(function(){
@@ -331,8 +365,8 @@
 				<div class="mt-3">
 					<label class="form-label left">구매 내역</label>
 					<select name="orderDetailNo" style="width: 90%;">
-						<c:forEach var="reviewList" items="${list }">
-						<option value="${reviewList.orderDetailNo }">${reviewList.orderName }</option>
+						<c:forEach var="orderList" items="${list }">
+						<option value="${orderList.orderDetailNo }">${orderList.orderName }</option>
 	                	
 						</c:forEach>
 					</select>
@@ -348,7 +382,7 @@
                   <label for="3-stars" class="star">★</label>
                   <input type="radio" id="2-stars" name="reviewPoint" value="2" v-model="ratings"/>
                   <label for="2-stars" class="star">★</label>
-                  <input type="radio" id="1-star" name="reviewPoint" value="1" v-model="ratings" />
+                  <input type="radio" id="1-stars" name="reviewPoint" value="1" v-model="ratings" />
                   <label for="1-star" class="star">★</label>
                 </div>
                 
@@ -378,12 +412,14 @@
 
       <div class="m-5"></div>
 
-      <div class="row">
+<c:forEach var="reviewListVO" items="${reviewListVO }">
+	<hr>
+      <div class="row mt-3">
 
         <!--작성 회원 프로필사진 및 닉네임-->
         <div class="nick col-auto me-auto">
-            <img src="http://placeimg.com/500/500/people" class="member-img d-block w-100">
-            <span>닉네임</span>
+            <img src="${root }/member/profile?memberNo=${reviewListVO.memberNo}" class="member-img d-block w-100">
+            <span>${reviewListVO.memberNickname }</span>
         </div>
 
         <!--별점 리뷰-->
@@ -397,7 +433,7 @@
               <label for="3-stars" class="star">★</label>
               <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
               <label for="2-stars" class="star">★</label>
-              <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+              <input type="radio" id="1-stars" name="rating" value="1" v-model="ratings" />
               <label for="1-star" class="star">★</label>
             </div>
           </div>
@@ -405,22 +441,94 @@
 
       <!--리뷰 사진-->
       <div class="center mt-3">
-        <img src="http://placeimg.com/500/500/people" class="review-img">
+        <img src="${pageContext.request.contextPath}/review/file?reviewNo=${reviewListVO.reviewNo}" class="review-img">
       </div>
 
       <!--리뷰 내용-->
       <div class="row mt-3">
         <!--나중에는 db에서 값을 불러오기때문에 pre로 변경-->
         <p>
-          선물로 사줬는데 바퀴도 잘 굴러가고 유용하게 쓰인다고 합니다. 
-          그런데 트렁크에 너무 딱 맞아서, 넣고 문이 안 닫힌다고 하더라고요 
-          차마다 다르겠지만 구매 전에 사이즈 확인하세요! ㅎㅎ
+          ${reviewListVO.reviewDetail }
         </p>
+       </div>
+        <div class="col-auto">
+    
+        	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatemodal">수정</button>
+        	<button type="button" class="btn btn-primary"><a href="${root }/review/delete?reviewNo=${reviewListVO.reviewNo}&itemNo=${reviewListVO.itemNo}">삭제</a></button>
+        
+        </div>
+        
+            <!-- 수정 Modal -->
+        <div class="modal fade" id="updatemodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="0" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+
+                <!--모달 제목-->
+                <h5 class="modal-title" id="exampleModalCenteredScrollableTitle">리뷰 작성</h5>
+				
+
+              <!--모달 텍스트 적는 공간-->
+                <!--모달 닫기 버튼-->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              
+              <!-- review form 시작 -->
+              <form action="${root }/review/edit" method="post" enctype="multipart/form-data">
+				<div class="mt-3" style="text-align:center">
+					<label class="form-label center">구매 내역 : </label>
+					
+					
+
+						<input type="hidden" name="orderDetailNo" value="${reviewListVO.orderDetailNo }">
+						<input type="hidden" name="reviewNo" value="${reviewListVO.reviewNo }">
+						${reviewListVO.orderName }
+	 
+			
+				</div>
+              	<input type="hidden" name="itemNo" value="${itemDto.itemNo }"> 
+                <!--리뷰 작성시 보낼 별점-->
+                <div class="star-ratingUpdate space-x-4 mx-auto mt-3">
+                  <input type="radio" id="5-starss" name="reviewPoint" value="5" v-model="ratings"/>
+                  <label for="5-starss" class="star pr-4">★</label>
+                  <input type="radio" id="4-starss" name="reviewPoint" value="4" v-model="ratings"/>
+                  <label for="4-starss" class="star">★</label>
+                  <input type="radio" id="3-starss" name="reviewPoint" value="3" v-model="ratings"/>
+                  <label for="3-starss" class="star">★</label>
+                  <input type="radio" id="2-starss" name="reviewPoint" value="2" v-model="ratings"/>
+                  <label for="2-starss" class="star">★</label>
+                  <input type="radio" id="1-starss" name="reviewPoint" value="1" v-model="ratings" />
+                  <label for="1-starss" class="star">★</label>
+                </div>
+                
+                <!--리뷰 내용-->
+                <div class="input-group ms-3 mt-5"  style="width: 90%;">
+                  <span class="input-group-text">리뷰 내용</span>
+                  <textarea class="form-control" name="reviewDetail" aria-label="With textarea">${reviewListVO.reviewDetail }</textarea>
+                </div>
+
+                <!--리뷰 첨부파일-->
+                <div class="mb-3 ms-3 mt-3">
+                  <label for="formFile" class="form-label left">첨부파일</label>
+                  <input class="form-control" name="attach" type="file" id="formFile" style="width: 90%;">
+                </div>
+
+
+                <!--버튼-->
+                <div class="modal-footer">
+                  <input type="submit" value="등록" class="btn btn-primary">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+</c:forEach>
       </div>
-
-    </div><!-- /.container -->
-
-
+    <!-- /.container -->
+    
+    
+  
 
 
 <template id="option-template">

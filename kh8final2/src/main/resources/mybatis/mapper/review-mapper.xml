@@ -30,4 +30,26 @@
 		select review_seq.nextval from dual 
 		
 	</select>	
+	
+	<!-- 해당 번호의 아이템에 리뷰 목록 출력 -->
+	<select id="reviewList" parameterType="int" resultType="reviewListVO">
+		select
+		    R.review_no, R.review_detail, R.order_detail_no, R.review_point,
+		    M.member_nickname, M.member_no,
+		    D.item_no, D.order_quantity,
+		    O.order_name
+		from review R
+		    inner join order_detail D  on R.order_detail_no = D.order_detail_no
+		    inner join orders O on D.order_no = O.order_no
+		    inner join member M on O.member_no = M.member_no
+		where R.item_no = #{itemNo}
+	</select>
+	
+	<update id="edit" parameterType="reviewInsertVO">
+		update review set review_detail = #{reviewDetail}, review_point = #{reviewPoint} where review_no = #{reviewNo}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete review where review_no = #{reviewNo}
+	</delete>
 </mapper> 

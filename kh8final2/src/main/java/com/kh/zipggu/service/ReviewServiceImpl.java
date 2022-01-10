@@ -2,16 +2,19 @@ package com.kh.zipggu.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.zipggu.entity.MemberProfileDto;
 import com.kh.zipggu.entity.ReviewDto;
 import com.kh.zipggu.entity.ReviewFileDto;
 import com.kh.zipggu.repository.ReviewDao;
 import com.kh.zipggu.repository.ReviewFileDao;
 import com.kh.zipggu.vo.ReviewInsertVO;
+import com.kh.zipggu.vo.ReviewListVO;
 
 @Service
 public class ReviewServiceImpl implements ReviewService{
@@ -56,5 +59,70 @@ public class ReviewServiceImpl implements ReviewService{
 		}
 
 		
+	}
+	
+	//리뷰 수정 기능
+	public void edit(ReviewInsertVO reviewInsertVO) throws IllegalStateException, IOException {
+		//검사값 false를 변수에 담고
+		boolean check = false;
+		//파일이 있는지 없는 체크
+		
+		MultipartFile multipartFile = reviewInsertVO.getAttach();
+			//만약 파일이 비어있지 않다면
+			if(!multipartFile.isEmpty()) {
+				check = true;
+		}
+		
+		//파일이 있다면 기존 파일을 삭제하고 새로운 파일을 추가
+		if(check) {
+			//해당 번호에 파일 업로드 되어 있는지 확인한다
+			
+			ReviewFileDto reviewFileDto = reviewFileDao.get(reviewInsertVO.getReviewNo());
+			
+			if(reviewFileDto != null) {
+				//파일이 있다면 삭제
+					File target = new File(directory, String.valueOf(reviewFileDto.getReviewFileSavename()));
+					target.delete();
+					//db에서도 파일 삭제
+					reviewFileDao.delete(reviewFileDto.getReviewNo());
+				}
+			}
+
+				if(!multipartFile.isEmpty()) {
+					
+					//등록페이지에서 넘어오는 정보만 snsFileDto 객체에 정보 담아Dao로 보내기
+					//(여기서는 정보만 담아 보낸다)
+					ReviewFileDto reviewFileDto = new ReviewFileDto();
+					reviewFileDto.setReviewNo(reviewInsertVO.getReviewNo());
+					reviewFileDto.setReviewFileUploadname(multipartFile.getOriginalFilename());
+					reviewFileDto.setReviewFileType(multipartFile.getContentType());
+					reviewFileDto.setReviewFileSize(multipartFile.getSize());
+					reviewFileDao.save(reviewFileDto, multipartFile);
+				}
+				reviewDao.edit(reviewInsertVO);
+		}
+	
+	//리뷰 삭제 기능
+	@Override
+	public void delete(int reviewNo) {
+		
+		ReviewFileDto reviewFileDto = reviewFileDao.get(reviewNo);
+		
+		if(reviewFileDto != null) {
+			
+			File target = new File(directory, String.valueOf(reviewFileDto.getReviewFileSavename()));
+			target.delete();
+			
+			reviewFileDao.delete(reviewNo);
+		}
+		
+		reviewDao.delete(reviewNo);
+	}
+	
+	//리뷰 목록 출력
+	@Override
+	public List<ReviewListVO> reviewList(int itemNo) {
+		
+		return reviewDao.reviewList(itemNo);
 	}
 }

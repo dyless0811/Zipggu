@@ -29,4 +29,14 @@
 		select review_file_seq.nextval from dual 
 		
 	</select>	
+	
+	<!-- 단일조회 기능 -->
+	<select id="get" parameterType="int" resultType="reviewFileDto">
+		select * from review_file where review_no = #{reviewNo}
+	</select>
+	
+	<!-- 삭제 기능 -->
+	<delete id="delete" parameterType="int">
+		delete review_file where review_no = #{reviewNo}
+	</delete>
 </mapper> 
