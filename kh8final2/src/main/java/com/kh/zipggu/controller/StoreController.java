@@ -32,7 +32,8 @@ public class StoreController {
 	@RequestMapping("")
 	public String main() {
 		return "store/main";
-
+	}
+	
 	@RequestMapping({"/list/{categoryNo}", "/list", ""})
 	public String list(@PathVariable(required = false) Integer categoryNo) {
 		return "store/list";
