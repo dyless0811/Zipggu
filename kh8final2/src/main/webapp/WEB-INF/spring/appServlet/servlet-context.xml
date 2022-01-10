@@ -89,6 +89,15 @@
 	 </mvc:interceptors>
 	 -->
 	
+		<mvc:interceptors>
+	 	<mvc:interceptor>
+	 		<mvc:mapping path="/member/join"/>
+	 		<mvc:mapping path="/member/login"/>
+	 		<bean class="com.kh.zipggu.interceptor.LoginInterceptor"></bean>
+	 	</mvc:interceptor>
+	 </mvc:interceptors>
+	
+	
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<bean id="naverLoginBO" class="com.kh.zipggu.naver.NaverLoginBO" />	
 	

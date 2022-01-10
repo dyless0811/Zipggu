@@ -54,9 +54,6 @@
 		});
 	});
 	
-	
-	
-	
 </script>
 
 
@@ -104,6 +101,35 @@ a:visited {
 	border-color: #dbdbdb;
 	color: #757575;
 }
+
+.profile2FollowBtn {
+	margin: 0px 0px 7px;
+	display: block;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 19px;
+	color: rgb(130, 140, 148);
+	user-select: none;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: 1px solid transparent;
+	background: none;
+	font-weight: 700;
+	text-decoration: none;
+	text-align: center;
+	transition: color .1s, background-color .1s, border-color .1s;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 140px;
+	padding: 9px 10px;
+	font-size: 15px;
+	border-color: #09addb;
+	background-color: #09addb;
+	color: #fff;
+}
+
 
 .profileFollowBtn {
 	margin: 0px 0px 7px;
@@ -317,6 +343,19 @@ $(function(){
 								</a>		
 								</dl>
 								
+								
+								
+								
+					<c:choose>
+						<c:when test="${loginEmail == null}">
+								<c:if test="${memberDto.memberNo != loginNo}">
+									<div style="display: inline-block">
+										<button type="button" class="profile2FollowBtn" onClick="location.href='${pageContext.request.contextPath}/member/login'">팔로우</button>
+									</div>
+								</c:if>
+						</c:when>	
+															
+						<c:otherwise>
 							<c:if test="${memberDto.memberNo != loginNo}">
 									<div style="display: inline-block">
 										<c:choose>
@@ -350,6 +389,12 @@ $(function(){
 										</c:choose>
 									</div>
 								</c:if>
+
+						</c:otherwise>
+					</c:choose>
+
+
+
 
 
 

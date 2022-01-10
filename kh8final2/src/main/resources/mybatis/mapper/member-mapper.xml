@@ -53,6 +53,16 @@
 	<!-- 등록 -->
 	<insert id="insert" parameterType="MemberDto">
 		insert into member(
+			member_no, member_email, member_pw, member_nickname
+		)
+		values(
+			#{memberNo}, #{memberEmail}, #{memberPw}, #{memberNickname}
+		)
+	</insert>
+
+	<!-- 등록 -->
+	<insert id="insert2" parameterType="MemberDto">
+		insert into member(
 			member_no, member_email, member_pw, member_nickname, member_type
 		)
 		values(

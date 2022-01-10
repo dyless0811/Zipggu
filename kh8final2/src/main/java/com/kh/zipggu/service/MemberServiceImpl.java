@@ -141,14 +141,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int emailConfirm(String memberEmail) {
-	        int emailCnt = memberDao.emailConfirm(memberEmail);
-	        return emailCnt;
+	        return memberDao.emailConfirm(memberEmail);
 	}	
 
 	@Override
 	public int nickConfirm(String memberNickname) {
-	        int nickCnt = memberDao.nickConfirm(memberNickname);
-	        return nickCnt;
+	        return memberDao.nickConfirm(memberNickname);
 	}		
 	
 

@@ -67,6 +67,8 @@ function fn_submit(){
 
 <script>
 
+var checkNick = false;
+
 function emailCheck() {
 
 	var input = document.querySelector("input[name=memberEmail]");
@@ -96,6 +98,30 @@ function nicknameCheck() {
 	}
 }
 
+function nickConfirm(){
+    var memberNickname = $("#nick").val();     
+    
+    $.ajax({
+        url:"${pageContext.request.contextPath}/member/nickConfirm", 
+        type:"post", 
+        data:{memberNickname:memberNickname},
+		dataType : "text",
+        success:function(nickConfirm){
+            if(nickConfirm == 0){
+            	console.log("nickConfirm",nickConfirm);
+				$("#nickConfirm").text("");
+				checkNick = true;
+				
+            } else {
+                $("#nickConfirm").text("사용 중인 별명입니다.");
+                checkNick = false;
+            }
+        },
+		error:function(e){
+			console.log("실패", e);
+		}
+    });
+};   
 
 function formCheck() {
 	if(emailCheck() && nicknameCheck()){
@@ -105,9 +131,8 @@ function formCheck() {
 		
 	}else{
 		alert('회원 정보가 올바르지 않습니다.');
-		return
+		return false;
 	}
-	return emailCheck() && nicknameCheck();
 }	
 </script>
 
@@ -297,7 +322,7 @@ margin-bottom: 0px;
 
 	<div class="infoHeader">
 		<div class="infoHeaderTitle">회원정보수정</div>
-		<a href="#" class="infoHeaderWithdrawals">탈퇴하기</a>
+		<a href="${pageContext.request.contextPath}/member/withdrawal" class="infoHeaderWithdrawals">탈퇴하기</a>
 	</div>	
 		
 	<div>	
