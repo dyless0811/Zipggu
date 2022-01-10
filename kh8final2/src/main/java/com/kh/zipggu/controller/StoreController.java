@@ -1,11 +1,19 @@
 package com.kh.zipggu.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.kh.zipggu.repository.OrdersDao;
+import com.kh.zipggu.service.ReviewService;
 import com.kh.zipggu.service.StoreService;
+import com.kh.zipggu.vo.ReviewListVO;
 
 @Controller
 @RequestMapping("/store")
@@ -14,6 +22,11 @@ public class StoreController {
 	@Autowired
 	private StoreService storeService;
 	
+	@Autowired
+	private OrdersDao ordersDao;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	@RequestMapping("")
 	public String main() {
@@ -21,11 +34,17 @@ public class StoreController {
 	}
 	
 	@RequestMapping("/detail/{itemNo}")
-	public String detail(@PathVariable("itemNo") int itemNo, Model model) {
-	
+	public String detail(@PathVariable("itemNo") int itemNo, Model model, HttpSession session) {
+		
+		int memberNo = (int)session.getAttribute("loginNo");
+		
+		//리뷰 작성시 구매한 목록 출력
+		List<ReviewListVO>list = ordersDao.reviewList(memberNo); 
+		
 		model.addAttribute("itemDto", storeService.getItemDto(itemNo));
 		model.addAttribute("itemOptionGroupMap", storeService.getOptionGroupMap(itemNo));
 		model.addAttribute("itemFileDtoList", storeService.nonThumbnailListByItemNo(itemNo));
+		model.addAttribute("list", list);
 		return "store/detail";
 	}
 }

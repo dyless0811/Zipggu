@@ -30,6 +30,9 @@ public interface SnsService {
 
 	//팔로우 한사람들 글 목록
 	List<SnsListVO> followerList(Map<String, Object> param);
+	
+	//SNS 전체 목록 기능 (내가 좋아요한 게시글 목록)
+	List<SnsListVO> myLikeList(Map<String, Object> param);
 
 	
 }

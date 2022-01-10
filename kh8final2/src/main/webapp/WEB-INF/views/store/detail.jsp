@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath }"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
     .card{
@@ -315,41 +316,51 @@
 
                 <!--모달 제목-->
                 <h5 class="modal-title" id="exampleModalCenteredScrollableTitle">리뷰 작성</h5>
+				
 
-                
-
+              <!--모달 텍스트 적는 공간-->
                 <!--모달 닫기 버튼-->
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-
-              <!--모달 텍스트 적는 공간-->
-              <form>
-
+              
+              <!-- review form 시작 -->
+              <form action="${root }/review/insert" method="post" enctype="multipart/form-data">
+				<div class="mt-3">
+					<label class="form-label left">구매 내역</label>
+					<select name="orderDetailNo" style="width: 90%;">
+						<c:forEach var="reviewList" items="${list }">
+						<option value="${reviewList.orderDetailNo }">${reviewList.orderName }</option>
+	                	
+						</c:forEach>
+					</select>
+				</div>
+              	<input type="hidden" name="itemNo" value="${itemDto.itemNo }"> 
                 <!--리뷰 작성시 보낼 별점-->
                 <div class="star-rating space-x-4 mx-auto mt-3">
-                  <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+                  <input type="radio" id="5-stars" name="reviewPoint" value="5" v-model="ratings"/>
                   <label for="5-stars" class="star pr-4">★</label>
-                  <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+                  <input type="radio" id="4-stars" name="reviewPoint" value="4" v-model="ratings"/>
                   <label for="4-stars" class="star">★</label>
-                  <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+                  <input type="radio" id="3-stars" name="reviewPoint" value="3" v-model="ratings"/>
                   <label for="3-stars" class="star">★</label>
-                  <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+                  <input type="radio" id="2-stars" name="reviewPoint" value="2" v-model="ratings"/>
                   <label for="2-stars" class="star">★</label>
-                  <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+                  <input type="radio" id="1-star" name="reviewPoint" value="1" v-model="ratings" />
                   <label for="1-star" class="star">★</label>
                 </div>
                 
                 <!--리뷰 내용-->
                 <div class="input-group ms-3 mt-5"  style="width: 90%;">
                   <span class="input-group-text">리뷰내용</span>
-                  <textarea class="form-control" aria-label="With textarea"></textarea>
+                  <textarea class="form-control" name="reviewDetail" aria-label="With textarea"></textarea>
                 </div>
 
                 <!--리뷰 첨부파일-->
                 <div class="mb-3 ms-3 mt-3">
                   <label for="formFile" class="form-label left">첨부파일</label>
-                  <input class="form-control" type="file" id="formFile" style="width: 90%;">
+                  <input class="form-control" name="attach" type="file" id="formFile" style="width: 90%;">
                 </div>
+
 
                 <!--버튼-->
                 <div class="modal-footer">
