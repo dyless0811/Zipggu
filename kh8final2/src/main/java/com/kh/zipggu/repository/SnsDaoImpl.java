@@ -114,4 +114,10 @@ public class SnsDaoImpl implements SnsDao{
 		
 		return sqlSession.selectList("sns.myList", param);
 	}
+	
+	@Override
+	public List<SnsListVO> myLikeList(Map<String, Object> param) {
+		
+		return sqlSession.selectList("sns.myLikeList", param);
+	}
 }

@@ -43,6 +43,7 @@
 		where no = #{no}
 	</update>
 	
+<<<<<<< HEAD
 	<select id="listBySearchVO" parameterType="ItemSearchVO" resultType="OrderListVO">
 			select * from (
 		    select rownum rn, TMP.* from (
@@ -81,5 +82,15 @@
 			
 					    )TMP
 		) where rn between ${startRow} and ${endRow}
+=======
+	<!-- 리뷰 작성시 구매한 목록 출력 -->
+	<select id="reviewList" parameterType="int" resultType="ReviewListVO">
+		select 
+		    O.order_no, O.member_no, O.order_name, D.order_detail_no, D.item_no, D.order_quantity, M.member_nickname
+		from orders O
+		    inner join order_detail D on O.order_no = D.order_no
+		    inner join member M on O.member_no = M.member_no
+		    where O.member_no = #{memberNo}
+>>>>>>> refs/remotes/origin/main
 	</select>
 </mapper> 

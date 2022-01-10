@@ -495,6 +495,7 @@ public class MemberController {
 		return "member/page";
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping("orders")
 	public String orders(Model model, HttpSession session) {
 		if(session.getAttribute("loginNo") == null) {
@@ -504,6 +505,29 @@ public class MemberController {
 		
 		return "member/orders";
 	}
+=======
+    // 이메일 중복 검사
+    @PostMapping("/emailConfirm")
+    @ResponseBody
+    public int emailConfirm(@RequestParam String memberEmail){
+
+        int emailConfirm = memberService.emailConfirm(memberEmail);
+        
+        return emailConfirm;
+    }
+
+    // 닉네임 중복 검사
+    @PostMapping("/nickConfirm")
+    @ResponseBody
+    public int nickConfirm(@RequestParam String memberNickname){
+
+        int nickConfirm = memberService.nickConfirm(memberNickname);
+        
+        return nickConfirm;
+    }
+	
+
+>>>>>>> refs/remotes/origin/main
 	
 	@Autowired
 	private OrderService orderService;

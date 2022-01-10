@@ -35,20 +35,62 @@ function nicknameCheck() {
 	}
 }
 
+function nickConfirm(){
+    var memberNickname = $("#nick").val();
+    $.ajax({
+        url:"${pageContext.request.contextPath}/member/nickConfirm", 
+        type:"post", 
+        data:{memberNickname:memberNickname},
+		dataType : "text",
+        success:function(nickConfirm){
+            if(nickConfirm != 1){
+
+				$("#nickConfirm").text("");
+				return true;
+            } else {
+                $("#nickConfirm").text("사용 중인 별명입니다.");
+                return false;
+            }
+        },
+		error:function(e){
+			console.log("실패", e);
+		}
+    });
+};   
 
 function formCheck() {
-	if(emailCheck() && nicknameCheck()){
+	if(emailCheck() && nicknameCheck() && nickConfirm()){
 		
 		alert('회원 가입이 완료되었습니다');
 		$('form').submit();
 		
 	}else{
-		alert('회원 정보가 올바르지 않습니다.');
 		return
 	}
-	return emailCheck() && nicknameCheck();
+	return emailCheck() && nicknameCheck() && nickConfirm();
 }	
+
 </script>
+
+<script>
+
+	$(document).ready(function() {
+		$("#selectall").click(function() {
+			if($("#selectall").is(":checked")) $("input[name=selectItem]").prop("checked", true);
+			else $("input[name=selectItem]").prop("checked", false);
+		});
+
+		$("input[name=selectItem]").click(function() {
+			var total = $("input[name=selectItem]").length;
+			var checked = $("input[name=selectItem]:checked").length;
+
+			if(total != checked) $("#selectall").prop("checked", false);
+			else $("#selectall").prop("checked", true); 
+		});
+	});	
+	
+</script>
+
 
 <style>
 .title-h1{
@@ -283,40 +325,41 @@ input[type="checkbox"]{
 	<div class="sns-sign-up -input">
 		<input type="text" name="memberNickname" value="${memberListVO.memberNickname}" placeholder="닉네임을 입력해주세요" autocomplete="off"  required class="inputItem" onblur="nicknameCheck();">
 		<div class="notice"></div>
+		<div id="nickConfirm" style="font-size: 12px; color: red;"></div>
 	</div>
 	</div>
 
 	<div class="user-sign-up-form__form-group">
 		<div class="div-check">
 		
-		<div class="div-check-one div-ob">
-		<input type="checkbox" name="" class="check-button" >
-		<label class="check-all">전체동의</label>
-		</div>
-	
-		<div class="div-check-two div-ob">	
-		<input type="checkbox" name="" class="check-button" >
-		<span class="check-text">만 14세 이상입니다.</span>
-		<span class="check-text-ob">(필수)</span>
-		</div>
-		
-		<div class="div-check-two div-ob">	
-		<input type="checkbox" name="" class="check-button" >
-		<a href="usepolicy" target=”_blank” style="text-decoration : underline"><span class="check-text">이용약관</span></a>
-		<span class="check-text-ob">(필수)</span>
-		</div>
-		
-		<div class="div-check-two div-ob">	
-		<input type="checkbox" name="" class="check-button" >
-		<a href="privacy" target=”_blank” style="text-decoration : underline"><span class="check-text">개인정보수집 및 이용동의</span></a>
-		<span class="check-text-ob">(필수)</span>
-		</div>
-		
-		<div class="check-select div-ob">	
-		<input type="checkbox" name="" class="check-button" >
-		<span class="check-text">이벤트, 프로모션 알림 메일 및 SMS 수신</span>
-		<span class="check-text-ob2">(선택)</span>
-		</div>
+							<div class="div-check-one div-ob">
+								<input type="checkbox"  name="selectall" class="check-button check-size " id="selectall">
+								<label class="check-all">전체동의</label>
+							</div>
+
+							<div class="div-check-two div-ob">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall" required>
+								<span class="check-text">만 14세 이상입니다.</span> <span
+									class="check-text-ob">(필수)</span>
+							</div>
+
+							<div class="div-check-two div-ob">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall"required>
+								<a href="usepolicy" target=”_blank” style="text-decoration : underline"><span class="check-text">이용약관</span></a>
+								<span class="check-text-ob">(필수)</span>
+							</div>
+
+							<div class="div-check-two div-ob">
+								<input type="checkbox" name="selectItem" class="check-button check-size">
+								<a href="privacy" target=”_blank” style="text-decoration : underline"  required>
+								<span class="check-text">개인정보수집 및 이용동의</span></a> <span class="check-text-ob">(필수)</span>
+							</div>
+
+							<div class="div-check-two div-ob">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall">
+								<span class="check-text">이벤트, 프로모션 알림 메일 및 SMS 수신</span> <span
+									class="check-text-ob2">(선택)</span>
+							</div>
 		
 		</div>
 	</div>

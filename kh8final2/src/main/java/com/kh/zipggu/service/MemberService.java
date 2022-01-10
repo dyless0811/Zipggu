@@ -23,4 +23,7 @@ public interface MemberService {
 	
 	MemberPageVO memberPage(MemberPageVO memberPageVO) throws Exception;
 	
+	public int emailConfirm(String memberEmail);
+	
+	public int nickConfirm(String memberNickname);
 }

@@ -72,7 +72,7 @@
 
 
 
-
+<div class="container-zipggu">
   <div id="contact-us">
     <div class="container--my-page">
         <article id="customer-center" class="customer-center">
@@ -251,5 +251,6 @@
       </div>
     </li>
 </ul>
+</div>
 	
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

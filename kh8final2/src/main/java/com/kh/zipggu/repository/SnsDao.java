@@ -41,6 +41,9 @@ public interface SnsDao {
 	//내가쓴 게시물 목록
 	List<SnsDto> myList(Map<String, Object> param);
 
+	//SNS 전체 목록 기능 (내가 좋아요한 게시글 목록)
+	List<SnsListVO> myLikeList(Map<String, Object> param);
+
 	
 	
 }

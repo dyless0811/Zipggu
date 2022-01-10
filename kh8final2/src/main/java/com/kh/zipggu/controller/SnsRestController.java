@@ -119,4 +119,24 @@ public class SnsRestController {
 					
 			return snsDao.myList(param);
 		}
+		
+		//목록 페이지(내가 좋아요한 게시글 목록)
+		@GetMapping("/myLikeList")
+		public List<SnsListVO> snsList(@RequestParam(required = false, defaultValue = "1") int page,
+				@RequestParam(required = false, defaultValue = "18") int size,
+				@RequestParam int memberNo) {
+			
+			
+			int endRow = page * size;
+			int startRow = endRow - (size - 1);
+			
+			Map<String, Object> param = new HashMap<>();
+			param.put("endRow", endRow);
+			param.put("startRow", startRow);
+			param.put("memberNo", memberNo);
+			
+			log.debug("------------------------------111111111111111111111111111111111111111111111111111{}" + param);
+					
+			return snsService.myLikeList(param);
+		}
 }

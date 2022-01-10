@@ -62,6 +62,7 @@
 
 
 <style>
+
 a:link {
 	color: #424242;
 	text-decoration: none;
@@ -258,7 +259,7 @@ $(function(){
 </script>
 
 
-<div class="layout-container" >
+<div class="layout-container">
 
 	<div class="menu-container">
 	<c:if test="${memberDto.memberNo == loginNo}">

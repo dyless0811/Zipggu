@@ -430,7 +430,7 @@ function timeForToday(value) {
 					console.log("좋아요 성공", resp);
 					$(".like").css("color", "red");
 				
-					$(".me-auto").text("좋아요").css("color", "red");
+					$(".me-auto").text("좋아요").css("color", "blue");
 					$(".toast-body").text(snsNo + "게시글에 좋아요 하셨습니다.");
 				},
 				error:function(e){}
@@ -455,8 +455,8 @@ function timeForToday(value) {
 				console.log("좋아요 취소 성공", resp);
 				$(".like").css("color", "black");
 				
-				$(".me-auto").text("좋아요 취소");
-				$(".toast-body").text(snsNo + "게시글에 좋아요 취소 하셨습니다.");
+				$(".me-auto").text("좋아요").css("color", "blue");
+				$(".toast-body").text(snsNo + "번 게시글에 좋아요 취소 하셨습니다.");
 			},
 			error:function(e){}
 		});

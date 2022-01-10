@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%-- 페이지에서 사용할 JSTL 변수 --%>
-<c:set var="login" value="${ses != null}"></c:set>
+<c:set var="login" value="${loginNo != null}"></c:set>
 <c:set var="admin" value="${grade == '관리자'}"></c:set>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 
@@ -196,14 +196,22 @@
 
 		
 		function formCheck() {
-			return emailCheck() && pwCheck() && pw2Check() && nicknameCheck();
-		}	
+			if(emailCheck() && pwCheck() && pw2Check() && nicknameCheck() && emailConfirm() && nickConfirm()){
+				
+				alert('회원 가입이 완료되었습니다');
+				$('form').submit();
+				
+			}else{
+				return
+			}
+			returnemailCheck() && pwCheck() && pw2Check() && nicknameCheck() && emailConfirm() && nickConfirm();
+		}			
 				
 		function EmailCheck(){
 			if(checkCode){
 				$("form").submit();
 			}else{
-				alert('이메일 인증을 먼저 해주세요.');
+				alert('이메일 인증을 먼저 해주세요.');	
 				return
 			}
 		}
@@ -257,6 +265,75 @@
 	
 </script>
 
+<script>
+
+    function emailConfirm(){
+        var memberEmail = $("#email").val();
+        $.ajax({
+            url:"${pageContext.request.contextPath}/member/emailConfirm", 
+            type:"post", 
+            data:{memberEmail:memberEmail},
+			dataType : "text",
+            success:function(emailConfirm){
+                if(emailConfirm != 1){
+					$("#emailChk").attr("disabled", false);
+					$("#emailConfirm").text("");
+					return true;
+                } else {
+                    $("#emailConfirm").text("이미 가입한 이메일입니다.");
+					$("#emailChk").attr("disabled", true);
+					return false;
+                }
+            },
+			error:function(e){
+				console.log("실패", e);
+			}
+        });
+    };
+    
+    function nickConfirm(){
+        var memberNickname = $("#nick").val();
+        $.ajax({
+            url:"${pageContext.request.contextPath}/member/nickConfirm", 
+            type:"post", 
+            data:{memberNickname:memberNickname},
+			dataType : "text",
+            success:function(nickConfirm){
+                if(nickConfirm != 1){
+
+					$("#nickConfirm").text("");
+					return true;
+                } else {
+                    $("#nickConfirm").text("사용 중인 별명입니다.");
+                    return false;
+                }
+            },
+			error:function(e){
+				console.log("실패", e);
+			}
+        });
+    };   
+     
+</script>
+
+<script>
+
+	$(document).ready(function() {
+		$("#selectall").click(function() {
+			if($("#selectall").is(":checked")) $("input[name=selectItem]").prop("checked", true);
+			else $("input[name=selectItem]").prop("checked", false);
+		});
+
+		$("input[name=selectItem]").click(function() {
+			var total = $("input[name=selectItem]").length;
+			var checked = $("input[name=selectItem]:checked").length;
+
+			if(total != checked) $("#selectall").prop("checked", false);
+			else $("#selectall").prop("checked", true); 
+		});
+	});	
+	
+</script>
 
 <style>
 .inputItemC {
@@ -453,8 +530,9 @@ body {
 					<div class="row">
 						<label class="title-type">이메일</label> <input type="email"
 							name="memberEmail" placeholder="이메일" autocomplete="off"
-							class="inputItemJ" id="email" required onblur="emailCheck();">
+							class="inputItemJ" id="email" oninput = "emailConfirm()" required onblur="emailCheck();" >
 						<div class="notice"></div>
+						<div id="emailConfirm" style="font-size: 12px; color: red;"></div>
 					</div>
 					
 					<div class="div-button">
@@ -511,8 +589,9 @@ body {
 							<div class="title-text">다른 유저와 겹치지 않는 별명을 입력해주세요. (2~10자)</div>
 							<input type="text" name="memberNickname" placeholder="별명 (2~10자)"
 								autocomplete="off" maxlength='10' class="inputItemJ" required
-								onkeyup="nicknameCheck();">
+								onkeyup="nicknameCheck();" id="nick" oninput = "nickConfirm()" >
 							<div class="notice"></div>
+							<div id="nickConfirm" style="font-size: 12px; color: red;"></div>
 						</div>
 
 					</div>
@@ -533,30 +612,30 @@ body {
 						<div class="div-check">
 
 							<div class="div-check-one div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
+								<input type="checkbox"  name="selectall" class="check-button check-size " id="selectall">
 								<label class="check-all">전체동의</label>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall" required>
 								<span class="check-text">만 14세 이상입니다.</span> <span
 									class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall"required>
 								<a href="usepolicy" target=”_blank” style="text-decoration : underline"><span class="check-text">이용약관</span></a>
 								<span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
-								<a href="privacy" target=”_blank” style="text-decoration : underline"><span class="check-text">개인정보수집
-										및 이용동의</span></a> <span class="check-text-ob">(필수)</span>
+								<input type="checkbox" name="selectItem" class="check-button check-size">
+								<a href="privacy" target=”_blank” style="text-decoration : underline"  required>
+								<span class="check-text">개인정보수집 및 이용동의</span></a> <span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall">
 								<span class="check-text">이벤트, 프로모션 알림 메일 및 SMS 수신</span> <span
 									class="check-text-ob2">(선택)</span>
 							</div>
