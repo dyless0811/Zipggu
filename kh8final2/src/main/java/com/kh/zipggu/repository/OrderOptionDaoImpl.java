@@ -14,7 +14,7 @@ public class OrderOptionDaoImpl implements OrderOptionDao {
 	
 	@Override
 	public void insert(OrderOptionDto orderOptionDto) {
-		sqlSession.insert("orderOption.insert");
+		sqlSession.insert("orderOption.insert", orderOptionDto);
 	}
 
 }
