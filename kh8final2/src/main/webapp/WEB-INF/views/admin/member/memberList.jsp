@@ -145,18 +145,28 @@
 						<option value="member_no" selected>회원번호</option>
 						<option value="member_email">이메일</option>
 						<option value="member_nickname">닉네임</option>
+						<option value="member_type">구분</option>
 					</c:when>
 					
 					<c:when test="${MemberPageVO.columnIs('member_email')}">
 						<option value="member_no">회원번호</option>
 						<option value="member_email" selected>이메일</option>
 						<option value="member_nickname">닉네임</option>
+						<option value="member_type">구분</option>
 					</c:when>
+	
+					<c:when test="${MemberPageVO.columnIs('member_type')}">
+						<option value="member_no">회원번호</option>
+						<option value="member_email" >이메일</option>
+						<option value="member_nickname">닉네임</option>
+						<option value="member_type" selected>구분</option>
+					</c:when>	
 					
 					<c:otherwise>
 						<option value="member_no">회원번호</option>
 						<option value="member_email">이메일</option>
 						<option value="member_nickname" selected>닉네임</option>
+						<option value="member_type">구분</option>
 					</c:otherwise>
 					</c:choose>
 				</select>

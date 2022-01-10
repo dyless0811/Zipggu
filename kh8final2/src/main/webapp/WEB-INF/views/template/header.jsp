@@ -151,11 +151,11 @@
                             </div>
                             <div class="profile-grade">
                               <div>등급</div>
-                              <div>회원등급</div>
+                              <div style="font-size: 9px">${loginGrade}</div>
                             </div>
                             <div class="profile-point">
                               <div>포인트</div>
-                              <div>회원포인트 원</div>
+                              <div>0P</div>
                             </div>
                           </div>
                           <div class="membership-tooltip-wrap">
