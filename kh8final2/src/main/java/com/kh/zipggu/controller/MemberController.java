@@ -3,6 +3,7 @@ package com.kh.zipggu.controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -39,9 +41,12 @@ import com.kh.zipggu.naver.NaverLoginBO;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
 import com.kh.zipggu.service.MemberService;
+import com.kh.zipggu.service.OrderService;
 import com.kh.zipggu.vo.FollowVO;
 import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberListVO;
+import com.kh.zipggu.vo.OrderListVO;
+import com.kh.zipggu.vo.OrderSearchVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -490,6 +495,15 @@ public class MemberController {
 		return "member/page";
 	}
 	
+	@RequestMapping("orders")
+	public String orders(Model model, HttpSession session) {
+		if(session.getAttribute("loginNo") == null) {
+			return "redirect:/member/login/";
+		}
+		model.addAttribute("memberDto", memberDao.noGet((int) session.getAttribute("loginNo")));
+		
+		return "member/orders";
+	}
     // 이메일 중복 검사
     @PostMapping("/emailConfirm")
     @ResponseBody
@@ -509,7 +523,22 @@ public class MemberController {
         
         return nickConfirm;
     }
-	
 
 	
+	@Autowired
+	private OrderService orderService;
+	
+	@PostMapping("/order/list")
+	@ResponseBody
+	public List<OrderListVO> adminOrderList(@ModelAttribute OrderSearchVO orderSearchVO,
+			@RequestParam(required = false, defaultValue = "1") int page,
+			@RequestParam(required = false, defaultValue = "10") int size) {
+		int endRow = page * size;
+		int startRow = endRow - (size - 1);
+		orderSearchVO.setStartRow(startRow);
+		orderSearchVO.setEndRow(endRow);
+		List<OrderListVO> a = orderService.listBySearchVO(orderSearchVO);
+		log.debug("=============================={}", a);
+		return a;
+	}
 }
