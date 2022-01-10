@@ -44,7 +44,7 @@
 	</update>
 	
 	<!-- 리뷰 작성시 구매한 목록 출력 -->
-	<select id="reviewList" parameterType="int" resultType="ReviewListVO">
+	<select id="orderList" parameterType="int" resultType="ReviewListVO">
 		select 
 		    O.order_no, O.member_no, O.order_name, D.order_detail_no, D.item_no, D.order_quantity, M.member_nickname
 		from orders O
@@ -52,4 +52,7 @@
 		    inner join member M on O.member_no = M.member_no
 		    where O.member_no = #{memberNo}
 	</select>
+	
+	
+	
 </mapper> 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.zipggu.entity.OrdersDto;
-import com.kh.zipggu.vo.ReviewListVO;
+import com.kh.zipggu.vo.OrderListVO;
 
 @Repository
 public class OrdersDaoImpl implements OrdersDao {
@@ -41,9 +41,9 @@ public class OrdersDaoImpl implements OrdersDao {
 	}
 	
 	@Override
-	public List<ReviewListVO> reviewList(int memberNo) {
+	public List<OrderListVO> orderList(int memberNo) {
 		
-		return sqlSession.selectList("orders.reviewList", memberNo);
+		return sqlSession.selectList("orders.orderList", memberNo);
 	}
 
 }

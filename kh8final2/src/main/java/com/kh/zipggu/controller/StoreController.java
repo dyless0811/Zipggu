@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.zipggu.repository.OrdersDao;
 import com.kh.zipggu.service.ReviewService;
 import com.kh.zipggu.service.StoreService;
+import com.kh.zipggu.vo.OrderListVO;
 import com.kh.zipggu.vo.ReviewListVO;
 
 @Controller
@@ -29,10 +30,7 @@ public class StoreController {
 	@Autowired
 	private ReviewService reviewService;
 	
-	@RequestMapping("")
-	public String main() {
-		return "store/main";
-	}
+	
 	
 	@RequestMapping({"/list/{categoryNo}", "/list", ""})
 	public String list(@PathVariable(required = false) Integer categoryNo) {
@@ -46,12 +44,16 @@ public class StoreController {
 		int memberNo = (int)session.getAttribute("loginNo");
 		
 		//리뷰 작성시 구매한 목록 출력
-		List<ReviewListVO>list = ordersDao.reviewList(memberNo); 
+		List<OrderListVO>list = ordersDao.orderList(memberNo); 
+		
+		//리뷰 출력 기능
+		List<ReviewListVO>reviewListVO = reviewService.reviewList(itemNo);
 		
 		model.addAttribute("itemDto", storeService.getItemDto(itemNo));
 		model.addAttribute("itemOptionGroupMap", storeService.getOptionGroupMap(itemNo));
 		model.addAttribute("itemFileDtoList", storeService.nonThumbnailListByItemNo(itemNo));
 		model.addAttribute("list", list);
+		model.addAttribute("reviewListVO", reviewListVO);
 		return "store/detail";
 	}
 }
