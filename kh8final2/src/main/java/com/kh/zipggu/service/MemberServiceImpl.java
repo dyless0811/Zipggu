@@ -137,8 +137,19 @@ public class MemberServiceImpl implements MemberService {
 		List<MemberDto> list = memberDao.search(memberPageVO.getColumn(), memberPageVO.getKeyword(),memberPageVO.getBegin(),memberPageVO.getEnd());
 		memberPageVO.setList(list);
 		return memberPageVO;
+	}
+
+	@Override
+	public int emailConfirm(String memberEmail) {
+	        int emailCnt = memberDao.emailConfirm(memberEmail);
+	        return emailCnt;
 	}	
 
-
+	@Override
+	public int nickConfirm(String memberNickname) {
+	        int nickCnt = memberDao.nickConfirm(memberNickname);
+	        return nickCnt;
+	}		
+	
 
 }

@@ -35,19 +35,45 @@ function nicknameCheck() {
 	}
 }
 
+function nickConfirm(){
+    var memberNickname = $("#nick").val();
+    $.ajax({
+        url:"${pageContext.request.contextPath}/member/nickConfirm", 
+        type:"post", 
+        data:{memberNickname:memberNickname},
+		dataType : "text",
+        success:function(nickConfirm){
+            if(nickConfirm != 1){
+
+				$("#nickConfirm").text("");
+				return true;
+            } else {
+                $("#nickConfirm").text("사용 중인 별명입니다.");
+                return false;
+            }
+        },
+		error:function(e){
+			console.log("실패", e);
+		}
+    });
+};   
 
 function formCheck() {
-	if(emailCheck() && nicknameCheck()){
+	if(emailCheck() && nicknameCheck() && nickConfirm()){
 		
 		alert('회원 가입이 완료되었습니다');
 		$('form').submit();
 		
 	}else{
-		alert('회원 정보가 올바르지 않습니다.');
 		return
 	}
-	return emailCheck() && nicknameCheck();
+	return emailCheck() && nicknameCheck() && nickConfirm();
 }	
+
+
+
+
+
 </script>
 
 <style>
@@ -283,6 +309,7 @@ input[type="checkbox"]{
 	<div class="sns-sign-up -input">
 		<input type="text" name="memberNickname" value="${memberListVO.memberNickname}" placeholder="닉네임을 입력해주세요" autocomplete="off"  required class="inputItem" onblur="nicknameCheck();">
 		<div class="notice"></div>
+		<div id="nickConfirm" style="font-size: 12px; color: red;"></div>
 	</div>
 	</div>
 
