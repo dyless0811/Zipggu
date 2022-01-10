@@ -20,5 +20,4 @@ public class ItemSearchVO {
 	private String sort;
 	private int startRow = 1;
 	private int endRow = 24;
-	
 }

@@ -43,6 +43,45 @@
 		where no = #{no}
 	</update>
 	
+	<select id="listBySearchVO" parameterType="ItemSearchVO" resultType="OrderListVO">
+			select * from (
+		    select rownum rn, TMP.* from (
+	
+			select o.order_no, o.tid, m.member_no, m.member_nickname, o.order_name, o.total_amount, o.order_date, o.order_status from orders o inner join member m on o.member_no = m.member_no
+			<where>
+				<if test="orderNo > 0">
+					and order_no = #{orderNo}
+				</if>
+				<if test="orderName != null">
+					and instr(order_name, #{orderName}) > 0
+				</if>
+				<if test="memberNo > 0">
+					and member_no = #{memberNo}
+				</if>
+				<if test="memberNickname != null">
+					and member_nickname = #{memberNickname}
+				</if>
+				<if test="orderStatus != null">
+					and instr(order_status, #{orderStatus}) > 0
+				</if>
+				<choose>
+					<when test="minDate != null and maxDate != null">
+						and order_date between #{minDate} and #{maxDate}+1
+					</when>
+					<when test="maxDate != null">
+						<![CDATA[			
+						and order_date <= #{maxDate}+1
+						]]>
+					</when>
+				</choose>
+			</where>
+			<if test="order != null and sort != null">
+				order by ${order} ${sort}
+			</if>
+			
+					    )TMP
+		) where rn between ${startRow} and ${endRow}
+	</select>
 	<!-- 리뷰 작성시 구매한 목록 출력 -->
 	<select id="orderList" parameterType="map" resultType="ReviewListVO">
 		select 
