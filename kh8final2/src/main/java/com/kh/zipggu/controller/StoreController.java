@@ -1,6 +1,8 @@
 package com.kh.zipggu.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -44,7 +46,10 @@ public class StoreController {
 		int memberNo = (int)session.getAttribute("loginNo");
 		
 		//리뷰 작성시 구매한 목록 출력
-		List<ReviewOrderListVO>list = ordersDao.orderList(memberNo); 
+		Map<String, Object>param = new HashMap<>();
+		param.put("itemNo", itemNo);
+		param.put("memberNo", memberNo);
+		List<ReviewOrderListVO>list = ordersDao.orderList(param); 
 		
 		//리뷰 출력 기능
 		List<ReviewListVO>reviewListVO = reviewService.reviewList(itemNo);
