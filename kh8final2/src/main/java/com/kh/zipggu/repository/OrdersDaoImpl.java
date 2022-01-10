@@ -1,6 +1,7 @@
 package com.kh.zipggu.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,9 @@ public class OrdersDaoImpl implements OrdersDao {
 	}
 	
 	@Override
-	public List<ReviewOrderListVO> orderList(int memberNo) {
+	public List<ReviewOrderListVO> orderList(Map<String, Object> param) {
 		
-		return sqlSession.selectList("orders.orderList", memberNo);
+		return sqlSession.selectList("orders.orderList", param);
 	}
 
 }

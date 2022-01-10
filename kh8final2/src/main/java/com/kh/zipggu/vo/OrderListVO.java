@@ -13,5 +13,6 @@ public class OrderListVO {
 	private String tid;
 	private int memberNo;
 	private String memberNickname;
+	private Date orderDate;
 	private String orderStatus;
 }

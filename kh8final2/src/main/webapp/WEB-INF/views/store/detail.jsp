@@ -308,7 +308,7 @@
                 <button type="button" data-buy-type="cart" class="cart-btn btn btn-primary position-absolute bottom-40 start-0 w-50 p-2">장바구니</button>
               </div>
               <div class="col-4">
-                <button type="button" data-buy-type="buy" class="cart-btn btn-secondary position-absolute bottom-40 end-0 w-50 p-2">구매하기</button>
+                <button type="button" data-buy-type="buy" class="cart-btn btn btn-secondary position-absolute bottom-40 end-0 w-50 p-2">구매하기</button>
               </div>
             </div>
           </div>
@@ -452,10 +452,12 @@
         </p>
        </div>
         <div class="col-auto">
-    
-        	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatemodal">수정</button>
-        	<button type="button" class="btn btn-primary"><a href="${root }/review/delete?reviewNo=${reviewListVO.reviewNo}&itemNo=${reviewListVO.itemNo}">삭제</a></button>
-        
+        	
+	 			<c:if test="${loginNo == reviewListVO.memberNo }">
+	        		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatemodal">수정</button>
+	        		<button type="button" class="btn btn-secondary"><a href="${root }/review/delete?reviewNo=${reviewListVO.reviewNo}&itemNo=${reviewListVO.itemNo}">삭제</a></button>
+	        	</c:if>
+       
         </div>
         
             <!-- 수정 Modal -->
