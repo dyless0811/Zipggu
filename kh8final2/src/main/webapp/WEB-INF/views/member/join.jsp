@@ -313,11 +313,27 @@
 			}
         });
     };   
-    
-    
+     
 </script>
 
+<script>
 
+	$(document).ready(function() {
+		$("#selectall").click(function() {
+			if($("#selectall").is(":checked")) $("input[name=selectItem]").prop("checked", true);
+			else $("input[name=selectItem]").prop("checked", false);
+		});
+
+		$("input[name=selectItem]").click(function() {
+			var total = $("input[name=selectItem]").length;
+			var checked = $("input[name=selectItem]:checked").length;
+
+			if(total != checked) $("#selectall").prop("checked", false);
+			else $("#selectall").prop("checked", true); 
+		});
+	});	
+	
+</script>
 
 <style>
 .inputItemC {
@@ -596,30 +612,30 @@ body {
 						<div class="div-check">
 
 							<div class="div-check-one div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
+								<input type="checkbox"  name="selectall" class="check-button check-size " id="selectall">
 								<label class="check-all">전체동의</label>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall" required>
 								<span class="check-text">만 14세 이상입니다.</span> <span
 									class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall"required>
 								<a href="usepolicy" target=”_blank” style="text-decoration : underline"><span class="check-text">이용약관</span></a>
 								<span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
-								<a href="privacy" target=”_blank” style="text-decoration : underline"><span class="check-text">개인정보수집
-										및 이용동의</span></a> <span class="check-text-ob">(필수)</span>
+								<input type="checkbox" name="selectItem" class="check-button check-size">
+								<a href="privacy" target=”_blank” style="text-decoration : underline"  required>
+								<span class="check-text">개인정보수집 및 이용동의</span></a> <span class="check-text-ob">(필수)</span>
 							</div>
 
 							<div class="div-check-two div-ob">
-								<input type="checkbox" name="" class="check-button check-size">
+								<input type="checkbox" name="selectItem" class="check-button check-size checkall">
 								<span class="check-text">이벤트, 프로모션 알림 메일 및 SMS 수신</span> <span
 									class="check-text-ob2">(선택)</span>
 							</div>
