@@ -46,6 +46,8 @@
 </head>
 <body>
 
+<div style="height: 100%;">
+
     <header>
       <div class="navEmptySpace">
         <div class="head head-fixed">
