@@ -79,13 +79,17 @@ function timeForToday(value) {
 
     return Math.floor(betweenTimeDay / 365) + "년전";
 }
-
-
+	
+	
+	
+	
+	
 	$(function(){
 		var page = 1;
 		var size = 18;
 		var result = $("#result")
 		var column = "sns_no";
+
 		
 		$(".more-btn").click(function(){
 			loadData(page, size, column);
@@ -113,6 +117,8 @@ function timeForToday(value) {
 		$(".more-btn").click();
 		
 	});
+	
+	//좋아요, 댓글, 최신 정렬 목록 출력
 		function loadData(page, size, column){
 			$.ajax({
 				url : "${pageContext.request.contextPath}/sns/data/list",
@@ -181,6 +187,8 @@ function timeForToday(value) {
 			dataType :"text",
 			success : function(resp) {
 					console.log("팔로우성공", resp);
+					alert("팔로우 성공");
+				
 
 			},
 			error:function(e){
@@ -203,7 +211,7 @@ function timeForToday(value) {
 					dataType :"text",
 					success : function(resp) {
 							console.log("언팔로우성공", resp);
-
+							alert("언팔로우 성공");
 					},
 					error:function(e){
 						console.log("실패", e);
@@ -223,7 +231,7 @@ function timeForToday(value) {
 			loginNo = ${loginNo} + 0;
 		}
 		
-		console.log("로그인No = ", loginNo);
+// 		console.log("로그인No = ", loginNo);
 				
 		var result = $("#result-follow")
 		console.log("팔로워 목록?????????????????");
@@ -252,13 +260,13 @@ function timeForToday(value) {
 				dataType : "json",
 				success:function(resp){
 					
-					console.log("팔로워 목록 성공", resp);
+// 					console.log("팔로워 목록 성공", resp);
 					
 					if(resp.length < size){
 						$(".follow-more-btn").remove();
 					}
 					
-					console.log(resp);
+// 					console.log(resp);
 		
 					for(var i=0; i<resp.length; i++){
 						var result = $("#result-follow")
@@ -278,6 +286,9 @@ function timeForToday(value) {
 				}
 			});
 		}
+		
+
+		
 	
 </script>
 
@@ -375,6 +386,7 @@ function timeForToday(value) {
 								    <li><a class="member-page dropdown-item" href="">회원 페이지</a></li>
 								  </ul>
 								</div>
+								
 <%--                					<a href="${root }/member/mypage"> --%>
 <%--                						<img src="profile?memberNo=${memberProfileDto.memberNo}" class="profile-image"> --%>
 <!--                  				<small class="text-muted" id="nickname"> -->

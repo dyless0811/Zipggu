@@ -83,4 +83,17 @@
 	    ) where rn between ${startRow} and ${endRow}
 	</select>
 	
+	<!-- 내가 좋아요한 게시물 조회 -->
+	<select id="myLikeList" parameterType="map" resultType="snsListVO">
+		select * from (
+        	select rownum rn, TMP.* from (
+            	select S.sns_no, S.sns_detail, S.sns_date, S.sns_count, S.sns_reply_count,S.member_no,
+                        M.member_nickname
+                from sns S
+                    inner join sns_like L on S.sns_no = L.sns_no
+                    inner join member M on L.member_no = M.member_no
+                where L.member_no = ${memberNo} order by sns_no desc
+	        )TMP
+	    ) where rn between ${startRow} and ${endRow}
+	</select>
 </mapper> 
