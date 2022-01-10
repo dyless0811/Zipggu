@@ -9,7 +9,7 @@
 		<h2>일시적인 서버 오류가 발생했습니다.</h2>
 	</div>
 	<div class="row">
-		<img src="${pageContext.request.contextPath }/resources/image/error/403.jpg" width="100%">		
+		<img src="${pageContext.request.contextPath }/resources/image/403.png" width="100%">		
 	</div>
 	
 </div>

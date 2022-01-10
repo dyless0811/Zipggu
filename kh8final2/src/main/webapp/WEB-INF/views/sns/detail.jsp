@@ -143,21 +143,33 @@ function timeForToday(value) {
 	//페이징
 	var page = 1;
 	var size = 10;
-	var snsNo = ${snsNo};
-	console.log(snsNo);
+	var snsNo = "${snsNo}";
 		
-		$(function(){
-			console.log(1);
-			console.log(2);
-			$(".more-btn").click(function(){
-				loadList(page,size,snsNo);
-				page++;
-				console.log(3);
+	console.log("snsNo",snsNo);
+	
+	if(snsNo == ""){
+		snsNo = 0;
+		
+		if(snsNo == 0){
+			location.href = "${pageContext.request.contextPath}/error/404";
+		}
+	}
+	
+	console.log(snsNo);
+	
+	$(function(){
+		console.log(1);
+		console.log(2);
+		$(".more-btn").click(function(){
+			loadList(page,size,snsNo);
+			page++;
+			console.log(3);
 		});
-		//더보기 버튼을 강제 1회 클릭(트리거)
-		$(".more-btn").click();
-		console.log(4);
+	//더보기 버튼을 강제 1회 클릭(트리거)
+	$(".more-btn").click();
+	console.log(4);
 	});
+		
 	
 	//목록 불러오기
 	function loadList(pageValue, sizeValue, snsNoValue){
@@ -235,10 +247,30 @@ function timeForToday(value) {
 					}
 					
 					
-
+					
+					
+					
+					
 					console.log(10);
 					var tag = $(template);
 					
+					var memberNo = loginNo == resp[i].memberNo;
+
+					if(memberNo){
+						tag.find(".edit-btn").show();
+						tag.find(".remove-btn").show();
+						tag.find(".re-reply").show();
+					}
+					else if(loginNo == 0){
+						tag.find(".re-reply").attr("hidden", true);
+						tag.find(".edit-btn").attr("hidden", true);
+						tag.find(".remove-btn").attr("hidden", true);
+					}
+					else{
+						tag.find(".re-reply").show();
+						tag.find(".edit-btn").attr("hidden", true);
+						tag.find(".remove-btn").attr("hidden", true);
+					}
 					
 					//대댓글
 					tag.find(".re-reply").click(function(){
@@ -253,7 +285,7 @@ function timeForToday(value) {
 							reform.append("<input type='hidden' name='snsReplySuperno' value='"+snsReplyNo+"'>");
 							reform.append("</div>");
 							reform.append("<div>");
-							reform.append("<input type='hidden' name='snsNo' value='"+${snsNo}+"'>");
+							reform.append("<input type='hidden' name='snsNo' value='"+"${snsNo}"+"'>");
 							reform.append("</div>");
 							reform.append("<button type='submit' class='btn btn-sm btn-outline-secondary mt-2'>답글등록</button>");
 						
@@ -442,7 +474,7 @@ function timeForToday(value) {
 				
 			}
 			
-			var snsNo = ${snsNo}
+			var snsNo = "${snsNo}";
 				
 			var stylecolor =$(".like").css("color"); 
 			console.log(stylecolor);
@@ -641,29 +673,27 @@ function timeForToday(value) {
 				</a>
 			</div>
 			<div class="ms-3">
+				
 				<span class="reply-no" style="display:none">{{snsReplyNo}}</span>
 
-						<div class="writer fw-bold">{{writer}}<span class="reDate text-muted">&nbsp;({{snsReplyDate}})</span></div>
-
-				<pre class="replyDetail">{{icon}}&nbsp;{{replyDetail}}</pre>
-				<div>
+				<div class="writer fw-bold">{{writer}}<p class="reDate text-muted">&nbsp;({{snsReplyDate}})</p></div>
 				
-							<c:choose>
-			
-								<c:when test="${writer }">
+
+				<pre class="replyDetail">{{icon}}&nbsp;{{replyDetail}}</pre>	
+				<div>
+					
+					<div class="button-area"></div>
 									
 									<button class="edit-btn btn btn-sm btn-outline-secondary" data-sns-reply-no="{{snsReplyNo}}">수정</button>
 									
 									
 									
 									<button class="remove-btn btn btn-sm btn-outline-secondary">삭제</button>
+								
+							
+							
 									<button class="re-reply btn btn-sm btn-outline-secondary">대댓글</button>
-								</c:when>
-								<c:otherwise>
-									<button class="re-reply btn btn-sm btn-outline-secondary">대댓글</button>
-								</c:otherwise>
-				
-							</c:choose>
+						
 					
 				</div>
 			</div>		
