@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.zipggu.repository.OrdersDao;
 import com.kh.zipggu.service.ReviewService;
 import com.kh.zipggu.service.StoreService;
-import com.kh.zipggu.vo.OrderListVO;
 import com.kh.zipggu.vo.ReviewListVO;
+import com.kh.zipggu.vo.ReviewOrderListVO;
 
 @Controller
 @RequestMapping("/store")
@@ -44,7 +44,7 @@ public class StoreController {
 		int memberNo = (int)session.getAttribute("loginNo");
 		
 		//리뷰 작성시 구매한 목록 출력
-		List<OrderListVO>list = ordersDao.orderList(memberNo); 
+		List<ReviewOrderListVO>list = ordersDao.orderList(memberNo); 
 		
 		//리뷰 출력 기능
 		List<ReviewListVO>reviewListVO = reviewService.reviewList(itemNo);
