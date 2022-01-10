@@ -23,6 +23,7 @@ import com.kh.zipggu.entity.SnsFileDto;
 import com.kh.zipggu.repository.ItemDao;
 import com.kh.zipggu.repository.ItemFileDao;
 import com.kh.zipggu.repository.ItemOptionDao;
+import com.kh.zipggu.vo.ItemSearchVO;
 import com.kh.zipggu.vo.StoreListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -62,8 +63,9 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreListVO> getStoreList(int startRow, int endRow) {
-		return itemDao.listByPage(startRow, endRow);
+	public List<StoreListVO> getStoreList(ItemSearchVO itemSearchVO) {
+		
+		return itemDao.listByPage(itemSearchVO);
 	}
 
 	@Override

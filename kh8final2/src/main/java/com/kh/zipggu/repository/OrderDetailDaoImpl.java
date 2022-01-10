@@ -17,6 +17,11 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 	private SqlSession sqlSession;
 	
 	@Override
+	public int sequence() {
+		return sqlSession.selectOne("orderDetail.sequence");
+	}
+	
+	@Override
 	public void insert(OrderDetailDto orderDetailDto) {
 		sqlSession.insert("orderDetail.insert", orderDetailDto);
 	}

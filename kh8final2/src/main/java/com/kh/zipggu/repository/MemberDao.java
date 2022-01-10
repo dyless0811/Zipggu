@@ -38,4 +38,10 @@ public interface MemberDao {
 	int count(String column, String keyword);
 	List<MemberDto> search(String column, String keyword, int begin, int end);
 	
+	//이메일 중복 검사
+	public int emailConfirm(String memberEmail);
+
+	//닉네임 중복 검사
+	public int nickConfirm(String memberNickname);
+	
 }

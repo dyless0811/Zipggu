@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.zipggu.service.CartService;
 import com.kh.zipggu.vo.CartListVO;
 import com.kh.zipggu.vo.CartVO;
+import com.kh.zipggu.vo.ItemOrderListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +31,7 @@ public class CartController {
 	
 	//상품 결제전 장바구니 또는 결제페이지에 가기전 등록하는 기능
 	@PostMapping("/insert")
-	public String insert(@ModelAttribute CartVO cartVO, HttpSession session) {
+	public String insert(@ModelAttribute CartVO cartVO, @RequestParam String buyType, HttpSession session, RedirectAttributes redirectAttr) {
 		
 		log.debug("=====================================cartVO = {}", cartVO);
 		
@@ -36,10 +39,15 @@ public class CartController {
 		cartVO.setMemberNo((int)session.getAttribute("loginNo"));
 		
 		//등록 시작
-		cartService.insert(cartVO);
+		ItemOrderListVO itemOrderListVO = cartService.insert(cartVO);
 		
-		//상품 상세 페이지에 남아있는다 (현재는 장바구니로 이동 버튼을 누르면 장바구니 페이지로 이동)
-		return "redirect:/store/detail/"+cartVO.getItemNo();
+		if(buyType.equals("cart")) {
+			//상품 상세 페이지에 남아있는다 (현재는 장바구니로 이동 버튼을 누르면 장바구니 페이지로 이동)
+			return "redirect:/store/detail/"+cartVO.getItemNo();			
+		} else {
+			redirectAttr.addFlashAttribute("itemOrderListVO", itemOrderListVO);
+			return "redirect:/payment/list";
+		}
 	}
 	
 	//장바구니 페이지에서 목록 찍어주는 기능

@@ -9,7 +9,7 @@ import com.kh.zipggu.vo.ItemOrderListVO;
 public interface CartService {
 
 	//카트 등록 기능
-	void insert(CartVO cartVO);
+	ItemOrderListVO insert(CartVO cartVO);
 
 	//장바구니 목록 출력 기능
 	List<CartListVO> list(int memberNo);

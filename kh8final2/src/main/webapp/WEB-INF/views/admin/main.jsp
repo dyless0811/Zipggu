@@ -11,6 +11,24 @@
         <li><a href="admin/member/memberList">회원 설정</a></li>
         <li>게시글 설정</li>
       </ul>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
+       <br>
     </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

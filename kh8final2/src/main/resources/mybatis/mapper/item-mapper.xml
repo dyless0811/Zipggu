@@ -23,11 +23,36 @@
 		select * from item where item_no = #{itemNo}
 	</select>
 	
+	<delete id="delete" parameterType="int">
+		delete from item where item_no = #{itemNo}
+	</delete>
+	
 	<!-- 페이징 -->
-	<select id="listByPage" parameterType="map" resultType="itemDto">
+	<select id="listByPage" parameterType="ItemSearchVO" resultType="StoreListVO">
 		select * from (
 		    select rownum rn, TMP.* from (
-		        select i.item_no, i.item_name, i.item_price, d.discount_rate, avg(r.review_point) review_rate, count(r.review_no) review_count from item i left outer join review r on r.item_no = i.item_no left outer join discount d on d.item_no = i.item_no group by i.item_no, i.item_name, i.item_price, d.discount_rate order by review_count asc
+		        select i.item_no, i.item_name, i.item_price, d.discount_rate, avg(r.review_point) review_rate, count(r.review_no) review_count 
+		        from item i 
+		        left outer join review r on r.item_no = i.item_no 
+		        left outer join discount d on d.item_no = i.item_no
+		        <where>
+		        <choose>
+		        	<when test="categoryList != null">
+		        		and i.category_no in 
+		        		<foreach collection="categoryList" open="(" close=")" separator="," item="cNo">
+		        			#{cNo}
+		        		</foreach>
+		        	</when>
+		        	<when test="categoryNo > 0">
+		        		and i.category_no = #{categoryNo}
+		        	</when>
+		        </choose>
+		        <if test="itemName != '' and itemName != null">
+		        	and instr(i.item_name, #{itemName}) > 0
+		        </if>
+		        </where>
+		        group by i.item_no, i.item_name, i.item_price, d.discount_rate 
+		        order by review_count asc
 		    )TMP
 		) where rn between ${startRow} and ${endRow}
 	</select>
@@ -36,6 +61,10 @@
 	<insert id="insert" parameterType="ItemDto">
 		insert into item values(#{itemNo}, #{categoryNo}, #{itemName}, #{itemPrice} ,#{itemShippingType})
 	</insert>
+	<!-- 수정 -->
+	<update id="update" parameterType="ItemDto">
+		update item set category_no = #{categoryNo}, item_name = #{itemName}, item_price = #{itemPrice}, item_shipping_type = #{itemShippingType} where item_no = #{itemNo}
+	</update>
 	
 	<select id="listBySearchVO" parameterType="ItemSearchVO" resultType="ItemListVO">
 			select * from (

@@ -22,6 +22,7 @@ public class StoreController {
 	@Autowired
 	private StoreService storeService;
 	
+
 	@Autowired
 	private OrdersDao ordersDao;
 	
@@ -31,6 +32,11 @@ public class StoreController {
 	@RequestMapping("")
 	public String main() {
 		return "store/main";
+
+	@RequestMapping({"/list/{categoryNo}", "/list", ""})
+	public String list(@PathVariable(required = false) Integer categoryNo) {
+		return "store/list";
+
 	}
 	
 	@RequestMapping("/detail/{itemNo}")

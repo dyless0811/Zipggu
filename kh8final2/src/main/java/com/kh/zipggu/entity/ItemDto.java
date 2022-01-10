@@ -15,7 +15,7 @@ public class ItemDto {
 	private int itemPrice;
 	private int itemShippingType;
 	
-	public String getItemPrice() {
+	public String getItemPricetoString() {
 		DecimalFormat f = new DecimalFormat("###,###");
 		return f.format(itemPrice);
 	}
