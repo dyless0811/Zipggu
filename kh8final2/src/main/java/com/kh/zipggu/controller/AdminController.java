@@ -60,6 +60,10 @@ public class AdminController {
 	public String main() {
 		return "admin/main";
 	}
+	@RequestMapping("/test")
+	public String test() {
+		return "admin/test";
+	}
 	
 	@RequestMapping("/item")
 	public String item() {
@@ -155,9 +159,6 @@ public class AdminController {
 		return "admin/item/list";
 	}
 	
-	
-	
-	
 	// 회원 목록 조회
 	@RequestMapping("/member/memberList")
 	public String memberList(Model model, @ModelAttribute MemberPageVO memberPageVO) throws Exception {
@@ -170,4 +171,8 @@ public class AdminController {
 		return "admin/member/memberList";
 	}	
 	
+	@RequestMapping("/order/list")
+	public String orderList() {
+		return "admin/order/list";
+	}
 }

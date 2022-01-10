@@ -14,7 +14,11 @@
     .pageButton{}
 </style>
 
-<div class="container-1000 container-center">
+<jsp:include page="/WEB-INF/views/template/adminHdr.jsp"></jsp:include>
+
+
+<div class="container-zipggu">
+<h2 class="mb-5">회원 목록</h2>
 <table class="table">
     <thead>
       <tr>
@@ -167,4 +171,5 @@
 </div>
 
 
+<jsp:include page="/WEB-INF/views/template/adminFtr.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

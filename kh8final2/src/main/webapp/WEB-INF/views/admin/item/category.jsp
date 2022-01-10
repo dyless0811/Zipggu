@@ -352,8 +352,10 @@ $(function(){
     
 </script>
 
+<jsp:include page="/WEB-INF/views/template/adminHdr.jsp"></jsp:include>
 
 	<div class="container-zipggu">
+	  <h2 class="mb-5">카테고리 목록</h2>
       <div class="float-div">
         <div class="float-div left">
           <div class="cate-box">
@@ -373,4 +375,6 @@ $(function(){
       </div>
     </div>
 
+
+<jsp:include page="/WEB-INF/views/template/adminFtr.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

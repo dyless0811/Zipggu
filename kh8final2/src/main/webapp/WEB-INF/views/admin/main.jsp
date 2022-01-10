@@ -3,6 +3,9 @@
 
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<jsp:include page="/WEB-INF/views/template/adminHdr.jsp"></jsp:include>
+
+
     <div class="container-zipggu">
       <h1>관리자 페이지</h1>
       <hr />
@@ -31,4 +34,6 @@
        <br>
     </div>
 
+
+<jsp:include page="/WEB-INF/views/template/adminFtr.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

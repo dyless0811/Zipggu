@@ -119,8 +119,10 @@
 	});
 </script>
 
+<jsp:include page="/WEB-INF/views/template/adminHdr.jsp"></jsp:include>
 
 <div class="container-zipggu">
+<h2 class="mb-5">상품 목록</h2>
 <div id="deletedItem" data-item-no="${deletedItemDto.itemNo}" data-item-name="${deletedItemDto.itemName}"></div>
 
 <form action="" method="get">
@@ -159,6 +161,10 @@
 </form>
 <button class="more-btn btn btn-primary">더보기</button>
 </div>
+
+<jsp:include page="/WEB-INF/views/template/adminFtr.jsp"></jsp:include>
+
+
            			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 					  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 					    <div class="toast-header">
