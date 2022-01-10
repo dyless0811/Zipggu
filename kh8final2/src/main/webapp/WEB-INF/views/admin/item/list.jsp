@@ -121,6 +121,8 @@
 
 
 <div class="container-zipggu">
+<div id="deletedItem" data-item-no="${deletedItemDto.itemNo}" data-item-name="${deletedItemDto.itemName}"></div>
+
 <form action="" method="get">
   <button id="search-btn" type="button" class="btn btn-primary">검색</button>
   <button id="reset-btn" type="button" class="btn btn-primary">초기화</button>
@@ -157,5 +159,31 @@
 </form>
 <button class="more-btn btn btn-primary">더보기</button>
 </div>
-
+           			<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+					  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+					    <div class="toast-header">
+					      <img src="http://placeimg.com/20/20/arch" class="rounded me-2" alt="...">
+					      <strong class="me-auto">상품 삭제 확인</strong>
+					      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+					    </div>
+					    <div class="toast-body">
+					      	상품번호 ${deletedItemDto.itemNo}번 '${deletedItemDto.itemName}' 상품이 삭제되었습니다.
+					    </div>
+					  </div>
+					</div>
+					<script>
+					    $(function(){
+					    	var toastLiveExample = $("#liveToast");
+					    	var deletedItem = $("#deletedItem");
+					    	var itemNo = deletedItem.data("item-no");
+					    	var itemName = deletedItem.data("item-name");
+					    	console.log(itemNo);
+					    	console.log(itemName);
+						    if (itemNo != "" && itemName != "") {
+							   var toast = new bootstrap.Toast(toastLiveExample)
+							   toast.show()
+						    }
+					    });
+					    
+					</script>
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

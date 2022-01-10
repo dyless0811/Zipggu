@@ -129,6 +129,7 @@
 	$(function(){
 		$(".cart-btn").click(function(e){
 			var check = false;
+			var buyType = $(this).data("buy-type");
 			
 			$(".quantity").each(function(index, quantity){
 				var quantityVal = $(".quantity").val();
@@ -153,6 +154,7 @@
 					result.append(option);
 				});
 			});
+			$("input[name=buyType]").val(buyType);
 			$(".cart").submit();
 		});
 	});
@@ -233,7 +235,7 @@
             <!-- 가격 -->
             <div class="mt-3">
               <label>가격</label>
-              <p><strong>${itemDto.getItemPrice()} 원</strong></p>
+              <p><strong>${itemDto.getItemPricetoString()} 원</strong></p>
             </div>
 
             <div class="mt-5"></div>
@@ -260,6 +262,7 @@
 			<form action="${root }/zipggu/cart/insert" method="post" class="cart">
 				<div class="mt-3">
 					<input type="hidden" name="itemNo" value="${itemDto.itemNo}">
+					<input type="hidden" name="buyType" value="">
 					<div class="result"></div>
 				</div>
 			</form>
@@ -267,10 +270,10 @@
             <!-- 버튼 -->
             <div class="mt-3 position-relative">
               <div class="col-4">
-                <button type="button" class="cart-btn btn btn-primary position-absolute bottom-40 start-0 w-50 p-2">장바구니</button>
+                <button type="button" data-buy-type="cart" class="cart-btn btn btn-primary position-absolute bottom-40 start-0 w-50 p-2">장바구니</button>
               </div>
               <div class="col-4">
-                <button type="button" class="btn btn-secondary position-absolute bottom-40 end-0 w-50 p-2">구매하기</button>
+                <button type="button" data-buy-type="buy" class="cart-btn btn-secondary position-absolute bottom-40 end-0 w-50 p-2">구매하기</button>
               </div>
             </div>
           </div>
@@ -361,15 +364,6 @@
           </div>
         </div>
       </div>
-      <!--모달 스크립트-->
-      <script>
-        var myModal = document.getElementById('myModal')
-        var myInput = document.getElementById('myInput')
-
-        myModal.addEventListener('shown.bs.modal', function () {
-          myInput.focus()
-        })
-      </script>
 
       <div class="m-5"></div>
 

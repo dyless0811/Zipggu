@@ -17,4 +17,6 @@ public interface ItemDao {
 	
 	List<StoreListVO> listByPage(ItemSearchVO itemSearchVO);
 	List<ItemListVO> listBySearchVO(ItemSearchVO itemSearchVO);
+	void update(ItemDto itemDto);
+	void delete(int itemNo);
 }

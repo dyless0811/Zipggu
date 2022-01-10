@@ -47,4 +47,9 @@ public class ItemFileDaoImpl implements ItemFileDao {
 		return sqlSession.selectList("itemFile.nonThumbnailListByItemNo", itemNo);
 	}
 
+	@Override
+	public void updateFiles(List<Integer> remainingFile) {
+		sqlSession.update("itemFile.updateFiles", remainingFile);
+	}
+
 }

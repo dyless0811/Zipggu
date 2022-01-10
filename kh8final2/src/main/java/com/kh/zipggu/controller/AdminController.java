@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -20,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.kh.zipggu.entity.ItemDto;
 import com.kh.zipggu.entity.ItemOptionDto;
 import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.service.ItemService;
@@ -74,12 +79,6 @@ public class AdminController {
 		return itemService.insert(vo,thumbnail , attach);
 	}
 	
-	@PostMapping("/item/update/{itemNo}")
-	public String itemUpdate(@PathVariable("itemNo") int itemNo) {
-		
-		return "admin/item/update";
-	}
-	
 	@GetMapping("/item/update/{itemNo}")
 	public String itemUpdate(@PathVariable("itemNo") int itemNo, Model model) {
 		model.addAttribute("categoryVOList", categoryService.list());
@@ -87,6 +86,23 @@ public class AdminController {
 		model.addAttribute("itemOptionGroupMap", storeService.getOptionGroupMap(itemNo));
 		model.addAttribute("itemFileDtoList", storeService.nonThumbnailListByItemNo(itemNo));
 		return "admin/item/update";
+	}
+
+	@PostMapping("/item/update")
+	@ResponseBody
+	public int itemUpdate(@ModelAttribute ItemUpdateVO vo,
+							@RequestParam MultipartFile thumbnail , @RequestParam List<MultipartFile> attach
+							) throws IOException {
+		log.debug("====================================={}", vo);
+		return itemService.update(vo, thumbnail, attach);
+	}
+	
+	@GetMapping("/item/delete")
+	public String itemDelete(@RequestParam int itemNo, RedirectAttributes redirectAttributes) {
+		
+		redirectAttributes.addFlashAttribute("deletedItemDto", itemService.delete(itemNo));
+		
+		return "redirect:list";
 	}
 	
 	//상품 수정 시 기존의 상품 옵션 수정 기능
@@ -124,9 +140,18 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/item/list")
-	public String list(@ModelAttribute ItemSearchVO itemSearchVO, Model model){
+	public String list(@ModelAttribute ItemSearchVO itemSearchVO, Model model, HttpServletRequest request){
+		
+		Map<String, ItemDto> confirm = (Map<String, ItemDto>)RequestContextUtils.getInputFlashMap(request);
+		ItemDto deletedItemDto;
+		if(confirm == null) {
+			deletedItemDto = null;
+		} else {
+			deletedItemDto = (ItemDto) confirm.get("deletedItemDto");
+		}
 		
 		model.addAttribute("itemList", itemService.listBySearchVO(itemSearchVO));
+		model.addAttribute("deletedItemDto", deletedItemDto);
 		return "admin/item/list";
 	}
 	

@@ -19,4 +19,12 @@ public class ItemUpdateVO {
 	private List<Integer> remainingFile;
 	
 	List<ItemOptionDto> optionList;
+	
+	public boolean isThumbnailRemaining() {
+		return getRemainingThumbnail() != null;
+	}
+	
+	public boolean isFileRemaining() {
+		return getRemainingFile() != null;
+	}
 }

@@ -1,5 +1,6 @@
 package com.kh.zipggu.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,10 @@ public class CartServiceImpl implements CartService{
 	
 	//카트 등록 기능
 	@Override
-	public void insert(CartVO cartVO) {
+	public ItemOrderListVO insert(CartVO cartVO) {
 		
+		ItemOrderListVO itemOrderListVO = new ItemOrderListVO();
+		itemOrderListVO.setList(new ArrayList<ItemOrderVO>());
 		//CartVO안에 OptionVO의 내용을 꺼내기위해서 반복문을 선언
 		for(OptionVO list : cartVO.getOptionList()) {
 			
@@ -36,7 +39,6 @@ public class CartServiceImpl implements CartService{
 			
 			//cartDto 선언
 			CartDto cartDto = new CartDto();
-			
 			//반복문으로 꺼낸 값들 cartDto에 저장하고 cartDao로 넘긴다
 			cartDto.setCartNo(sequence);
 			cartDto.setMemberNo(cartVO.getMemberNo());
@@ -44,6 +46,10 @@ public class CartServiceImpl implements CartService{
 			cartDto.setQuantity(list.getQuantity());
 			cartDao.insert(cartDto);
 			
+			ItemOrderVO itemOrderVO = new ItemOrderVO();
+			itemOrderVO.setCartNo(cartDto.getCartNo());
+			itemOrderVO.setQuantity(cartDto.getQuantity());
+			itemOrderListVO.getList().add(itemOrderVO);
 			//OptionVO안에 또다른 List인 ItemOptionDto를 꺼내기 위해 반복문 선언 
 			for(ItemOptionDto no : list.getNoList()) {
 				
@@ -54,6 +60,8 @@ public class CartServiceImpl implements CartService{
 				cartOptionDao.insert(cartOptionDto);
 			}
 		}
+		
+		return itemOrderListVO;
 	}
 	
 	

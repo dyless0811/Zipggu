@@ -55,7 +55,7 @@ $(function(){
 						templateContent.find(".discount").text(resp[i].discountRate+"%");
 						templateContent.find(".original-price").text(resp[i].discountRate/100*resp[i].itemPrice);
 					}
-					templateContent.find(".price").text(resp[i].itemPrice+"원");
+					templateContent.find(".price").text(resp[i].itemPrice.toLocaleString()+"원");
 					if(!resp[i].reviewCount) {
 						templateContent.find(".review").remove();					
 					} else {

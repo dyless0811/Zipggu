@@ -27,6 +27,7 @@ import com.kh.zipggu.repository.ItemOptionDao;
 import com.kh.zipggu.vo.ItemInsertVO;
 import com.kh.zipggu.vo.ItemListVO;
 import com.kh.zipggu.vo.ItemSearchVO;
+import com.kh.zipggu.vo.ItemUpdateVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,10 +85,12 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	private void itemFileInsert(int itemNo, MultipartFile file, boolean isThumbnail) throws IOException {
+		log.debug("=============================================파일인서트");
 		int thumbnail = isThumbnail ? 1 : 0;
 		//만약 파일이 있다면
 		if(!file.isEmpty()) {
 			
+			log.debug("=============================================파일인서트이프문");
 			//등록페이지에서 넘어오는 정보만 snsFileDto 객체에 정보 담아Dao로 보내기
 			//(여기서는 정보만 담아 보낸다)
 			int itemFileNo = itemFileDao.getSeq();
@@ -210,6 +213,60 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void itemOptionDetailInsert(ItemOptionDto itemOptionDto) {
 		itemOptionDao.itemOptionDetailInsert(itemOptionDto);
+	}
+
+	@Override
+	public int update(ItemUpdateVO itemUpdateVO, MultipartFile thumbnail, List<MultipartFile> attach) throws IOException {
+		int itemNo = itemUpdateVO.getItemNo();
+		//item 테이블 수정
+		ItemDto itemDto = new ItemDto();
+		itemDto.setItemNo(itemNo);
+		itemDto.setCategoryNo(itemUpdateVO.getCategoryNo());
+		itemDto.setItemName(itemUpdateVO.getItemName());
+		itemDto.setItemPrice(itemUpdateVO.getItemPrice());
+		itemDto.setItemShippingType(itemUpdateVO.getItemShippingType());
+		
+		itemDao.update(itemDto);
+		
+		//추가한 옵션이 있다면 등록
+		if(itemUpdateVO.getOptionList() == null) {
+			if(itemOptionDao.listByItemNo(itemNo) == null) {					
+				ItemOptionDto itemOptionDto = new ItemOptionDto();
+				itemOptionDto.setItemNo(itemNo);
+				itemOptionDto.setItemOptionGroup("기본");
+				itemOptionDto.setItemOptionDetail("단품");
+				itemOptionDto.setItemOptionPrice(0);
+				itemOptionDto.setItemOptionRequired(1);			
+				itemOptionDao.insert(itemOptionDto);
+			}
+		} else {
+			for (ItemOptionDto itemOptionDto : itemUpdateVO.getOptionList()) {
+				itemOptionDto.setItemNo(itemNo);
+				itemOptionDao.insert(itemOptionDto);
+			}			
+		}
+		
+		//썸네일이 없다면 추가
+		if(!itemUpdateVO.isThumbnailRemaining()) {
+			itemFileInsert(itemNo, thumbnail, true);
+		}
+		
+		if(itemUpdateVO.isFileRemaining()) {
+			itemFileDao.updateFiles(itemUpdateVO.getRemainingFile());
+		}
+		
+		//다중 첨부파일이 때문에 반복문으로 꺼내기
+		for(MultipartFile file : attach) {
+			itemFileInsert(itemNo, file, false);		
+		}
+		return itemNo;
+	}
+
+	@Override
+	public ItemDto delete(int itemNo) {
+		ItemDto deletedItemDto = itemDao.get(itemNo);
+		itemDao.delete(itemNo);
+		return deletedItemDto;
 	}
 	
 	

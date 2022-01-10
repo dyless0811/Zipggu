@@ -62,13 +62,18 @@ public class PaymentController {
 	private KakaoPayService kakaoPayService;
 	
 	//장바구니 페이지 또는 상품상세 페이지에서 저장된 상품 목록 찍어주는 기능
-	@PostMapping("/list")
-	public String list(Model model, @ModelAttribute ItemOrderListVO itemOrderListVO, @RequestParam int shipping) {
-		
+	@RequestMapping("/list")
+	public String list(Model model, @ModelAttribute ItemOrderListVO itemOrderListVO, @RequestParam(required = false, defaultValue = "0") int shipping) {
+		log.debug("=============================================");
+		log.debug("페이먼트 = {}", itemOrderListVO);
+		log.debug("=============================================");
 		//log.debug("ItemOrderListVO = {}", itemOrderListVO);
 		
 		//페이지에서 리스트로 보내진 quantity, cartNo가 있는 VO로 조회 시작
 		List<CartListVO> cartListVOList = cartService.listByOrder(itemOrderListVO);
+		log.debug("==============================================");
+		log.debug("카트리스트브이오 = {}", cartListVOList);
+		log.debug("==============================================");
 		int totalPrice = 0;
 		for (CartListVO cartListVO : cartListVOList) {
 			totalPrice += cartListVO.getSumPrice();
@@ -190,10 +195,12 @@ public class PaymentController {
 			orderDetailDto.setOrderItemPrice(cartListVO.getSumPrice());
 			
 			orderDetailDao.insert(orderDetailDto);
+			log.debug("================================== 옵션리스트 왜 망함?{}", cartListVO.getOptionList());
 			for (ItemOptionDto optionList : cartListVO.getOptionList()) {
 				OrderOptionDto orderOptionDto = new OrderOptionDto();
 				orderOptionDto.setItemOptionNo(optionList.getItemOptionNo());
 				orderOptionDto.setOrderDetailNo(orderDetailDto.getOrderDetailNo());
+				log.debug("================================= 오더옵션디티오 {}", orderOptionDto);
 				orderOptionDao.insert(orderOptionDto);
 			}
 			
