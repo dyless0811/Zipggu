@@ -364,9 +364,9 @@ function timeForToday(value) {
 					
 					
 					tag.find(".remove-btn").click(function(){
+						return confirm("정말 삭제 하시겠습니까?");
 						console.log($(this).parent().parent().find("span").text());
 						$(this).parent().parent().find("span").text();
-						
 						deleteData($(this).parent().parent().find("span").text(), snsNo);
 					});
 					
@@ -396,7 +396,6 @@ function timeForToday(value) {
 			dataType:"text",
 			success:function(resp){
 				console.log("성공", resp);
-				
 				$("#result").empty();
 				
 				console.log(snsReplyNo);
@@ -431,7 +430,7 @@ function timeForToday(value) {
 					$(".like").css("color", "red");
 				
 					$(".me-auto").text("좋아요").css("color", "blue");
-					$(".toast-body").text(snsNo + "게시글에 좋아요 하셨습니다.");
+					$(".toast-body").text(snsNo + "번 게시글에 좋아요 하셨습니다.");
 				},
 				error:function(e){}
 				
@@ -491,6 +490,12 @@ function timeForToday(value) {
 		});
 	});
 	
+	$(function(){
+		
+		$(".sns-removebtn").click(function(){
+			return confirm("정말 삭제 하시겠습니까?");
+		});
+	});
 </script>
 
 
@@ -602,7 +607,7 @@ function timeForToday(value) {
 		             		&nbsp;&nbsp;
 		             		
 		            		<!-- 삭제 아이콘 -->
-		           			<button type="button" class="btn btn-sm btn-outline-secondary">
+		           			<button type="button" class="sns-removebtn btn btn-sm btn-outline-secondary">
 								<a href="delete?snsNo=${snsDto.snsNo }">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 									  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>

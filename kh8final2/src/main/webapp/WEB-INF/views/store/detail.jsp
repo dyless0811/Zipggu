@@ -418,7 +418,7 @@
 
         <!--작성 회원 프로필사진 및 닉네임-->
         <div class="nick col-auto me-auto">
-            <img src="${root }/member/profile?memberNo=${reviewListVO.memberNo}" class="member-img d-block w-100">
+            <img src="${root }/member/profile?memberNo=${reviewListVO.memberNo}" class="member-img d-block">
             <span>${reviewListVO.memberNickname }</span>
         </div>
 
