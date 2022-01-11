@@ -359,29 +359,53 @@ button {
     color: #fff;
     padding: 5px 7px;
 }
+
+.page-navigation__item>a.active, .page-navigation__item>a:not(.active):hover {
+    color: #35c5f0;
+}
+.page-navigation__item>a {
+    display: inline-block;
+    padding: 0 10px;
+    font-weight: 700;
+    position: relative;
+    height: 60px;
+    line-height: 60px;
+    transition: color .15s ease;
+    font-size: 15px;
+}
+
+.page-navigation__item {
+    display: inline-block;
+}
+
+ul{
+margin-bottom: 0px;
+}
 </style>
 
 <div class="layout-container">
 
 	<div class="menu-container">
-		<c:if test="${memberDto.memberNo == loginNo}">
-			<nav class="menu-nav">
-				<ul style="transform: translateX(0px);">
-					<li class="page-item"><a href="#">프로필</a></li>
-					<li class="page-item"><a href="#">나의 쇼핑</a></li>
-					<li class="page-item"><a href="#">나의 리뷰</a></li>
-					<li class="page-item"><a href="#">설정</a></li>
-				</ul>
-			</nav>
-		</c:if>
+		
 		<nav class="menu-nav">
-			<ul style="transform: translateX(0px);">
-				<li class="page-item"><a href="#"></a></li>
-				<li class="page-item"><a href="#"></a></li>
-				<li class="page-item"><a href="#"></a></li>
-				<li class="page-item"><a href="#"></a></li>
+			<ul style="transform: translateX(0px);">	
+				<li class="page-item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${loginNo}" class="active">프로필</a></li>
+				<c:if test="${memberDto.memberNo == loginNo}">
+				<li class="page-item"><a href="${pageContext.request.contextPath}/member/orders">나의 쇼핑</a></li>
+				<li class="page-item"><a href="#">나의 리뷰</a></li>
+				<li class="page-item"><a href="${pageContext.request.contextPath}/member/profileEdit" >설정</a></li>
+				</c:if>
 			</ul>
 		</nav>
+		
+		<nav class="menu-nav">
+		<ul style="transform: translateX(0px);">
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${memberDto.memberNo}" >모두보기</a></li>
+			<li class="page-navigation__item"><a href="#">사진</a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/follow/followerList?memberNo=${memberDto.memberNo}" class="active">팔로워</a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/follow/followingList?memberNo=${memberDto.memberNo}">팔로잉</a></li>
+		</ul>
+	</nav>		
 	</div>
 
 
