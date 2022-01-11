@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="loginEmail" value="${loginEmail}"></c:set>
+<c:set var="loginNick" value="${loginNick}"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 
@@ -67,7 +68,7 @@ function fn_submit(){
 
 <script>
 
-var checkNick = false;
+var checkNick = true;
 
 function emailCheck() {
 
@@ -99,7 +100,8 @@ function nicknameCheck() {
 }
 
 function nickConfirm(){
-    var memberNickname = $("#nick").val();     
+    var memberNickname = $("#nick").val(); 
+    var loginNick = '${loginNick}';
     
     $.ajax({
         url:"${pageContext.request.contextPath}/member/nickConfirm", 
@@ -107,15 +109,25 @@ function nickConfirm(){
         data:{memberNickname:memberNickname},
 		dataType : "text",
         success:function(nickConfirm){
-            if(nickConfirm == 0){
-            	console.log("nickConfirm",nickConfirm);
+        	
+        	if(loginNick == memberNickname ){
+        		
 				$("#nickConfirm").text("");
-				checkNick = true;
-				
-            } else {
-                $("#nickConfirm").text("사용 중인 별명입니다.");
-                checkNick = false;
-            }
+          	 	 checkNick = true;
+            
+        	} else {
+        		
+        		if(nickConfirm == 0){
+                	console.log("nickConfirm",nickConfirm);
+    				$("#nickConfirm").text("");
+    				checkNick = true;
+    				
+                } else {
+                    $("#nickConfirm").text("사용 중인 별명입니다.");
+                    checkNick = false;
+                }
+        	}
+            
         },
 		error:function(e){
 			console.log("실패", e);
@@ -124,13 +136,14 @@ function nickConfirm(){
 };   
 
 function formCheck() {
-	if(emailCheck() && nicknameCheck()){
+	if(emailCheck() && nicknameCheck() && checkNick){
 		
 		alert('회원 정보 변경이 완료되었습니다');
 		$('form').submit();
 		
 	}else{
 		alert('회원 정보가 올바르지 않습니다.');
+		
 		return false;
 	}
 }	
@@ -353,8 +366,9 @@ margin-bottom: 0px;
 					
 			<div class="infoFormItemGroup">
 				<div class="infoFormItemField">
-					<input type="text" name="memberNickname" class="formTextControl" value="${memberDto.memberNickname}" onblur="nicknameCheck();">
+					<input type="text" name="memberNickname" class="formTextControl" value="${memberDto.memberNickname}" onblur="nicknameCheck();" id="nick" oninput = "nickConfirm()" >
 					<div class="notice"></div>
+					<div id="nickConfirm" style="font-size: 12px; color: red;"></div>
 				</div>
 			</div>
 			

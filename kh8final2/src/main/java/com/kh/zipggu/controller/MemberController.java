@@ -253,12 +253,7 @@ public class MemberController {
 	@PostMapping("/join")
 	public String join(@ModelAttribute MemberJoinVO memberJoinVO) throws IllegalStateException, IOException {
 		memberService.join(memberJoinVO);
-		return "redirect:join_success";
-	}
-
-	@RequestMapping("/join_success")
-	public String joinSuccess() {
-		return "member/join_success";
+		return "redirect:/";
 	}
 
 //	비밀번호 변경
@@ -453,10 +448,12 @@ public class MemberController {
 	}
 
 	@PostMapping("/profileEdit")
-	public String profileEdit(@ModelAttribute MemberDto memberDto, MultipartFile attach) throws IllegalStateException, IOException {
+	public String profileEdit(@ModelAttribute MemberDto memberDto, MultipartFile attach, HttpSession session) throws IllegalStateException, IOException {
 		
 
 		memberService.edit(memberDto, attach);
+		session.removeAttribute("loginNick");
+		session.setAttribute("loginNick", memberDto.getMemberNickname());
 		
 		return "redirect:profileEdit";
 	}
