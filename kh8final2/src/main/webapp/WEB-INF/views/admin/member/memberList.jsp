@@ -33,9 +33,12 @@
       </tr>
     </thead>
     <tbody>
-     		<c:forEach var="memberDto" items="${memberPageVO.list}">
+    
+    
+     	<c:forEach var="memberDto" items="${memberPageVO.list}">
+     		<c:if test="${memberDto.memberGrade != '관리자' }">
       <tr>
-         <td><a href="#">${memberDto.memberNo}</a></td>
+         <td><a href="${pageContext.request.contextPath}/member/page?memberNo=${memberDto.memberNo}">${memberDto.memberNo}</a></td>
          <td>${memberDto.memberEmail}</td>
          <td>${memberDto.memberNickname}</td>
 		<c:choose>
@@ -52,7 +55,9 @@
          <td>${memberDto.getMemberJoinDay()}</td>
 
       </tr>
+      	</c:if>
        		</c:forEach>
+       		
     </tbody>
    </table>
    

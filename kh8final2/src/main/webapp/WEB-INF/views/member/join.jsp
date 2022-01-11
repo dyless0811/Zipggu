@@ -490,7 +490,8 @@
 	display: flex;
 	width: 400px;
 	margin: 0 auto;
-	padding: 60px 0;
+	padding-top: 0px;
+	padding-bottom: 60px;
 }
 
 body {
@@ -506,7 +507,14 @@ body {
 
 		<section>
 
+	        <div class="logo">
+                  <a href="${pageContext.request.contextPath}/" class="aImage">
+                      <img src="${pageContext.request.contextPath}/resources/image/logo.png" width="150px" height="80px">
+                  </a>
+            </div>
+
 			<div class="sighForm">
+			
 
 				<form method="post" enctype="multipart/form-data">
 
