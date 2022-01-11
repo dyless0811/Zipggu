@@ -5,7 +5,7 @@
 	var page = 1;
 	var size = 10;
 	var order = "order_no";
-	var sort = "asc";
+	var sort = "desc";
 	var preOrder = "";
 	var preSort = "asc";
 	$(function(){		

@@ -29,18 +29,18 @@
 	</select>
 	
 	<select id="get" parameterType="int" resultType="OrdersDto">
-		select * from orders where no = #{no}
+		select * from orders where order_no = #{no}
 	</select>
 	
 	<update id="refresh" parameterType="int">
 		update orders
-		set status =
+		set order_status =
 		case
-			when (select count(*) from order_detail where order_no = #{orderNo}) = (select count(*) from order_detail where order_no = #{orderNo} and status = '결제') then '결제완료'
-			when (select count(*) from order_detail where order_no = #{orderNo}) = (select count(*) from order_detail where order_no = #{orderNo} and status = '취소') then '전체취소'
+			when (select count(*) from order_detail where order_no = #{orderNo}) = (select count(*) from order_detail where order_no = #{orderNo} and order_detail_status = '결제') then '결제완료'
+			when (select count(*) from order_detail where order_no = #{orderNo}) = (select count(*) from order_detail where order_no = #{orderNo} and order_detail_status = '취소') then '전체취소'
 			else '부분취소'
 		end
-		where no = #{no}
+		where order_no = #{orderNo}
 	</update>
 	
 	<select id="listBySearchVO" parameterType="ItemSearchVO" resultType="OrderListVO">
@@ -85,11 +85,12 @@
 	<!-- 리뷰 작성시 구매한 목록 출력 -->
 	<select id="orderList" parameterType="map" resultType="ReviewListVO">
 		select 
-		    O.order_no, O.member_no, O.order_name, D.order_detail_no, D.item_no, D.order_quantity, M.member_nickname
+		    O.order_no, O.member_no, O.order_name, D.order_detail_no, D.item_no, D.order_quantity, M.member_nickname, r.review_no
 		from orders O
 		    inner join order_detail D on O.order_no = D.order_no
 		    inner join member M on O.member_no = M.member_no
-		    where O.member_no = #{memberNo} and item_no = #{itemNo}
+		    left outer join review R on R.order_detail_no = D.order_detail_no
+		    where O.member_no = #{memberNo} and D.item_no = #{itemNo} and r.review_no is null
 	</select>
 	
 	

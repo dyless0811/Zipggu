@@ -20,4 +20,8 @@ public class OrdersDto {
 	private int totalAmount;
 	private Date orderDate;
 	private String orderStatus;
+	
+	public boolean isAllCanceled() {
+		return orderStatus == null || orderStatus.equals("전체취소");
+	}
 }

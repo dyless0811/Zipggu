@@ -34,6 +34,7 @@ public class CartController {
 	public String insert(@ModelAttribute CartVO cartVO, @RequestParam String buyType, HttpSession session, RedirectAttributes redirectAttr) {
 		
 		log.debug("=====================================cartVO = {}", cartVO);
+		log.debug("=====================================buyType = {}", buyType);
 		
 		//회원 번호를 세션에 받아 cartVO에 저장
 		cartVO.setMemberNo((int)session.getAttribute("loginNo"));

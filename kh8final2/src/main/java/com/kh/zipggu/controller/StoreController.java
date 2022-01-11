@@ -42,14 +42,21 @@ public class StoreController {
 	
 	@RequestMapping("/detail/{itemNo}")
 	public String detail(@PathVariable("itemNo") int itemNo, Model model, HttpSession session) {
+		String memberNo;
 		
-		int memberNo = (int)session.getAttribute("loginNo");
+		if(session.getAttribute("loginNo") == null) {
+			memberNo = null;
+		} else {
+			memberNo = String.valueOf(session.getAttribute("loginNo"));			
+			//리뷰 작성시 구매한 목록 출력
+			Map<String, Object>param = new HashMap<>();
+			param.put("itemNo", itemNo);
+			param.put("memberNo", Integer.parseInt(memberNo));
+			List<ReviewOrderListVO> list = ordersDao.orderList(param); 
+			model.addAttribute("list", list);
+		}
 		
-		//리뷰 작성시 구매한 목록 출력
-		Map<String, Object>param = new HashMap<>();
-		param.put("itemNo", itemNo);
-		param.put("memberNo", memberNo);
-		List<ReviewOrderListVO>list = ordersDao.orderList(param); 
+		
 		
 		//리뷰 출력 기능
 		List<ReviewListVO>reviewListVO = reviewService.reviewList(itemNo);
@@ -57,7 +64,6 @@ public class StoreController {
 		model.addAttribute("itemDto", storeService.getItemDto(itemNo));
 		model.addAttribute("itemOptionGroupMap", storeService.getOptionGroupMap(itemNo));
 		model.addAttribute("itemFileDtoList", storeService.nonThumbnailListByItemNo(itemNo));
-		model.addAttribute("list", list);
 		model.addAttribute("reviewListVO", reviewListVO);
 		return "store/detail";
 	}

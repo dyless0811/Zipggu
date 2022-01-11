@@ -1,6 +1,7 @@
 package com.kh.zipggu.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +28,12 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.kh.zipggu.entity.ItemDto;
 import com.kh.zipggu.entity.ItemOptionDto;
+import com.kh.zipggu.entity.OrdersDto;
+import com.kh.zipggu.repository.OrderDetailDao;
+import com.kh.zipggu.repository.OrdersDao;
 import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.service.ItemService;
+import com.kh.zipggu.service.KakaoPayService;
 import com.kh.zipggu.service.MemberService;
 import com.kh.zipggu.service.StoreService;
 import com.kh.zipggu.vo.ItemInsertVO;
@@ -175,4 +180,25 @@ public class AdminController {
 	public String orderList() {
 		return "admin/order/list";
 	}
+
+	@Autowired
+	private OrdersDao ordersDao;
+	@Autowired
+	private OrderDetailDao orderDetailDao;
+	@Autowired
+	private KakaoPayService kakaoPayService;
+	
+	@GetMapping("/order/detail/{orderNo}")
+	public String orderDetail(@PathVariable int orderNo, Model model) throws URISyntaxException {
+		OrdersDto ordersDto = ordersDao.get(orderNo);
+		model.addAttribute("ordersDto", ordersDto);
+		log.debug("=================================={}", ordersDto);
+		log.debug("=================================={}", orderNo);
+		log.debug("=================================={}", orderDetailDao.list(orderNo));
+		model.addAttribute("orderDetailList", orderDetailDao.orderDetailCustom(orderNo));
+		model.addAttribute("responseVO", kakaoPayService.search(ordersDto.getTid()));
+		
+		return "admin/order/detail";
+	}
+	
 }

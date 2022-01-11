@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.zipggu.entity.OrderDetailDto;
+import com.kh.zipggu.vo.OrderDetailListVO;
 
 @Repository
 public class OrderDetailDaoImpl implements OrderDetailDao {
@@ -28,7 +29,7 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 
 	@Override
 	public List<OrderDetailDto> list(int orderNo) {
-		return sqlSession.selectList("orderDetail.listByBuyNo", orderNo);
+		return sqlSession.selectList("orderDetail.listByOrderNo", orderNo);
 	}
 
 	@Override
@@ -40,11 +41,8 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 	}
 
 	@Override
-	public void cancel(int orderNo, int itemNo) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("orderNo", orderNo);
-		param.put("itemNo", itemNo);
-		sqlSession.update("orderDetail.cancel", param);
+	public void cancel(int orderDetailNo) {
+		sqlSession.update("orderDetail.cancel", orderDetailNo);
 	}
 
 	@Override
@@ -55,6 +53,18 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 	@Override
 	public void cancelAll(int orderNo) {
 		sqlSession.update("orderDetail.cancelAll", orderNo);
+	}
+
+	@Override
+	public OrderDetailDto get(int orderDetailNo) {
+		return sqlSession.selectOne("orderDetail.getByNo", orderDetailNo);
+	
+	}
+
+	@Override
+	public List<OrderDetailListVO> orderDetailCustom(int orderNo) {
+		
+		return sqlSession.selectList("orderDetail.orderDetailCustom", orderNo);
 	}
 
 }

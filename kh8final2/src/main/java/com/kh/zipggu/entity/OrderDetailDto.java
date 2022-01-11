@@ -14,4 +14,8 @@ public class OrderDetailDto {
 	private String orderItemName;
 	private int orderItemPrice;
 	private String orderDetailStatus;
+	
+	public boolean isCancelAvailable() {
+		return orderDetailStatus != null && orderDetailStatus.equals("결제");
+	}
 }

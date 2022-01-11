@@ -31,11 +31,13 @@
       text-align: center;
       width: 5em;
     }
+
     
     .star-rating input {
       display: none;
     }
     
+
     .star-rating label {
       -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
       -webkit-text-stroke-width: 2.3px;
@@ -87,6 +89,26 @@
     .star-ratingUpdate label:hover ~ label {
       -webkit-text-fill-color: #fff58c;
     }
+
+    .star-ratingDetail #point, .star-ratingDetail #point ~ label {
+      -webkit-text-fill-color: gold;
+    }
+    .star-ratingDetail {
+      display: flex;
+      flex-direction: row-reverse;
+      font-size: 1.5rem;
+      line-height: 2.5rem;
+      justify-content: space-around;
+      padding: 0 0.2em;
+      text-align: center;
+      width: 5em;
+    }
+    .star-ratingDetail label {
+      -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+      -webkit-text-stroke-width: 2.3px;
+      -webkit-text-stroke-color: #2b2a29;
+    }
+    
     .review-img{
     	width:380px;
     	height:100%;
@@ -294,7 +316,7 @@
 			<!-- 선택된 옵션 index 숨겨서 보관 -->
             <div class="selected-items mt-3">
 			</div>
-			<form action="${root }/zipggu/cart/insert" method="post" class="cart">
+			<form action="${root}/cart/insert" method="post" class="cart">
 				<div class="mt-3">
 					<input type="hidden" name="itemNo" value="${itemDto.itemNo}">
 					<input type="hidden" name="buyType" value="">
@@ -374,7 +396,7 @@
               	<input type="hidden" name="itemNo" value="${itemDto.itemNo }"> 
                 <!--리뷰 작성시 보낼 별점-->
                 <div class="star-rating space-x-4 mx-auto mt-3">
-                  <input type="radio" id="5-stars" name="reviewPoint" value="5" v-model="ratings"/>
+                  <input type="radio" id="5-stars" name="reviewPoint" value="5" v-model="ratings" checked/>
                   <label for="5-stars" class="star pr-4">★</label>
                   <input type="radio" id="4-stars" name="reviewPoint" value="4" v-model="ratings"/>
                   <label for="4-stars" class="star">★</label>
@@ -424,17 +446,12 @@
 
         <!--별점 리뷰-->
           <div class="col-auto">
-            <div class="star-rating space-x-4 mx-auto">
-              <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
-              <label for="5-stars" class="star pr-4">★</label>
-              <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
-              <label for="4-stars" class="star">★</label>
-              <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
-              <label for="3-stars" class="star">★</label>
-              <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
-              <label for="2-stars" class="star">★</label>
-              <input type="radio" id="1-stars" name="rating" value="1" v-model="ratings" />
-              <label for="1-star" class="star">★</label>
+            <div class="star-ratingDetail space-x-4 mx-auto">
+              <label for="5-stars" ${reviewListVO.reviewPoint == 5 ? "id='point'" : "" } class="star pr-4">★</label>
+              <label for="4-stars" ${reviewListVO.reviewPoint == 4 ? "id='point'" : "" } class="star">★</label>
+              <label for="3-stars" ${reviewListVO.reviewPoint == 3 ? "id='point'" : "" } class="star">★</label>
+              <label for="2-stars" ${reviewListVO.reviewPoint == 2 ? "id='point'" : "" } class="star">★</label>
+              <label for="1-star" ${reviewListVO.reviewPoint == 1 ? "id='point'" : "" } class="star">★</label>
             </div>
           </div>
       </div>
@@ -454,14 +471,14 @@
         <div class="col-auto">
         	
 	 			<c:if test="${loginNo == reviewListVO.memberNo }">
-	        		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatemodal">수정</button>
+	        		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatemodal${reviewListVO.orderDetailNo}">수정</button>
 	        		<button type="button" class="btn btn-secondary"><a href="${root }/review/delete?reviewNo=${reviewListVO.reviewNo}&itemNo=${reviewListVO.itemNo}">삭제</a></button>
 	        	</c:if>
        
         </div>
         
             <!-- 수정 Modal -->
-        <div class="modal fade" id="updatemodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="0" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="updatemodal${reviewListVO.orderDetailNo}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="0" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -491,15 +508,15 @@
               	<input type="hidden" name="itemNo" value="${itemDto.itemNo }"> 
                 <!--리뷰 작성시 보낼 별점-->
                 <div class="star-ratingUpdate space-x-4 mx-auto mt-3">
-                  <input type="radio" id="5-starss" name="reviewPoint" value="5" v-model="ratings"/>
+                  <input type="radio" id="5-starss" name="reviewPoint" value="5" v-model="ratings" ${reviewListVO.reviewPoint == 5 ? "checked" : "" }/>
                   <label for="5-starss" class="star pr-4">★</label>
-                  <input type="radio" id="4-starss" name="reviewPoint" value="4" v-model="ratings"/>
+                  <input type="radio" id="4-starss" name="reviewPoint" value="4" v-model="ratings" ${reviewListVO.reviewPoint == 4 ? "checked" : "" }/>
                   <label for="4-starss" class="star">★</label>
-                  <input type="radio" id="3-starss" name="reviewPoint" value="3" v-model="ratings"/>
+                  <input type="radio" id="3-starss" name="reviewPoint" value="3" v-model="ratings" ${reviewListVO.reviewPoint == 3 ? "checked" : "" }/>
                   <label for="3-starss" class="star">★</label>
-                  <input type="radio" id="2-starss" name="reviewPoint" value="2" v-model="ratings"/>
+                  <input type="radio" id="2-starss" name="reviewPoint" value="2" v-model="ratings" ${reviewListVO.reviewPoint == 2 ? "checked" : "" }/>
                   <label for="2-starss" class="star">★</label>
-                  <input type="radio" id="1-starss" name="reviewPoint" value="1" v-model="ratings" />
+                  <input type="radio" id="1-starss" name="reviewPoint" value="1" v-model="ratings" ${reviewListVO.reviewPoint == 1 ? "checked" : "" }/>
                   <label for="1-starss" class="star">★</label>
                 </div>
                 

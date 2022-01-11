@@ -214,54 +214,51 @@ public class PaymentController {
 	public String success_result() {
 		return "payment/success_result";
 	}
-//	
-//	@GetMapping("/history")
-//	public String history(Model model) {
-//		model.addAttribute("list", buyDao.list());
-//		return "pay/history";
-//	}
-//	
-//	@GetMapping("/history_detail")
-//	public String historyDetail(@RequestParam int no, Model model) throws URISyntaxException {
-//		BuyDto buyDto = buyDao.get(no);
-//		model.addAttribute("buyDto", buyDto);
-//		model.addAttribute("buyDetailList", buyDetailDao.list(no));
-//		model.addAttribute("responseVO", kakaoPayService.search(buyDto.getTid()));
-//		
-//		return "pay/history_detail";
-//	}
-//	
-//	@GetMapping("cancel_all")
-//	public String cancelAll(@RequestParam int no) throws URISyntaxException {
-//		BuyDto buyDto = buyDao.get(no);
-//		if(buyDto.isAllCanceled()) {
-//			throw new IllegalArgumentException("취소가 불가능한 항목입니다");
-//		}
-//		
-//		int amount = buyDetailDao.getCancelAvailableAmount(no);
-//		
-//		KakaoPayCancelResponseVO responseVO = kakaoPayService.cancel(buyDto.getTid(), amount);
-//		
-//		buyDetailDao.cancelAll(no);
-//		buyDao.refresh(no);
-//		
-//		return "redirect:history_detail?no="+no;
-//	}
-//	
-//	@GetMapping("cancel_part")
-//	public String cancelPart(@RequestParam int buyNo, @RequestParam int productNo) throws URISyntaxException {
-//		BuyDetailDto buyDetailDto = buyDetailDao.get(buyNo, productNo);
-//		
-//			if(!buyDetailDto.isCancelAvailable()) {
-//				throw new IllegalArgumentException("취소가 불가능한 항목입니다");
-//			}
-//			BuyDto buyDto = buyDao.get(buyNo);
-//			KakaoPayCancelResponseVO responseVO = kakaoPayService.cancel(buyDto.getTid(), buyDetailDto.getPrice());
-//			
-//			buyDetailDao.cancel(buyNo, productNo);
-//			buyDao.refresh(buyNo);
-//			
-//			return "redirect:history_detail?no="+buyNo;
-//	}
+
+	@GetMapping("cancel_all")
+	public String cancelAll(@RequestParam int no) throws URISyntaxException {
+		OrdersDto ordersDto = ordersDao.get(no);
+		if(ordersDto.isAllCanceled()) {
+			throw new IllegalArgumentException("취소가 불가능한 항목입니다");
+		}
+		
+		int amount = orderDetailDao.getCancelAvailableAmount(no);
+		
+		KakaoPayCancelResponseVO responseVO = kakaoPayService.cancel(ordersDto.getTid(), amount);
+		
+		orderDetailDao.cancelAll(no);
+		ordersDao.refresh(no);
+		
+		return "redirect:history_detail?no="+no;
+	}
+	
+	@GetMapping("cancel_part")
+	public String cancelPart(@RequestParam int orderNo, @RequestParam int orderDetailNo, @RequestParam String type) throws URISyntaxException {
+			OrderDetailDto orderDetailDto = orderDetailDao.get(orderDetailNo);
+		
+			if(!orderDetailDto.isCancelAvailable()) {
+				throw new IllegalArgumentException("취소가 불가능한 항목입니다");
+			}
+			OrdersDto ordersDto = ordersDao.get(orderNo);
+			KakaoPayCancelResponseVO responseVO = kakaoPayService.cancel(ordersDto.getTid(), orderDetailDto.getOrderItemPrice());
+			
+			orderDetailDao.cancel(orderDetailNo);
+			ordersDao.refresh(orderNo);
+			
+			return "redirect:/"+type+"/order/detail/"+orderNo;
+	}
+	
+	
+	
+	@GetMapping("/order/detail")
+	public String orderDetail(@RequestParam int orderNo, Model model) throws URISyntaxException {
+		OrdersDto ordersDto = ordersDao.get(orderNo);
+		model.addAttribute("ordersDto", ordersDto);
+		model.addAttribute("orderDetailList", orderDetailDao.list(orderNo));
+		model.addAttribute("responseVO", kakaoPayService.search(ordersDto.getTid()));
+		
+		return "payment/history_detail";
+	}
+	
 //
 }

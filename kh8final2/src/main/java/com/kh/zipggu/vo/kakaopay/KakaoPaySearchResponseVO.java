@@ -14,7 +14,7 @@ public class KakaoPaySearchResponseVO {
 	private String status;
 	private String partner_order_id;
 	private String partner_user_id;
-	private String partner_method_type;
+	private String payment_method_type;
 	
 	private Amount amount;
 	private Amount canceled_amount;

@@ -2,6 +2,7 @@ package com.kh.zipggu.controller;
 
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,12 +36,16 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.kh.zipggu.repository.CertificationDao;
 import com.kh.zipggu.service.EmailService;
 import com.kh.zipggu.service.FollowService;
+import com.kh.zipggu.service.KakaoPayService;
 import com.kh.zipggu.entity.CertificationDto;
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
+import com.kh.zipggu.entity.OrdersDto;
 import com.kh.zipggu.naver.NaverLoginBO;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
+import com.kh.zipggu.repository.OrderDetailDao;
+import com.kh.zipggu.repository.OrdersDao;
 import com.kh.zipggu.service.MemberService;
 import com.kh.zipggu.service.OrderService;
 import com.kh.zipggu.vo.FollowVO;
@@ -549,5 +555,27 @@ public class MemberController {
 		List<OrderListVO> a = orderService.listBySearchVO(orderSearchVO);
 		log.debug("=============================={}", a);
 		return a;
+	}
+	@Autowired
+	private OrdersDao ordersDao;
+	@Autowired
+	private OrderDetailDao orderDetailDao;
+	@Autowired
+	private KakaoPayService kakaoPayService;
+	
+	@GetMapping("/order/detail/{orderNo}")
+	public String orderDetail(@PathVariable int orderNo, Model model, HttpSession session) throws URISyntaxException {
+		if(session.getAttribute("loginNo") != null) {
+			model.addAttribute("memberDto", memberDao.noGet((int)session.getAttribute("loginNo")));
+		}
+		OrdersDto ordersDto = ordersDao.get(orderNo);
+		model.addAttribute("ordersDto", ordersDto);
+		log.debug("=================================={}", ordersDto);
+		log.debug("=================================={}", orderNo);
+		log.debug("=================================={}", orderDetailDao.list(orderNo));
+		model.addAttribute("orderDetailList", orderDetailDao.orderDetailCustom(orderNo));
+		model.addAttribute("responseVO", kakaoPayService.search(ordersDto.getTid()));
+		
+		return "member/orders/detail";
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.kh.zipggu.entity.CategoryDto;
+import com.kh.zipggu.naver.NaverLoginBO;
 import com.kh.zipggu.service.CategoryService;
 import com.kh.zipggu.vo.CategoryVO;
 
@@ -67,7 +68,7 @@ public class Test01 {
 	}
 	
 	
-//	@Test
+	//@Test
 	public void testCart()	{
 		System.out.println(sqlSession.selectList("cart.cartCustom", 1));
 	}
@@ -78,12 +79,19 @@ public class Test01 {
 	@Value("${kakaopay.contentType}")
 	private String contentType;
 	
-//	@Test
+	@Autowired
+	private NaverLoginBO naverLoginBo;
+	
+	@Test
 	public void testProperties() {
 		System.out.println("======================================");
 		System.out.println(authorization);
 		System.out.println(contentType);
+		log.warn("ㅎㅇ = {}", naverLoginBo.getClass());
+		log.debug("ㅂㅇ");
+		
 		System.out.println("======================================");
 	}
 	
 }
+

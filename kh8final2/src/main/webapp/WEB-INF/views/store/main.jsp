@@ -74,33 +74,32 @@ $(function(){
 });
 </script>
 <div class="home-promotion">
-    <div class="star-monday-list monday-slick slick-initialized slick-slider slick-dotted" style=""><button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="">Previous</button><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 13000px; transform: translate3d(-4000px, 0px, 0px);"><div class="slick-slide slick-cloned" data-slick-index="-1" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1291" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/202112171457583CoG3ReM19.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="0" aria-hidden="true" role="tabpanel" id="slick-slide00" style="width: 1000px;" aria-describedby="slick-slide-control00" tabindex="-1"><div><a href="/promotion/view/346" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211223165233MGRnGRTRgD.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="1" aria-hidden="true" role="tabpanel" id="slick-slide01" style="width: 1000px;" aria-describedby="slick-slide-control01" tabindex="-1"><div><a href="/promotion/view/987" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211223142301mkO5gb09LW.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="2" aria-hidden="true" role="tabpanel" id="slick-slide02" style="width: 1000px;" aria-describedby="slick-slide-control02" tabindex="-1"><div><a href="/promotion/view/1292" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211217180649R2B6jWyCUc.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-current slick-active" data-slick-index="3" aria-hidden="false" role="tabpanel" id="slick-slide03" style="width: 1000px;" aria-describedby="slick-slide-control03"><div><a href="/promotion/view/1290" style="width: 100%; display: inline-block;" tabindex="0">
-                <img src="//cdn.ggumim.co.kr/original/20211211163639KO4vIIxFBs.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="4" aria-hidden="true" role="tabpanel" id="slick-slide04" style="width: 1000px;" aria-describedby="slick-slide-control04" tabindex="-1"><div><a href="/promotion/view/1285" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211211161556JA4Nu06WbE.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide" data-slick-index="5" aria-hidden="true" role="tabpanel" id="slick-slide05" style="width: 1000px;" aria-describedby="slick-slide-control05" tabindex="-1"><div><a href="/promotion/view/1291" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/202112171457583CoG3ReM19.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="6" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/346" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211223165233MGRnGRTRgD.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="7" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/987" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211223142301mkO5gb09LW.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="8" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1292" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211217180649R2B6jWyCUc.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="9" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1290" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211211163639KO4vIIxFBs.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="10" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1285" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/20211211161556JA4Nu06WbE.png" style="width: 100%;">
-            </a></div></div><div class="slick-slide slick-cloned" data-slick-index="11" id="" aria-hidden="true" tabindex="-1" style="width: 1000px;"><div><a href="/promotion/view/1291" style="width: 100%; display: inline-block;" tabindex="-1">
-                <img src="//cdn.ggumim.co.kr/original/202112171457583CoG3ReM19.png" style="width: 100%;">
-            </a></div></div></div></div><button class="slick-next slick-arrow" aria-label="Next" type="button" style="">Next</button><ul class="slick-dots" style="" role="tablist"><li class="" role="presentation"><button type="button" role="tab" id="slick-slide-control00" aria-controls="slick-slide00" aria-label="1 of 6" tabindex="-1">1</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control01" aria-controls="slick-slide01" aria-label="2 of 6" tabindex="-1">2</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control02" aria-controls="slick-slide02" aria-label="3 of 6" tabindex="-1">3</button></li><li role="presentation" class="slick-active"><button type="button" role="tab" id="slick-slide-control03" aria-controls="slick-slide03" aria-label="4 of 6" tabindex="0" aria-selected="true">4</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control04" aria-controls="slick-slide04" aria-label="5 of 6" tabindex="-1">5</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control05" aria-controls="slick-slide05" aria-label="6 of 6" tabindex="-1">6</button></li></ul></div>
+	<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+	  <div class="carousel-indicators">
+	    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+	    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+	    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+	  </div>
+	  <div class="carousel-inner">
+	    <div class="carousel-item active">
+	      <img src="//cdn.ggumim.co.kr/original/20220110182901x6tgiEp4nl.png" class="d-block w-100" alt="...">
+	    </div>
+	    <div class="carousel-item">
+	      <img src="//cdn.ggumim.co.kr/original/20220107162726J2Wc0hIG4S.png" class="d-block w-100" alt="...">
+	    </div>
+	    <div class="carousel-item">
+	      <img src="//cdn.ggumim.co.kr/original/20211231153243B08RkoHK68.png" class="d-block w-100" alt="...">
+	    </div>
+	  </div>
+	  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	    <span class="visually-hidden">Previous</span>
+	  </button>
+	  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	    <span class="visually-hidden">Next</span>
+	  </button>
+	</div>
 </div>
 
 

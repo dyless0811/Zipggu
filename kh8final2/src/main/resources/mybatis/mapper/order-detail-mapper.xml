@@ -24,7 +24,7 @@
 			#{orderItemPrice}, '결제'
 		)
 	</insert>
-	<select id="listByBuyNo" parameterType="int" resultType="OrderDetailDto">
+	<select id="listByOrderNo" parameterType="int" resultType="OrderDetailDto">
 		select * from order_detail where order_no = #{orderNo}
 	</select>
 	
@@ -32,8 +32,12 @@
 		select * from order_detail where order_no = #{orderNo} and item_no = #{itemNo}
 	</select>
 	
-	<update id="cancel" parameterType="map">
-		update order_detail set order_detail_status = '취소' where order_no = #{orderNo} and item_no = #{itemNo} 
+	<select id="getByNo" parameterType="map" resultType="OrderDetailDto">
+		select * from order_detail where order_detail_no = #{orderDetailNo}
+	</select>
+	
+	<update id="cancel" parameterType="int">
+		update order_detail set order_detail_status = '취소' where order_detail_no = #{orderDetailNo}
 	</update>
 	
 	<select id="cancelAvailableAmount" parameterType="int" resultType="int">
@@ -43,4 +47,36 @@
 	<update id="cancelAll" parameterType="int">
 		update order_detail set order_detail_status = '취소' where order_no = #{orderNo}
 	</update>
+	
+		<resultMap type="OrderDetailListVO" id="OrderAndOption">
+		<result column="order_detail_no" property="orderDetailNo"/>
+		<result column="order_no" property="orderNo"/>
+		<result column="item_no" property="itemNo"/>
+		<result column="order_quantity" property="orderQuantity"/>
+		<result column="delivery_status" property="deliveryStatus"/>
+		<result column="order_item_name" property="orderItemName"/>
+		<result column="category_no" property="categoryNo"/>
+		<result column="order_item_price" property="orderItemPrice"/>
+		<result column="order_detail_status" property="orderDetailStatus"/>
+		
+		<collection property="optionList" javaType="java.util.List" ofType="ItemOptionDto" select="listByOrderDetailNo" column="order_detail_no">
+			<result column="item_option_no" property="itemOptionNo"/>
+			<result column="item_no" property="itemNo"/>
+			<result column="item_option_group" property="itemOptionGroup"/>
+			<result column="item_option_detail" property="itemOptionDetail"/>
+			<result column="item_option_price" property="itemOptionPrice"/>
+			<result column="item_option_required" property="itemOptionRequired"/>
+		</collection>
+	</resultMap>
+	<select id="listByOrderDetailNo" parameterType="int" resultType="ItemOptionDto">
+		select * from order_option oo inner join item_option io on io.item_option_no = oo.item_option_no where order_detail_no = #{orderDetailNo}
+	</select>
+	<select id="orderDetailCustom" parameterType="int" resultMap="OrderAndOption">
+		select 
+    		*
+		from
+			order_detail
+		where
+			order_no = ${orderNo}
+	</select>
 </mapper> 
