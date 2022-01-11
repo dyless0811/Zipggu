@@ -288,20 +288,24 @@ $(function(){
 <div class="layout-container">
 
 	<div class="menu-container">
-	<c:if test="${memberDto.memberNo == loginNo}">
+	
 		<nav class="menu-nav">
 			<ul style="transform: translateX(0px);">
 				<li class="page-item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${loginNo}" class="active">프로필</a></li>
+				<c:if test="${memberDto.memberNo == loginNo}">
 				<li class="page-item"><a href="${pageContext.request.contextPath}/member/orders">나의 쇼핑</a></li>
 				<li class="page-item"><a href="#">나의 리뷰</a></li>
 				<li class="page-item"><a href="${pageContext.request.contextPath}/member/profileEdit" >설정</a></li>
+				</c:if>
 			</ul>
 		</nav>
-	</c:if>
+	
 		<nav class="menu-nav">
 		<ul style="transform: translateX(0px);">
-			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${loginNo}" class="active">모두보기</a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${memberDto.memberNo}" class="active">모두보기</a></li>
 			<li class="page-navigation__item"><a href="#">사진</a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/follow/followerList?memberNo=${memberDto.memberNo}">팔로워</a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/follow/followingList?memberNo=${memberDto.memberNo}">팔로잉</a></li>
 		</ul>
 	</nav>
 	</div>

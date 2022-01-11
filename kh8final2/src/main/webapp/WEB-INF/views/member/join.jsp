@@ -525,7 +525,7 @@ body {
 					<div class="snsWrapper">
 						<div class="snsLoginTitle">SNS계정으로 간편하게 회원가입</div>
 						<div class="snsList">
-							<a class="snsItem" href="#"><svg width="48" height="48"
+							<a class="snsItem" href="${pageContext.request.contextPath}/member/kakaoLogin"><svg width="48" height="48"
 									viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
 									<g fill="none" fill-rule="evenodd">
 									<path fill="#FFEB00"
