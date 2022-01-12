@@ -56,6 +56,10 @@
 	.reDate{
 		font-size:11px;
 	}
+	.replyDetail{
+		 white-space:pre-line;
+    	word-break:break-all;
+	}
 </style>
 <script>
 
