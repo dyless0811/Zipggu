@@ -52,7 +52,7 @@
 		        </if>
 		        </where>
 		        group by i.item_no, i.item_name, i.item_price, d.discount_rate 
-		        order by review_count asc
+		        order by review_count desc
 		    )TMP
 		) where rn between ${startRow} and ${endRow}
 	</select>
