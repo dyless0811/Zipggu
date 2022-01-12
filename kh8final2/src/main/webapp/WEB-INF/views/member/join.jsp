@@ -613,12 +613,12 @@ body {
 						</div>
 
 					</div>
-					<div class="bodyForm">
-						<div class="row">
-							<label class="title-type">프로필 이미지</label> <input type="file"
-								name="attach" accept="image/*" class="form-input">
-						</div>
-					</div>
+<!-- 					<div class="bodyForm"> -->
+<!-- 						<div class="row"> -->
+<!-- 							<label class="title-type">프로필 이미지</label> <input type="file" -->
+<!-- 								name="attach" accept="image/*" class="form-input"> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
 					<div class="bodyForm">
 						<div class="checkForm">

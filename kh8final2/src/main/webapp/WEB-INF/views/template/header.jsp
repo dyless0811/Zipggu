@@ -98,19 +98,39 @@
                       </div>
                     </div>
                     <!-- </a> -->
-                    <a href="${root }/cart/list">
-                      <div class="item sm-bar cart-icon">
-                        <img
-                          src="//cdn.ggumim.co.kr/resource/icons/ic_cart_black.png"
-                          style="
-                            width: 20px;
-                            height: 28px;
-                            vertical-align: top;
-                            margin-top: 26px;
-                          "
-                        />
-                      </div>
-                    </a>
+                            <c:choose>
+								<c:when test="${login}">
+									<a href="${root }/cart/list">
+                	                    <div class="item sm-bar cart-icon">
+					                       <img
+					                         src="//cdn.ggumim.co.kr/resource/icons/ic_cart_black.png"
+					                         style="
+					                           width: 20px;
+					                           height: 28px;
+					                           vertical-align: top;
+					                           margin-top: 26px;
+					                         "
+					                       />
+					                     </div>
+					               </a>
+								</c:when>
+								<c:otherwise>
+									<a href="${root }/member/login">
+					                    <div class="item sm-bar cart-icon">
+					                       <img
+					                        src="//cdn.ggumim.co.kr/resource/icons/ic_cart_black.png"
+					                        style="
+					                          width: 20px;
+					                          height: 28px;
+					                          vertical-align: top;
+					                          margin-top: 26px;
+					                         "
+					                       />
+					                     </div>
+					               </a>
+								</c:otherwise>
+							</c:choose>
+
                     <c:choose>
                     <c:when test="${login}">
                     <!-- 회원일 때 -->
@@ -192,7 +212,7 @@
                             <div class="notice-count">0</div>
                           </li>
                           <li>
-                            <a href="/help/"> 고객센터 </a>
+                            <a href="${root}/help/">
                           </li>
                           <li>
                             <a href="${root}/member/logout"> 로그아웃 </a>

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,10 @@ import com.kh.zipggu.vo.MemberListVO;
 @Controller
 @RequestMapping("/member")
 public class KakaoController {
-
+	
+	@Value("${kakao.clientId}")
+	public String ClientId;
+	
 	@Autowired
 	MemberDao memberDao;
 
@@ -32,7 +36,7 @@ public class KakaoController {
 	public String kakaoLogin() {
 		StringBuffer loginUrl = new StringBuffer();
 		loginUrl.append("https://kauth.kakao.com/oauth/authorize?client_id=");
-		loginUrl.append("4a2a0753564d5f6612b3afc1a856191d");
+		loginUrl.append(ClientId);
 		loginUrl.append("&redirect_uri=");
 		loginUrl.append("http://121.132.223.55:8080/zipggu/member/kakaoJoin");
 		loginUrl.append("&response_type=code");
