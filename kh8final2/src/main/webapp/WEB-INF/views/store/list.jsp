@@ -87,34 +87,23 @@ $(function(){
 		categoryNo = urlParams.get("categoryNo");
 	}
 	var categoryList = [];
-	
-	
+	var categoryName = "";
 	var itemName = urlParams.get("itemName");
 	
 	$(document).on("click",".categoryBtn",function(){
-		var categoryNo = $(this).data("category-no");
-		if(categoryNo == 0) {
-			urlParams.delete("categoryNo");
-		} else {
-			urlParams.set("categoryNo", categoryNo);		
-		}
-		location.href=url.href;
+		categoryNo = $(this).data("category-no");
+		categoryName = $(this).data("category-name");
+		resetItem();
 	});
 	
 	$(".searchForm").keypress(function(event){
 		if(event.keyCode == 13){
-			urlParams.set("itemName", $(this).val());
-			location.href=url.href;
+			itemName = $(this).val();
+			resetItem();
 		}
 	});
 	
-// 	$(".searchBtn").click(function(){
-// 		urlParams.set("itemName", $(".searchForm").val());
-// 		location.href=url.href;
-// 	});
-	
-	$(".more-btn").click(function(){
-		
+	$(document).on("click", ".more-btn", function(){
 		loadItem(page, size);
 		page++;
 	});
@@ -123,6 +112,26 @@ $(function(){
 	create_btn();
 	
 	$(".more-btn").click();
+	
+	function resetItem(){
+		categoryList = [];
+		if(categoryNo != 0) {
+			$(".categoryBtn[data-category-no="+categoryNo+"]").parent().parent().find(".categoryBtn").each(function(){
+				categoryList.push($(this).data("category-no"));
+			})						
+		}
+		
+		var listTitle = (categoryNo != 0 ? categoryName+"에 대한 " : "") + (itemName != null ? "'"+itemName+"' 검색 결과" : "상품 목록");
+		$("#listTitle").text(listTitle);
+		
+		result.empty();
+		page = 1;
+		console.log($(".more-btn").text())
+		if($(".more-btn").text() == "") {
+			$(".col-9").append($("<button>").attr("type", "button").addClass("btn").addClass("btn-primary").addClass("more-btn").text("더보기"));		
+		}
+		$(".more-btn").click();
+	}
 	
 	function loadItem(page, size){
 		$.ajax({
@@ -188,26 +197,20 @@ $(function(){
 			success:function(resp){
 				console.log("성공", resp);
 				
-					var ul = $(".category-ul");
-					var category = $("<li>")
-					.append($("<div>")
-						.addClass("cate")
-						.append($("<a>")
-							.addClass("categoryBtn")
-							.attr("data-category-no", 0)
-							.attr("href","#")
-							.text("전체카테고리")
-						)
-					);
-					
-					ul.append(category);
-					draw_category(resp, ul);
-					
-					if(categoryNo != 0) {
-						$(".categoryBtn[data-category-no="+categoryNo+"]").parent().parent().find(".categoryBtn").each(function(){
-							categoryList.push($(this).data("category-no"));
-						})						
-					}
+				var ul = $(".category-ul");
+				var category = $("<li>")
+				.append($("<div>")
+					.addClass("cate")
+					.append($("<a>")
+						.addClass("categoryBtn")
+						.attr("data-category-no", 0)
+						.attr("href","#")
+						.text("전체카테고리")
+					)
+				);
+				
+				ul.append(category);
+				draw_category(resp, ul);
 				
 
 			},
@@ -315,10 +318,10 @@ $(function(){
 			        	<span>
 			        		<c:choose>
 			        			<c:when test="${param.itemName == null}">
-			        				상품 목록
+			        				<span id="listTitle">상품 목록</span>
 			        			</c:when>
 			        			<c:otherwise>
-			        				'${param.itemName}' 검색 결과
+			        				<span id="listTitle">'${param.itemName}' 검색 결과</span>
 			        			</c:otherwise>
 			        		</c:choose>
 			        	</span>

@@ -1,5 +1,6 @@
 package com.kh.zipggu.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -48,8 +49,19 @@ public class ItemFileDaoImpl implements ItemFileDao {
 	}
 
 	@Override
+	public void updateFile(int thumbnailNo) {
+		List<Integer> files = new ArrayList<Integer>();
+		files.add(thumbnailNo);
+		updateFiles(files);
+	}
+	@Override
 	public void updateFiles(List<Integer> remainingFile) {
 		sqlSession.update("itemFile.updateFiles", remainingFile);
+	}
+
+	@Override
+	public void deleteFiles(int itemNo) {
+		sqlSession.update("itemFile.deleteFiles", itemNo);	
 	}
 
 }

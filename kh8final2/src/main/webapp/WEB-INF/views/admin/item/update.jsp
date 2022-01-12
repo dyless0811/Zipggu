@@ -47,6 +47,7 @@
     	  });
     	  
     	  $(".exist-detail-update-btn").click(function(){
+    		alert("수정 완료");
     		var itemOptionNo = $(this).parent().data("option-no");
     		var itemOptionDetail = $(this).prev().prev().find("input").val();
     		var itemOptionPrice = $(this).prev().find("input").val();
@@ -54,6 +55,7 @@
     	  });
 
     	  $(".exist-group-update-btn").click(function(){
+    		alert("수정 완료");
     		var itemNo = $("input[name=itemName]").data("item-no");
     		var itemOptionGroup = $(this).parent().data("option-group");
     		var changeGroup = $(this).prev().find("input").val();
