@@ -315,7 +315,7 @@ input[type="checkbox"]{
 
 <form method="post">
 
-		<input type="text" name="memberPw"  value="${memberListVO.memberPw}">
+		<input type="hidden" name="memberPw"  value="${memberListVO.memberPw}">
 		<input type="hidden" name="memberType"  value="카카오">
 
 

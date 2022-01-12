@@ -34,7 +34,7 @@ public class KakaoController {
 		loginUrl.append("https://kauth.kakao.com/oauth/authorize?client_id=");
 		loginUrl.append("4a2a0753564d5f6612b3afc1a856191d");
 		loginUrl.append("&redirect_uri=");
-		loginUrl.append("http://localhost:8080/zipggu/member/kakaoJoin");
+		loginUrl.append("http://121.132.223.55:8080/zipggu/member/kakaoJoin");
 		loginUrl.append("&response_type=code");
 
 		return "redirect:" + loginUrl.toString();

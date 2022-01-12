@@ -42,7 +42,7 @@ public class KakaoServiceImpl implements KakaoService{
              StringBuilder sb = new StringBuilder();
              sb.append("grant_type=authorization_code");
              sb.append("&client_id=4a2a0753564d5f6612b3afc1a856191d");  //앱 KEY VALUE
-             sb.append("&redirect_uri=http://localhost:8080/zipggu/member/kakaoJoin"); // 앱 CALLBACK 경로
+             sb.append("&redirect_uri=http://121.132.223.55:8080/zipggu/member/kakaoJoin"); // 앱 CALLBACK 경로
              sb.append("&code=" + code);
              bw.write(sb.toString());
              bw.flush();

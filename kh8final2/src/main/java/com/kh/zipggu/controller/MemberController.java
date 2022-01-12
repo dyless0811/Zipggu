@@ -140,8 +140,8 @@ public class MemberController {
 	}
 
 	
-	@GetMapping("/snsJoin")
-	public String snsJoin(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
+	@GetMapping("/naverJoin")
+	public String naverJoin(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException, ParseException {
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
@@ -183,7 +183,7 @@ public class MemberController {
 
 			model.addAttribute("memberListVO", memberListVO);
 			
-			return "member/snsJoin";
+			return "member/naverJoin";
 
 		} else {
 		
@@ -207,8 +207,8 @@ public class MemberController {
 	}
 
 	
-	@PostMapping("/snsJoin")
-	public String snsJoin(@ModelAttribute MemberListVO memberListVO) throws IllegalStateException, IOException {
+	@PostMapping("/naverJoin")
+	public String naverJoin(@ModelAttribute MemberListVO memberListVO) throws IllegalStateException, IOException {
 		
 		memberDao.snsJoin(memberListVO);
 
