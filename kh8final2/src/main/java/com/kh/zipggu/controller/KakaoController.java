@@ -23,8 +23,11 @@ import com.kh.zipggu.vo.MemberListVO;
 @RequestMapping("/member")
 public class KakaoController {
 	
-	@Value("${kakao.clientId}")
-	public String ClientId;
+//	@Value("${kakao.clientId}")
+	public String ClientId = "4a2a0753564d5f6612b3afc1a856191d";
+	
+	@Value("${kakaopay.authorization}")
+	public String Authorization;
 	
 	@Autowired
 	MemberDao memberDao;
@@ -34,6 +37,9 @@ public class KakaoController {
 
 	@GetMapping("/kakaoLogin")
 	public String kakaoLogin() {
+		System.out.println("==================================");
+		System.out.println(Authorization);
+		System.out.println("==================================");
 		StringBuffer loginUrl = new StringBuffer();
 		loginUrl.append("https://kauth.kakao.com/oauth/authorize?client_id=");
 		loginUrl.append(ClientId);

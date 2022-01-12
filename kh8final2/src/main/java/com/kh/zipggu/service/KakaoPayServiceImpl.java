@@ -3,6 +3,8 @@ package com.kh.zipggu.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,19 +27,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class KakaoPayServiceImpl implements KakaoPayService {
+	
 	@Value("${kakaopay.authorization}")
 	public String Authorization;
 	
 	@Value("${kakaopay.contentType}")
 	public String ContentType;
 	
-	@Value("${kakaopay.contextPath")
+	@Value("${kakaopay.contextPath}")
 	public String ContextPath;
 	
 	@Override
 	public KakaoPayReadyResponseVO ready(KakaoPayReadyRequestVO requestVO) throws URISyntaxException {
-		log.debug("========================================={}", Authorization);
-		log.debug("========================================={}", ContentType);
+		
 		RestTemplate template = new RestTemplate();
 		
 		HttpHeaders headers = new HttpHeaders();

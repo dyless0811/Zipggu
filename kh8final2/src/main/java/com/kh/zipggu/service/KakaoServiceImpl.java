@@ -14,7 +14,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +21,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KakaoServiceImpl implements KakaoService{
-	@Value("${kakao.clientId}")
-	public String ClientId;
+	
+//	@Value("${kakao.clientId}")
+	public String ClientId = "4a2a0753564d5f6612b3afc1a856191d";
+	
 
 	@Override
     public String getReturnAccessToken(String code) {
+		
          String access_token = "";
          String refresh_token = "";
          String reqURL = "https://kauth.kakao.com/oauth/token";

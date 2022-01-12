@@ -104,6 +104,9 @@ public class Test01 {
 		System.out.println(SESSION_STATE);
 		System.out.println(PROFILE_API_URL);
 		
+		System.out.println(authorization);
+		System.out.println(contentType);
+		
 		System.out.println("======================================");
 	}
 	
