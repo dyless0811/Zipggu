@@ -43,6 +43,10 @@
 		where order_no = #{orderNo}
 	</update>
 	
+	<select id="salesChartList" parameterType="int" resultType="SalesChartVO">
+		select sum(total_amount) sales, to_char(sysdate-${day}, 'dy') day from orders where to_char(order_date, 'yyyy-mm-dd') = to_char(sysdate-${day}, 'yyyy-mm-dd')
+	</select>
+	
 	<select id="listBySearchVO" parameterType="ItemSearchVO" resultType="OrderListVO">
 			select * from (
 		    select rownum rn, TMP.* from (

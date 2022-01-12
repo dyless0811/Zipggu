@@ -3,6 +3,7 @@ package com.kh.zipggu.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import com.kh.zipggu.vo.ItemListVO;
 import com.kh.zipggu.vo.ItemSearchVO;
 import com.kh.zipggu.vo.OrderListVO;
 import com.kh.zipggu.vo.OrderSearchVO;
+import com.kh.zipggu.vo.kakaopay.SalesChartVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,5 +71,10 @@ public class AdminRestController {
 		itemSearchVO.setStartRow(startRow);
 		itemSearchVO.setEndRow(endRow);
 		return itemService.listBySearchVO(itemSearchVO);
+	}
+	
+	@GetMapping("/sales/chart")
+	public List<SalesChartVO> orderChart() {
+		return orderService.salseChartList();
 	}
 }
