@@ -16,7 +16,8 @@
 		text-align:left;
 	}
 	.rounded-circle{
-		width:100%;
+		width:50px;
+		height:50px;
 	}
 	.flex-shrink-0{
 		width:8%
