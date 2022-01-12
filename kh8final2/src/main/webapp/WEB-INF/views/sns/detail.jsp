@@ -16,7 +16,8 @@
 		text-align:left;
 	}
 	.rounded-circle{
-		width:100%;
+		width:50px;
+		height:50px;
 	}
 	.flex-shrink-0{
 		width:8%
@@ -54,6 +55,10 @@
 	}
 	.reDate{
 		font-size:11px;
+	}
+	.replyDetail{
+		 white-space:pre-line;
+    	word-break:break-all;
 	}
 </style>
 <script>
