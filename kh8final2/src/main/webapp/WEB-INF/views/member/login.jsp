@@ -19,6 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha1.min.js"></script>
 
 
+<!--
 <script>
 $(function (){
 	$("#btn_toggle").click(function (){
@@ -26,6 +27,7 @@ $(function (){
   });
 });
 </script>
+  -->
 
 <script>
     	//form이 전송되면 input[type=password]가 자동 암호화되도록 설정
@@ -166,16 +168,16 @@ function login(){
 	</div>	
 </form>
 
-<div class="non">
-<button type="button" class="openButton" id="btn_toggle">비회원 주문 조회하기</button>
-<div class="nonAction" id="toggle">
-<form>
-<input class="inputItemL" name="id" placeholder="주문번호" style="margin-bottom: 10px;">
-<input class="inputItemL" name="email" type="email" placeholder="이메일" style="margin-bottom: 10px;">
-<button class="buttonWrapperL" type="submit">주문조회</button>
-</form>
-</div>	
-</div>
+<!-- <div class="non"> -->
+<!-- <button type="button" class="openButton" id="btn_toggle">비회원 주문 조회하기</button> -->
+<!-- <div class="nonAction" id="toggle"> -->
+<!-- <form> -->
+<!-- <input class="inputItemL" name="id" placeholder="주문번호" style="margin-bottom: 10px;"> -->
+<!-- <input class="inputItemL" name="email" type="email" placeholder="이메일" style="margin-bottom: 10px;"> -->
+<!-- <button class="buttonWrapperL" type="submit">주문조회</button> -->
+<!-- </form> -->
+<!-- </div>	 -->
+<!-- </div> -->
 	
 	<c:if test="${param.error != null}">
 	<div class="row center"> 

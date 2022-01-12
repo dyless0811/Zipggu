@@ -15,12 +15,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
 
 @Service
 public class KakaoServiceImpl implements KakaoService{
+	@Value("${kakao.clientId}")
+	public String ClientId;
 
 	@Override
     public String getReturnAccessToken(String code) {
@@ -41,7 +44,7 @@ public class KakaoServiceImpl implements KakaoService{
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
              StringBuilder sb = new StringBuilder();
              sb.append("grant_type=authorization_code");
-             sb.append("&client_id=4a2a0753564d5f6612b3afc1a856191d");  //앱 KEY VALUE
+             sb.append("&client_id="+ClientId);  //앱 KEY VALUE
              sb.append("&redirect_uri=http://121.132.223.55:8080/zipggu/member/kakaoJoin"); // 앱 CALLBACK 경로
              sb.append("&code=" + code);
              bw.write(sb.toString());
