@@ -1,9 +1,17 @@
 package com.kh.zipggu.naver;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
+
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -17,12 +25,31 @@ public class NaverLoginBO {
 //response_type: 인증 과정에 대한 구분값. code로 값이 고정돼 있습니다.
 //redirect_uri: 네이버 로그인 인증의 결과를 전달받을 콜백 URL(URL 인코딩). 애플리케이션을 등록할 때 Callback URL에 설정한 정보입니다.
 //state: 애플리케이션이 생성한 상태 토큰
-    private final static String CLIENT_ID = "WX0FJ11ACZf_7Ql4R_F4";
-    private final static String CLIENT_SECRET = "M0rNK93U5f";
-    private final static String REDIRECT_URI = "http://121.132.223.55:8080/zipggu/member/naverJoin";
-	private final static String SESSION_STATE = "oauth_state";
-	/* 프로필 조회 API URL */
-	private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
+	
+//	@Value("${kakaopay.authorization}")
+//	public String Authorization;
+//	
+//	@Value("${naver.clientId}")
+//	public String CLIENT_ID;
+//	
+//	@Value("${naver.clientSecret}")
+//	public String CLIENT_SECRET;
+//	
+//	@Value("${naver.redirectURI}")
+//	public String REDIRECT_URI;
+//	
+//	@Value("${naver.sessionState}")
+//	public String SESSION_STATE;
+//	
+//	/* 프로필 조회 API URL */
+//	@Value("${naver.profileAPIURL}")
+//	public String PROFILE_API_URL;
+
+	private String CLIENT_ID = "WX0FJ11ACZf_7Ql4R_F4";
+	private String CLIENT_SECRET = "M0rNK93U5f";
+	private String REDIRECT_URI = "http://121.132.223.55:8080/zipggu/member/naverJoin";
+	private String SESSION_STATE = "oauth_state";
+	private String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
 
 	/* 네이버 아이디로 인증 URL 생성 Method */
 	public String getAuthorizationUrl(HttpSession session) {
@@ -74,5 +101,17 @@ public class NaverLoginBO {
 		oauthService.signRequest(oauthToken, request);
 		Response response = request.send();
 		return response.getBody();
+	}
+	
+	@Autowired
+	private Environment env;
+	
+	
+	public void test() {
+		System.out.println(env);
+		System.out.println(Arrays.deepToString(env.getActiveProfiles()));
+		System.out.println(Arrays.deepToString(env.getDefaultProfiles()));
+		
+		System.out.println(CLIENT_ID);
 	}
 }

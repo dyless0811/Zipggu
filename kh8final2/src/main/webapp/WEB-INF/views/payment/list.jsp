@@ -66,22 +66,7 @@ $(function(){
 });
 </script>
 
-<h1>결제 페이지</h1>
 
-
-<h3>배송주소</h3>
-<div>
-	배송지 고르는 곳(회원만 보임)
-	<c:if test="${loginNo != null}">
-		<select>
-			<option>회원배송지1</option>
-			<option>회원배송지2</option>
-		</select>
-	</c:if>
-</div>
-
-
-<h1>디자인 시작</h1>
 
  <div class="container-zipggu">
  	<form class="row g-3 order-form" action="confirm" method="post">
@@ -113,7 +98,7 @@ $(function(){
 								
                                 <!--상품 썸네일-->
                                 <div class="col-auto">
-                                    <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${order.itemNo}" class="d-block" width="150px" height="150px" alt="...">
+                                    <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${order.itemNo}" class="d-block w-100" style="width:150px;height:150px" alt="...">
                                 </div>
 
                                 <!--상품 옵션 및 수량-->

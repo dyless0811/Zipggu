@@ -20,7 +20,7 @@
 		= 사용은 EL로 한다(SpringEL)
 	 -->
 	
-	<context:property-placeholder location="classpath:/properties/**/*.properties"/>
+	<context:property-placeholder location="classpath*:/properties/**/*.properties"/>
 	<!-- 
 		필터에서 사용할 도구들을 전역설정파일에 등록
 		= @Service, @Repository, @Component, @Aspect
@@ -124,4 +124,9 @@
 		- annotation-driven 태그를 작성하여 관련 어노테이션을 활성화
 	-->
 	<task:annotation-driven/>
+	
+	<bean id="kakaopayId" class="java.lang.String">
+		<constructor-arg value="${kakaopay.authorization}">
+		</constructor-arg>
+	</bean>
 </beans>

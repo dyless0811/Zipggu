@@ -126,14 +126,21 @@
 <div id="deletedItem" data-item-no="${deletedItemDto.itemNo}" data-item-name="${deletedItemDto.itemName}"></div>
 
 <form action="" method="get">
-  <button id="search-btn" type="button" class="btn btn-primary">검색</button>
-  <button id="reset-btn" type="button" class="btn btn-primary">초기화</button>
+  <div class="d-flex justify-content-between">
+  	<div>
+	  <button id="search-btn" type="button" class="btn btn-primary">검색</button>
+	  <button id="reset-btn" type="button" class="btn btn-primary">초기화</button>
+  	</div>
+  	<div>
+  	  <a href="${pageContext.request.contextPath}/admin/item/insert" class="btn btn-primary">등록</a>
+  	</div>
+  </div>
   <table class="table table-hover">
   	<thead>
   	  <tr class="menu-row">
   		<th data-order="c.category_no"><a href="">c.no</a></th>
   		<th data-order="category_name"><a href="">카테고리</a></th>
-  		<th data-order="item_no"><a href="">i.no</a></th>
+  		<th data-order="item_no"><a href="">상품번호</a></th>
   		<th data-order="item_name"><a href="">상품명</a></th>
   		<th data-order="item_price"><a href="">가격</a></th>
   		<th data-order="item_shipping_type"><a href="">배송타입</a></th>
