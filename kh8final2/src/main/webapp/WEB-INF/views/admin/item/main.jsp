@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 	<div class="container-zipggu">
-		<h1>상품 설정</h1>
+		<h1>금주 매출</h1>
 		<hr>
 		<ul>
 			<li><a href="item/category">카테고리  설정</a></li>
