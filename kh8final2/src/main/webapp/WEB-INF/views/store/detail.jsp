@@ -345,7 +345,7 @@
     <hr>
 	<div class="center">
 	<c:forEach var="itemFileDto" items="${itemFileDtoList}">
-		<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}" style="max-width:300px"><br><br><br>
+		<img src="${pageContext.request.contextPath}/item/image?itemFileNo=${itemFileDto.itemFileNo}" style="width:70%"><br><br><br>
 	</c:forEach>
 	</div>
 	

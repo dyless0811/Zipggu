@@ -82,13 +82,27 @@ public class Test01 {
 	@Autowired
 	private NaverLoginBO naverLoginBo;
 	
+	
+	@Value("${naver.clientId}")
+    private String CLIENT_ID;
+	@Value("${naver.clientSecret}")
+    private String CLIENT_SECRET;
+	@Value("${naver.redirectURI}")
+    private String REDIRECT_URI;
+	@Value("${naver.sessionState}")
+	private String SESSION_STATE;
+	/* 프로필 조회 API URL */
+	@Value("${naver.profileAPIURL}")
+	private String PROFILE_API_URL;
+	
 	@Test
 	public void testProperties() {
 		System.out.println("======================================");
-		System.out.println(authorization);
-		System.out.println(contentType);
-		log.warn("ㅎㅇ = {}", naverLoginBo.getClass());
-		log.debug("ㅂㅇ");
+		System.out.println(CLIENT_ID);
+		System.out.println(CLIENT_SECRET);
+		System.out.println(REDIRECT_URI);
+		System.out.println(SESSION_STATE);
+		System.out.println(PROFILE_API_URL);
 		
 		System.out.println("======================================");
 	}
