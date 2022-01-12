@@ -7,8 +7,8 @@
 <style>
 	.profile-image{
 		border-radius: 50%;
-		width:15%;
-		height:15%;
+		width:35px;
+		height:35px;
 	}
 	.dropdown:hover{
 		background-color: #dfe6e9;
