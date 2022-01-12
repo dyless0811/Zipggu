@@ -212,7 +212,7 @@
                             <div class="notice-count">0</div>
                           </li>
                           <li>
-                            <a href="${root}/help/">
+                            <a href="/help/"> 고객센터 </a>
                           </li>
                           <li>
                             <a href="${root}/member/logout"> 로그아웃 </a>
