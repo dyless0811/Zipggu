@@ -245,16 +245,20 @@ public class ItemServiceImpl implements ItemService {
 				itemOptionDao.insert(itemOptionDto);
 			}			
 		}
-		
+		System.out.println("======================= / "+itemUpdateVO.getRemainingThumbnail());
 		//썸네일이 없다면 추가
-		if(!itemUpdateVO.isThumbnailRemaining()) {
-			itemFileInsert(itemNo, thumbnail, true);
+		int thumbnailNo = itemFileDao.getThumnail(itemUpdateVO.getItemNo()).getItemFileNo();
+		itemFileDao.deleteFiles(itemUpdateVO.getItemNo());
+		if(itemUpdateVO.isThumbnailRemaining()) {
+			itemFileDao.updateFile(thumbnailNo);
 		}
 		
 		if(itemUpdateVO.isFileRemaining()) {
 			itemFileDao.updateFiles(itemUpdateVO.getRemainingFile());
 		}
 		
+		itemFileInsert(itemNo, thumbnail, true);
+
 		//다중 첨부파일이 때문에 반복문으로 꺼내기
 		for(MultipartFile file : attach) {
 			itemFileInsert(itemNo, file, false);		

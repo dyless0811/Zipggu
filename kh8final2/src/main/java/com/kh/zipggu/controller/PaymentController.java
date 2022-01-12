@@ -207,7 +207,7 @@ public class PaymentController {
 			cartDao.delete(cartListVO.getCartNo());
 		}
 		
-		return "redirect:success_result";
+		return "redirect:/member/order/detail/"+ordersDto.getOrderNo();
 	}
 	
 	@GetMapping("/success_result")

@@ -43,10 +43,14 @@
 	</insert>
 	
 	<update id="updateFiles" parameterType="list">
-		update item_file set item_file_del = 'Y' where item_file_no not in 
+		update item_file set item_file_del = 'N' where item_file_no in 
 		<foreach collection="list" item="remainingFile" open="(" separator="," close=")">
 			#{remainingFile}
 		</foreach>
+	</update>
+	
+	<update id="deleteFiles" parameterType="int">
+		update item_file set item_file_del = 'Y' where item_no = #{itemNo}
 	</update>
 	
 </mapper> 

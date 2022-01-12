@@ -18,5 +18,9 @@ public interface ItemFileDao {
 
 	List<ItemFileDto> nonThumbnailListByItemNo(int itemNo);
 
+	void updateFile(int thumbnailNo);
 	void updateFiles(List<Integer> remainingFile);
+
+	void deleteFiles(int itemNo);
+
 }

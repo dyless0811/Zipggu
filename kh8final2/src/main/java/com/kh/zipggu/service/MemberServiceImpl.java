@@ -53,15 +53,15 @@ public class MemberServiceImpl implements MemberService {
 
 		memberDao.join(memberDto);
 
-		MultipartFile multipartFile = memberJoinVO.getAttach();
-		if (!multipartFile.isEmpty()) {// 파일이 있으면
-			MemberProfileDto memberProfileDto = new MemberProfileDto();
-			memberProfileDto.setMemberNo(sequence);
-			memberProfileDto.setMemberProfileUploadname(multipartFile.getOriginalFilename());
-			memberProfileDto.setMemberProfileType(multipartFile.getContentType());
-			memberProfileDto.setMemberProfileSize(multipartFile.getSize());
-			memberProfileDao.save(memberProfileDto, multipartFile);
-		}
+//		MultipartFile multipartFile = memberJoinVO.getAttach();
+//		if (!multipartFile.isEmpty()) {// 파일이 있으면
+//			MemberProfileDto memberProfileDto = new MemberProfileDto();
+//			memberProfileDto.setMemberNo(sequence);
+//			memberProfileDto.setMemberProfileUploadname(multipartFile.getOriginalFilename());
+//			memberProfileDto.setMemberProfileType(multipartFile.getContentType());
+//			memberProfileDto.setMemberProfileSize(multipartFile.getSize());
+//			memberProfileDao.save(memberProfileDto, multipartFile);
+//		}
 	}
 
 

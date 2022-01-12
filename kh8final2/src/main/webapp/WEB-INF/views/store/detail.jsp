@@ -304,7 +304,9 @@
 				<select class="itemOptionNo form-select form-select-sm mb-3" aria-label=".form-select-lg example" data-required="${map.value[0].itemOptionRequired}">
 					<option value="" disabled selected hidden>${map.key}</option>
 					<c:forEach var="optionDto" items="${map.value}">
-					<option value="${optionDto.itemOptionNo}" data-price="${optionDto.itemOptionPrice}">${optionDto.itemOptionDetail}</option>
+					<option value="${optionDto.itemOptionNo}" data-price="${optionDto.itemOptionPrice}">
+						${optionDto.getOptionAndPrice()}
+					</option>
 					</c:forEach>
 				</select>
 			  </c:forEach>
