@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.zipggu.entity.OrdersDto;
 
 import com.kh.zipggu.vo.ReviewOrderListVO;
-import com.kh.zipggu.vo.kakaopay.SalesChartVO;
+import com.kh.zipggu.vo.SalesChartVO;
 import com.kh.zipggu.vo.OrderListVO;
 import com.kh.zipggu.vo.OrderSearchVO;
 import com.kh.zipggu.vo.ReviewListVO;

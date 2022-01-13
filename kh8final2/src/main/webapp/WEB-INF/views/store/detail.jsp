@@ -407,7 +407,7 @@
                   <input type="radio" id="2-stars" name="reviewPoint" value="2" v-model="ratings"/>
                   <label for="2-stars" class="star">★</label>
                   <input type="radio" id="1-stars" name="reviewPoint" value="1" v-model="ratings" />
-                  <label for="1-star" class="star">★</label>
+                  <label for="1-stars" class="star">★</label>
                 </div>
                 
                 <!--리뷰 내용-->
@@ -453,7 +453,7 @@
               <label for="4-stars" ${reviewListVO.reviewPoint == 4 ? "id='point'" : "" } class="star">★</label>
               <label for="3-stars" ${reviewListVO.reviewPoint == 3 ? "id='point'" : "" } class="star">★</label>
               <label for="2-stars" ${reviewListVO.reviewPoint == 2 ? "id='point'" : "" } class="star">★</label>
-              <label for="1-star" ${reviewListVO.reviewPoint == 1 ? "id='point'" : "" } class="star">★</label>
+              <label for="1-stars" ${reviewListVO.reviewPoint == 1 ? "id='point'" : "" } class="star">★</label>
             </div>
           </div>
       </div>
@@ -510,16 +510,16 @@
               	<input type="hidden" name="itemNo" value="${itemDto.itemNo }"> 
                 <!--리뷰 작성시 보낼 별점-->
                 <div class="star-ratingUpdate space-x-4 mx-auto mt-3">
-                  <input type="radio" id="5-starss" name="reviewPoint" value="5" v-model="ratings" ${reviewListVO.reviewPoint == 5 ? "checked" : "" }/>
-                  <label for="5-starss" class="star pr-4">★</label>
-                  <input type="radio" id="4-starss" name="reviewPoint" value="4" v-model="ratings" ${reviewListVO.reviewPoint == 4 ? "checked" : "" }/>
-                  <label for="4-starss" class="star">★</label>
-                  <input type="radio" id="3-starss" name="reviewPoint" value="3" v-model="ratings" ${reviewListVO.reviewPoint == 3 ? "checked" : "" }/>
-                  <label for="3-starss" class="star">★</label>
-                  <input type="radio" id="2-starss" name="reviewPoint" value="2" v-model="ratings" ${reviewListVO.reviewPoint == 2 ? "checked" : "" }/>
-                  <label for="2-starss" class="star">★</label>
-                  <input type="radio" id="1-starss" name="reviewPoint" value="1" v-model="ratings" ${reviewListVO.reviewPoint == 1 ? "checked" : "" }/>
-                  <label for="1-starss" class="star">★</label>
+                  <input type="radio" id="5-starss-${reviewListVO.orderDetailNo}" name="reviewPoint" value="5" v-model="ratings" ${reviewListVO.reviewPoint == 5 ? "checked" : "" }/>
+                  <label for="5-starss-${reviewListVO.orderDetailNo}" class="star pr-4">★</label>
+                  <input type="radio" id="4-starss-${reviewListVO.orderDetailNo}" name="reviewPoint" value="4" v-model="ratings" ${reviewListVO.reviewPoint == 4 ? "checked" : "" }/>
+                  <label for="4-starss-${reviewListVO.orderDetailNo}" class="star">★</label>
+                  <input type="radio" id="3-starss-${reviewListVO.orderDetailNo}" name="reviewPoint" value="3" v-model="ratings" ${reviewListVO.reviewPoint == 3 ? "checked" : "" }/>
+                  <label for="3-starss-${reviewListVO.orderDetailNo}" class="star">★</label>
+                  <input type="radio" id="2-starss-${reviewListVO.orderDetailNo}" name="reviewPoint" value="2" v-model="ratings" ${reviewListVO.reviewPoint == 2 ? "checked" : "" }/>
+                  <label for="2-starss-${reviewListVO.orderDetailNo}" class="star">★</label>
+                  <input type="radio" id="1-starss-${reviewListVO.orderDetailNo}" name="reviewPoint" value="1" v-model="ratings" ${reviewListVO.reviewPoint == 1 ? "checked" : "" }/>
+                  <label for="1-starss-${reviewListVO.orderDetailNo}" class="star">★</label>
                 </div>
                 
                 <!--리뷰 내용-->

@@ -1,4 +1,4 @@
-package com.kh.zipggu.vo.kakaopay;
+package com.kh.zipggu.vo;
 
 import lombok.NoArgsConstructor;
 

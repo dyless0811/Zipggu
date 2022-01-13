@@ -189,36 +189,29 @@
                               <div class="membership-vip">
                                 VIP 등급 : 포인트 3% 적립
                               </div>
-                              <div class="membership-detail" onclick="location.href='/member/membership'">
-                                자세히 보기
-                              </div>
                             </div>
                           </div>
                         </div>
                         <ul>
                           <li>
                             <a href="${root}/member/page?memberNo=${loginNo}">마이페이지</a>
-                          </li>                        
-                          <li>
-                            <a href="/member/noti/3194863"> 알림 </a>
-                            <div class="notice-count">0</div>
                           </li>
                           <li>
-                            <a href="/member/view/3194863"> 보관함 </a>
+                            <a href="${root}/member/page?memberNo=${loginNo}"> 보관함 </a>
                             <div class="notice-count hide">0</div>
                           </li>
                           <li>
-                            <a href="/member/my_order/3194863"> 주문정보 </a>
+                            <a href="${root}/member/orders"> 주문정보 </a>
                             <div class="notice-count">0</div>
                           </li>
                           <li>
-                            <a href="/help/"> 고객센터 </a>
+                            <a href="${root}/help/"> 고객센터 </a>
                           </li>
                           <li>
                             <a href="${root}/member/logout"> 로그아웃 </a>
                           </li>
                           <li class="ggumim-infomation">
-                            <p class="num">1522-7966</p>
+                            <p class="num">1500-0000</p>
                             <p class="kakao">카카오플러스 친추 '집꾸미기'</p>
                             <p class="open">OPEN AM 10:00 - PM 5:00</p>
                             <p class="off">SAT, SUN, HOLIDAY OFF.</p>
