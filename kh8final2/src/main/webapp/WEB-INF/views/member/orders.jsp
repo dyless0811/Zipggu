@@ -182,18 +182,6 @@ ul{
 margin-bottom: 0px;
 }
 
-body {
-    margin:0;
-    padding:0;
-    height:100%;
-}
-
-footer {
-    position:absolute;
-    bottom:0;
-    width:100%;
-}
-
 </style>
 <script>
 	
