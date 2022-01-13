@@ -218,7 +218,7 @@
 				});
 			});
 			
-			console.log(result.find("input[type=hidden]"));
+			console.log(result);
 			
 			if(result.find("input[type=hidden]").length == 0){
 				

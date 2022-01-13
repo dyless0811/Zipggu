@@ -11,4 +11,5 @@ public class Amount {
 	private int vat;
 	private int point;
 	private int discount;
+	
 }
