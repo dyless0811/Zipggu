@@ -5,7 +5,6 @@ import java.util.List;
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.vo.JoinChartVO;
 import com.kh.zipggu.vo.MemberListVO;
-import com.kh.zipggu.vo.kakaopay.SalesChartVO;
 
 public interface MemberDao {
 

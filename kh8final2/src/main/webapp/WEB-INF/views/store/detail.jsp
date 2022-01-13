@@ -185,7 +185,7 @@
 	
 	$(function(){
 		$(".cart-btn").click(function(e){
-	
+			
 			var check = false;
 			var buyType = $(this).data("buy-type");
 			
@@ -218,12 +218,9 @@
 				});
 			});
 			
-			console.log(result.find("input[type=hidden]"));
-			
-			if(result.find("input[type=hidden]").length == 0){
-				
-				console.log("111111111111111111");
+			if(result.text().length == 0){
 				alert("상품 옵션을 선택하고 추가를 눌러주세요");
+				$(".option-plus").focus();
 				return false;
 			}
 			
@@ -382,8 +379,8 @@
 
       <!--리뷰 쓰기 버튼-->
       <div class="center">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          리뷰 작성
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ${list.size() < 1 ? "disabled" : ""}>
+          	리뷰 작성
         </button>
 
         <!-- Modal -->
