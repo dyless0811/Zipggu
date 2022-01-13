@@ -227,11 +227,6 @@
                       <div class="login-btn">로그인/가입</div>
                     </div>
                   </a>
-                  <a href="/member/order_nonmember/">
-                    <div class="item sm-bar nonmember-order">
-                      비회원 주문조회
-                    </div>
-                  </a>
                     </c:otherwise>
                     </c:choose>
                     <a href="${root}/help/">
