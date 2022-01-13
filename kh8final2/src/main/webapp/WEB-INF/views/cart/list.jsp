@@ -336,7 +336,7 @@ $(function(){
 	            
 	                <!--상품 썸네일-->
 	                <div class="col-auto">
-	                    <img src="http://placeimg.com/150/150/animals" class="d-block w-100" alt="...">
+	                    <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${cartListVO.itemNo}" style="width:200px" class="d-block">
 	                </div>
 	                <!--상품 옵션 및 수량-->
 	                <div class="item-detail col-auto me-auto">

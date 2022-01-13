@@ -23,4 +23,6 @@ public interface ItemFileDao {
 
 	void deleteFiles(int itemNo);
 
+	void schedule();
+
 }

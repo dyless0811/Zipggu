@@ -73,11 +73,92 @@
 	});
 </script>
 
-    <div class="container-zipggu">
-      <h1>금주 매출</h1>
+<script>
+	//jQuery(document).ready(function(){});
+	$(function(){
+		
+		var labels = [];
+		var data = [];
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/admin/data/member/joinChart",
+			type: "get",
+			async: "false",
+			success: function(resp){
+				console.log("성공",resp);
+					
+				for (var vo of resp) {
+					data.push(vo.count);
+					labels.push(vo.type);
+				}
+					
+				var ctx = $("#joinChart")[0].getContext("2d");
 
-	  <canvas id="myChart" width="900" height="400"></canvas>
+				var joinChart = new Chart(ctx, {
+				    type: 'doughnut',
+				   	 data: {
+				   			labels: labels,
+				            datasets: [{
+				            label: '회원수',
+				            data: data, 
+				            backgroundColor: ['rgb(157, 206, 255)','rgb(255, 231, 46)', 'rgb(97, 231, 99)'],
+				            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+				            hoverBorderColor: "rgba(234, 236, 244, 1)",
+				            }],
+				    },
+				    options: {
+				        maintainAspectRatio: false,
+				        tooltips: {
+				          backgroundColor: "rgb(255,255,255)",
+				          bodyFontColor: "#858796",
+				          borderColor: '#dddfeb',
+				          borderWidth: 1,
+				          xPadding: 15,
+				          yPadding: 15,
+				          displayColors: false,
+				          caretPadding: 10,
+				        },
+				        legend: {
+				          display: false
+				        },
+				        cutoutPercentage: 0,
+		            },
+
+		});
+				
+			},
+			error: function(e){
+				console.log("실패",e);
+			}
+		});
+		
+		
+	});
+</script>
+
+<style>
+	.container-part{
+		padding-bottom: 40px;
+	}
+</style>
+
+    <div class="container-zipggu">
+    
+   	 <div class="container-part">
+      	<h1>금주 매출</h1>
+	  	<canvas id="myChart" width="900" height="400"></canvas>
+	 </div> 
+	  
+	  <div class="container-part">
+	  	<h1>회원 구분</h1>
+	  	<canvas id="joinChart" width="900" height="400" style="max-height: 400px"></canvas>
+	   </div> 
+	   
     </div>
+
+
+
+
 
 
 <jsp:include page="/WEB-INF/views/template/adminFtr.jsp"></jsp:include>

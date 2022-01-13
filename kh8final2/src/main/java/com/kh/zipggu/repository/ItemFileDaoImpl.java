@@ -64,4 +64,9 @@ public class ItemFileDaoImpl implements ItemFileDao {
 		sqlSession.update("itemFile.deleteFiles", itemNo);	
 	}
 
+	@Override
+	public void schedule() {
+		sqlSession.delete("itemFile.schedule");
+	}
+
 }

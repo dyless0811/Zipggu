@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
+import com.kh.zipggu.vo.JoinChartVO;
 import com.kh.zipggu.vo.MemberListVO;
 
 @Repository
@@ -148,9 +149,14 @@ public class MemberDaoWithEncrypt implements MemberDao {
 	}
 
 	@Override
-	public int nickConfirm(String memberNickname) {
-	    
+	public int nickConfirm(String memberNickname) { 
 	     return sqlSession.selectOne("member.nickConfirm", memberNickname);
-	}	
+	}
+
+	@Override
+	public List<JoinChartVO> joinChartVO(JoinChartVO joinChartVO) {
+		return sqlSession.selectList("member.joinChartList"); 
+	}
+
 	
 }

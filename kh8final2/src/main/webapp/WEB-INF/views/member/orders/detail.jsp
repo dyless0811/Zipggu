@@ -285,7 +285,9 @@ $(function(){
 	
 	             <!--상품 썸네일-->
 	             <div class="col-auto">
+	               <a href="${pageContext.request.contextPath}/store/detail/${order.itemNo}">  
 	                 <img src="${pageContext.request.contextPath}/item/thumbnail?itemNo=${order.itemNo}" class="d-block w-100" style="width:150px;height:150px" alt="...">
+	               </a>
 	             </div>
 	
 	             <!--상품 옵션 및 수량-->
