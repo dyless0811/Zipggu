@@ -47,7 +47,7 @@
 		select sum(total_amount) sales, to_char(sysdate-${day}, 'dy') day from orders where to_char(order_date, 'yyyy-mm-dd') = to_char(sysdate-${day}, 'yyyy-mm-dd')
 	</select>
 	
-	<select id="listBySearchVO" parameterType="ItemSearchVO" resultType="OrderListVO">
+	<select id="listBySearchVO" parameterType="orderListVO" resultType="OrderListVO">
 			select * from (
 		    select rownum rn, TMP.* from (
 	
@@ -60,7 +60,7 @@
 					and instr(order_name, #{orderName}) > 0
 				</if>
 				<if test="memberNo > 0">
-					and member_no = #{memberNo}
+					and m.member_no = #{memberNo}
 				</if>
 				<if test="memberNickname != null">
 					and member_nickname = #{memberNickname}
