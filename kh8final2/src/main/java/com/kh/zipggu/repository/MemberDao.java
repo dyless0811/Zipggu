@@ -3,7 +3,9 @@
 import java.util.List;
 
 import com.kh.zipggu.entity.MemberDto;
+import com.kh.zipggu.vo.JoinChartVO;
 import com.kh.zipggu.vo.MemberListVO;
+import com.kh.zipggu.vo.kakaopay.SalesChartVO;
 
 public interface MemberDao {
 
@@ -43,5 +45,7 @@ public interface MemberDao {
 
 	//닉네임 중복 검사
 	public int nickConfirm(String memberNickname);
+	
+	List<JoinChartVO> joinChartVO (JoinChartVO joinChartVO);
 	
 }
