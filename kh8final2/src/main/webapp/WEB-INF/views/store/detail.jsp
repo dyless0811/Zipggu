@@ -202,10 +202,12 @@
 			
 				}
 			});
+			
 			if(check){
 				alert("수량을 입력해주세요");
 				return;
 			}
+			
 			var result = $(".result");
 			$(".selected-item").each(function(index1, item){
 				var quantityVal = $(item).find("input").val();
@@ -217,8 +219,11 @@
 					result.append(option);	
 				});
 			});
-			
-			if(result.text().length == 0){
+			if($(".login-btn").html() != null) {
+				location.href = "${pageContext.request.contextPath}/member/login";
+				return false;
+			}
+			if(result.find("input[type=hidden]").length == 0){
 				alert("상품 옵션을 선택하고 추가를 눌러주세요");
 				$(".option-plus").focus();
 				return false;
