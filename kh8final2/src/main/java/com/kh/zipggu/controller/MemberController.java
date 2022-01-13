@@ -582,4 +582,9 @@ public class MemberController {
 		
 		return "member/orders/detail";
 	}
+	
+	@RequestMapping("/delivery")
+	public String delivery() {
+		return "member/delivery";
+	}
 }

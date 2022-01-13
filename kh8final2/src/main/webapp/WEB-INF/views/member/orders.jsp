@@ -388,7 +388,8 @@ $(function(){
 	</c:if>
 		<nav class="menu-nav">
 		<ul style="transform: translateX(0px);">
-			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${loginNo}" class="active">모두보기</a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/orders" class="active">주문 내역</a></li>
+			<li class="page-navigation__item"><a href="${pageContext.request.contextPath}/member/delivery">배송지 관리</a></li>
 		</ul>
 	</nav>
 	</div>
