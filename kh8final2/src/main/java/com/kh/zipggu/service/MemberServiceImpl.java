@@ -11,10 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
-import com.kh.zipggu.entity.SnsDto;
-import com.kh.zipggu.entity.SnsFileDto;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
+import com.kh.zipggu.vo.JoinChartVO;
 import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberListVO;
 import com.kh.zipggu.vo.MemberPageVO;
@@ -147,7 +146,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int nickConfirm(String memberNickname) {
 	        return memberDao.nickConfirm(memberNickname);
-	}		
+	}
 	
-
+	@Override
+	public List<JoinChartVO> joinChartVO(JoinChartVO joinChartVO) {
+		return memberDao.joinChartVO(joinChartVO);
+	}
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.kh.zipggu.vo.OrderListVO;
 import com.kh.zipggu.vo.OrderSearchVO;
-import com.kh.zipggu.vo.kakaopay.SalesChartVO;
+import com.kh.zipggu.vo.SalesChartVO;
 
 public interface OrderService {
 

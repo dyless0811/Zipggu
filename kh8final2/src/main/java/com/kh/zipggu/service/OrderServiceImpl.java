@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.zipggu.repository.OrdersDao;
 import com.kh.zipggu.vo.OrderListVO;
 import com.kh.zipggu.vo.OrderSearchVO;
-import com.kh.zipggu.vo.kakaopay.SalesChartVO;
+import com.kh.zipggu.vo.SalesChartVO;
 
 import lombok.extern.slf4j.Slf4j;
 

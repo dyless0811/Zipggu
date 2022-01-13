@@ -43,11 +43,49 @@
     		});
     	});
     </script>
+    <script>
+      $(function () {
+        $(document).scroll(function () {
+          var con = $("#remoCon");
+
+          var position = $(window).scrollTop();
+
+          if (position > 250) {
+            con.fadeIn(400);
+          } else if (position < 250) {
+            con.fadeOut(400);
+          }
+        });
+
+        $("#remoCon").click(function () {
+          $("html, body").animate({ scrollTop: 0 }, 50);
+        });
+      });
+    </script>
+    <style>
+      #remoCon {
+        position: fixed;
+
+        width: 40px;
+
+        height: 40px;
+
+        right: 40px;
+
+        bottom: 50px;
+
+        display: none;
+
+        color: #abb8c3;
+      }
+    </style>
 </head>
 <body>
 
 <div style="height: 100%;">
-
+	      <svg id="remoCon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
+  		<path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+	  </svg>
     <header>
       <div class="navEmptySpace">
         <div class="head head-fixed">
@@ -189,36 +227,29 @@
                               <div class="membership-vip">
                                 VIP 등급 : 포인트 3% 적립
                               </div>
-                              <div class="membership-detail" onclick="location.href='/member/membership'">
-                                자세히 보기
-                              </div>
                             </div>
                           </div>
                         </div>
                         <ul>
                           <li>
                             <a href="${root}/member/page?memberNo=${loginNo}">마이페이지</a>
-                          </li>                        
-                          <li>
-                            <a href="/member/noti/3194863"> 알림 </a>
-                            <div class="notice-count">0</div>
                           </li>
                           <li>
-                            <a href="/member/view/3194863"> 보관함 </a>
+                            <a href="${root}/member/page?memberNo=${loginNo}"> 보관함 </a>
                             <div class="notice-count hide">0</div>
                           </li>
                           <li>
-                            <a href="/member/my_order/3194863"> 주문정보 </a>
+                            <a href="${root}/member/orders"> 주문정보 </a>
                             <div class="notice-count">0</div>
                           </li>
                           <li>
-                            <a href="/help/"> 고객센터 </a>
+                            <a href="${root}/help/"> 고객센터 </a>
                           </li>
                           <li>
                             <a href="${root}/member/logout"> 로그아웃 </a>
                           </li>
                           <li class="ggumim-infomation">
-                            <p class="num">1522-7966</p>
+                            <p class="num">1500-0000</p>
                             <p class="kakao">카카오플러스 친추 '집꾸미기'</p>
                             <p class="open">OPEN AM 10:00 - PM 5:00</p>
                             <p class="off">SAT, SUN, HOLIDAY OFF.</p>

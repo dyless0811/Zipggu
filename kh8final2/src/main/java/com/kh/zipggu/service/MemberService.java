@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.MemberDto;
-import com.kh.zipggu.entity.MemberProfileDto;
+import com.kh.zipggu.vo.JoinChartVO;
 import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberListVO;
 import com.kh.zipggu.vo.MemberPageVO;
@@ -26,4 +26,7 @@ public interface MemberService {
 	public int emailConfirm(String memberEmail);
 	
 	public int nickConfirm(String memberNickname);
+	
+	List<JoinChartVO> joinChartVO (JoinChartVO joinChartVO); 
+	
 }
