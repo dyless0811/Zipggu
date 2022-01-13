@@ -15,7 +15,7 @@
 
 <body>
 
-    <div class="h4 text-center">회원 상</div>
+    <div class="h4 text-center">회원 상세</div>
     <div class="row pv-lg">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
