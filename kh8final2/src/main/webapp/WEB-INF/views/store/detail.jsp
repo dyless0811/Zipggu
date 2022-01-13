@@ -185,7 +185,7 @@
 	
 	$(function(){
 		$(".cart-btn").click(function(e){
-	
+			
 			var check = false;
 			var buyType = $(this).data("buy-type");
 			
@@ -202,10 +202,12 @@
 			
 				}
 			});
+			
 			if(check){
 				alert("수량을 입력해주세요");
 				return;
 			}
+			
 			var result = $(".result");
 			$(".selected-item").each(function(index1, item){
 				var quantityVal = $(item).find("input").val();
@@ -217,13 +219,13 @@
 					result.append(option);	
 				});
 			});
-			
-			console.log(result.find("input[type=hidden]"));
-			
+			if($(".login-btn").html() != null) {
+				location.href = "${pageContext.request.contextPath}/member/login";
+				return false;
+			}
 			if(result.find("input[type=hidden]").length == 0){
-				
-				console.log("111111111111111111");
 				alert("상품 옵션을 선택하고 추가를 눌러주세요");
+				$(".option-plus").focus();
 				return false;
 			}
 			
@@ -382,8 +384,8 @@
 
       <!--리뷰 쓰기 버튼-->
       <div class="center">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          리뷰 작성
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ${list.size() < 1 ? "disabled" : ""}>
+          	리뷰 작성
         </button>
 
         <!-- Modal -->

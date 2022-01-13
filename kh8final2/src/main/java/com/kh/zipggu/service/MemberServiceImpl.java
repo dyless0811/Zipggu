@@ -2,7 +2,6 @@ package com.kh.zipggu.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -12,8 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.MemberDto;
 import com.kh.zipggu.entity.MemberProfileDto;
-import com.kh.zipggu.entity.SnsDto;
-import com.kh.zipggu.entity.SnsFileDto;
 import com.kh.zipggu.repository.MemberDao;
 import com.kh.zipggu.repository.MemberProfileDao;
 import com.kh.zipggu.vo.JoinChartVO;
@@ -21,7 +18,6 @@ import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberListVO;
 import com.kh.zipggu.vo.MemberPageVO;
 import com.kh.zipggu.vo.MemberUploadVO;
-import com.kh.zipggu.vo.kakaopay.SalesChartVO;
 
 import lombok.extern.slf4j.Slf4j;
 

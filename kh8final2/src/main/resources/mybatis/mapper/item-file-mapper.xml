@@ -53,4 +53,7 @@
 		update item_file set item_file_del = 'Y' where item_no = #{itemNo}
 	</update>
 	
+	<delete id="schedule">
+		delete from item_file where item_file_del = 'Y' or item_no is null
+	</delete>
 </mapper> 

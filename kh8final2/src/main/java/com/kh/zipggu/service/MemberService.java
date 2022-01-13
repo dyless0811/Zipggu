@@ -6,13 +6,11 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.zipggu.entity.MemberDto;
-import com.kh.zipggu.entity.MemberProfileDto;
 import com.kh.zipggu.vo.JoinChartVO;
 import com.kh.zipggu.vo.MemberJoinVO;
 import com.kh.zipggu.vo.MemberListVO;
 import com.kh.zipggu.vo.MemberPageVO;
 import com.kh.zipggu.vo.MemberUploadVO;
-import com.kh.zipggu.vo.kakaopay.SalesChartVO;
 
 public interface MemberService {
 	void join(MemberJoinVO memberJoinVO) throws IllegalStateException, IOException;
