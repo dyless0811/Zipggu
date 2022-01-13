@@ -64,6 +64,197 @@ $(function(){
         }).open();
     }
 });
+
+// 배송지 관리
+$(function(){
+	var select = $("#delivery");
+	var deliveryNo = "";
+	var memberNo = "${loginNo}";
+	var deliveryTitle = $("#deliveryTitle");
+	var addresseeName = $("input[name=addresseeName]");
+	var addresseePhone = $("input[name=addresseePhone]");
+	var addresseePostCode = $("input[name=addresseePostCode]");
+	var addresseeAddress = $("input[name=addresseeAddress]"); 
+	var addresseeAddressDetail = $("input[name=addresseeAddressDetail]");
+	
+	getListDelivery();
+	
+	$("#delivery-insert-btn").click(function(){
+		var deliveryNo = insertDelivery();
+		console.log("추가 클릭 시 리턴 값 = ",deliveryNo)
+		getListDelivery(deliveryNo);
+	});
+	
+	$("#delivery-update-btn").click(function(){
+		var deliveryNo = updateDelivery();
+		console.log("수정 클릭 시 리턴 값 = ",deliveryNo)
+		getListDelivery(deliveryNo);
+	});
+	
+	$("#delivery-delete-btn").click(function(){
+		var deliveryNo = select.val();
+		deleteDelivery(deliveryNo);
+		clearDelivery();
+		getListDelivery();
+	})
+	
+	select.change(function(){
+		if($(this).val() == 0) {
+			clearDelivery();
+		} else {
+			getDelivery($(this).val());						
+		}
+	});
+	
+	function clearDelivery() {
+		deliveryTitle.val("");
+		addresseeName.val("");
+		addresseePhone.val("");
+		addresseePostCode.val("");
+		addresseeAddress.val("");
+		addresseeAddressDetail.val("");
+	}
+	
+	function insertDelivery() {
+		var data;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/delivery/data",
+			type: "post",
+			async: false,
+			data: {
+				memberNo : parseInt(memberNo),
+				deliveryTitle : deliveryTitle.val(),
+				deliveryName : addresseeName.val(),
+				deliveryPhone : addresseePhone.val(),
+				deliveryPostcode : addresseePostCode.val(),
+				deliveryAddress : addresseeAddress.val(),
+				deliveryAddressDetail : addresseeAddressDetail.val()
+			},
+			success: function(resp){
+				console.log("성공", resp);
+				//resp = deliveryNo
+				data = resp;
+				alert("추가되었습니다");
+			},
+			error: function(e){
+				console.log("실패", e);
+			}
+		});
+		return data;
+	}
+
+	function getDelivery(deliveryNo) {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/delivery/data",
+			type: "get",
+			data: {
+				deliveryNo: deliveryNo
+			},
+			success: function(resp){
+				console.log("성공", resp);
+				deliveryTitle.val(resp.deliveryTitle);
+				addresseeName.val(resp.deliveryName);
+				addresseePhone.val(resp.deliveryPhone);
+				addresseePostCode.val(resp.deliveryPostcode);
+				addresseeAddress.val(resp.deliveryAddress);
+				addresseeAddressDetail.val(resp.deliveryAddressDetail);
+			},
+			error: function(e){
+				console.log("실패", e);
+			}
+		});
+	}
+	
+	function getListDelivery(deliveryNo) {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/delivery/data/listByMemberNo",
+			type: "get",
+			data: {
+				memberNo : parseInt(memberNo)
+			},
+			success: function(resp){
+				console.log("성공", resp);
+				select.empty();
+				
+				var defaultOption = $("<option>")
+							.val("")
+							.attr("hidden", true)
+							.attr("disabled", true)
+							.text("배송지 선택");
+				if(deliveryNo == undefined) {
+					defaultOption.attr("selected", true);
+				}
+					
+				select.append(defaultOption);
+				
+				for (var deliveryDto of resp) {
+					var option = $("<option>")
+								.val(deliveryDto.deliveryNo)
+								.text(deliveryDto.deliveryTitle);
+					if(deliveryNo == deliveryDto.deliveryNo) {
+						option.attr("selected", true);
+					}
+					select.append(option);		
+				}
+				
+				select.append(
+					$("<option>")
+					.val("0")
+					.text("새로운 배송지")
+				)
+			},
+			error: function(e){
+				console.log("실패", e);
+			}
+		});
+	}
+	
+	function updateDelivery() {		
+		var data;
+		$.ajax({
+			url: "${pageContext.request.contextPath}/delivery/data/update",
+			type: "post",
+			async: false,
+			data: {
+				deliveryNo: select.val(),
+				memberNo: parseInt(memberNo),
+				deliveryTitle: deliveryTitle.val(),
+				deliveryName: addresseeName.val(),
+				deliveryPhone: addresseePhone.val(),
+				deliveryPostcode: addresseePostCode.val(),
+				deliveryAddress: addresseeAddress.val(),
+				deliveryAddressDetail: addresseeAddressDetail.val()
+			},
+			success: function(resp){
+				console.log("성공", resp);
+				//resp = deliveryNo
+				data = resp
+				alert("수정되었습니다");
+			},
+			error: function(e){
+				console.log("실패", e);
+			}
+		});
+		return data;
+	}
+	
+	function deleteDelivery(deliveryNo) {
+		$.ajax({
+			url: "${pageContext.request.contextPath}/delivery/data/delete",
+			type: "post",
+			data: {
+				deliveryNo: parseInt(deliveryNo)
+			},
+			success: function(resp){
+				console.log("성공", resp);
+				alert("삭제되었습니다");
+			},
+			error: function(e){
+				console.log("실패", e);
+			}
+		});
+	}
+});
 </script>
 
 
@@ -141,7 +332,23 @@ $(function(){
             <div class="row mt-4 ms-2">
                 <h3>배송지</h3>
             </div>
-
+			<div class="row">
+				<div class="col-3">
+					<select id="delivery" class="form-select">
+						
+					</select>
+				</div>
+				<div class="col-2">
+					<input id="deliveryTitle" type="text" class="form-control" placeholder="배송지명">
+				</div>
+				<div class="col-3">
+					<button type="button" id="delivery-insert-btn" class="btn btn-primary">추가</button>
+					<button type="button" id="delivery-update-btn" class="btn btn-primary">수정</button>
+					<button type="button" id="delivery-delete-btn" class="btn btn-warning">삭제</button>
+				</div>
+				<div class="col-4">
+				</div>
+			</div>
 
                 
                     
