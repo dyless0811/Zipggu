@@ -170,35 +170,13 @@
                               <a href="${root}/member/page?memberNo=${loginNo}">${loginNick}</a>
                             </div>
                             <div class="profile-grade">
-                              <div>등급</div>
-                              <div style="font-size: 9px">${loginGrade}</div>
-                            </div>
-                            <div class="profile-point">
-                              <div>포인트</div>
-                              <div>0P</div>
-                            </div>
-                          </div>
-                          <div class="membership-tooltip-wrap">
-                            <div class="membership-tooltip">
-                              <div class="membership-title">
-                                등급별 포인트 적립 안내
-                              </div>
-                              <div class="membership-family">
-                                FAMILY 등급 : 포인트 1% 적립
-                              </div>
-                              <div class="membership-vip">
-                                VIP 등급 : 포인트 3% 적립
-                              </div>
+                            <div style="font-size: 15px">${loginGrade}</div>
                             </div>
                           </div>
                         </div>
                         <ul>
                           <li>
                             <a href="${root}/member/page?memberNo=${loginNo}">마이페이지</a>
-                          </li>
-                          <li>
-                            <a href="${root}/member/page?memberNo=${loginNo}"> 보관함 </a>
-                            <div class="notice-count hide">0</div>
                           </li>
                           <li>
                             <a href="${root}/member/orders"> 주문정보 </a>
@@ -212,7 +190,6 @@
                           </li>
                           <li class="ggumim-infomation">
                             <p class="num">1500-0000</p>
-                            <p class="kakao">카카오플러스 친추 '집꾸미기'</p>
                             <p class="open">OPEN AM 10:00 - PM 5:00</p>
                             <p class="off">SAT, SUN, HOLIDAY OFF.</p>
                           </li>

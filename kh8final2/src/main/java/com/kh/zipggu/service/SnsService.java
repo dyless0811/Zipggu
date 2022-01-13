@@ -27,9 +27,12 @@ public interface SnsService {
 
 	//SNS 전체 목록 기능
 	List<SnsListVO> listByPage(Map<String, Object> param);
-
+	
 	//팔로우 한사람들 글 목록
 	List<SnsListVO> followerList(Map<String, Object> param);
+	
+	//회원이 팔로우 한 사람들의 글
+	List<SnsListVO> userFollowList(Map<String, Object> param);
 	
 	//SNS 전체 목록 기능 (내가 좋아요한 게시글 목록)
 	List<SnsListVO> myLikeList(Map<String, Object> param);

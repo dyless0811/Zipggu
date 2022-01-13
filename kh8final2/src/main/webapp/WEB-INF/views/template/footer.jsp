@@ -39,12 +39,12 @@
             >개인정보관리책임자: 이찬희(info@osquarecorp.com)
           </p>
           <p>copyright © 집꾸미기 all rights reserved.</p>
-          <p>로그인 = ${login }</p>
-          <p>번호 = ${loginNo }</p>
-          <p>아이디 = ${loginEmail }</p>
-          <p>닉네임 = ${loginNick }</p>
-          <p>등급 = ${loginGrade }</p>
-          <p>프로필번호 = ${loginProfileNo }</p>
+<%--           <p>로그인 = ${login }</p> --%>
+<%--           <p>번호 = ${loginNo }</p> --%>
+<%--           <p>아이디 = ${loginEmail }</p> --%>
+<%--           <p>닉네임 = ${loginNick }</p> --%>
+<%--           <p>등급 = ${loginGrade }</p> --%>
+<%--           <p>프로필번호 = ${loginProfileNo }</p> --%>
         
           <p style="margin: 20px 0; overflow: hidden">
             <span style="float: left"

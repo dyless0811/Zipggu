@@ -90,6 +90,12 @@ public class SnsDaoImpl implements SnsDao{
 		return sqlSession.selectList("sns.followerList", param);
 	}
 	
+	@Override
+	public List<SnsListVO> userFollowList(Map<String, Object> param) {
+		
+		return sqlSession.selectList("sns.userFollowList", param);
+	}
+	
 	//조회수 증가기능
 	@Override
 	public void readUp(int snsNo, int memberNo) {
