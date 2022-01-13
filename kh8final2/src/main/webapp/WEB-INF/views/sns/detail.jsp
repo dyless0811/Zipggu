@@ -369,7 +369,13 @@ function timeForToday(value) {
 					
 					
 					tag.find(".remove-btn").click(function(){
-						return confirm("정말 삭제 하시겠습니까?");
+						var result = confirm("정말 삭제 하시겠습니까?");
+						if(result){
+							
+						}
+						else{
+							return false;
+						}
 						console.log($(this).parent().parent().find("span").text());
 						$(this).parent().parent().find("span").text();
 						deleteData($(this).parent().parent().find("span").text(), snsNo);
