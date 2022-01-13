@@ -544,15 +544,22 @@ public class MemberController {
 	@ResponseBody
 	public List<OrderListVO> adminOrderList(@ModelAttribute OrderSearchVO orderSearchVO,
 			@RequestParam(required = false, defaultValue = "1") int page,
-			@RequestParam(required = false, defaultValue = "10") int size) {
+			@RequestParam(required = false, defaultValue = "10") int size,
+			HttpSession session) {
+		
 		int endRow = page * size;
 		int startRow = endRow - (size - 1);
+		int memberNo = (int)session.getAttribute("loginNo");
+		
 		orderSearchVO.setStartRow(startRow);
 		orderSearchVO.setEndRow(endRow);
+		orderSearchVO.setMemberNo(memberNo);
+		
 		List<OrderListVO> a = orderService.listBySearchVO(orderSearchVO);
 		log.debug("=============================={}", a);
 		return a;
 	}
+	
 	@Autowired
 	private OrdersDao ordersDao;
 	@Autowired

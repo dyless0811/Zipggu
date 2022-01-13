@@ -185,15 +185,21 @@
 	
 	$(function(){
 		$(".cart-btn").click(function(e){
+	
 			var check = false;
 			var buyType = $(this).data("buy-type");
 			
+			console.log(check);
+			console.log(buyType);
+		
 			$(".quantity").each(function(index, quantity){
 				var quantityVal = $(".quantity").val();
 				if(!quantityVal || quantityVal == 0){
 					e.preventDefault();
 					check = true;
+											
 					return false;  //break
+			
 				}
 			});
 			if(check){
@@ -208,10 +214,21 @@
 				$(item).find("span").each(function(index2, option){
 					var optionVal = $(option).data("option-no");
 					var option = "<input type='hidden' name='optionList["+index1+"].noList["+index2+"].itemOptionNo' value='"+optionVal+"'>"
-					result.append(option);
+					result.append(option);	
 				});
 			});
+			
+			console.log(result.find("input[type=hidden]"));
+			
+			if(result.find("input[type=hidden]").length == 0){
+				
+				console.log("111111111111111111");
+				alert("상품 옵션을 선택하고 추가를 눌러주세요");
+				return false;
+			}
+			
 			$("input[name=buyType]").val(buyType);
+			
 			$(".cart").submit();
 		});
 	});
