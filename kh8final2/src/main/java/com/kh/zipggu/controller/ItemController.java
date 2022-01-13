@@ -32,4 +32,5 @@ public class ItemController {
 	public ResponseEntity<ByteArrayResource> image(@RequestParam int itemFileNo) throws IOException{
 		return itemService.getFile(itemFileNo);
 	}
+	
 }

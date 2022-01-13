@@ -407,7 +407,7 @@
                   <input type="radio" id="2-stars" name="reviewPoint" value="2" v-model="ratings"/>
                   <label for="2-stars" class="star">★</label>
                   <input type="radio" id="1-stars" name="reviewPoint" value="1" v-model="ratings" />
-                  <label for="1-star" class="star">★</label>
+                  <label for="1-stars" class="star">★</label>
                 </div>
                 
                 <!--리뷰 내용-->
@@ -453,7 +453,7 @@
               <label for="4-stars" ${reviewListVO.reviewPoint == 4 ? "id='point'" : "" } class="star">★</label>
               <label for="3-stars" ${reviewListVO.reviewPoint == 3 ? "id='point'" : "" } class="star">★</label>
               <label for="2-stars" ${reviewListVO.reviewPoint == 2 ? "id='point'" : "" } class="star">★</label>
-              <label for="1-star" ${reviewListVO.reviewPoint == 1 ? "id='point'" : "" } class="star">★</label>
+              <label for="1-stars" ${reviewListVO.reviewPoint == 1 ? "id='point'" : "" } class="star">★</label>
             </div>
           </div>
       </div>
