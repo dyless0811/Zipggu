@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!-- 
-	myBatis 매퍼 파일
-	- DBMS에서 실행할 SQL 구문을 저장하는 XML 파일
-	- namespace를 통해서 여러 개의 매퍼를 구분한다
-	- 테이블 당 1개씩 만드는 것이 일반적이며, 따라서 namespace를 테이블명으로 작성하면 구분이 용이하다.
-	- <insert> , <select> , <update> , <delete>를 이용해서 CRUD 구문을 작성한다.
-	- 각 구문은 외부에서 호출이 가능하도록 반드시 ID를 겹치지 않게 부여해야 한다.
-	- parameterType 은 구문을 실행하기 위해 필요한 데이터의 형태를 말한다.
-	- resultType은 구문을 실행한 결과를 어떤 형태로 변환해야 하는지를 말한다.
- -->
+<!-- myBatis 매퍼 파일 - DBMS에서 실행할 SQL 구문을 저장하는 XML 파일 - namespace를 통해서 여러 개의 
+	매퍼를 구분한다 - 테이블 당 1개씩 만드는 것이 일반적이며, 따라서 namespace를 테이블명으로 작성하면 구분이 용이하다. - 
+	<insert> , <select> , <update> , <delete>를 이용해서 CRUD 구문을 작성한다. - 각 구문은 외부에서 
+	호출이 가능하도록 반드시 ID를 겹치지 않게 부여해야 한다. - parameterType 은 구문을 실행하기 위해 필요한 데이터의 
+	형태를 말한다. - resultType은 구문을 실행한 결과를 어떤 형태로 변환해야 하는지를 말한다. -->
 
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -23,63 +18,76 @@
 
 	<!-- 조회 -->
 	<select id="VOlist" resultType="MemberListVO">
-		select M.member_no, M.member_email, M.member_nickname, M.member_join, M.member_birth ,M.member_gender, M.member_grade, M.member_point, M.member_introduce, M.member_type, P.member_profile_no from member M LEFT outer join member_profile P on M.member_no = P.member_no
+		select M.member_no,
+		M.member_email, M.member_nickname, M.member_join, M.member_birth
+		,M.member_gender, M.member_grade, M.member_point, M.member_introduce,
+		M.member_type, P.member_profile_no from member M LEFT outer join
+		member_profile P on M.member_no = P.member_no
 	</select>
 
 	<!-- 조회 -->
 	<select id="list" resultType="MemberDto">
-		select * from member 
+		select * from member
 	</select>
 
 	<!-- 단일조회 -->
-	<select id="get" parameterType="String" resultType="MemberListVO">
+	<select id="get" parameterType="String"
+		resultType="MemberListVO">
 		select
 		me.*, pro.*
 		from member me
-		left outer join member_profile pro on me.member_no = pro.member_no
-		where me.member_email = #{memberEmail}
+		left outer join
+		member_profile pro on me.member_no = pro.member_no
+		where
+		me.member_email = #{memberEmail}
 	</select>
-	
+
 	<!-- 단일조회 -->
 	<select id="noGet" parameterType="int" resultType="MemberDto">
-		select * from member where member_no = #{memberNo}
-	</select>	
-	
+		select * from
+		member where member_no = #{memberNo}
+	</select>
+
 	<!-- 이메일 중복 조회 -->
 	<select id="emailGet" resultType="MemberListVO">
-		select * from member where member_email = #{email}
+		select * from member where
+		member_email = #{email}
 	</select>
-	
+
 	<!-- 등록 -->
 	<insert id="insert" parameterType="MemberDto">
 		insert into member(
-			member_no, member_email, member_pw, member_nickname
+		member_no,
+		member_email, member_pw, member_nickname
 		)
 		values(
-			#{memberNo}, #{memberEmail}, #{memberPw}, #{memberNickname}
+		#{memberNo},
+		#{memberEmail}, #{memberPw}, #{memberNickname}
 		)
 	</insert>
 
 	<!-- 등록 -->
 	<insert id="insert2" parameterType="MemberDto">
 		insert into member(
-			member_no, member_email, member_pw, member_nickname, member_type
+		member_no, member_email, member_pw, member_nickname, member_type
 		)
 		values(
-			#{memberNo}, #{memberEmail}, #{memberPw}, #{memberNickname}, #{memberType}
+		#{memberNo}, #{memberEmail}, #{memberPw}, #{memberNickname},
+		#{memberType}
 		)
 	</insert>
 
 	<!-- 비밀번호 변경 -->
 	<update id="changePassword" parameterType="map">
-		update member set member_pw = #{changePw}
+		update member set
+		member_pw = #{changePw}
 		where member_email = #{memberEmail}
 	</update>
 
 	<!-- 개인정보 변경 -->
 	<update id="edit" parameterType="MemberDto">
 		update member
-<!-- 		set을 이용하여 수정항목을 동적으로 배치(단 마지막 콤마는 반드시 작성) -->
+		<!-- set을 이용하여 수정항목을 동적으로 배치(단 마지막 콤마는 반드시 작성) -->
 		<set>
 			<if test="memberNickname != null">
 				member_nickname = #{memberNickname},
@@ -94,45 +102,51 @@
 				member_introduce = #{memberIntroduce}
 			</if>
 		</set>
-			where member_email = #{memberEmail}
+		where member_email = #{memberEmail}
 	</update>
 
 
-<!-- 회원 탈퇴 -->
+	<!-- 회원 탈퇴 -->
 	<delete id="quit" parameterType="String">
-		delete member where member_email = #{memberEmail}
+		delete member where member_email
+		= #{memberEmail}
 	</delete>
 
 	<!-- 검색 및 페이지네이션 -->
 	<select id="count" parameterType="map" resultType="int">
 		select count(*) from member
 		<where>
-			<if test="column != null and keyword != null">	
-			 and instr(${column},#{keyword}) > 0
+			<if test="column != null and keyword != null">
+				and instr(${column},#{keyword}) > 0
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="search" parameterType="map" resultType="MemberDto">
 		select * from (
 		select rownum rn, tmp.* from(
 		select * from member
 		<where>
-			<if test="column != null and keyword != null">	
-			 and instr(${column},#{keyword}) > 0
+			<if test="column != null and keyword != null">
+				and instr(${column},#{keyword}) > 0
 			</if>
 		</where>
 		order by member_no asc
 		)tmp) where rn between #{begin} and #{end}
 	</select>
 
-    <select id="emailConfirm" parameterType="String" resultType="int">
-        select count(*) from member where member_email= #{memberEmail}
-    </select>
+	<select id="emailConfirm" parameterType="String"
+		resultType="int">
+		select count(*) from member where member_email=
+		#{memberEmail}
+	</select>
 
-    <select id="nickConfirm" parameterType="String" resultType="int">
-        select count(*) from member where member_nickname= #{memberNickname}
-    </select>
+	<select id="nickConfirm" parameterType="String" resultType="int">
+		select count(*) from member where member_nickname= #{memberNickname}
+	</select>
 
+	<select id="joinChartList" resultType="JoinChartVO">
+		select member_type "type", count(*) "count" from member where member_type is not null group by member_type
+	</select>
 
 </mapper>
