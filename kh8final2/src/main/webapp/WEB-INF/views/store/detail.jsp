@@ -220,9 +220,6 @@
 				});
 			});
 
-			
-			console.log(result);
-			
 
 			if($(".login-btn").html() != null) {
 				location.href = "${pageContext.request.contextPath}/member/login";
