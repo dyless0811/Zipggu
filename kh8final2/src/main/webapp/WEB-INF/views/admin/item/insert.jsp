@@ -83,6 +83,7 @@
     	  $.ajax({
     		  url : "${pageContext.request.contextPath}/admin/data/category/child",
     		  type : "post",
+    		  async : false,
     		  data : {
     			  categorySuper : categoryNo
     		  },
