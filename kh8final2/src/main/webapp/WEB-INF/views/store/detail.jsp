@@ -219,10 +219,16 @@
 					result.append(option);	
 				});
 			});
+
+			
+			console.log(result);
+			
+
 			if($(".login-btn").html() != null) {
 				location.href = "${pageContext.request.contextPath}/member/login";
 				return false;
 			}
+
 			if(result.find("input[type=hidden]").length == 0){
 				alert("상품 옵션을 선택하고 추가를 눌러주세요");
 				$(".option-plus").focus();
