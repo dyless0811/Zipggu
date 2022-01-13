@@ -37,6 +37,9 @@ public interface SnsDao {
 	
 	//내가 팔로우 한사람들 글 목록
 	List<SnsListVO> followerList(Map<String, Object> param);
+	
+	//회원이 팔로우 한 사람들의 글
+	List<SnsListVO> userFollowList(Map<String, Object> param);
 
 	//내가쓴 게시물 목록
 	List<SnsDto> myList(Map<String, Object> param);

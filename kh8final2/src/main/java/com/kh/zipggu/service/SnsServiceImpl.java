@@ -176,6 +176,14 @@ public class SnsServiceImpl implements SnsService{
 		return snsDao.followerList(param);
 	}
 	
+	//회원이 팔로우 한 사람들의 글
+	@Override
+	public List<SnsListVO> userFollowList(Map<String, Object> param) {
+		
+		
+		return snsDao.userFollowList(param);
+	}
+	
 	//SNS 전체 목록 기능 (내가 좋아요한 게시글 목록)
 	@Override
 	public List<SnsListVO> myLikeList(Map<String, Object> param) {

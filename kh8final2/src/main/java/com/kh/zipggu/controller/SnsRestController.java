@@ -77,6 +77,28 @@ public class SnsRestController {
 		return snsService.followerList(param);
 	}
 	
+	//회원이 팔로우 한 사람들의 글
+	//목록 페이지
+	@GetMapping("/userFollow")
+	public List<SnsListVO> userFollowList(@RequestParam(required = false, defaultValue = "1") int page,
+			@RequestParam(required = false, defaultValue = "18") int size,
+			@RequestParam int memberNo) {
+		
+		
+		
+		int endRow = page * size;
+		int startRow = endRow - (size - 1);
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("endRow", endRow);
+		param.put("startRow", startRow);
+		param.put("memberNo", memberNo);
+		
+		log.debug("------------------------------{}" + param);
+				
+		return snsService.userFollowList(param);
+	}	
+	
 	//좋아요 등록 기능
 	@GetMapping("/like")
 	public void insert(@RequestParam int snsNo, HttpSession session) {
