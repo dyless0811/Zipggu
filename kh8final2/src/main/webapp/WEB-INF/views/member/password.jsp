@@ -179,8 +179,7 @@ margin-bottom: 0px;
 		<nav class="menu-nav">
 			<ul style="transform: translateX(0px);">
 				<li class="page-item"><a href="${pageContext.request.contextPath}/member/page?memberNo=${loginNo}">프로필</a></li>
-				<li class="page-item"><a href="#">나의 쇼핑</a></li>
-				<li class="page-item"><a href="#">나의 리뷰</a></li>
+				<li class="page-item"><a href="${pageContext.request.contextPath}/member/orders" class="active">나의 쇼핑</a></li>
 				<li class="page-item"><a href="${pageContext.request.contextPath}/member/profileEdit" class="active">설정</a></li>
 			</ul>
 		</nav>
