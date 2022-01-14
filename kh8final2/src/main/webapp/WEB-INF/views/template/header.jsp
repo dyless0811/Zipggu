@@ -47,16 +47,16 @@
       $(function () {
         $(document).scroll(function () {
           var con = $("#remoCon");
-
+          
           var position = $(window).scrollTop();
-
+          
           if (position > 250) {
             con.fadeIn(400);
           } else if (position < 250) {
             con.fadeOut(400);
           }
         });
-
+        
         $("#remoCon").click(function () {
           $("html, body").animate({ scrollTop: 0 }, 50);
         });
@@ -65,17 +65,17 @@
     <style>
       #remoCon {
         position: fixed;
-
+        
         width: 40px;
-
+        
         height: 40px;
-
+        
         right: 40px;
-
+        
         bottom: 50px;
-
+        
         display: none;
-
+        
         color: #abb8c3;
       }
     </style>
