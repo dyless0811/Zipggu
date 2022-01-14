@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="login" value="${loginNo != null }"></c:set>
 <c:set var="root" value="${pageContext.request.contextPath }"></c:set>
 <script src="${root }/resources/ckeditor5/build/ckeditor.js"></script>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
@@ -317,7 +318,11 @@ function timeForToday(value) {
 			<a href="sns" class="column btn btn-outline-secondary" data-column="sns_reply_count">댓글 정렬</a>
 		</div>
 		<div class="col-auto">
-			<a href="sns/write" class="btn btn-outline-secondary">등록</a>
+		
+				<c:if test="${login }">
+					<a href="sns/write" class="btn btn-outline-secondary">등록</a>					
+				</c:if>
+				
 		</div>
 	</div>
 	

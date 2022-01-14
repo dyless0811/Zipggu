@@ -218,7 +218,6 @@
                           </li>
                           <li>
                             <a href="${root}/member/orders"> 주문정보 </a>
-                            <div class="notice-count">0</div>
                           </li>
                           <li>
                             <a href="${root}/help/"> 고객센터 </a>
