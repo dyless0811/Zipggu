@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,11 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.kh.zipggu.entity.ItemDto;
 import com.kh.zipggu.entity.ItemOptionDto;
+import com.kh.zipggu.entity.MemberDto;
+import com.kh.zipggu.entity.MemberProfileDto;
 import com.kh.zipggu.entity.OrdersDto;
+import com.kh.zipggu.repository.MemberDao;
+import com.kh.zipggu.repository.MemberProfileDao;
 import com.kh.zipggu.repository.OrderDetailDao;
 import com.kh.zipggu.repository.OrdersDao;
 import com.kh.zipggu.service.CategoryService;
@@ -176,11 +181,41 @@ public class AdminController {
 		return "admin/member/memberList";
 	}	
 	
+	@Autowired
+	MemberDao memberDao;
+	
+	@Autowired
+	MemberProfileDao memberProfileDao;
+	
+	//회원 정보 수정
+	@GetMapping("/member/edit")
+	public String edit(@RequestParam int memberNo, Model model, HttpSession session) {
+		
+		MemberDto memberDto = memberDao.noGet(memberNo);
+		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+
+		model.addAttribute("memberDto", memberDto);
+		model.addAttribute("memberProfileDto", memberProfileDto);
+	
+		return "admin/member/edit";
+	}
+
+	@PostMapping("/member/edit")
+	public String edit(@RequestParam int memberNo, @ModelAttribute MemberDto memberDto, MultipartFile attach, HttpSession session, RedirectAttributes re) throws IllegalStateException, IOException {
+		
+		memberService.edit(memberDto, attach);
+		
+		re.addAttribute("memberNo", memberNo);
+		return "redirect:edit";
+	}	
+	
+	
 	@RequestMapping("/order/list")
 	public String orderList() {
 		return "admin/order/list";
 	}
 
+	
 	@Autowired
 	private OrdersDao ordersDao;
 	@Autowired

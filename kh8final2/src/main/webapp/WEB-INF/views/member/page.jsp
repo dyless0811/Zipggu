@@ -482,6 +482,11 @@ $(function(){
 										<a href="${pageContext.request.contextPath}/member/profileEdit" class="a-border">설정</a>
 									</div>
 								</c:if>
+								<c:if test="${loginGrade == '관리자'}">
+									<div style="margin-top: 50px">
+										<a href="${pageContext.request.contextPath}/admin/member/edit?memberNo=${memberDto.memberNo}" class="a-border">관리자용설정</a>
+									</div>
+								</c:if>
 							</div>
 						</div>
 
