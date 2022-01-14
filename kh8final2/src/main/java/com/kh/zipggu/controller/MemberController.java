@@ -584,7 +584,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/delivery")
-	public String delivery() {
+	public String delivery(HttpSession session, Model model) {
+		
+		int memberNo = (int)session.getAttribute("loginNo");
+		MemberDto memberDto = memberDao.noGet(memberNo);
+
+		model.addAttribute("memberDto", memberDto);
 		return "member/delivery";
 	}
 }
