@@ -545,11 +545,15 @@ public class MemberController {
 	public List<OrderListVO> adminOrderList(@ModelAttribute OrderSearchVO orderSearchVO,
 			@RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false, defaultValue = "10") int size,
+			@RequestParam(required = false, defaultValue = "0") int admin,
 			HttpSession session) {
 		
 		int endRow = page * size;
 		int startRow = endRow - (size - 1);
 		int memberNo = (int)session.getAttribute("loginNo");
+		if(admin != 0) {
+			memberNo = 0;
+		}
 		
 		orderSearchVO.setStartRow(startRow);
 		orderSearchVO.setEndRow(endRow);
