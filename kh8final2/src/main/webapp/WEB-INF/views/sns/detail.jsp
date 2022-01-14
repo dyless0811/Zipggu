@@ -7,6 +7,7 @@
 <c:set var="login" value="${loginNo != null}"></c:set>
 <c:set var="loginNo" value="${loginNo}"></c:set>
 <c:set var="writer" value="${loginNo == snsDto.memberNo }"></c:set>
+<c:set var="admin" value="${loginGrade == '관리자' }"></c:set>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
 	
@@ -261,7 +262,7 @@ function timeForToday(value) {
 					
 					var memberNo = loginNo == resp[i].memberNo;
 
-					if(memberNo){
+					if(memberNo || ${admin}){
 						tag.find(".edit-btn").show();
 						tag.find(".remove-btn").show();
 						tag.find(".re-reply").show();
@@ -271,6 +272,7 @@ function timeForToday(value) {
 						tag.find(".edit-btn").attr("hidden", true);
 						tag.find(".remove-btn").attr("hidden", true);
 					}
+					
 					else{
 						tag.find(".re-reply").show();
 						tag.find(".edit-btn").attr("hidden", true);
@@ -609,7 +611,7 @@ function timeForToday(value) {
            			
             		&nbsp;&nbsp;
             		<c:choose>
-            			<c:when test="${writer}">
+            			<c:when test="${writer || admin}">
 		           			<!-- 수정 아이콘 -->
 		           			<button type="button" class="btn btn-sm btn-outline-secondary">
 								<a href="edit?snsNo=${snsDto.snsNo }">수정</a>
