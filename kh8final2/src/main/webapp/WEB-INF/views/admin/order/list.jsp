@@ -52,6 +52,7 @@
 			formData.push({name: 'size', value: size});
 			formData.push({name: 'order', value: order});
 			formData.push({name: 'sort', value: sort});
+			formData.push({name: 'admin', value: 1});
 			$.ajax({
 				url: "${pageContext.request.contextPath}/member/order/list",
 				type: "post",
