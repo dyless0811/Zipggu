@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="pageMember" value="${memberDto.memberNo}"></c:set>
+<c:set var="pageNick" value="${memberDto.memberNickname}"></c:set>
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <script>
@@ -10,7 +12,10 @@
 		$(".profileFollowBtn").click(function(e) {
 			var memberNoValue = $(this).data("member-no");
 			var button = $(this);
-
+			
+			var me = '${loginNick}';
+			var you = '${pageNick}';
+			
 			$.ajax({
 				url : "${pageContext.request.contextPath}/follow/follow",
 				type : "POST",
@@ -20,6 +25,11 @@
 				dataType : "text",
 				success : function(resp) {
 					console.log("팔로우성공", resp);
+					
+					 var Msg = me+","+you;
+
+					 sock.send(Msg);
+
 
 					$("#profileFollowBtn_" + memberNoValue).css('display', 'none');
 					$("#profileUnfollowBtn_" + memberNoValue).css('display', 'block');

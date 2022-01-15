@@ -22,6 +22,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+   
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
     
     <script>
     	//form이 전송되면 input[type=password]가 자동 암호화되도록 설정
@@ -62,6 +68,59 @@
         });
       });
     </script>
+    
+    
+ <!-- 웹소켓 -->
+    <script>
+
+    var socket = null;
+
+	   $(document).ready(function (){
+		   connectWs();
+	   });
+	   
+    	   function connectWs(){
+	   
+    		var uri = "${pageContext.request.contextPath}/websocket";    	
+    		   
+    	   	sock = new SockJS(uri);
+
+    	   	sock.onopen = function() {
+    	        console.log('open');
+    	        
+    	   	 };
+
+    	    	sock.onmessage = function(evt) {
+    	    		
+    	    		console.log("evt시작",evt);
+
+    	    	     var data = evt.data;
+    	    	     
+    	    	     alert(data);
+    	    	     // toast
+    	    	     let toast = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
+    	    	     toast += "<div class='toast-header'><i class='fas fa-bell mr-2'></i><strong class='mr-auto'>알림</strong>";
+    	    	     toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
+    	    	     toast += "<span aria-hidden='true'>&times;</span></button>";
+    	    	     toast += "</div> <div class='toast-body'>" + data + "</div></div>";
+    	    	     $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+    	    	     $(".toast").toast({"animation": true, "autohide": false});
+    	    	     $('.toast').toast('show');
+    	    	     
+    	    	     console.log("toast", toast);
+    	    	 	     
+    	    	 };	
+    	    	 
+    	    	sock.onclose = function() {
+    	    	    console.log('close');
+    	    	    
+    	   	 };
+    	   };
+
+  
+
+    </script>
+    
     <style>
       #remoCon {
         position: fixed;
@@ -111,9 +170,9 @@
                   <a href="${root }/sns">
                     <div class="item">커뮤니티</div>
                   </a>
-                   <a href="${root }/member/memberList">
-                    <div class="item">회원목록</div>
-                  </a>
+<%--                    <a href="${root }/member/memberList"> --%>
+<!--                     <div class="item">회원목록</div> -->
+<!--                   </a> -->
                   <div class="right">
                     <!-- <a href="/search"> -->
                     <div class="item sm-bar">

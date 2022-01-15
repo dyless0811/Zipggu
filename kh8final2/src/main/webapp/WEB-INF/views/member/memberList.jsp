@@ -214,10 +214,10 @@ button {
 			<div class="mCol"></div>
 			<div class="rCol">
 				<div class="rDiv">
-					<h1 class="hTitle">임시 회원 목록</h1>
+					<h1 class="hTitle">회원 목록</h1>
 					<div>
 					<c:forEach var="memberListVO" items="${memberListVO}">
-						
+						<c:if test="${memberListVO.memberGrade != '관리자'}">
 							<div class="divItemContainer">
 								<a href="${pageContext.request.contextPath}/member/page?memberNo=${memberListVO.memberNo}" class="itemLinkPlaceholder">															
 									<div class="itemImageContainer">
@@ -242,8 +242,7 @@ button {
 										<button class="unfollowBtn" id="unfollow-btn"  data-member-no="${memberListVO.memberNo}">언팔로우</button>
 									</div>
 								</div>
-								
-								
+							</c:if>			
 					</c:forEach>
 					
 	

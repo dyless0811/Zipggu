@@ -463,7 +463,7 @@ public class MemberController {
 	@RequestMapping("/memberList")
 	public String memberList(Model model, @ModelAttribute MemberListVO memberListVO) throws Exception {
 		
-		
+	
 		model.addAttribute("memberListVO", memberService.VOlist(memberListVO));
 		
 		return "member/memberList";
