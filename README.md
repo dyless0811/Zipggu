@@ -28,10 +28,7 @@
 
 
 ## 2. 기술
-1. Web Front : `CSS`, `HTML`, `JavaScript`
-2. Web Server :  `Java`
-3. DBMS : 
-4. 개발환경 : 
+![IDE TOOLS](https://user-images.githubusercontent.com/88871773/149620711-355fc698-2f11-4ab8-8920-5d2c209951de.PNG) 
 
 
 
