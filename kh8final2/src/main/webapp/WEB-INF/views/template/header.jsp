@@ -238,26 +238,16 @@ var me = '${loginNick}';
     	        
     	   	 };
 
-    	    	sock.onmessage = function(evt) {
-    	    		
-    	    		console.log("evt시작",evt);
+    	    sock.onmessage = onMessage; 
+    	   	 
+    	   	function onMessage(evt){
+    	   		
+    	   	    var data = evt.data;
+    	   	    
+    	   	 $(".toastFollow").fadeIn(400).delay(2200).fadeOut(400); //5 seconds
+			 $(".toastFollow").text(data); 
 
-    	    	     var data = evt.data;
-    	    	     
-    	    	     alert(data);
-    	    	     // toast
-    	    	     let toast = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
-    	    	     toast += "<div class='toast-header'><i class='fas fa-bell mr-2'></i><strong class='mr-auto'>알림</strong>";
-    	    	     toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
-    	    	     toast += "<span aria-hidden='true'>&times;</span></button>";
-    	    	     toast += "</div> <div class='toast-body'>" + data + "</div></div>";
-    	    	     $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
-    	    	     $(".toast").toast({"animation": true, "autohide": false});
-    	    	     $('.toast').toast('show');
-    	    	     
-    	    	     console.log("toast", toast);
-    	    	 	     
-    	    	 };	
+    	   	};	
     	    	 
     	    	sock.onclose = function() {
     	    	    console.log('close');
@@ -285,6 +275,31 @@ var me = '${loginNick}';
         
         color: #abb8c3;
       }
+      
+.toastFollow { 
+	width: 400px;
+	 height: 20px; 
+	 height:auto;
+	  position: fixed; 
+	  left: 50%; 
+	  margin-left:-125px; 
+	  bottom: 100px; 
+	  z-index: 9999; 
+	  background-color: #35c5f0;
+	  border-color: #35c5f0;
+	  border: 1px solid #35c5f0;
+	   color: #ffffff;
+	   font-weight:bold;
+	    font-family: Calibri; 
+	   font-size: 15px; 
+	   padding: 10px; 
+	   text-align:center; 
+	   border-radius: 2px;
+		box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1); 
+}
+
+
+      
     </style>
 </head>
 <body>
@@ -460,6 +475,10 @@ var me = '${loginNick}';
           </div>
         </div>
       </div>
+       <div class='toastFollow' style='display:none'></div>
+
+
+      
     </header>
 
     <section>

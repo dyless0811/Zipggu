@@ -458,13 +458,11 @@ margin-bottom: 0px;
 
 								<dl class="statsAttributeList">
 									<dd class="statsAttributeLabel">팔로워</dd>
-									<a
-										href="${pageContext.request.contextPath}/follow/followerList?memberNo=${memberDto.memberNo}">
+									<a href="${pageContext.request.contextPath}/follow/followerList?memberNo=${memberDto.memberNo}">
 										<dt class="statsAttributeValue">${followingCount}</dt>
 									</a>
 									<dd class="statsAttributeLabel">팔로잉</dd>
-									<a
-										href="${pageContext.request.contextPath}/follow/followingList?memberNo=${memberDto.memberNo}">
+									<a href="${pageContext.request.contextPath}/follow/followingList?memberNo=${memberDto.memberNo}">
 										<dt class="statsAttributeValue">${followerCount}</dt>
 									</a>
 								</dl>
@@ -611,22 +609,12 @@ margin-bottom: 0px;
 									<c:if test="${loginNo != followVO.followerUser }">
 										<c:choose>
 											<c:when test="${followVO.f4f != 'Y'}">
-												<button class="followBtn"
-													id="followBtn_${followVO.followerUser}"
-													data-member-no="${followVO.followerUser}" value="${followVO.memberNickname}" >팔로우</button>
-												<button class="unfollowBtn"
-													id="unfollowBtn_${followVO.followerUser}"
-													style="display: none"
-													data-member-no="${followVO.followerUser}" value="${followVO.memberNickname}">팔로잉</button>
+												<button class="followBtn" id="followBtn_${followVO.followerUser}" data-member-no="${followVO.followerUser}" value="${followVO.memberNickname}" >팔로우</button>
+												<button class="unfollowBtn" id="unfollowBtn_${followVO.followerUser}" style="display: none" data-member-no="${followVO.followerUser}" value="${followVO.memberNickname}">팔로잉</button>
 											</c:when>
 											<c:otherwise>
-												<button class="followBtn"
-													id="followBtn_${followVO.followerUser}"
-													style="display: none"
-													data-member-no="${followVO.followerUser}" value="${followVO.memberNickname}">팔로우</button>
-												<button class="unfollowBtn"
-													id="unfollowBtn_${followVO.followerUser}"
-													data-member-no="${followVO.followerUser}" value="${followVO.memberNickname}">팔로잉</button>
+												<button class="followBtn" id="followBtn_${followVO.followerUser}" style="display: none" data-member-no="${followVO.followerUser}" value="${followVO.memberNickname}">팔로우</button>
+												<button class="unfollowBtn" id="unfollowBtn_${followVO.followerUser}" data-member-no="${followVO.followerUser}" value="${followVO.memberNickname}">팔로잉</button>
 											</c:otherwise>
 										</c:choose>
 									</c:if>
