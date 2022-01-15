@@ -27,10 +27,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 
+		int userNo = (int) session.getAttributes().get("loginNo");
 		String userNick = (String) session.getAttributes().get("loginNick");
 
 		UserVO user = new UserVO();
 
+		user.setUserNo(userNo);
 		user.setUserNick(userNick);
 		user.setSession(session);
 
@@ -38,6 +40,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 		log.debug("-------현재총입장-----session---------{}", session);// 현재 접속한 사람
 
+//		userSessionsMap.put(userNo, session);
 		userSessionsMap.put(userNick, session);
 
 		log.debug("-----sessions-------{}", sessions);
@@ -50,46 +53,53 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
-		String userNick = (String) session.getAttributes().get("loginNick");
-
 		String msg = message.getPayload();
 		log.debug("-----메시지성공-------{}", message.getPayload());
 
+		
 		if (msg != null) {
+			
 			String[] strs = msg.split(",");
 			log.debug("-----strs-------{}", strs.toString());
 
-			if (strs != null && strs.length == 2) {
+			if (strs != null && strs.length == 3) {
 				String me = strs[0];
 				String you = strs[1];
-				log.debug("-----메세지성공-------{}", strs[0],strs[1]);
-
+				String resp = strs[2];
+				
 				// 작성자가 로그인 해서 있다면
 				WebSocketSession boardWriterSession = userSessionsMap.get(you);
-
-				log.debug("-----boardWriterSession-----{}", userSessionsMap.get(userNick));
-
-				if (boardWriterSession != null) {
+					
+				log.debug("-----resp-----{}", resp);
+			
+				if (boardWriterSession != null && resp.equals("팔로우성공") ) {
 					TextMessage tmpMsg = new TextMessage(me + "님이 " + you + "님을 팔로우 했습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 					log.debug("-----boardWriterSession-----{}", tmpMsg);
 				}
-
+				else if (boardWriterSession != null && resp.equals("언팔로우성공")) {
+					TextMessage tmpMsg = new TextMessage(me + "님이 " + you + "님을 팔로우 취소했습니다.");
+					boardWriterSession.sendMessage(tmpMsg);
+					log.debug("-----boardWriterSession-----{}", tmpMsg);
+				}
 				
 
 			}
 		}
 	}
-//}
+
 
 	// 연결 해제될때
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		String senderNick = getMemberNick(session);
 		if(senderNick!=null) {	// 로그인 값이 있는 경우만
+			
 			log.debug( "----------연결 종료됨--------{}",senderNick);
+
 		
 		userSessionsMap.remove(senderNick);
+
 		sessions.remove(session);
 	}
 	}
@@ -102,4 +112,5 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		return m_nick==null? null: m_nick;
 
 	}
+	
 }

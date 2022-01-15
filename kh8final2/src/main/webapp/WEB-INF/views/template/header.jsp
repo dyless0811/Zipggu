@@ -69,6 +69,154 @@
       });
     </script>
     
+<!-- 팔로우 -->   
+<script>
+
+var me = '${loginNick}';
+
+	$(document).ready(function() {
+
+		$(".followBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+			var memberNickValue = document.getElementById("followBtn_"+memberNoValue).value;
+			var button = $(this);
+
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/follow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("팔로우성공", resp);
+            		console.log("you", memberNickValue);
+						
+            	 	you= memberNickValue;
+            		
+            	 	var res = '팔로우성공';
+            	 	
+					 var Msg = me+","+you+","+res;
+
+					 sock.send(Msg);
+
+					$("#followBtn_" + memberNoValue).css('display', 'none');
+					$("#unfollowBtn_" + memberNoValue).css('display', 'block');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+
+		$(".unfollowBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+			var memberNickValue = document.getElementById("unfollowBtn_"+memberNoValue).value;
+			var button = $(this);
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/unfollow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("언팔로우성공", resp);
+
+            	 	you= memberNickValue;
+            		
+            	 	var res = '언팔로우성공';
+            	 	
+					 var Msg = me+","+you+","+res;
+
+					 sock.send(Msg);
+					
+					$("#followBtn_" + memberNoValue).css('display', 'block');
+					$("#unfollowBtn_" + memberNoValue).css('display', 'none');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+	});
+
+
+
+	$(document).ready(function() {
+
+		$(".profileFollowBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+	        var memberNickValue = document.getElementById("profileFollowBtn_${memberDto.memberNo}").value;
+			var button = $(this);
+
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/follow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("팔로우성공", resp);
+            		console.log("you", memberNickValue);
+						
+            	 	you= memberNickValue;
+            	 	
+            		var res = '팔로우성공';
+            		
+            		 var Msg = me+","+you+","+res;
+
+					 sock.send(Msg);
+
+					$("#profileFollowBtn_" + memberNoValue).css('display', 'none');
+					$("#profileUnfollowBtn_" + memberNoValue).css('display', 'block');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+
+		$(".profileUnfollowBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+			var memberNickValue = document.getElementById("profileUnfollowBtn_${memberDto.memberNo}").value;
+			var button = $(this);
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/unfollow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("언팔로우성공", resp);
+
+            	 	you= memberNickValue;
+            		
+            	 	var res = '언팔로우성공';
+            	 	
+					 var Msg = me+","+you+","+res;
+
+					 sock.send(Msg);
+					
+					$("#profileFollowBtn_" + memberNoValue).css('display', 'block');
+					$("#profileUnfollowBtn_" + memberNoValue).css('display', 'none');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+	});
+</script>
+ 
+    
     
  <!-- 웹소켓 -->
     <script>
