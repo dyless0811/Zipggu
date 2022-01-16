@@ -47,7 +47,7 @@
 <script>
 	var checkCode = false;
 	var checkEmail = false;
-
+	var emailSave = "";
 	
 	$(function() {
 		
@@ -68,9 +68,9 @@
 											if (data == "error") {
 												$("#email").attr("disabled", false);
 												$("#emailChk").attr("disabled", false);
-												$(".passwordDIv").css("display", "none");
-												
+												$(".passwordDIv").css("display", "none");				
 											} else {
+												$(".inputItemJ").attr("readonly", true);
 												$("#emailChk2").css("display","inline-block");
 												$(".successEmail").css("display", "none")
 												$(".disNone").css("display","inline-block")
@@ -114,8 +114,10 @@
 												$("#serialForm").css("display", "none");
 												$("#emailChk").text("이메일 인증 완료");		
 												$(".passwordDIv").css("display", "inline-block");
+												emailSave = $("#email").val();		
 												checkCode = true;
 												
+												console.log("여긴 인증완료", emailSave)
 												console.log(checkCode);
 												
 											} else {
@@ -130,7 +132,36 @@
 										}
 									});					
 						});
- 	});		
+				});	
+	
+					function emailCheck() {
+
+						var input = document.querySelector("input[name=memberEmail]");
+						var notice = input.nextElementSibling;
+				
+						if (input.value == emailSave) {
+
+							
+							console.log("이메일체크완료",emailSave);
+							
+							return true;
+						} else {
+							$(".successEmail").attr("disabled", false);
+							$("#emailChk2").attr("disabled", false);
+							$("#email").attr("readonly",false);
+							$("#emailChk").attr("disabled",false);
+							$("#emailChk").attr("readonly",false);
+							$("#serialChk").attr("readonly", false);
+							$(".inputTop").attr("disabled",false)
+							$(".successEmailChk").css("display", "inline-block");
+							$("#emailChk").text("이메일 인증 하기");		
+							$(".passwordDIv").css("display", "none");
+
+							console.log("이메일체크실패",emailSave);
+							return false;
+						}
+					}
+					
 	
 
 		   function emailConfirm(){
@@ -191,7 +222,7 @@
    
 		
 		function formCheck() {
-			if(checkEmail && checkCode && pwCheck() && pw2Check()){
+			if(checkEmail && checkCode && pwCheck() && pw2Check() && emailCheck()){
 				
 				alert('비밀번호 재설정이 완료되었습니다');
 				$('form').submit();
@@ -203,7 +234,7 @@
 			
 		}			
 				
-
+ 	
 </script>
 
 <script>
@@ -534,7 +565,7 @@ margin-bottom: 0px;
 
 					<div class="row" style="width: 400px">
 						<label class="title-type formItem">가입한 이메일 주소를 입력해주세요.</label> 
-						<input type="email" name="memberEmail" placeholder="이메일" autocomplete="off" class="inputItemJ" id="email" oninput = "emailConfirm()" required>
+						<input type="email" name="memberEmail" placeholder="이메일" autocomplete="off" class="inputItemJ" oninput = "emailConfirm()" id="email"   onkeyup="emailCheck()" required>
 						<div class="notice"></div>
 						<div id="emailConfirm" style="font-size: 12px; color: red;"></div>
 					</div>
