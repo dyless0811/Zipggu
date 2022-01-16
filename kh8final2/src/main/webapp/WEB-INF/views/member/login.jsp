@@ -147,7 +147,7 @@ function login(){
 	</div>
 	
 	<div class="action">
-	<a href="${pageContext.request.contextPath}/member/password">비밀번호 재설정</a>
+	<a href="${pageContext.request.contextPath}/member/passwordReset">비밀번호 재설정</a>
 	<a href="${pageContext.request.contextPath}/member/join" style="margin-left: 20px;">회원가입</a>
 	</div>	
 	
