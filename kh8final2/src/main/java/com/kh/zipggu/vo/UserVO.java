@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class UserVO {
 	
-	private Integer userNo;
+	private int userNo;
 	private String userNick;
 	private WebSocketSession session;
 

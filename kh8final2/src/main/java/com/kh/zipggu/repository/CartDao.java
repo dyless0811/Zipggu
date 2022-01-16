@@ -27,5 +27,4 @@ public interface CartDao {
 	//장바구니에서 상품 수량 변경 기능
 	void updateQuantity(ItemOrderListVO itemOrderListVO);
 
-
 }

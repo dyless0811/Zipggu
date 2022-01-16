@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.kh.zipggu.repository.CartDao;
 import com.kh.zipggu.vo.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebSocketHandler extends TextWebSocketHandler {
 
+	@Autowired
+	CartDao cartDao;
+	
 	// 로그인 한 전체
 	List<WebSocketSession> sessions = new ArrayList<WebSocketSession>();
 	// 1대1
@@ -26,27 +30,23 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	// 서버에 접속이 성공 했을때
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-
-		int userNo = (int) session.getAttributes().get("loginNo");
+		
+	
 		String userNick = (String) session.getAttributes().get("loginNick");
 
 		UserVO user = new UserVO();
 
-		user.setUserNo(userNo);
 		user.setUserNick(userNick);
 		user.setSession(session);
 
 		sessions.add(session);
 
-		log.debug("-------현재총입장-----session---------{}", session);// 현재 접속한 사람
-
-//		userSessionsMap.put(userNo, session);
 		userSessionsMap.put(userNick, session);
-
-		log.debug("-----sessions-------{}", sessions);
+		
+		log.debug("-------현재총입장-----sessions---------{}", sessions);// 현재 접속한 사람
 		log.debug("-----user-------{}", user);
 		log.debug("-----userSessionsMap-------{}", userSessionsMap);
-
+		
 	}
 
 	// 소켓에 메세지를 보냈을때
@@ -86,6 +86,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 			}
 		}
+		
+	
+		
 	}
 
 
@@ -96,7 +99,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		if(senderNick!=null) {	// 로그인 값이 있는 경우만
 			
 			log.debug( "----------연결 종료됨--------{}",senderNick);
-
 		
 		userSessionsMap.remove(senderNick);
 

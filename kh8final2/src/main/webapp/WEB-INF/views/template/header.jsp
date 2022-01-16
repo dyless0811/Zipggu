@@ -234,8 +234,8 @@ var me = '${loginNick}';
     	   	sock = new SockJS(uri);
 
     	   	sock.onopen = function() {
-    	        console.log('open');
-    	        
+    	        console.log('open111',111111111);
+    	    
     	   	 };
 
     	    sock.onmessage = onMessage; 
@@ -244,20 +244,22 @@ var me = '${loginNick}';
     	   		
     	   	    var data = evt.data;
     	   	    
+    	   	 console.log('evt1111',data);
+    	   	 
     	   	 $(".toastFollow").fadeIn(400).delay(2200).fadeOut(400); //5 seconds
 			 $(".toastFollow").text(data); 
 
     	   	};	
     	    	 
     	    	sock.onclose = function() {
-    	    	    console.log('close');
+    	    	    console.log('close1111');
     	    	    
-    	   	 };
+    	   	 };    
     	   };
-
   
-
     </script>
+    
+  
     
     <style>
       #remoCon {
@@ -362,8 +364,10 @@ var me = '${loginNick}';
 								<c:when test="${login}">
 									<a href="${root }/cart/list">
                 	                    <div class="item sm-bar cart-icon">
-					                       <img
-					                         src="//cdn.ggumim.co.kr/resource/icons/ic_cart_black.png"
+                	                    	<c:if test="${cartCount > 0}">
+                	                    	<span id="count" class="cart-count"></span>
+                	                    	</c:if>
+					                       <img src="//cdn.ggumim.co.kr/resource/icons/ic_cart_black.png"
 					                         style="
 					                           width: 20px;
 					                           height: 28px;
