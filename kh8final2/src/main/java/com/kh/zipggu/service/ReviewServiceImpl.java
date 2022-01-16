@@ -25,7 +25,7 @@ public class ReviewServiceImpl implements ReviewService{
 	private ReviewFileDao reviewFileDao;
 	
 	// 저장 폴더
-	private File directory = new File("D:/upload/review");
+	private File directory = new File("D:/upload/kh8b/review");
 		
 	@Override
 	public void insert(ReviewInsertVO reviewInsertVO) throws IllegalStateException, IOException {

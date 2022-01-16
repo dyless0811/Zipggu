@@ -19,7 +19,7 @@ public class SnsFileDaoImpl implements SnsFileDao{
 	private SqlSession sqlSession;
 	
 	//저장용 폴더
-	private File directory = new File("D:/upload/SNS");
+	private File directory = new File("D:/upload/kh8b/SNS");
 	
 	//시퀀스값 먼저 받는 기능
 	@Override

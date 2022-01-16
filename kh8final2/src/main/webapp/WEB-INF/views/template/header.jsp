@@ -399,17 +399,8 @@ var me = '${loginNick}';
                     <c:when test="${login}">
                     <!-- 회원일 때 -->
                     <div class="item sm-bar member">
-                      <div class="profile-image-wrapper">
-                     
-                          	<c:choose>
-								<c:when test="${loginProfileNo != 0}">
-									<img src="${root}/member/profile?memberNo=${loginNo}" class="profile-image">
-								</c:when>
-								<c:otherwise>
-									<img src="https://via.placeholder.com/120x120?text=User" class="profile-image">
-								</c:otherwise>
-							</c:choose>
-							
+                      <div class="profile-image-wrapper">         
+						<img src="${root}/member/profile?memberNo=${loginNo}" class="profile-image">	
                       </div>
                       <div class="nickname">${loginNick} </div>
                       <div
@@ -418,16 +409,7 @@ var me = '${loginNick}';
                       >
                         <div class="member-profile-section">
                           <div class="profile-image">
-                                               
-                           	<c:choose>
-								<c:when test="${loginProfileNo != 0}">
-									<img src="${root}/member/profile?memberNo=${loginNo}" class="profile-image">
-								</c:when>
-								<c:otherwise>
-									<img src="https://via.placeholder.com/120x120?text=User" class="profile-image">
-								</c:otherwise>
-							</c:choose>
-							
+ 							<img src="${root}/member/profile?memberNo=${loginNo}" class="profile-image">
                           </div>
                           <div class="profile-contents">
                             <div class="profile-nickname">

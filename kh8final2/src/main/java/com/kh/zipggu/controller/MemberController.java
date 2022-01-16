@@ -1,6 +1,7 @@
 package com.kh.zipggu.controller;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -10,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -86,6 +88,9 @@ public class MemberController {
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
 
+	/* memberProfileImage */
+	private File directory = new File("D:/upload/kh8b/member");
+	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
@@ -314,7 +319,22 @@ public class MemberController {
 
 		// 프로필번호(memberProfileNo)로 프로필 이미지 파일정보를 구한다.
 		MemberProfileDto memberProfileDto = memberProfileDao.noGet(memberNo);
+		if(memberProfileDto == null) {
+			File target = new File(directory, "dummy");
 
+			byte[] data = FileUtils.readFileToByteArray(target);
+			ByteArrayResource resource = new ByteArrayResource(data); 
+			
+			String encodeName = URLEncoder.encode("dummy.png", "UTF-8");
+			encodeName = encodeName.replace("+", "%20");
+			
+			return ResponseEntity.ok()
+					.contentType(MediaType.APPLICATION_OCTET_STREAM)
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+encodeName+"\"")
+					.header("content-Encoding", "UTF-8")
+					.contentLength(1132)
+					.body(resource);
+		}
 		// 프로필번호(memberProfileNo)로 실제 파일 정보를 불러온다
 		byte[] data = memberProfileDao.load(memberProfileDto.getMemberProfileNo());
 		ByteArrayResource resource = new ByteArrayResource(data);
