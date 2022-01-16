@@ -18,7 +18,7 @@ public class ReviewFileDaoImpl implements ReviewFileDao{
 	private SqlSession sqlSession;
 	
 	//저장용 폴더
-	private File directory = new File("D:/upload/review");
+	private File directory = new File("D:/upload/kh82/review");
 		
 	//리뷰 첨부파일 등록 기능
 	@Override

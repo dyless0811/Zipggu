@@ -32,7 +32,7 @@ public class MemberProfileDaoImpl implements MemberProfileDao{
 
 	
 	//저장용 폴더
-	private File directory = new File("D:/upload/member");
+	private File directory = new File("D:/upload/kh82/member");
 	/**
 	 * 등록 절차
 	 * 1. 시퀀스 번호를 구해온다.

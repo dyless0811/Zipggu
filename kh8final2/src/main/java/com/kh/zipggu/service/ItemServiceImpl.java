@@ -44,7 +44,7 @@ public class ItemServiceImpl implements ItemService {
 	@Autowired
 	private ItemFileDao itemFileDao;
 	
-	private File directory = new File("D:/upload/ITEM");
+	private File directory = new File("D:/upload/kh82/ITEM");
 	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
