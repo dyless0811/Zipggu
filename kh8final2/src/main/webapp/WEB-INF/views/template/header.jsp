@@ -22,6 +22,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+   
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
     
     <script>
     	//form이 전송되면 input[type=password]가 자동 암호화되도록 설정
@@ -62,6 +68,199 @@
         });
       });
     </script>
+    
+<!-- 팔로우 -->   
+<script>
+
+var me = '${loginNick}';
+
+	$(document).ready(function() {
+
+		$(".followBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+			var memberNickValue = document.getElementById("followBtn_"+memberNoValue).value;
+			var button = $(this);
+
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/follow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("팔로우성공", resp);
+            		console.log("you", memberNickValue);
+						
+            	 	you= memberNickValue;
+            		
+            	 	var res = '팔로우성공';
+            	 	
+					 var Msg = me+","+you+","+res;
+
+					 sock.send(Msg);
+
+					$("#followBtn_" + memberNoValue).css('display', 'none');
+					$("#unfollowBtn_" + memberNoValue).css('display', 'block');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+
+		$(".unfollowBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+			var memberNickValue = document.getElementById("unfollowBtn_"+memberNoValue).value;
+			var button = $(this);
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/unfollow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("언팔로우성공", resp);
+
+            	 	you= memberNickValue;
+            		
+            	 	var res = '언팔로우성공';
+            	 	
+					 var Msg = me+","+you+","+res;
+
+					 sock.send(Msg);
+					
+					$("#followBtn_" + memberNoValue).css('display', 'block');
+					$("#unfollowBtn_" + memberNoValue).css('display', 'none');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+	});
+
+
+
+	$(document).ready(function() {
+
+		$(".profileFollowBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+	        var memberNickValue = document.getElementById("profileFollowBtn_${memberDto.memberNo}").value;
+			var button = $(this);
+
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/follow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("팔로우성공", resp);
+            		console.log("you", memberNickValue);
+						
+            	 	you= memberNickValue;
+            	 	
+            		var res = '팔로우성공';
+            		
+            		 var Msg = me+","+you+","+res;
+
+					 sock.send(Msg);
+
+					$("#profileFollowBtn_" + memberNoValue).css('display', 'none');
+					$("#profileUnfollowBtn_" + memberNoValue).css('display', 'block');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+
+		$(".profileUnfollowBtn").click(function(e) {
+			var memberNoValue = $(this).data("member-no");
+			var memberNickValue = document.getElementById("profileUnfollowBtn_${memberDto.memberNo}").value;
+			var button = $(this);
+			$.ajax({
+				url : "${pageContext.request.contextPath}/follow/unfollow",
+				type : "POST",
+				data : {
+					memberNo : memberNoValue
+				},
+				dataType : "text",
+				success : function(resp) {
+					console.log("언팔로우성공", resp);
+
+            	 	you= memberNickValue;
+            		
+            	 	var res = '언팔로우성공';
+            	 	
+					 var Msg = me+","+you+","+res;
+
+					 sock.send(Msg);
+					
+					$("#profileFollowBtn_" + memberNoValue).css('display', 'block');
+					$("#profileUnfollowBtn_" + memberNoValue).css('display', 'none');
+
+				},
+				error : function(e) {
+					console.log("실패", e);
+				}
+			});
+		});
+	});
+</script>
+ 
+    
+    
+ <!-- 웹소켓 -->
+    <script>
+
+    var socket = null;
+
+	   $(document).ready(function (){
+		   connectWs();
+	   });
+	   
+    	   function connectWs(){
+	   
+    		var uri = "${pageContext.request.contextPath}/websocket";    	
+    		   
+    	   	sock = new SockJS(uri);
+
+    	   	sock.onopen = function() {
+    	        console.log('open111',111111111);
+    	    
+    	   	 };
+
+    	    sock.onmessage = onMessage; 
+    	   	 
+    	   	function onMessage(evt){
+    	   		
+    	   	    var data = evt.data;
+    	   	    
+    	   	 console.log('evt1111',data);
+    	   	 
+    	   	 $(".toastFollow").fadeIn(400).delay(2200).fadeOut(400); //5 seconds
+			 $(".toastFollow").text(data); 
+
+    	   	};	
+    	    	 
+    	    	sock.onclose = function() {
+    	    	    console.log('close1111');
+    	    	    
+    	   	 };    
+    	   };
+  
+    </script>
+    
+  
+    
     <style>
       #remoCon {
         position: fixed;
@@ -78,6 +277,31 @@
         
         color: #abb8c3;
       }
+      
+.toastFollow { 
+	width: 400px;
+	 height: 20px; 
+	 height:auto;
+	  position: fixed; 
+	  left: 50%; 
+	  margin-left:-125px; 
+	  bottom: 100px; 
+	  z-index: 9999; 
+	  background-color: #35c5f0;
+	  border-color: #35c5f0;
+	  border: 1px solid #35c5f0;
+	   color: #ffffff;
+	   font-weight:bold;
+	    font-family: Calibri; 
+	   font-size: 15px; 
+	   padding: 10px; 
+	   text-align:center; 
+	   border-radius: 2px;
+		box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1); 
+}
+
+
+      
     </style>
 </head>
 <body>
@@ -111,9 +335,9 @@
                   <a href="${root }/sns">
                     <div class="item">커뮤니티</div>
                   </a>
-                   <a href="${root }/member/memberList">
-                    <div class="item">회원목록</div>
-                  </a>
+<%--                    <a href="${root }/member/memberList"> --%>
+<!--                     <div class="item">회원목록</div> -->
+<!--                   </a> -->
                   <div class="right">
                     <!-- <a href="/search"> -->
                     <div class="item sm-bar">
@@ -140,8 +364,10 @@
 								<c:when test="${login}">
 									<a href="${root }/cart/list">
                 	                    <div class="item sm-bar cart-icon">
-					                       <img
-					                         src="//cdn.ggumim.co.kr/resource/icons/ic_cart_black.png"
+                	                    	<c:if test="${cartCount > 0}">
+                	                    	<span id="count" class="cart-count"></span>
+                	                    	</c:if>
+					                       <img src="//cdn.ggumim.co.kr/resource/icons/ic_cart_black.png"
 					                         style="
 					                           width: 20px;
 					                           height: 28px;
@@ -253,6 +479,10 @@
           </div>
         </div>
       </div>
+       <div class='toastFollow' style='display:none'></div>
+
+
+      
     </header>
 
     <section>
