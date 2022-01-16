@@ -40,6 +40,7 @@ spring framework를 이용한 인테리어 쇼핑몰입니다.
 
 
 ## 4. 사이트 맵
+![사이트맵](https://user-images.githubusercontent.com/88871773/149649064-c52b4c1f-7e6f-48eb-a32b-63e720ae4e8a.png)
 
 
 
