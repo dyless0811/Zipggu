@@ -596,4 +596,22 @@ public class MemberController {
 		model.addAttribute("memberDto", memberDto);
 		return "member/delivery";
 	}
+	
+//	비밀번호 재설정
+	@GetMapping("/passwordReset")
+	public String passwordReset() {
+		return "member/passwordReset";
+	}
+
+	@PostMapping("/passwordReset")
+	public String passwordReset(@RequestParam String memberEmail, @RequestParam String changePw, HttpSession session) {
+
+		boolean result = memberDao.changePassword(memberEmail,  changePw);
+		if (result) {
+			return "redirect:/";
+		} else {
+			return "redirect:passwordReset?error";
+		}
+	}
+	
 }
