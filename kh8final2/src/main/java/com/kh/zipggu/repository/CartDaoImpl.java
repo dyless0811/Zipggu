@@ -65,5 +65,6 @@ public class CartDaoImpl implements CartDao{
 		
 		sqlSession.update("cart.updateQuantity", itemOrderListVO);
 		
+		
 	}
 }
