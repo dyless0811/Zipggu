@@ -68,6 +68,57 @@
   h3{
     color: #df625c;
   }
+  .box01 {
+    text-align: center;
+  }
+
+  .box01 input {
+    border: none;
+    font-size: 15px;
+    outline: none;
+    text-align: center;
+  }
+
+  .box01 button {
+    border: none;
+    width: 60px;
+    max-width: 100px;
+    vertical-align: bottom;
+  }
+  .box01 button img {
+    width: 100%;
+  }
+
+  .kakaoChat {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    width: 80px;
+    height: 80px;
+    z-index: 99;
+  }
+
+  button {
+    width: 125px;
+    height: 30px;
+    background-color: #f15657;
+    color: white;
+    box-shadow: 0 4px 16px rgba(211, 50, 51, 0.3);
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: 1s;
+  }
+
+  button:focus {
+    outline: 0;
+  }
+
+  button:hover {
+    background-color: rgba(211, 50, 51, 0.9);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(211, 50, 51, 0.6);
+  }
 </style>
 
 
@@ -81,20 +132,22 @@
                 <section class="col-12 col-md-6 customer-center__contact">
                     <address>
                         운영시간 : 평일 09:00 ~ 18:00 (주말 & 공휴일 제외)
-                        <br>
-                        이메일 : customerservice@zipggu.com
-                   
-                        <button class="customer-center__contact__btn-copy-email" type="button">이메일 주소 복사</button>
-                        <br>
+                        <br><br>
+                        이메일 : customerservice@zipggu.com &nbsp;
+                        <button>
+                		<a href="mailto:customerservice@zipggu.com">send mail</a>
+              		</button>
+              		<br /><br />
                         전화 : 1234-5678
-                        <button class="customer-center__contact__btn-copy-phone" type="button">전화번호 복사</button>
+                       <br><br>
                     </address>
-                    <button class="btn btn-md btn-priority customer-center__contact__btn-inquiry" type="button">1:1 상담하기</button>
+                    <a href="http://open.kakao.com/o/sihQn6Sd/" target="_blank"><button>1:1 상담</button></a>
                 </section>
             </div>
         </article>
     </div>
-  </div>
+</div>
+<br><br>
 <ul class="qna">
   <h3>주문/결제</h3>
     <li>
@@ -183,7 +236,7 @@
       </div>
     </li>
   <br><br>
-  <h3>배송관련</h3>
+  <h3>배송</h3>
     <li>
       <input type="checkbox" id="qna-12">
       <label for="qna-12">배송비는 얼마인가요?</label>
