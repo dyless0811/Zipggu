@@ -33,7 +33,7 @@ public class SnsServiceImpl implements SnsService{
 
 	
 	//저장 폴더
-	private File directory = new File("D:/upload/kh82/SNS");
+	private File directory = new File("D:/upload/kh8b/SNS");
 
 	//SNS 글 등록 Service(상세 페이지 구현 전)
 	@Override

@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
 	private SqlSession sqlSession;
 
 	// 저장 폴더
-	private File directory = new File("D:/upload/kh82/member");
+	private File directory = new File("D:/upload/kh8b/member");
 
 	@Override
 	public void join(MemberJoinVO memberJoinVO) throws IllegalStateException, IOException {
