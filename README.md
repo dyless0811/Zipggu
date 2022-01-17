@@ -37,7 +37,7 @@ spring framework를 이용한 인테리어 쇼핑몰입니다.
 
 
 ## 3. database ERD Diagram
-![집꾸](https://user-images.githubusercontent.com/88871773/148185823-4f5247b6-7ece-4b74-8e8a-f3eef7483214.png)
+![ERD](https://user-images.githubusercontent.com/88871773/149709343-be8bbb27-662a-435d-9604-ce38fae93cde.png)
 
 
 ## 4. 사이트 맵
