@@ -1,5 +1,6 @@
 # Final Project
 
+![logo](https://user-images.githubusercontent.com/88871773/149693428-9d9cd241-30ab-4342-a701-89a17edf0365.png)
 ### 팀명 : <b>Zipggu</b>
 
 ### 주제 : 홈인테리어 사이트
